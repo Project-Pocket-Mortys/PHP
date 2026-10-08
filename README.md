@@ -6,12 +6,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ConspiracyRick/Pocket-Mortys-Public-Server/releases">
-    <img src="https://img.shields.io/badge/Version-2.41.0-blue?style=for-the-badge" />
-  </a>
-  <img src="https://img.shields.io/badge/status-online-brightgreen?style=for-the-badge&logo=server&logoColor=white" />
   <img src="https://img.shields.io/badge/php-8.x-777bb4?style=for-the-badge&amp;logo=github" />
-  <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge&amp;logo=github" />
+  <img src="https://img.shields.io/badge/license-GPLv3-blue?style=for-the-badge&amp;logo=github" />
 </p>
 
 ## Overview
@@ -58,23 +54,33 @@ This project is intended for educational, research, and preservation purposes.
 
 Contributions are welcome.
 
-- Submit bug reports
+- Submit a pull request (Code MUST be tested and confirmed working)
 - Improve server stability and performance
 - Enhance documentation
 - Assist with protocol analysis and reverse engineering
 
-Please open an issue or submit a pull request.
-
-## Support
-
-Use GitHub Issues for bug reports and feature requests.
-
 ## License & Attribution
 
-This project is licensed under the MIT License.
+This project is licensed under the **GNU General Public License v3.0 (GPLv3)**.
 
-If you use this code in another project, server, or fork,
-you **must credit**:
+You are free to use, fork, clone, modify, and redistribute this project, provided that all applicable terms of the GPLv3 are followed.
 
-**ConspiracyRick – Project Pocket Mortys**
-https://github.com/ConspiracyRick/Project-Pocket-Mortys
+Any modified, forked, or derivative version of this project that is distributed or made available to others must remain **open source** and must comply with the corresponding source-code and licensing requirements of the GPLv3. Source code for such versions must be made available in accordance with the GPLv3.
+
+**Credit to the Project Pocket Mortys Team must remain clearly and visibly displayed to users. Attribution must not be removed, hidden, obscured, or altered in a way that prevents users from readily identifying the original project.**
+
+The required attribution is:
+
+**Project Pocket Mortys Team**
+https://github.com/Project-Pocket-Mortys
+
+This attribution should remain prominently visible in the software, documentation, website, application, or other user-facing interface where the project or a derivative work is used, as reasonably applicable.
+
+Nothing in this notice limits the rights granted by the GPLv3. The complete terms governing the use, modification, and redistribution of this project are provided by the **GNU General Public License v3.0**.
+
+---
+
+<p align="center">
+  <strong>Project Pocket Mortys</strong><br>
+  Community-maintained server preservation project
+</p>
