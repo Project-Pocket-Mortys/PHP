@@ -1,0 +1,28 @@
+{
+  "device": "PocketMortys_API30",
+  "android_api": 30,
+  "adb_serial": "emulator-5556",
+  "adb_server_port": 5038,
+  "game_version": "2.41.0",
+  "game_version_code": 602,
+  "tests": {
+    "android_boot": "passed",
+    "apk_install_arm64": "passed",
+    "apk_install_arm32": "passed",
+    "local_manifest_http": "200 OK via adb reverse tcp:8087",
+    "arm64_launch": "signal 11; cause unresolved",
+    "arm32_launch": "Unity initialized; LicenseActivity then self SIGKILL",
+    "game_backend_redirection": "not configured",
+    "gameplay": "not reached"
+  },
+  "evidence": [
+    {
+      "path": ".research/emulator/game-launch.log",
+      "sha256": "fb480cbe2b9c559fcd73f69aef79d417fc144cfe9e976eabe6ac08b384e1110a"
+    },
+    {
+      "path": ".research/emulator/game-launch-arm32.log",
+      "sha256": "9893e24e43685be4dae08aed13b889e643f2167521a900703d1eb4a781397e30"
+    }
+  ]
+}

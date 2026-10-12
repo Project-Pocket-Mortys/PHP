@@ -66,6 +66,9 @@ Repairs preserve routes and success envelopes: readiness uses the actual battle 
 
 ## Runtime capture and remaining validation
 
+An Android phone is not required. See [Windows emulator setup](emulator.md) for
+the dedicated research device and reproducible installation commands.
+
 Use a separate test installation/account. Record its installed version, split APK hashes, redirection method, device/ADB identity and server commit before comparing captures. The original APK contains hostname/certificate validation in `NetworkHTTP`; a working modified client may behave differently.
 
 For HTTP JSON capture, install mitmproxy in a separate environment and run:
