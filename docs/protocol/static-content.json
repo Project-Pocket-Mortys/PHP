@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/Aliases/rat/Android/manifest.json",
+    "method": "GET",
+    "size": 39871,
+    "sha256": "0760fa05045b5fec05a540a5c186f3c668b0aea1a6d088387a9350fc4f72d17c",
+    "status": "existing static content"
+  },
+  {
+    "path": "/Status/rat.json",
+    "method": "GET",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status": "empty file; client handling unresolved"
+  },
+  {
+    "path": "/AssetBundles/AssetBundle-android_1011-ios_1011__7b175320/Android/appdata.assetbundle",
+    "method": "GET",
+    "size": 12513,
+    "sha256": "ca128917b60cf579cf58a962d574f84a7ac7a2e48551f86bd0eb937eccae3946",
+    "status": "existing static content"
+  },
+  {
+    "path": "/AssetBundles/AssetBundle-android_1011-ios_1011__7b175320/Android/mpdata.assetbundle",
+    "method": "GET",
+    "size": 56478,
+    "sha256": "4aaf41628752950012d0034624a3335964177ab723c91d979563eca144f821b5",
+    "status": "existing static content"
+  },
+  {
+    "path": "/AssetBundles/AssetBundle-android_1011-ios_1011__7b175320/Android/spdata.assetbundle",
+    "method": "GET",
+    "size": 62123,
+    "sha256": "dd1997d763c65eef8ad622f55c9b209a755ca534d1dce1c251cd409a31730f97",
+    "status": "existing static content"
+  }
+]

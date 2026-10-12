@@ -1,0 +1,136 @@
+{
+  "binary_sha256": "ff773be7d3718ee307f6342358268748e8fa2487460e7b3857715478cb8e4326",
+  "provider": "Ghidra 12.1.4 targeted headless import",
+  "full_automatic_analysis": "cancelled; prolonged FindNoReturnFunctionsAnalyzer repair",
+  "methods": [
+    {
+      "method": "NetworkBattleAPI$$SelectingMove",
+      "address": "01888078",
+      "image_base": "00100000",
+      "native_rva": "0x1788078",
+      "body_bytes": 580,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "13136c0ebe0cb1f1636c033038823857688d7afe7944f7a99e024a9fda060f10",
+      "pseudocode_characters": 2888
+    },
+    {
+      "method": "NetworkBattleAPI$$SelectMove",
+      "address": "018882bc",
+      "image_base": "00100000",
+      "native_rva": "0x17882bc",
+      "body_bytes": 924,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "be99fae1a056f7f7f13b5992c69e98087298e5c937b779a88319a12f24a4d0bf",
+      "pseudocode_characters": 4690
+    },
+    {
+      "method": "NetworkBattleAPI$$BattleStartHandler",
+      "address": "01888674",
+      "image_base": "00100000",
+      "native_rva": "0x1788674",
+      "body_bytes": 1676,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "688492536ccd4ea08a83e18241b00b21c3e83b682b431dd51ca659696eb87600",
+      "pseudocode_characters": 9629
+    },
+    {
+      "method": "NetworkBattleAPI$$BattleMoveTimeHandler",
+      "address": "01888d00",
+      "image_base": "00100000",
+      "native_rva": "0x1788d00",
+      "body_bytes": 196,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "20e8573f38a6180b7b094836c5697a2651b69de30216abc29372aa9f2f671437",
+      "pseudocode_characters": 1124
+    },
+    {
+      "method": "NetworkBattleAPI$$BattleTurnResultHandler",
+      "address": "01888dc4",
+      "image_base": "00100000",
+      "native_rva": "0x1788dc4",
+      "body_bytes": 1824,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "654398f95e164d4687a6b36241d28cef1aef746fd90a6ecc320c86a6cb29a2f5",
+      "pseudocode_characters": 14618
+    },
+    {
+      "method": "NetworkHTTP$$Request",
+      "address": "018b5a44",
+      "image_base": "00100000",
+      "native_rva": "0x17b5a44",
+      "body_bytes": 1300,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "9c7ff7dc8f514f3fedf6236e0cb50d6ddb4b2886887d582671f66f676fee34b0",
+      "pseudocode_characters": 8984
+    },
+    {
+      "method": "NetworkHTTPRequest$$GetPostDataJson",
+      "address": "018bd658",
+      "image_base": "00100000",
+      "native_rva": "0x17bd658",
+      "body_bytes": 184,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "76016866bfc42e7a0f4ae8f0d059c56c80e27f15ec4044e6764f32873415fffd",
+      "pseudocode_characters": 1022
+    },
+    {
+      "method": "NetworkHTTPRequest$$.ctor",
+      "address": "018b58d8",
+      "image_base": "00100000",
+      "native_rva": "0x17b58d8",
+      "body_bytes": 104,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "a70ee715b697c63cddb76a749af68d92848e6e0ed30044ec91f5ddc2576a95b7",
+      "pseudocode_characters": 486
+    },
+    {
+      "method": "UdpNodeSender$$SendPosition",
+      "address": "018c04c4",
+      "image_base": "00100000",
+      "native_rva": "0x17c04c4",
+      "body_bytes": 700,
+      "analysis_note": "Build-specific non-return annotation at RVA 0x1354d7c; external B to known method entry marked tail call. Validate against ARM64 disassembly. Managed parameter types not imported.",
+      "pseudocode_sha256": "46a108093b73141d88500b2e99e99ebb9585f74c72f0c25378e7ec4dabaefab9",
+      "pseudocode_characters": 3170
+    }
+  ],
+  "raw_evidence": ".research/ghidra-protocols.json",
+  "limitations": [
+    "Selected methods only; not whole-program analysis",
+    "Managed parameter types not imported; inspect assembly for argument widths",
+    "Tail calls and one build-specific non-return thunk explicitly annotated"
+  ],
+  "rea_native_smoke": {
+    "evidence_id": "ev_06b9e810a925a5c9825a6061500b0b7717aceda67da6945f39bf8da3efa3e05a",
+    "subject": {
+      "name": "gnutrue",
+      "digest": {
+        "sha256": "7d659da07aad1d5d1ed79e9f2822d24d2dea47ceec4c7e2e71718a177dc20b4b"
+      },
+      "format": "elf",
+      "architecture": "x86_64"
+    },
+    "confidence": "derived",
+    "limitations": [
+      "Derived by an REA composed workflow."
+    ]
+  },
+  "rea_android": {
+    "evidence_id": "ev_c95e4eea8d5fc2c973d0c4a356f720735596fd34d114636bd39145d36134be81",
+    "subject": {
+      "name": "base.apk",
+      "digest": {
+        "sha256": "b44f255bdd58b3196d73ff811c3e645d68edcbd76366a39f5c4489bc538ebf74"
+      },
+      "format": "apk",
+      "architecture": null
+    },
+    "confidence": "observed",
+    "limitations": [
+      "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+      "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+      "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+      "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+    ]
+  }
+}

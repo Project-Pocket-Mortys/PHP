@@ -21,6 +21,10 @@ This repository contains the server-side components required to support client a
 - MySQL or MariaDB
 - Apache or Nginx
 
+## Protocol research
+
+See [the Android protocol inventory and developer handoff](docs/protocol/README.md) for reproducible analysis tools, evidence, an isolated test server, regression tests, and remaining compatibility work. The completed gameplay features below remain the project baseline.
+
 ## To Do
 - Battle & catch mortys
 - Battle Bots

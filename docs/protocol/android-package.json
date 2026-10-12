@@ -1,0 +1,51 @@
+{
+  "evidence_id": "ev_c95e4eea8d5fc2c973d0c4a356f720735596fd34d114636bd39145d36134be81",
+  "result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 11752
+    },
+    "package_name": "com.turner.pocketmorties",
+    "version_name": "2.41.0",
+    "version_code": "602",
+    "min_sdk": "28",
+    "target_sdk": "36",
+    "permissions": [
+      "android.permission.INTERNET",
+      "android.permission.ACCESS_NETWORK_STATE",
+      "android.permission.ACCESS_WIFI_STATE",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "com.google.android.c2dm.permission.RECEIVE",
+      "com.google.android.gms.permission.AD_ID",
+      "android.permission.GET_ACCOUNTS",
+      "android.permission.WAKE_LOCK",
+      "com.android.launcher3.permission.RECEIVE_LAUNCH_BROADCASTS",
+      "android.permission.VIBRATE",
+      "android.permission.READ_EXTERNAL_STORAGE",
+      "com.android.vending.BILLING",
+      "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE",
+      "android.permission.ACCESS_ADSERVICES_ATTRIBUTION",
+      "android.permission.ACCESS_ADSERVICES_AD_ID",
+      "android.permission.POST_NOTIFICATIONS",
+      "android.permission.ACCESS_ADSERVICES_TOPICS",
+      "com.turner.pocketmorties.permission.C2D_MESSAGE",
+      "android.permission.RECEIVE_BOOT_COMPLETED",
+      "android.permission.FOREGROUND_SERVICE",
+      "com.turner.pocketmorties.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+      "com.android.vending.CHECK_LICENSE"
+    ],
+    "class_count": 11607,
+    "resource_count": 4189,
+    "signature_verification": "not_performed"
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ]
+}

@@ -1,0 +1,26 @@
+# Evidence gaps and repair backlog
+
+Implementation status and evidence confidence are independent. The root README remains authoritative for claimed completed features. Native constants establish interface names, not successful runtime behavior. Every unmapped parser in `parser-mapping.json` is an explicit research obligation; no fallback schema is silently assigned to it.
+
+| Priority | Work | Evidence and affected interfaces | Acceptance |
+|---|---|---|---|
+| P0 | Connect the working Android client to the isolated server | Device/redirection details and captures have not been supplied. `NetworkHTTP` contains hostname/certificate checks. | Record version and modifications; cold start, assets, login, room entry and SSE succeed. |
+| P0 | Review native constructor/parser associations | `native-transport.json`, `parser-mapping.json`; 89 constructor candidates and 119 parser references. | Each association has a reviewed native trace or capture; unmatched methods retain named blockers. Extend OpenAPI only from evidence. |
+| P0 | Audit startup response hosts and asset provenance | `NetworkDefs`, `user/login`, `sse`, aliases and bundle manifest. Some PHP responses embed existing public server URLs; `Status/rat.json` is empty. The colon/underscore bundle path mismatch has a tested Apache rewrite. | Test configuration consistently redirects all first-party HTTP/SSE/assets/UDP destinations; bundle hashes match served bytes; status response behavior is established. |
+| P1 | Complete wild battle state transitions and persistence | `session/battle/move` still uses fixed damage, random PP/stats, simulated capture rewards and incomplete completion handling. | One battle survives reconnect; victory, defeat, run and capture finish once; HP/PP/items/Morty/XP persist atomically. |
+| P1 | Establish capture consumption and duplicate-turn rules | Move request contains no explicit idempotency key in the reviewed constructor. Inventory decrement remains commented out. | Recover consumption timing and retry behavior before implementing transactions/turn identity; duplicate requests cannot charge or award twice. |
+| P1 | Recover actual combat rules | MP `AttackInfo`, `MortyInfo`, `MortyAttacksInfo`, client battle handlers. Data tables do not prove server formulas. | Evidence-backed formulas or clearly named replacement rules; test accuracy, effects, initiative, PP, switching and reward bounds. |
+| P1 | Finish SSE delivery and reconnection audit | Event ID output is disabled, while Last-Event-ID/since are accepted; null-recipient fallback checks an unbuilt payload. | Two-player privacy, ordered replay, reconnect and missing-recipient cases tested. Do not invent original cursor semantics. |
+| P1 | Recover UDP wire protocol | `UdpChannel`, `UdpNodeSender`, `UdpRoomReceiver`; initial 24-byte send layout in `contracts.json`. | Verify GUID byte order, coordinates, history, sequence wrap, receiver schema and packet captures. Identify external UDP service; PHP repository has no identified UDP listener. |
+| P2 | Inventory missing battle modes | Bot/boss success stubs; custom battle and battle-invite create/response/revoke constants have no matching handlers. | Recover invitation/match lifecycle, participant-specific payloads and disconnect behavior before implementation. |
+| P2 | Implement remaining collection actions | `use-item` is empty; client constants expose general-item, release/attempt-release-multiple, lock and recipe/use. | Validate ownership, deck/trade locks, inventory limits and atomic mutations against client contracts. |
+| P2 | Challenges, arena and timed event claims | Missing claim endpoints and static/sample event responses; event and reward tables in assets. | Configured time windows, claim-once behavior and empty-event behavior verified. |
+| P2 | Account, purchase and third-party boundaries | Account deletion is a static response; linking and purchases require review; Android manifest includes billing, Braze, ads and license-check components. | Inventory requests, errors and startup dependency; use synthetic receipts only. Do not enable live purchases. |
+| P3 | Decode remaining embedded Unity carriers | `embedded-assets.json` inventories the APK assets. Only globalgamemanagers and repository data bundles were decoded in this pass. | Target additional carriers from unresolved data references; compare hashes and schema versions. |
+| P3 | iOS compatibility | IPA unavailable. | Inspect bundle/Mach-O/metadata and compare matching-version contracts; document platform differences. |
+
+## Repairs included
+
+Readiness now uses `battle_id`; both battle routes verify initiator ownership and active state; attack requests verify active Morty ownership; capture no longer concatenates two JSON responses; SSE active-deck lookup joins the selected deck and excludes foreign-owned Morties; shared bootstrap disables error display and supports environment database configuration; Apache serves the existing bundles at their manifest paths.
+
+These changes do not make battles complete. In particular, a successful capture still emits a simulated reward without inserting the captured Morty. Replay prevention and original error-code parity remain unresolved. No database migration, public deployment, payment operation or account migration is included.

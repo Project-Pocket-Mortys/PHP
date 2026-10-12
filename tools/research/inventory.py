@@ -117,6 +117,24 @@ def main():
     write('transport-methods.json', methods)
     write('native-methods.json', native_methods)
     write('client-constants.json', constants)
+    origins = {}
+    literal_path = ROOT/'.research/dumper/stringliteral.json'
+    if literal_path.exists():
+        for literal in json.loads(literal_path.read_text()):
+            for value in re.findall(r'https?://[^\s"<>]+', literal['value']):
+                try:
+                    host = urlsplit(value).hostname
+                except ValueError:
+                    continue
+                if not host:
+                    continue
+                service = origins.setdefault(host, {'host':host,
+                    'classification':'first-party backend' if host.endswith('.bps-pmnet.com') else 'external/SDK/documentation candidate',
+                    'observed_traffic':False, 'startup_dependency':'unknown; literal presence does not establish a request',
+                    'literal_addresses':[]})
+                if literal['address'] not in service['literal_addresses']:
+                    service['literal_addresses'].append(literal['address'])
+    write('external-services.json', sorted(origins.values(), key=lambda item:item['host']))
     static = []
     for pattern in ('Aliases/**/*.json', 'Status/*.json', 'AssetBundles/**/*data.assetbundle'):
         for path in sorted(ROOT.glob(pattern)):

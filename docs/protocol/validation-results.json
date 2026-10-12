@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-12",
+  "server_repair_commit": "0182ef0",
+  "environment": {
+    "php": "8.3.35",
+    "mariadb": "10.11.19",
+    "web_server": "Apache from the pinned PHP image",
+    "native_analysis_host": "default WSL Ubuntu"
+  },
+  "automated_tests": {
+    "command": "py -m unittest discover -s tests/protocol -v",
+    "run": 15,
+    "failures": 0,
+    "errors": 0,
+    "evidence_kind": "synthetic replacement-server HTTP, SSE, database, asset-serving and capture-redaction checks"
+  },
+  "other_checks": {
+    "changed_php_syntax": "passed for seven files",
+    "apache_configuration": "passed",
+    "compose_configuration": "passed",
+    "tool_archive_hashes": "six matched the lock",
+    "json_and_source_evidence_hashes": "passed",
+    "reviewed_request_constructor_fields": "matched ARM64 references",
+    "ghidra_method_boundaries": "nine matched independent ARM64 instruction spans",
+    "bash_and_python_syntax": "passed"
+  },
+  "pending": [
+    "Working Android client connection details and redirection method",
+    "Actual Android cold start, asset loading, login and room entry",
+    "README-completed gameplay smoke scenarios",
+    "Original-server error-envelope and behavior parity",
+    "Remaining request/parser associations and UDP wire details",
+    "Duplicate-turn, item consumption and durable battle rewards",
+    "iOS archive and device validation"
+  ],
+  "milestone_status": "research artifacts and narrow repairs delivered; complete runtime acceptance not achieved"
+}
