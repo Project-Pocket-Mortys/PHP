@@ -1,6 +1,9 @@
 #Options -Indexes
 RewriteEngine On
 
+# Preserve manifest URLs while serving the Windows-compatible bundle directory.
+RewriteRule ^AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/(.*)$ AssetBundles/AssetBundle-android_1011-ios_1011__7b175320/$1 [L]
+
 # Disable Apache's automatic slash redirect for this path
 DirectorySlash Off
 

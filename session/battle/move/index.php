@@ -9,6 +9,7 @@ ini_set('display_errors', 1);
 
 require __DIR__ . "/../../../pocket_f4894h398r8h9w9er8he98he.php";
 require_once __DIR__ . "/../../../lib/events.php";
+require_once __DIR__ . "/../../../lib/battle_access.php";
 
 // ========================
 // INPUT
@@ -16,11 +17,11 @@ require_once __DIR__ . "/../../../lib/events.php";
 $raw  = file_get_contents("php://input");
 $body = json_decode($raw, true);
 
-$session_id     = $body["session_id"] ?? "";
-$battle_id      = $body["battle_id"] ?? "";
-$type           = $body["type"] ?? "";
-$owned_morty_id = $body["owned_morty_id"] ?? "";
-$move_id        = $body["move_id"] ?? "";
+$session_id     = is_string($body["session_id"] ?? null) ? $body["session_id"] : '';
+$battle_id      = is_string($body["battle_id"] ?? null) ? $body["battle_id"] : '';
+$type           = is_string($body["type"] ?? null) ? $body["type"] : '';
+$owned_morty_id = is_string($body["owned_morty_id"] ?? null) ? $body["owned_morty_id"] : '';
+$move_id        = is_string($body["move_id"] ?? null) ? $body["move_id"] : '';
 
 if (!$session_id || !$battle_id || !$type) {
     http_response_code(400);
@@ -47,13 +48,13 @@ $room_id   = $user["room_id"];
 // ========================
 // GET BATTLE STATE
 // ========================
-$stmt = $pdo->prepare("SELECT * FROM battles WHERE battle_id=? LIMIT 1");
-$stmt->execute([$battle_id]);
-$battle = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$battle) {
-    echo json_encode(["success" => false]);
-    exit;
+$battle = require_active_owned_battle($pdo, $battle_id, (string)$player_id);
+if ($type === 'ATTACK') {
+    $stmt = $pdo->prepare('SELECT 1 FROM owned_morties WHERE owned_morty_id = ? AND player_id = ? LIMIT 1');
+    $stmt->execute([$owned_morty_id, $player_id]);
+    if (!$stmt->fetchColumn() || $owned_morty_id !== (string)$battle['player_active_morty']) {
+        respond(403, ['success' => false]);
+    }
 }
 
 // ========================
@@ -190,8 +191,7 @@ if ($type === "ITEM" && $move_id === "ItemMortyChip") {
             ]
         ], $player_id);
 
-        echo json_encode(["success" => true]);
-        //exit;
+        // The single HTTP acknowledgement is emitted after room state events below.
     }
 }
 
