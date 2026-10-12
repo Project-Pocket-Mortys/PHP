@@ -1,18 +1,19 @@
 <?php
 declare(strict_types=1);
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
   http_response_code(204);
   exit;
 }
 
 error_reporting(E_ALL);
-ini_set('display_errors', '1');
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
 
 /** ✅ Configure these */
-$DB_HOST = "";
-$DB_NAME = "";
-$DB_USER = "";
-$DB_PASS = "";
+$DB_HOST = getenv('PM_DB_HOST') ?: "";
+$DB_NAME = getenv('PM_DB_NAME') ?: "";
+$DB_USER = getenv('PM_DB_USER') ?: "";
+$DB_PASS = getenv('PM_DB_PASS') ?: "";
 
 /** Cookie settings */
 $COOKIE_NAME = "pm_remember";

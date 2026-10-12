@@ -1,0 +1,6 @@
+.research/
+*.apkm
+*.apk
+*.ipa
+__pycache__/
+.env

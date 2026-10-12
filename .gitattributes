@@ -1,0 +1,4 @@
+tools/research/** text eol=lf
+tests/protocol/** text eol=lf
+docs/protocol/** text eol=lf
+compose.research.yaml text eol=lf
