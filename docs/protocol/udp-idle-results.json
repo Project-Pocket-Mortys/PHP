@@ -1,0 +1,12 @@
+{
+  "client": "Android 2.41.0 ARM32 diagnostic multiplayer profile, stationary in world",
+  "capture_command": "timeout 135 tcpdump -i any -s 0 -w /data/local/tmp/udp-idle.pcap udp port 5055",
+  "requested_duration_seconds": 135,
+  "packets_captured": 0,
+  "packets_received_by_filter": 0,
+  "packets_dropped_by_kernel": 0,
+  "pcap_bytes": 24,
+  "pcap_sha256": "89cf273d0ffe7164941d00723c560704c2d1279a8258fd36832d15fd2af387fb",
+  "http_ping_observation": "Separate Apache log sample shows authenticated-client ping requests at roughly 30-second intervals; handler only returns success and does not validate or persist the session.",
+  "limitation": "No periodic UDP heartbeat observed in this interval; not a proof about every game state or network condition. The relay idle policy was not changed."
+}

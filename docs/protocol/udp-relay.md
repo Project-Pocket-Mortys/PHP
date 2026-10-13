@@ -63,8 +63,9 @@ The listener is an experimental relay, not recovered original server logic.
 It stores no positions in MySQL, performs no collision/speed checks, emits no
 cached-position snapshot, and provides no acknowledgement or delivery guarantee.
 Its 256-peer cap and 120-second receive-idle expiry are local research choices.
-An idle player loses UDP registration after that interval until it sends again;
-idle recovery must be established before general gameplay use. Session ownership
+Validated HTTP pings now retain an existing idle endpoint in the research profile
+([heartbeat repair](udp-heartbeats.md)). Silent peers still expire; live Android
+idle delivery remains unverified. Session ownership
 is possession of the existing session credential; this is not an account/security
 audit or a production anti-cheat implementation.
 

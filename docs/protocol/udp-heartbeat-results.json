@@ -1,0 +1,27 @@
+{
+  "environment": "Isolated PHP 8.3 / MariaDB 10.11 Compose stack, synthetic accounts and UDP sockets",
+  "baseline_revision": "98296f9",
+  "policy_ttl_seconds": 120,
+  "stationary_interval_seconds": 125,
+  "synthetic_ping_interval_seconds": 20,
+  "before": {
+    "result": "Timed out receiving movement at the final idle assertion despite successful HTTP pings",
+    "raw_log": ".research/udp-idle-before.log"
+  },
+  "after": {
+    "slow_test_elapsed_seconds": 128.268,
+    "pinging_stationary_peer_receives": true,
+    "silent_peer_expires": true,
+    "http_alone_cannot_revive_endpoint": true,
+    "udp_packet_restores_delivery": true,
+    "heartbeat_and_migration_tests_passed": 5,
+    "existing_udp_tests_passed": 11,
+    "slow_tests_passed": 1
+  },
+  "migration_validation": "Imported original schema into a temporary database; applied migration twice; users definition unchanged; account deletion cascades heartbeat cleanup; temporary database removed",
+  "limitations": [
+    "Replacement-server research policy, not original-server evidence",
+    "Android emulator disconnected during this pass",
+    "Live Android idle delivery and two-emulator verification remain outstanding"
+  ]
+}

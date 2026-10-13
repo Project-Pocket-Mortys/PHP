@@ -21,6 +21,11 @@ $socket = stream_socket_server('udp://0.0.0.0:5055', $errno, $error, STREAM_SERV
 if (!$socket) throw new RuntimeException('Could not bind research UDP socket');
 stream_set_timeout($socket, 1);
 $lookup = $pdo->prepare("SELECT u.player_id, u.room_id FROM users u JOIN room_ids r ON r.room_id = u.room_id WHERE u.session_id = ? AND u.state = 'WORLD' LIMIT 1");
+$heartbeat = $pdo->prepare("SELECT 1 FROM research_client_heartbeats h JOIN users u ON u.id = h.user_id
+    WHERE u.session_id = ? AND h.session_id = u.session_id AND u.player_id = ?
+      AND u.room_id = ? AND h.room_id = u.room_id AND u.state = 'WORLD'
+      AND EXISTS (SELECT 1 FROM room_ids r WHERE r.room_id = u.room_id)
+      AND h.received_at >= CURRENT_TIMESTAMP - INTERVAL 120 SECOND LIMIT 1");
 $peers = [];
 $stats = ['accepted' => 0, 'forwarded' => 0, 'rejected' => 0, 'old_sequence' => 0, 'send_errors' => 0];
 // A bounded research policy, not recovered original-server behavior.
@@ -31,7 +36,12 @@ while (true) {
     $data = @stream_socket_recvfrom($socket, 65535, 0, $address);
     $now = hrtime(true) / 1e9;
     foreach ($peers as $session => $peer) {
-        if ($now - $peer['seen'] > $ttl) unset($peers[$session]);
+        if ($now - $peer['seen'] > $ttl) {
+            // HTTP liveness can retain only an endpoint already learned from UDP.
+            // Server-side last_seen updates are not evidence of a live client.
+            $heartbeat->execute([$session, $peer['player'], $peer['room']]);
+            if (!$heartbeat->fetchColumn()) unset($peers[$session]);
+        }
     }
     if ($data === false) continue;
     if (strlen($data) !== 24 || ord($data[23]) > 4 || (ord($data[22]) >> 4) > 6) {

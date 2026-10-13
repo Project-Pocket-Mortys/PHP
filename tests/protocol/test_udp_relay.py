@@ -4,7 +4,7 @@ import struct
 import unittest
 import uuid
 
-from test_http import php, sql
+from test_http import php, post, sql
 
 
 class UdpRelayTests(unittest.TestCase):
@@ -35,6 +35,7 @@ class UdpRelayTests(unittest.TestCase):
         for sock in self.sockets:
             sock.close()
         for player in self.players:
+            sql(f"DELETE FROM event_queue WHERE player_id='{player}'")
             sql(f"DELETE FROM users WHERE player_id='{player}'")
         for room in (self.room, self.other_room):
             sql(f"DELETE FROM room_ids WHERE room_id='{room}'")
@@ -95,6 +96,11 @@ class UdpRelayTests(unittest.TestCase):
 
     def test_deleted_recipient_does_not_receive(self):
         sql(f"DELETE FROM users WHERE player_id='{self.players[1]}'")
+        self.send(0, 1)
+        self.silent(1)
+
+    def test_http_leave_stops_recipient_delivery(self):
+        self.assertEqual(post('/session/leave-room', {'session_id':self.sessions[1]}), (200, {'success':True}))
         self.send(0, 1)
         self.silent(1)
 
