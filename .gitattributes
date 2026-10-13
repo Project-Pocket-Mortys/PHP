@@ -3,3 +3,4 @@ tests/protocol/** text eol=lf
 docs/protocol/** text eol=lf
 compose.research.yaml text eol=lf
 user/login/index.php text eol=lf
+sse/index.php text eol=lf

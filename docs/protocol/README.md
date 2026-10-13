@@ -90,3 +90,5 @@ The addon redacts known credential fields and omits non-JSON bodies; inspect cap
 For each manual scenario in [validation.md](validation.md), record request/response, SSE order, database before/after, and whether reconnect/retry duplicates a mutation. Store raw material under `.research/captures`; only reviewed sanitized fixtures belong in tests. Resolve the evidence gaps in [backlog.md](backlog.md) before describing the milestone as complete.
 
 Tool references: [REA](https://github.com/morluto/rea), [Cpp2IL](https://github.com/SamboyCoding/Cpp2IL), [Il2CppDumper](https://github.com/Perfare/Il2CppDumper), [UnityPy](https://github.com/K0lb3/UnityPy).
+
+Room membership delivery and explicit-cursor replay are covered by the additive tests documented in [sse-membership.md](sse-membership.md). Arrival and departure now identify the queued subject instead of the subscriber; automatic client reconnect remains unverified.

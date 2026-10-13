@@ -21,6 +21,6 @@ Implementation status and evidence confidence are independent. The root README r
 
 ## Repairs included
 
-Readiness now uses `battle_id`; both battle routes verify initiator ownership and active state; attack requests verify active Morty ownership; capture no longer concatenates two JSON responses; SSE active-deck lookup joins the selected deck and excludes foreign-owned Morties; shared bootstrap disables error display and supports environment database configuration; Apache serves the existing bundles at their manifest paths.
+Readiness now uses `battle_id`; both battle routes verify initiator ownership and active state; attack requests verify active Morty ownership; capture no longer concatenates two JSON responses; SSE active-deck lookup joins the selected deck and excludes foreign-owned Morties; room membership events identify the queued player rather than the subscriber (see `sse-membership.md`); shared bootstrap disables error display and supports environment database configuration; Apache serves the existing bundles at their manifest paths.
 
 These changes do not make battles complete. In particular, a successful capture still emits a simulated reward without inserting the captured Morty. Replay prevention and original error-code parity remain unresolved. No database migration, public deployment, payment operation or account migration is included.

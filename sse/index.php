@@ -309,13 +309,13 @@ while (!connection_aborted()) {
 
     // keep user online
     $pdo->prepare("
-        UPDATE users 
-        SET last_seen = NOW() 
+        UPDATE users
+        SET last_seen = NOW()
         WHERE player_id = ?
     ")->execute([$player_id]);
 
     $stmt = $pdo->prepare("
-        SELECT 
+        SELECT
             id,
             room_id,
             event_name,
@@ -452,12 +452,12 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
         }
-		
+
 		// ---------------- RAID EVENTS ----------------
         elseif ($eventName === "shard:raid-boss-state-changed") {
            $payload = (string)$row["current_raid"];
 		}
-		
+
 		// ---------------- WILD MORTY STATE CHANGE ----------------
         elseif ($eventName === "room:wild-morty-state-changed") {
 		   $rebuilt = [
@@ -470,7 +470,7 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- USER ROOM STATE CHANGE ----------------
         elseif ($eventName === "room:user-state-changed") {
 		   $rebuilt = [
@@ -483,22 +483,22 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- BATTLE START EVENT ----------------
         elseif ($eventName === "battle:start") {
            $payload = (string)$row["battle_start"];
 		}
-		
+
 		// ---------------- BATTLE TURN ----------------
 		elseif ($eventName === "battle:turn-result") {
            $payload = (string)$row["battle_turn_result"];
 		}
-		
+
 		// ---------------- BATTLE TIMER ----------------
 		elseif ($eventName === "battle:move-timer-started") {
            $payload = (string)$row["battle_move_timer_started"];
 		}
-		
+
 		// ---------------- REMOVE PICKUP ----------------
         elseif ($eventName === "room:pickup-removed") {
 		   $rebuilt = [
@@ -510,7 +510,7 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- EMOTE ----------------
         elseif ($eventName === "emote:room") {
 		   $rebuilt = [
@@ -523,34 +523,42 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- ROOM USER ADDED ----------------
         elseif ($eventName === "room:user-added") {
+		// The queued player is the arriving subject, not the stream subscriber.
+		$subjectStmt = $pdo->prepare("SELECT player_id, username, player_avatar_id, level, state FROM users WHERE player_id = ? LIMIT 1");
+		$subjectStmt->execute([$targetPid]);
+		$subject = $subjectStmt->fetch(PDO::FETCH_ASSOC);
+		if (!$subject) {
+		    $last_id = $eid;
+		    continue;
+		}
 		$roomuser = [
-                "player_id" => (string)$user["player_id"],
-                "username" => (string)$user["username"],
-                "player_avatar_id" => (string)$user["player_avatar_id"],
-                "level" => (int)$user["level"],
-                "owned_morties" => get_active_deck_morties($pdo, (string)$user["player_id"]),
-                "state" => (string)($user["state"] ?: "WORLD")
+                "player_id" => (string)$subject["player_id"],
+                "username" => (string)$subject["username"],
+                "player_avatar_id" => (string)$subject["player_avatar_id"],
+                "level" => (int)$subject["level"],
+                "owned_morties" => get_active_deck_morties($pdo, (string)$subject["player_id"]),
+                "state" => (string)($row["state"] ?: "WORLD")
             ];
 		$payload = json_encode(
                 $roomuser,
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- ROOM USER LEFT ----------------
         elseif ($eventName === "room:user-removed") {
 		$roomuser = [
-                "player_id" => (string)$user["player_id"]
+                "player_id" => $targetPid
             ];
 		$payload = json_encode(
                 $roomuser,
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 
         // send the payload to the live SSE
         sse_send_id($eventName, $payload, $eid);
