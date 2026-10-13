@@ -15,6 +15,19 @@ services:
       interval: 3s
       timeout: 3s
       retries: 30
+  research-init:
+    build: ./tools/research/server
+    command: [php, /var/www/html/tools/research/server/migrate.php]
+    environment:
+      PM_DB_HOST: db
+      PM_DB_NAME: pocket_mortys
+      PM_DB_USER: pocket
+      PM_DB_PASS: research-only
+    volumes:
+      - .:/var/www/html:ro
+    depends_on:
+      db:
+        condition: service_healthy
   web:
     build: ./tools/research/server
     ports:
@@ -26,11 +39,14 @@ services:
       PM_DB_PASS: research-only
       PM_LOGIN_MAINTENANCE: "0"
       PM_PUBLIC_ORIGIN: http://localhost:8087
+      PM_RESEARCH_HEARTBEATS: "1"
     volumes:
       - .:/var/www/html:ro
     depends_on:
       db:
         condition: service_healthy
+      research-init:
+        condition: service_completed_successfully
   udp:
     profiles: [udp]
     build: ./tools/research/server
@@ -48,5 +64,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      research-init:
+        condition: service_completed_successfully
 volumes:
   research-db:

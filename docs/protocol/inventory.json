@@ -3293,7 +3293,7 @@
       "server_evidence": {
         "file": "session/join-room/index.php",
         "line": 1,
-        "sha256": "5da3be35e4adbd0f9e5c729956c65af33ca66a9e2d8a037e5cd21a7280da9307"
+        "sha256": "d72de20b57fe31858dab2bee154f31eec691c88fa30f62267dd12df037b35649"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3768,7 +3768,7 @@
       "server_evidence": {
         "file": "session/ping-dynamic/index.php",
         "line": 1,
-        "sha256": "1c1fadd2ff4d4bd79f14c711c23672aaec1b51e54e3c38426f9101882c2684c5"
+        "sha256": "4551a8dd0e5e28dfaa8a85446b8b77dd4128cfc40e9d4c53e2939b8fd0276066"
       },
       "implementation_status": "stub",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4496,7 +4496,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "e1924d7c43e1f1f800d497c7daa80cd1bc0413ed07747c0d34c84fe8c6f830a8"
+        "sha256": "d78f6bf3f10c32a16f23151b371612f1839798fed3ba3e48bde4be6d3157b03c"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
