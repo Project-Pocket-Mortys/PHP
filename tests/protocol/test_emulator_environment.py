@@ -14,10 +14,17 @@ class EmulatorEnvironmentTests(unittest.TestCase):
             self.assertEqual(response.read(), b'')
 
     def test_manifest_only_changes_asset_origin(self):
-        source = (ROOT/'Aliases/rat/Android/manifest.json').read_text()
-        expected = json.loads(source.replace('https://assets.conspiracyrick.com', 'http://localhost:8087'))
-        with urllib.request.urlopen('http://127.0.0.1:8087/Aliases/rat/Android/manifest.json', timeout=5) as response:
-            self.assertEqual(json.load(response), expected)
+        for platform in ('Android', 'iOS'):
+            with self.subTest(platform=platform):
+                source = (ROOT/f'Aliases/rat/{platform}/manifest.json').read_text()
+                expected = json.loads(source.replace('https://assets.conspiracyrick.com', 'http://localhost:8087')
+                    .replace('https://github.com/Project-Pocket-Mortys/.github/raw/refs/heads/main', 'http://localhost:8087'))
+                with urllib.request.urlopen(f'http://127.0.0.1:8087/Aliases/rat/{platform}/manifest.json', timeout=5) as response:
+                    actual = json.load(response)
+                self.assertEqual(actual, expected)
+                for entry in actual.values():
+                    if isinstance(entry, dict) and 'url' in entry:
+                        self.assertTrue(entry['url'].startswith('http://localhost:8087/AssetBundles/'))
 
 
 if __name__ == '__main__':

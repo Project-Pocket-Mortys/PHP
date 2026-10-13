@@ -121,10 +121,13 @@ class BattleContractTests(unittest.TestCase):
 class AssetServingTests(unittest.TestCase):
     def test_manifest_asset_path_serves_existing_bundle(self):
         manifest = json.loads((ROOT/'Aliases/rat/Android/manifest.json').read_text())
+        # Fetch the locally rewritten manifest; upstream URLs may carry a GitHub prefix.
+        with urllib.request.urlopen('http://127.0.0.1:8087/Aliases/rat/Android/manifest.json', timeout=10) as response:
+            manifest = json.load(response)
         path = urlsplit(manifest['appdata']['url']).path
         with urllib.request.urlopen('http://127.0.0.1:8087'+path, timeout=10) as response:
             received = response.read()
-        existing = next((ROOT/'AssetBundles').rglob('appdata.assetbundle')).read_bytes()
+        existing = next((ROOT/'AssetBundles').glob('*/Android/appdata.assetbundle')).read_bytes()
         self.assertEqual(hashlib.sha256(received).digest(), hashlib.sha256(existing).digest())
 
 if __name__ == '__main__':

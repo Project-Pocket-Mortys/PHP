@@ -1,5 +1,9 @@
 # Pocket Mortys protocol research handoff
 
+See [upstream main integration](upstream-main-merge.md) for the merged version-1012
+manifest, changed Android data bundles, and newly added iOS assets. Earlier
+version-1011 capture and asset-comparison results remain historical evidence.
+
 This workspace reconciles Android 2.41.0 against the existing PHP server. The root README's completed features remain the baseline. The inventory distinguishes existing implementation from client compatibility; it does not certify that every route works.
 
 ## Current evidence
