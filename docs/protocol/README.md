@@ -1,5 +1,8 @@
 # Pocket Mortys protocol research handoff
 
+[Atomic room departure](room-leave-repair.md) fixes stale membership and duplicate
+departure events and verifies that UDP delivery stops after a successful leave.
+
 The [optional PHP UDP relay](udp-relay.md) now has live one-emulator/synthetic-peer
 validation and additive socket/privacy tests. It remains research-only.
 
@@ -20,9 +23,9 @@ This workspace reconciles Android 2.41.0 against the existing PHP server. The ro
 
 - [Android account bootstrap](account-bootstrap.md): diagnostic client registration/login, local session URLs, world-1 entry, JSON capture, and synthetic room/config seeding.
 
-- [Successful local startup](local-transport.md): Android 2.41.0 downloaded all 155 bundles and reached the opening single-player scene; multiplayer remains unverified.
+- [Successful local startup](local-transport.md): historical version-1011 startup downloaded all 155 bundles. Later account and UDP work above verifies diagnostic multiplayer entry.
 
-- [Supplied asset copies](asset-copies.md): all 155 version 1011 bundles match the repository; the saved manifest differs only by asset origin.
+- [Supplied asset copies](asset-copies.md): all 155 version-1011 bundles matched the pre-merge repository. Later upstream data changes and the version-1013 cache repair are documented above.
 
 - Archive and extracted input hashes, Unity version and repository baseline: [artifacts.json](artifacts.json).
 - REA/JADX package inspection: [android-package.json](android-package.json). Package version 2.41.0, code 602; min SDK 28, target SDK 36. Signature verification was not performed.
@@ -35,9 +38,9 @@ This workspace reconciles Android 2.41.0 against the existing PHP server. The ro
 - [static-content.json](static-content.json) records served data files separately. `Status/rat.json` is empty; its client behavior is unresolved. The manifest's colon-delimited bundle path is now rewritten to the existing underscore-delimited directory and checked by a byte-hash regression test.
 - [external-services.json](external-services.json) separates known backend hostnames from external/SDK/documentation candidates found in string literals. Presence in the binary does not establish traffic or a startup dependency.
 
-There are no original-server captures in this handoff. Automated HTTP/SSE tests exercise the replacement server. Physical-client startup, redirection, completed-feature smoke tests, native UDP exchange and iOS compatibility remain unverified.
+There are no original-server captures in this handoff. Automated tests exercise the replacement server. Android emulator startup, local redirection, diagnostic multiplayer entry and one-emulator/synthetic-peer UDP exchange are verified. Full completed-feature smoke coverage, natural onboarding, two-emulator movement and iOS compatibility remain unverified.
 
-[Validation results](validation-results.json) record 15 passing automated tests and the remaining acceptance gates. This is a research and repair handoff, not a claim of full restoration or complete runtime compatibility.
+[Validation results](validation-results.json) record the initial 15-test baseline. Later milestone pages record additional focused checks; these are not one final combined acceptance run. This is a research and repair handoff, not a claim of full restoration or complete runtime compatibility.
 
 ## Reproduce on Windows and default WSL Ubuntu
 
@@ -74,10 +77,10 @@ The full REA/Ghidra automatic pass was cancelled after prolonged function-bounda
 ## Isolated server and regression tests
 
 ```powershell
-docker compose -f compose.research.yaml up -d --build
+docker compose -f compose.research.yaml --profile udp up -d --build
 py -m unittest discover -s tests/protocol -v
 docker compose -f compose.research.yaml logs web
-docker compose -f compose.research.yaml down
+docker compose -f compose.research.yaml --profile udp down
 ```
 
 The server binds only `127.0.0.1:8087`. The test suite reseeds the dedicated Compose database; never point it at a shared server. Its named database volume survives `down`. Credentials are synthetic and restricted to this local stack. `PM_DB_HOST`, `PM_DB_NAME`, `PM_DB_USER`, and `PM_DB_PASS` configure the shared PHP connection. Existing manually configured fallback strings can still be used outside Compose.

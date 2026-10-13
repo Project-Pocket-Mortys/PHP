@@ -76,6 +76,35 @@
         "duplicate active turns are not idempotent",
         "item consumption unresolved"
       ]
+    },
+    "/session/leave-room": {
+      "method": "POST",
+      "native_constructor": "NetworkRoomAPI$$Leave",
+      "address": "0x17ad678",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id"
+        ]
+      },
+      "success": {
+        "success": true
+      },
+      "success_origin": "Existing replacement-server envelope retained; original-server acknowledgement parity not established.",
+      "event": "room:user-removed",
+      "persistent_effect": "Atomically clear users.room_id and publish one departure in prior room; already outside room acknowledges without event.",
+      "retry_limit": "Concurrent retries before another join publish once. No request identity exists to distinguish a delayed leave after a new join.",
+      "errors": {
+        "400": "missing session",
+        "404": "invalid session (existing behavior)",
+        "500": "failed transaction with rollback"
+      },
+      "evidence": "room-leave-repair.md; additive database, concurrent HTTP and UDP tests"
     }
   },
   "sse": {
