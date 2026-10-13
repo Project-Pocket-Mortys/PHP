@@ -15,7 +15,7 @@ class EmulatorEnvironmentTests(unittest.TestCase):
 
     def test_manifest_only_changes_asset_origin(self):
         source = (ROOT/'Aliases/rat/Android/manifest.json').read_text()
-        expected = json.loads(source.replace('https://assets.conspiracyrick.com', 'http://127.0.0.1:8087'))
+        expected = json.loads(source.replace('https://assets.conspiracyrick.com', 'http://localhost:8087'))
         with urllib.request.urlopen('http://127.0.0.1:8087/Aliases/rat/Android/manifest.json', timeout=5) as response:
             self.assertEqual(json.load(response), expected)
 

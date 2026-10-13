@@ -15,6 +15,20 @@ spec.loader.exec_module(client)
 
 @unittest.skipUnless((ROOT/'.research/android/base.apk').exists(), 'Extract the supplied APKM first')
 class ResearchPatchTests(unittest.TestCase):
+    def test_transport_profile_preserves_hostname_guard_and_changes_one_native_byte(self):
+        library = ROOT/'.research/android/split_config.armeabi_v7a/lib/armeabi-v7a/libil2cpp.so'
+        original = library.read_bytes()
+        patched = client.patch_arm32_transport(original)
+        self.assertEqual(len(original), len(patched))
+        self.assertEqual([i for i, pair in enumerate(zip(original, patched)) if pair[0] != pair[1]], [0xeea0cc])
+        self.assertEqual(patched[0xeea0cc:0xeea0d8], bytes.fromhex('001100e3000096e5b812c4e1'))
+        with zipfile.ZipFile(ROOT/'.research/android/base.apk') as apk:
+            metadata = apk.read(client.METADATA)
+        _, changes = client.redirect_metadata(metadata, local_transport=True)
+        self.assertEqual(len(changes), 7)
+        self.assertEqual([x['after'] for x in changes if x['before'] == '*.bps-pmnet.com'], ['localhost'])
+        self.assertTrue(all(x['after'].startswith('http://localhost:8087') for x in changes if x['before'].startswith('https:')))
+
     def test_http_setting_only_changes_reviewed_field(self):
         with zipfile.ZipFile(ROOT/'.research/android/base.apk') as apk:
             original = apk.read(client.PLAYER_SETTINGS)

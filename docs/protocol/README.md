@@ -4,6 +4,8 @@ This workspace reconciles Android 2.41.0 against the existing PHP server. The ro
 
 ## Current evidence
 
+- [Successful local startup](local-transport.md): Android 2.41.0 downloaded all 155 bundles and reached the opening single-player scene; multiplayer remains unverified.
+
 - [Supplied asset copies](asset-copies.md): all 155 version 1011 bundles match the repository; the saved manifest differs only by asset origin.
 
 - Archive and extracted input hashes, Unity version and repository baseline: [artifacts.json](artifacts.json).

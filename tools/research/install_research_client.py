@@ -40,6 +40,8 @@ if __name__ == '__main__':
     cache = '/sdcard/Android/data/' + PACKAGE + '/files/il2cpp'
     adb('shell', 'rm', '-rf', cache)
     allowed = set()
+    local_addresses = set(re.findall(r'\binet (\d+\.\d+\.\d+\.\d+)/',
+                                    adb('shell', 'ip', '-o', '-4', 'addr', 'show').stdout))
     if args.sdk_network:
         for hostname in ('cdn.cookielaw.org', 'mobile-data.onetrust.io'):
             allowed.update(item[4][0] for item in socket.getaddrinfo(hostname,443,socket.AF_INET))
@@ -49,6 +51,10 @@ if __name__ == '__main__':
         adb('shell', tool, '-F', chain)
         if tool == 'iptables':
             adb('shell', tool, '-A', chain, '-d','127.0.0.0/8','-j','ACCEPT')
+            # Mono can resolve localhost to this emulator's interface addresses.
+            # ADB reverse listens on these too; allow only the research backend port.
+            for address in sorted(local_addresses):
+                adb('shell', tool, '-A', chain, '-d',address,'-p','tcp','--dport','8087','-j','ACCEPT')
             for address in sorted(allowed):
                 adb('shell', tool, '-A', chain, '-d',address,'-p','tcp','--dport','443','-j','ACCEPT')
             if args.sdk_network:

@@ -1,8 +1,8 @@
 # Local Android startup research client
 
-The author-authorized research copy of Android 2.41.0 now initializes Unity,
-renders correctly, and sends `/time` requests to the isolated PHP server.
-It has **not** reached the main menu or a validated multiplayer session.
+The author-authorized research copy of Android 2.41.0 now downloads all 155 bundles
+from the isolated server and reaches the opening single-player scene. See the
+[successful local transport follow-up](local-transport.md). Multiplayer remains unverified.
 
 ## Reproduce
 
@@ -12,7 +12,7 @@ the repository root. The default WSL distribution supplies Java and signing.
 ```powershell
 docker compose -f compose.research.yaml up -d --build
 ./tools/research/emulator.ps1
-py tools/research/research_client.py --local-server
+py tools/research/research_client.py --local-transport
 wsl -- bash tools/research/sign-client.sh
 py tools/research/install_research_client.py --sdk-network
 ```
@@ -48,7 +48,10 @@ is used only for this local test build. The script verifies alignment/signatures
 | `PlayerSettings.insecureHttpOption: 0 -> 2` | UnityPy 1.25.0 identified one changed byte at asset offset 209724 in `globalgamemanagers`. This enables local HTTP in UnityWebRequest; the Android manifest already allows cleartext. See [Unity's setting](https://docs.unity3d.com/ja/2022.3/ScriptReference/PlayerSettings-insecureHttpOption.html). |
 | Refresh Unity's extracted metadata | Updating an APK with `-r` retained the original metadata under the app's `files/il2cpp` directory. The installer removes only that regenerable runtime cache, allowing Unity to extract it with correct ownership. Direct root `adb push` caused a misleading storage-space error through SELinux denial and is not used. |
 
-Native executable method bodies are unchanged. `.research/emulator/research-client/patch.json`
+The earlier `--local-server` profile preserves native bodies. The current
+`--local-transport` profile changes one ARM32 constructor byte and uses a
+localhost-only hostname allowlist; see [local-transport.md](local-transport.md).
+`.research/emulator/research-client/patch.json`
 records exact DEX offsets/bytes and original/replacement URLs. Three tests check
 the allowed byte ranges, DEX checksums, metadata layout and HTTP setting.
 
@@ -65,13 +68,17 @@ origin and that bundle hashes remain correct. This configuration is confined to
 the research Docker image.
 
 The installer uses the app UID and a `PMRESEARCH` firewall chain. By default it
-permits loopback only and disables radios. `--sdk-network` permits TCP 443 to the
+permits loopback and port 8087 on the emulator's own IPv4 addresses, and disables
+radios. `--sdk-network` permits TCP 443 to the
 current IPv4 addresses of `cdn.cookielaw.org` and `mobile-data.onetrust.io`, plus
 the emulator DNS resolver, and enables Wi-Fi. These are IP restrictions, not TLS
 hostname enforcement; CDN addresses may be shared. Rules are transient and must
 be reapplied after emulator reboot. No Google account or real purchase is used.
 
 ## Observed results and next gate
+
+The following records the earlier profile's results. Its asset-loading blocker
+is superseded by [local-transport.md](local-transport.md).
 
 - Original ARM64 exited with signal 11; its cause remains unresolved. ARM32 is
   the current runtime target. No ARM64 success is claimed.
@@ -102,8 +109,8 @@ are in [startup-results.json](startup-results.json). Additional Ghidra outputs
 can produce misleading pseudocode outside the intended function. Verify native
 instructions before promoting those candidates into contracts or patches.
 
-An audit of decompressed APK entries confirms that the native libraries are
-unchanged. Re-signing also changes signature metadata and `stamp-cert-sha256`;
+The earlier profile's audit confirmed unchanged native libraries. The current
+transport profile intentionally changes one ARM32 byte. Re-signing also changes signature metadata and `stamp-cert-sha256`;
 these signing changes are included separately from the four patched base payloads.
 
 ```powershell

@@ -1,0 +1,1085 @@
+{
+  "date": "2026-10-12",
+  "scope": "Client-originated isolated replacement-server requests started after 00:47:50 UTC; delayed access log lines for earlier SSE tests excluded.",
+  "requests": [
+    {
+      "request_start_utc": "00:47:58",
+      "method": "GET",
+      "path": "/_research/online",
+      "status": 204
+    },
+    {
+      "request_start_utc": "00:48:00",
+      "method": "GET",
+      "path": "/time",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:01",
+      "method": "POST",
+      "path": "/inappdeletion/get-account-data-storage-time",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:01",
+      "method": "GET",
+      "path": "/promos/active",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:09",
+      "method": "GET",
+      "path": "/is-gdpr/index.php",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:12",
+      "method": "GET",
+      "path": "/Aliases/rat/Android/manifest.json",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:12",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/appdata.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:12",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/spdata.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:12",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/mpdata.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:12",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/text.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:13",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/preload.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/_research/online",
+      "status": 204
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/Aliases/rat/Android/manifest.json",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au001.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au002.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au003.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au004.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au005.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au006.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au007.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au008.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au009.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au010.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:14",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au011.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au012.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au013.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au014.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/au015.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep301.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep302.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep303.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep304.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep305.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep306.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:15",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep307.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:16",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep308.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:16",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep309.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:16",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep310.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:16",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.0.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:17",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.1.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.10.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.2.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.3.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.4.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.6.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.7.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.8.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v1.9.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:18",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.0.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.2.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.4.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.5.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.7.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.9.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg001.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg002.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg003.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:19",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg004.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg005.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg006.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg007.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg008.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg009.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg010.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg011.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg012.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg013.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg014.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg015.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg016.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/tg018.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep401.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep402.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep403.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep404.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:20",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep405.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep406.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep407.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep408.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep409.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep410.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh001.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh002.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh003.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh004.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh005.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh006.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh008.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh009.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh010.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh011.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:21",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh012.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh013.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh014.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh015.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh016.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh017.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh018.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh019.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh020.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh021.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh022.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh023.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh024.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh025.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh026.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep501.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep502.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:22",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep503.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep504.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep505.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep506.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep507.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep508.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep5final.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep601.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep602.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep603.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep604.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep605.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep606.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep607.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep608.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep609.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:23",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep610.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep701.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep702.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep703.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep704.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep705.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep706.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep707.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep708.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep709.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep710.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime101.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime102.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime103.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:24",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime104.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime105.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime106.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime107.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime108.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime109.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime110.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anime110raidbossgiantbug.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.35.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.36.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.37.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/anatomyparkbundle2.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:25",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/v2.38.0.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/froopylandbundle2.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep801.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep802.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep803.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep804.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep805.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep806.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep807.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep808.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:26",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep809.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:27",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/ep810.assetbundle",
+      "status": 200
+    },
+    {
+      "request_start_utc": "00:48:27",
+      "method": "GET",
+      "path": "/AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/Android/psh027.assetbundle",
+      "status": 200
+    }
+  ],
+  "bundle_count": 155,
+  "backend_log_sha256": "c80a60509929703ab292d43305d99e1760345d69ee5da0a5498ae8b378d47891",
+  "patch_report": {
+    "original_base_sha256": "b44f255bdd58b3196d73ff811c3e645d68edcbd76366a39f5c4489bc538ebf74",
+    "patches": [
+      {
+        "method": "Lcom/pairip/licensecheck/LicenseClient;->initializeLicenseCheck()V",
+        "code_offset": 4469492,
+        "instruction_offset": 4469508,
+        "before": "6200e957",
+        "after": "0e000000",
+        "dex": "classes.dex"
+      },
+      {
+        "method": "Lcom/prime31/GoogleIABPlugin;->queryInventory([Ljava/lang/String;)V",
+        "code_offset": 4624172,
+        "instruction_offset": 4624188,
+        "before": "6e10fcef04000c006e104bef00000c001a016fb1713065be1005",
+        "after": "5440bd4c39000b001a0070b16201bb4c6e303dbe04010e000000",
+        "dex": "classes2.dex"
+      }
+    ],
+    "url_redirects": [
+      {
+        "literal_index": 856,
+        "before": "*.bps-pmnet.com",
+        "after": "localhost"
+      },
+      {
+        "literal_index": 16424,
+        "before": "https://assets.bps-pmnet.com/Aliases/{0}/{1}",
+        "after": "http://localhost:8087/Aliases/{0}/{1}"
+      },
+      {
+        "literal_index": 16425,
+        "before": "https://assets.bps-pmnet.com/Status",
+        "after": "http://localhost:8087/Status"
+      },
+      {
+        "literal_index": 16426,
+        "before": "https://clients3.google.com/generate_204",
+        "after": "http://localhost:8087/_research/online"
+      },
+      {
+        "literal_index": 16434,
+        "before": "https://newc137.bps-pmnet.com/is-gdpr",
+        "after": "http://localhost:8087/is-gdpr"
+      },
+      {
+        "literal_index": 16435,
+        "before": "https://newc137.bps-pmnet.com/time?a=pm_{0}",
+        "after": "http://localhost:8087/time?a=pm_{0}"
+      },
+      {
+        "literal_index": 16441,
+        "before": "https://{0}.game.bps-pmnet.com",
+        "after": "http://localhost:8087"
+      }
+    ],
+    "insecureHttpOption": 2,
+    "local_transport": true,
+    "native_patch": {
+      "architecture": "ARM32",
+      "offset": "0xeea0cc",
+      "before": "011100e3",
+      "after": "001100e3"
+    },
+    "scope": "Local startup research; does not confer a Play license or purchase entitlement."
+  },
+  "runtime_result": "All 155 bundles downloaded with HTTP 200; opening single-player scene displayed.",
+  "tests": {
+    "patch": 4,
+    "backend": 17,
+    "failures": 0
+  },
+  "artifacts": [
+    {
+      "path": ".research/emulator/transport-strace.log",
+      "sha256": "b9d8aaebcd87802f1e28b65947437a093918df2add186c45982ca7870dd2ca50"
+    },
+    {
+      "path": ".research/emulator/transport.png",
+      "sha256": "c75134e8b14859d15c678402177b9564446cf1b23ee929ea55528aeb64ac3fae"
+    },
+    {
+      "path": ".research/ghidra-security.json",
+      "sha256": "d951d710ebac3d465b6ae7ac2350aa7bd987a22d4ea55a2af9252a81a08f8ae6"
+    },
+    {
+      "path": ".research/dumper-arm32/script.json",
+      "sha256": "64d5e2f7c4da9b8689335e7baefa1982e8019120264ff662c9e6e0852b01d4fd"
+    },
+    {
+      "path": ".research/emulator/research-signed/base-aligned-debugSigned.apk",
+      "sha256": "515cf2e13ea677d546533ad09dd19ceb19aa5893aa7a40c252dc8b3bf713542e"
+    },
+    {
+      "path": ".research/emulator/research-signed/split_config.armeabi_v7a-aligned-debugSigned.apk",
+      "sha256": "7f3a18a04a75edbe22677cac23261e70332090f5036d040b5db54aff532c74a2"
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 """Build an author-authorized, local-only startup research APK; keep originals intact.
 
 Only the inspected 2.41.0 base is accepted. Licensing initialization is skipped
-and an unavailable billing client reports failure; native code is unchanged.
+and an unavailable billing client reports failure. Optional local transport also
+changes one ARM32 constructor byte while retaining a localhost-only allowlist.
 """
 import hashlib
 import argparse
@@ -33,7 +34,7 @@ def allow_local_http(original):
     return bytes(data)
 
 
-def redirect_metadata(original):
+def redirect_metadata(original, local_transport=False):
     data = bytearray(original)
     magic, version, table, size, base, _ = struct.unpack_from('<6I', data)
     if (magic, version) != (0xfab11baf, 31):
@@ -46,6 +47,9 @@ def redirect_metadata(original):
         b'https://newc137.bps-pmnet.com/is-gdpr': b'http://127.0.0.1:8087/is-gdpr',
         b'https://newc137.bps-pmnet.com/time?a=pm_{0}': b'http://127.0.0.1:8087/time?a=pm_{0}',
     }
+    if local_transport:
+        redirects = {key: value.replace(b'127.0.0.1', b'localhost') for key, value in redirects.items()}
+        redirects[b'*.bps-pmnet.com'] = b'localhost'
     changes = []
     for entry in range(table, table + size, 8):
         length, index = struct.unpack_from('<II', data, entry)
@@ -62,6 +66,20 @@ def redirect_metadata(original):
     if len(changes) != len(redirects):
         raise ValueError('Did not find all expected URL literals')
     return bytes(data), changes
+
+
+def patch_arm32_transport(original):
+    """Allow HTTP while retaining hostname validation restricted to localhost."""
+    if hashlib.sha256(original).hexdigest() != 'd51c2884f6a3045febfa1434ffdc83e4775ebaa8790fe4153fa1a1660b3742e7':
+        raise ValueError('Unexpected ARM32 library')
+    offset = 0xeea0cc
+    # NetworkHTTP constructor: movw r1,#0x101; ... strh r1,[r4,#0x28].
+    # Low byte is enforceHTTPSOnly; high byte is enableHostnameValidation.
+    if original[offset:offset+4] != bytes.fromhex('011100e3'):
+        raise ValueError('Unexpected constructor instruction')
+    data = bytearray(original)
+    data[offset:offset+4] = bytes.fromhex('001100e3')  # movw r1,#0x100
+    return bytes(data)
 
 
 def patch_dex(original):
@@ -167,7 +185,11 @@ def patch_dex(original):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--local-server', action='store_true')
+    parser.add_argument('--local-transport', action='store_true',
+                        help='ARM32: permit HTTP to the localhost-only hostname allowlist')
     args = parser.parse_args()
+    if args.local_transport:
+        args.local_server = True
     source = ROOT / '.research/android/base.apk'
     if hashlib.sha256(source.read_bytes()).hexdigest() != BASE_SHA:
         raise ValueError('Only the inspected original 2.41.0 base APK is supported')
@@ -184,7 +206,7 @@ if __name__ == '__main__':
                 content, patches = patch_dex(content)
                 records.extend(dict(p, dex=entry.filename) for p in patches)
             if args.local_server and entry.filename == METADATA:
-                content, redirects = redirect_metadata(content)
+                content, redirects = redirect_metadata(content, args.local_transport)
             if args.local_server and entry.filename == PLAYER_SETTINGS:
                 content = allow_local_http(content)
             dest.writestr(entry, content)
@@ -192,8 +214,21 @@ if __name__ == '__main__':
         raise ValueError('Expected exactly two startup patches')
     for name in ['split_config.armeabi_v7a.apk', 'split_config.arm64_v8a.apk']:
         shutil.copy2(ROOT / '.research/android' / name, output / name)
+    if args.local_transport:
+        name = 'split_config.armeabi_v7a.apk'
+        with zipfile.ZipFile(ROOT / '.research/android' / name) as src, zipfile.ZipFile(output / name, 'w') as dest:
+            for entry in src.infolist():
+                if entry.filename.startswith('META-INF/'):
+                    continue
+                content = src.read(entry)
+                if entry.filename == 'lib/armeabi-v7a/libil2cpp.so':
+                    content = patch_arm32_transport(content)
+                dest.writestr(entry, content)
     report = {'original_base_sha256': BASE_SHA, 'patches': records, 'url_redirects': redirects,
               'insecureHttpOption': 2 if args.local_server else 'unchanged',
+              'local_transport': args.local_transport,
+              'native_patch': {'architecture': 'ARM32', 'offset': '0xeea0cc',
+                               'before': '011100e3', 'after': '001100e3'} if args.local_transport else None,
               'scope': 'Local startup research; does not confer a Play license or purchase entitlement.'}
     (output / 'patch.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report, indent=2))
