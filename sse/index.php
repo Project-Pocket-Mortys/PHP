@@ -68,9 +68,10 @@ function cursor_get(PDO $pdo, string $player_id): int {
     $q->execute([$player_id]);
     return (int)$q->fetchColumn();
 }
-function cursor_set(PDO $pdo, string $player_id, int $last_id): void {
-    $q = $pdo->prepare("UPDATE users SET last_event_id = ?, last_seen = NOW() WHERE player_id = ?");
-    $q->execute([$last_id, $player_id]);
+function cursor_set(PDO $pdo, string $player_id, int $last_id, string $session_id, string $room_id): void {
+    // A previous room's poll must not overwrite a new join's cursor.
+    $q = $pdo->prepare("UPDATE users SET last_event_id = ?, last_seen = NOW() WHERE player_id = ? AND session_id = ? AND room_id = ?");
+    $q->execute([$last_id, $player_id, $session_id, $room_id]);
 }
 function room_max_event_id(PDO $pdo, string $room_id): int {
     $q = $pdo->prepare("SELECT COALESCE(MAX(id), 0) FROM event_queue WHERE room_id = ?");
@@ -80,10 +81,12 @@ function room_max_event_id(PDO $pdo, string $room_id): int {
 
 // A stream belongs to the session that opened it, not every future login
 // for the same player. End revoked streams without inventing a wire event.
-function require_live_stream_session(PDO $pdo, string $player_id, string $session_id): void {
-    $q = $pdo->prepare("SELECT 1 FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+function require_live_stream_session(PDO $pdo, string $player_id, string $session_id): array {
+    $q = $pdo->prepare("SELECT room_id, COALESCE(last_event_id, 0) AS last_event_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
     $q->execute([$player_id, $session_id]);
-    if (!$q->fetchColumn()) exit;
+    $membership = $q->fetch(PDO::FETCH_ASSOC);
+    if (!$membership) exit;
+    return $membership;
 }
 
 
@@ -205,7 +208,7 @@ if ($fresh_connect) {
     $pickupStmt->execute([$room_id]);
 
     while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
-        require_live_stream_session($pdo, $player_id, $session_id);
+        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
 
         $placement = explode(",", $p["placement"] ?? "0,0");
 
@@ -236,7 +239,7 @@ if ($fresh_connect) {
     $wildStmt->execute([$room_id]);
 
     while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
-        require_live_stream_session($pdo, $player_id, $session_id);
+        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
 
         $placement = explode(",", $w["placement"] ?? "0,0");
 
@@ -273,7 +276,7 @@ if ($fresh_connect) {
     $botStmt->execute([$room_id]);
 
     while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
-        require_live_stream_session($pdo, $player_id, $session_id);
+        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
 
         $placement = explode(",", $b["placement"] ?? "0,0");
 
@@ -300,11 +303,11 @@ if ($fresh_connect) {
 
     // move cursor forward after snapshot
     $last_id = room_max_event_id($pdo, $room_id);
-    cursor_set($pdo, $player_id, $last_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
 
 } else {
     $last_id = (int)$client_last_event_id;
-    cursor_set($pdo, $player_id, $last_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
 }
 
 // -------------------- MAIN STREAM LOOP --------------------
@@ -320,7 +323,22 @@ $privateEvents = [
 
 while (!connection_aborted()) {
 
-    require_live_stream_session($pdo, $player_id, $session_id);
+    $membership = require_live_stream_session($pdo, $player_id, $session_id);
+    $current_room_id = (string)$membership['room_id'];
+    if ($current_room_id !== $room_id) {
+        $room_id = $current_room_id;
+        // join-room supplies the snapshot over HTTP and installs this baseline
+        // together with membership. Do not replay the destination's history.
+        $last_id = (int)$membership['last_event_id'];
+    }
+    if ($room_id === '' || $room_id === '0') {
+        if ((time() - $last_keepalive) >= $keepalive_interval_sec) {
+            sse_send('session:keep-alive', '0');
+            $last_keepalive = time();
+        }
+        usleep(250000);
+        continue;
+    }
 
     // keep user online
     $pdo->prepare("
@@ -367,7 +385,7 @@ while (!connection_aborted()) {
     $sent = false;
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        require_live_stream_session($pdo, $player_id, $session_id);
+        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
 
         $eventName = (string)$row["event_name"];
         $eid = (int)$row["id"];
@@ -583,7 +601,7 @@ while (!connection_aborted()) {
         $sent = true;
     }
 
-    cursor_set($pdo, $player_id, $last_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
 
     if (
         !$sent &&
