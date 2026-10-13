@@ -1,0 +1,104 @@
+{
+  "kind": "One emulator plus synthetic UDP peer; not two Android clients",
+  "sent": 111,
+  "received": 5,
+  "received_positions": [
+    {
+      "sequence": 1,
+      "x": 30,
+      "y": 35,
+      "history_bytes": "0110",
+      "history": [
+        [
+          29,
+          35
+        ]
+      ],
+      "direction": 4
+    },
+    {
+      "sequence": 2,
+      "x": 30,
+      "y": 35,
+      "history_bytes": "0110",
+      "history": [
+        [
+          29,
+          35
+        ]
+      ],
+      "direction": 4
+    },
+    {
+      "sequence": 3,
+      "x": 31,
+      "y": 35,
+      "history_bytes": "0520",
+      "history": [
+        [
+          30,
+          35
+        ],
+        [
+          29,
+          35
+        ]
+      ],
+      "direction": 1
+    },
+    {
+      "sequence": 4,
+      "x": 32,
+      "y": 35,
+      "history_bytes": "1530",
+      "history": [
+        [
+          31,
+          35
+        ],
+        [
+          30,
+          35
+        ],
+        [
+          29,
+          35
+        ]
+      ],
+      "direction": 1
+    },
+    {
+      "sequence": 5,
+      "x": 32,
+      "y": 35,
+      "history_bytes": "1530",
+      "history": [
+        [
+          31,
+          35
+        ],
+        [
+          30,
+          35
+        ],
+        [
+          29,
+          35
+        ]
+      ],
+      "direction": 4
+    }
+  ],
+  "identifiers_exported": false,
+  "backend": "PHP 8.3 isolated Compose udp profile",
+  "transport": "UDP 5055 via emulator host alias 10.0.2.2",
+  "client": "Android 2.41.0 ARM32 diagnostic multiplayer profile",
+  "observed_avatar_added": true,
+  "observed_avatar_removed": true,
+  "unity_errors_during_probe": 0,
+  "tests": {
+    "udp_socket_database": 10,
+    "additive_fixture": 1
+  },
+  "limitations": "One emulator plus synthetic socket peer; no original-server capture, no movement authority or persistence."
+}

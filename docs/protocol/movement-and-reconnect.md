@@ -1,5 +1,8 @@
 # UDP movement and SSE interruption findings
 
+Follow-up: [isolated UDP relay](udp-relay.md) verifies actual delivery and the
+incoming player-ID mapping. The attempted-send findings below preceded that work.
+
 Android 2.41.0 was exercised on the dedicated API30 emulator with the ARM32
 diagnostic multiplayer profile and manifest 1013. All traffic targets the isolated
 replacement backend. No original-server captures are available.

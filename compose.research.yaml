@@ -31,5 +31,22 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  udp:
+    profiles: [udp]
+    build: ./tools/research/server
+    command: [php, /var/www/html/tools/research/server/udp-relay.php]
+    ports:
+      - "127.0.0.1:5055:5055/udp"
+    environment:
+      PM_DB_HOST: db
+      PM_DB_NAME: pocket_mortys
+      PM_DB_USER: pocket
+      PM_DB_PASS: research-only
+      PM_RESEARCH_UDP: "1"
+    volumes:
+      - .:/var/www/html:ro
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   research-db:

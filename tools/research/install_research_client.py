@@ -21,6 +21,8 @@ if __name__ == '__main__':
                         help='Remove the original-signed test installation and its data first')
     parser.add_argument('--sdk-network', action='store_true',
                         help='Allow current OneTrust provider IPv4 addresses to fetch consent configuration')
+    parser.add_argument('--udp', action='store_true',
+                        help='Allow UDP 5055 to the emulator host alias for the isolated relay')
     args = parser.parse_args()
     if adb('emu', 'avd', 'name').stdout.splitlines()[0] != 'PocketMortys_API30':
         raise RuntimeError('This installer is restricted to the dedicated research AVD')
@@ -51,6 +53,8 @@ if __name__ == '__main__':
         adb('shell', tool, '-F', chain)
         if tool == 'iptables':
             adb('shell', tool, '-A', chain, '-d','127.0.0.0/8','-j','ACCEPT')
+            if args.udp:
+                adb('shell', tool, '-A', chain, '-d','10.0.2.2','-p','udp','--dport','5055','-j','ACCEPT')
             # Mono can resolve localhost to this emulator's interface addresses.
             # ADB reverse listens on these too; allow only the research backend port.
             for address in sorted(local_addresses):
@@ -66,7 +70,7 @@ if __name__ == '__main__':
     adb('reverse', 'tcp:8087', 'tcp:8087')
     # Localhost stays reachable with radios disabled. SDK traffic is additionally
     # blocked for this package if Wi-Fi is enabled later. Rules expire on reboot.
-    adb('shell', 'svc', 'wifi', 'enable' if args.sdk_network else 'disable')
+    adb('shell', 'svc', 'wifi', 'enable' if args.sdk_network or args.udp else 'disable')
     adb('shell', 'svc', 'data', 'disable')
     print('Installed ARM32 research client; runtime cache refreshed; network rules configured.')
     if allowed:

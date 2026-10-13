@@ -15,8 +15,12 @@ $stmt->execute([$room]);
 if (!$stmt->fetch()) {
     $stmt = $pdo->prepare('INSERT INTO room_ids (room_id, room_udp_host, room_udp_port, world_id, zone_id) VALUES (?, ?, ?, ?, ?)');
     // World 1 is observed in the client request. Zone follows the existing test
-    // fixture convention. Port 5055 is reserved here; no UDP service is claimed.
+    // fixture convention. UDP is enabled only with the explicit --udp flag.
     $stmt->execute([$room, 'localhost', '5055', '1', '[1,1]']);
 }
+if (in_array('--udp', $argv ?? [], true)) {
+    $stmt = $pdo->prepare('UPDATE room_ids SET room_udp_host = ?, room_udp_port = ? WHERE room_id = ?');
+    $stmt->execute(['10.0.2.2', '5055', $room]);
+}
 $pdo->commit();
-echo "Synthetic world-1 room ready; UDP service remains unimplemented.\n";
+echo "Synthetic world-1 room ready. Start the optional udp Compose profile separately.\n";

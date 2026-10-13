@@ -232,10 +232,11 @@
     "reconnect": "Observed Android 2.41.0 diagnostic profile: interrupted stream shows ES_CLOSED; Play performs a new login and SSE GET without Last-Event-ID/since. OnRetryHandler statically returns false. Other interruption modes unverified; see movement-and-reconnect.md."
   },
   "udp": {
-    "status": "Client sender captured at syscall boundary; receiver statically established. No UDP server delivery or two-client acceptance yet.",
+    "status": "Client codec recovered; optional research PHP relay verified with one Android emulator plus synthetic peer. Two Android clients and production movement authority remain unverified.",
     "evidence": [
       "movement-native.json",
-      "../../tests/protocol/fixtures/udp-movement.json"
+      "../../tests/protocol/fixtures/udp-movement.json",
+      "udp-relay.md"
     ],
     "record_bytes": 24,
     "receive_datagram": "One or more concatenated 24-byte records; other lengths ignored by client.",
@@ -243,7 +244,7 @@
       {
         "offset": 0,
         "length": 16,
-        "meaning": "Canonical network-order GUID; outbound identifies session, verified against isolated DB. Inbound is netId; player identity substitution still requires runtime verification."
+        "meaning": "Canonical network-order GUID: session ID outbound from client; player ID on relay deliveries to client, verified by synthetic peer avatar in Android."
       },
       {
         "offset": 16,
@@ -279,11 +280,10 @@
     },
     "sequence_rule": "(new>old and new-old<=127) or (old>new and old-new>127); equality discarded.",
     "unresolved": [
-      "Inbound GUID mapping and live two-player acceptance",
-      "Room authentication and UDP endpoint lifecycle",
-      "Server-authoritative position validation and relay rate",
-      "UDP route from emulator to isolated host; ADB TCP reverse does not supply a UDP listener",
-      "Client behavior across teleports, interrupted movement and prolonged packet loss"
+      "Two-emulator and iOS acceptance",
+      "Idle peer expiry, initial snapshots, room transitions and endpoint lifecycle",
+      "Server-authoritative movement validation and persistence",
+      "Restart/reconnect sequence handling and prolonged packet loss"
     ]
   }
 }
