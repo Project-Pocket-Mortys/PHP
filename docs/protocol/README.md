@@ -1,5 +1,9 @@
 # Pocket Mortys protocol research handoff
 
+[SSE room transitions](sse-room-transitions.md) stop old-room delivery and follow
+destination membership on an existing stream. Rapid same-room rejoin and
+snapshot/cursor races remain explicit gaps.
+
 [Live SSE session revocation](sse-session-revocation.md) closes streams after
 session replacement or account deletion, with additive regression coverage.
 

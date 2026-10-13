@@ -5,3 +5,4 @@ compose.research.yaml text eol=lf
 user/login/index.php text eol=lf
 sse/index.php text eol=lf
 session/leave-room/index.php text eol=lf
+session/join-room/index.php text eol=lf

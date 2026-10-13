@@ -3293,7 +3293,7 @@
       "server_evidence": {
         "file": "session/join-room/index.php",
         "line": 1,
-        "sha256": "5da3be35e4adbd0f9e5c729956c65af33ca66a9e2d8a037e5cd21a7280da9307"
+        "sha256": "d72de20b57fe31858dab2bee154f31eec691c88fa30f62267dd12df037b35649"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4496,7 +4496,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "6ee87285fcc6acef71752a1250c50f5ea4f94cd007d37ae4c7b0bbf446d4da92"
+        "sha256": "d78f6bf3f10c32a16f23151b371612f1839798fed3ba3e48bde4be6d3157b03c"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",

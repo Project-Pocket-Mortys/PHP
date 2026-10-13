@@ -72,17 +72,6 @@ if (!$room) {
 
 $room_id = $room["room_id"];
 
-/* ---------------- UPDATE PLAYER ---------------- */
-
-$update = $pdo->prepare("
-    UPDATE users
-    SET room_id = ?,
-        state = 'WORLD',
-        last_seen = NOW()
-    WHERE player_id = ?
-");
-$update->execute([$room_id, $player_id]);
-
 /* ---------------- BASELINE EVENT ---------------- */
 
 $baselineStmt = $pdo->prepare("
@@ -96,13 +85,13 @@ $baseline_event_id = (int)$baselineStmt->fetchColumn();
 
 $pdo->prepare("
     UPDATE users
-    SET last_event_id = ?
-    WHERE player_id = ?
-")->execute([$baseline_event_id, $player_id]);
+    SET room_id = ?, state = 'WORLD', last_seen = NOW(), last_event_id = ?
+    WHERE player_id = ? AND session_id = ?
+")->execute([$room_id, $baseline_event_id, $player_id, $session_id]);
 
 /* ---------------- USERS ---------------- */
 $usersStmt = $pdo->prepare("
-    SELECT 
+    SELECT
         player_id,
         username,
         player_avatar_id,
