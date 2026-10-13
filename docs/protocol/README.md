@@ -1,5 +1,9 @@
 # Pocket Mortys protocol research handoff
 
+[UDP idle heartbeats](udp-heartbeats.md) retain learned stationary-peer endpoints
+using validated HTTP pings in the isolated research profile. This adds one
+versioned research table and an initialization service.
+
 [SSE room transitions](sse-room-transitions.md) stop old-room delivery and follow
 destination membership on an existing stream. Rapid same-room rejoin and
 snapshot/cursor races remain explicit gaps.
