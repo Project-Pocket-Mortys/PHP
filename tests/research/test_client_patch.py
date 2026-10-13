@@ -15,6 +15,18 @@ spec.loader.exec_module(client)
 
 @unittest.skipUnless((ROOT/'.research/android/base.apk').exists(), 'Extract the supplied APKM first')
 class ResearchPatchTests(unittest.TestCase):
+    def test_multiplayer_probe_only_overrides_two_onboarding_queries(self):
+        original = (ROOT/'.research/android/split_config.armeabi_v7a/lib/armeabi-v7a/libil2cpp.so').read_bytes()
+        transport = client.patch_arm32_transport(original)
+        probe = client.patch_arm32_transport(original, multiplayer_probe=True)
+        allowed = set(range(0xb05e9c, 0xb05ea4)) | set(range(0xb05ed0, 0xb05ed8))
+        changed = {i for i, pair in enumerate(zip(transport, probe)) if pair[0] != pair[1]}
+        self.assertTrue(changed and changed <= allowed)
+        for address in (0xb05e9c, 0xb05ed0):
+            self.assertEqual(probe[address:address+8], bytes.fromhex('0100a0e31eff2fe1'))
+        with self.assertRaises(ValueError):
+            client.patch_arm32_transport(probe, multiplayer_probe=True)
+
     def test_transport_profile_preserves_hostname_guard_and_changes_one_native_byte(self):
         library = ROOT/'.research/android/split_config.armeabi_v7a/lib/armeabi-v7a/libil2cpp.so'
         original = library.read_bytes()

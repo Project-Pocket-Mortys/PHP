@@ -1,0 +1,124 @@
+{
+  "date": "2026-10-12",
+  "status": "Diagnostic Android profile registered, logged in and entered world 1; UDP unimplemented",
+  "database_account_state": [
+    {
+      "player_id": "8001b72a-9080-4801-a676-bc908ebe120c",
+      "player_avatar_id": "AvatarRickDefault",
+      "level": 1,
+      "state": "WORLD",
+      "room_id": "00000000-0000-4000-8000-000000000001",
+      "active_deck_id": 0,
+      "decks_owned": 3,
+      "has_session": 1
+    }
+  ],
+  "tests": {
+    "backend": 20,
+    "patch": 5,
+    "failures": 0
+  },
+  "patch_report": {
+    "original_base_sha256": "b44f255bdd58b3196d73ff811c3e645d68edcbd76366a39f5c4489bc538ebf74",
+    "patches": [
+      {
+        "method": "Lcom/pairip/licensecheck/LicenseClient;->initializeLicenseCheck()V",
+        "code_offset": 4469492,
+        "instruction_offset": 4469508,
+        "before": "6200e957",
+        "after": "0e000000",
+        "dex": "classes.dex"
+      },
+      {
+        "method": "Lcom/prime31/GoogleIABPlugin;->queryInventory([Ljava/lang/String;)V",
+        "code_offset": 4624172,
+        "instruction_offset": 4624188,
+        "before": "6e10fcef04000c006e104bef00000c001a016fb1713065be1005",
+        "after": "5440bd4c39000b001a0070b16201bb4c6e303dbe04010e000000",
+        "dex": "classes2.dex"
+      }
+    ],
+    "url_redirects": [
+      {
+        "literal_index": 856,
+        "before": "*.bps-pmnet.com",
+        "after": "localhost"
+      },
+      {
+        "literal_index": 16424,
+        "before": "https://assets.bps-pmnet.com/Aliases/{0}/{1}",
+        "after": "http://localhost:8087/Aliases/{0}/{1}"
+      },
+      {
+        "literal_index": 16425,
+        "before": "https://assets.bps-pmnet.com/Status",
+        "after": "http://localhost:8087/Status"
+      },
+      {
+        "literal_index": 16426,
+        "before": "https://clients3.google.com/generate_204",
+        "after": "http://localhost:8087/_research/online"
+      },
+      {
+        "literal_index": 16434,
+        "before": "https://newc137.bps-pmnet.com/is-gdpr",
+        "after": "http://localhost:8087/is-gdpr"
+      },
+      {
+        "literal_index": 16435,
+        "before": "https://newc137.bps-pmnet.com/time?a=pm_{0}",
+        "after": "http://localhost:8087/time?a=pm_{0}"
+      },
+      {
+        "literal_index": 16441,
+        "before": "https://{0}.game.bps-pmnet.com",
+        "after": "http://localhost:8087"
+      }
+    ],
+    "insecureHttpOption": 2,
+    "local_transport": true,
+    "multiplayer_probe": true,
+    "onboarding_query_overrides": [
+      "SaveDataController.IsMultiplayerUnlocked",
+      "SaveDataController.IsCampaignTutorialComplete"
+    ],
+    "native_patch": {
+      "architecture": "ARM32",
+      "offset": "0xeea0cc",
+      "before": "011100e3",
+      "after": "001100e3"
+    },
+    "scope": "Local startup research; does not confer a Play license or purchase entitlement."
+  },
+  "artifacts": [
+    {
+      "path": ".research/emulator/account-http.jsonl",
+      "sha256": "cb75f912fe9130b67f694ab3f231a59d7ccbd599652865a873d78258a716726f"
+    },
+    {
+      "path": ".research/emulator/mp-entry.png",
+      "sha256": "98efa9f5f262194bb87dbf05bb6459df026a08a53a064f963f9233fc1e0ab076"
+    },
+    {
+      "path": ".research/ghidra-onboarding.json",
+      "sha256": "139fa61923237cf681b1e3a9708189b6227b0985d108a5e2975b1b9a5c5a3566"
+    },
+    {
+      "path": ".research/ghidra-account.json",
+      "sha256": "88d68ff56fe01f43a0e0f45fde70fb26dca77ad7333909fa1441671cb9c74a17"
+    },
+    {
+      "path": ".research/emulator/research-signed/base-aligned-debugSigned.apk",
+      "sha256": "515cf2e13ea677d546533ad09dd19ceb19aa5893aa7a40c252dc8b3bf713542e"
+    },
+    {
+      "path": ".research/emulator/research-signed/split_config.armeabi_v7a-aligned-debugSigned.apk",
+      "sha256": "7791db3aa47c5477e9693251941fb91ed71c4f9e6715968709f993ad2ece8bc8"
+    },
+    {
+      "path": ".research/emulator/account-success-unity.log",
+      "sha256": "c50bcd936853c814b116ee4f7057993059fd0850b2ac6162bc759bda2564bc39"
+    }
+  ],
+  "fresh_login_unity_error_count": 0
+}

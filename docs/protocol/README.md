@@ -4,6 +4,8 @@ This workspace reconciles Android 2.41.0 against the existing PHP server. The ro
 
 ## Current evidence
 
+- [Android account bootstrap](account-bootstrap.md): diagnostic client registration/login, local session URLs, world-1 entry, JSON capture, and synthetic room/config seeding.
+
 - [Successful local startup](local-transport.md): Android 2.41.0 downloaded all 155 bundles and reached the opening single-player scene; multiplayer remains unverified.
 
 - [Supplied asset copies](asset-copies.md): all 155 version 1011 bundles match the repository; the saved manifest differs only by asset origin.
@@ -73,7 +75,7 @@ Repairs preserve routes and success envelopes: readiness uses the actual battle 
 An Android phone is not required. See [Windows emulator setup](emulator.md) for
 the dedicated research device and reproducible installation commands.
 The [local research client](research-client.md) documents startup patches,
-confirmed loopback requests, and the remaining consent/WebView gate.
+confirmed local asset loading and the optional multiplayer diagnostic profile.
 
 Use a separate test installation/account. Record its installed version, split APK hashes, redirection method, device/ADB identity and server commit before comparing captures. The original APK contains hostname/certificate validation in `NetworkHTTP`; a working modified client may behave differently.
 

@@ -68,7 +68,7 @@ def redirect_metadata(original, local_transport=False):
     return bytes(data), changes
 
 
-def patch_arm32_transport(original):
+def patch_arm32_transport(original, multiplayer_probe=False):
     """Allow HTTP while retaining hostname validation restricted to localhost."""
     if hashlib.sha256(original).hexdigest() != 'd51c2884f6a3045febfa1434ffdc83e4775ebaa8790fe4153fa1a1660b3742e7':
         raise ValueError('Unexpected ARM32 library')
@@ -79,6 +79,12 @@ def patch_arm32_transport(original):
         raise ValueError('Unexpected constructor instruction')
     data = bytearray(original)
     data[offset:offset+4] = bytes.fromhex('001100e3')  # movw r1,#0x100
+    if multiplayer_probe:
+        # Diagnostic UI reachability only; do not treat this as campaign progress.
+        for address, before in [(0xb05e9c, '30482de9345090e5'), (0xb05ed0, '30482de994509fe5')]:
+            if original[address:address+8] != bytes.fromhex(before):
+                raise ValueError('Unexpected onboarding query prologue')
+            data[address:address+8] = bytes.fromhex('0100a0e31eff2fe1')  # mov r0,#1; bx lr
     return bytes(data)
 
 
@@ -187,7 +193,11 @@ if __name__ == '__main__':
     parser.add_argument('--local-server', action='store_true')
     parser.add_argument('--local-transport', action='store_true',
                         help='ARM32: permit HTTP to the localhost-only hostname allowlist')
+    parser.add_argument('--multiplayer-probe', action='store_true',
+                        help='Diagnostic ARM32 profile: expose multiplayer UI without finishing campaign tutorial')
     args = parser.parse_args()
+    if args.multiplayer_probe:
+        args.local_transport = True
     if args.local_transport:
         args.local_server = True
     source = ROOT / '.research/android/base.apk'
@@ -222,11 +232,14 @@ if __name__ == '__main__':
                     continue
                 content = src.read(entry)
                 if entry.filename == 'lib/armeabi-v7a/libil2cpp.so':
-                    content = patch_arm32_transport(content)
+                    content = patch_arm32_transport(content, args.multiplayer_probe)
                 dest.writestr(entry, content)
     report = {'original_base_sha256': BASE_SHA, 'patches': records, 'url_redirects': redirects,
               'insecureHttpOption': 2 if args.local_server else 'unchanged',
               'local_transport': args.local_transport,
+              'multiplayer_probe': args.multiplayer_probe,
+              'onboarding_query_overrides': ['SaveDataController.IsMultiplayerUnlocked',
+                                            'SaveDataController.IsCampaignTutorialComplete'] if args.multiplayer_probe else [],
               'native_patch': {'architecture': 'ARM32', 'offset': '0xeea0cc',
                                'before': '011100e3', 'after': '001100e3'} if args.local_transport else None,
               'scope': 'Local startup research; does not confer a Play license or purchase entitlement.'}
