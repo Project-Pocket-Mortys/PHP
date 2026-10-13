@@ -78,6 +78,14 @@ function room_max_event_id(PDO $pdo, string $room_id): int {
     return (int)$q->fetchColumn();
 }
 
+// A stream belongs to the session that opened it, not every future login
+// for the same player. End revoked streams without inventing a wire event.
+function require_live_stream_session(PDO $pdo, string $player_id, string $session_id): void {
+    $q = $pdo->prepare("SELECT 1 FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+    $q->execute([$player_id, $session_id]);
+    if (!$q->fetchColumn()) exit;
+}
+
 
 /* ---------------- ACTIVE DECK MORTIES ---------------- */
 require_once __DIR__ . '/../lib/active_deck.php';
@@ -153,9 +161,11 @@ $room_id = "";
 $last_keepalive = time();
 
 while (!connection_aborted()) {
-    $st = $pdo->prepare("SELECT room_id FROM users WHERE player_id = ? LIMIT 1");
-    $st->execute([$player_id]);
-    $room_id = (string)$st->fetchColumn();
+    $st = $pdo->prepare("SELECT room_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+    $st->execute([$player_id, $session_id]);
+    $membership = $st->fetch(PDO::FETCH_ASSOC);
+    if (!$membership) exit;
+    $room_id = (string)$membership['room_id'];
 
     if ($room_id !== "" && $room_id !== "0") break;
 
@@ -195,6 +205,7 @@ if ($fresh_connect) {
     $pickupStmt->execute([$room_id]);
 
     while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
+        require_live_stream_session($pdo, $player_id, $session_id);
 
         $placement = explode(",", $p["placement"] ?? "0,0");
 
@@ -225,6 +236,7 @@ if ($fresh_connect) {
     $wildStmt->execute([$room_id]);
 
     while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
+        require_live_stream_session($pdo, $player_id, $session_id);
 
         $placement = explode(",", $w["placement"] ?? "0,0");
 
@@ -261,6 +273,7 @@ if ($fresh_connect) {
     $botStmt->execute([$room_id]);
 
     while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
+        require_live_stream_session($pdo, $player_id, $session_id);
 
         $placement = explode(",", $b["placement"] ?? "0,0");
 
@@ -307,6 +320,8 @@ $privateEvents = [
 
 while (!connection_aborted()) {
 
+    require_live_stream_session($pdo, $player_id, $session_id);
+
     // keep user online
     $pdo->prepare("
         UPDATE users
@@ -352,6 +367,7 @@ while (!connection_aborted()) {
     $sent = false;
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        require_live_stream_session($pdo, $player_id, $session_id);
 
         $eventName = (string)$row["event_name"];
         $eid = (int)$row["id"];

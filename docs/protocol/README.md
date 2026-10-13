@@ -1,5 +1,8 @@
 # Pocket Mortys protocol research handoff
 
+[Live SSE session revocation](sse-session-revocation.md) closes streams after
+session replacement or account deletion, with additive regression coverage.
+
 [Atomic room departure](room-leave-repair.md) fixes stale membership and duplicate
 departure events and verifies that UDP delivery stops after a successful leave.
 

@@ -4496,7 +4496,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "e1924d7c43e1f1f800d497c7daa80cd1bc0413ed07747c0d34c84fe8c6f830a8"
+        "sha256": "6ee87285fcc6acef71752a1250c50f5ea4f94cd007d37ae4c7b0bbf446d4da92"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
