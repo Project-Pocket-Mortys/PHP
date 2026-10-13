@@ -68,6 +68,8 @@ Repairs preserve routes and success envelopes: readiness uses the actual battle 
 
 An Android phone is not required. See [Windows emulator setup](emulator.md) for
 the dedicated research device and reproducible installation commands.
+The [local research client](research-client.md) documents startup patches,
+confirmed loopback requests, and the remaining consent/WebView gate.
 
 Use a separate test installation/account. Record its installed version, split APK hashes, redirection method, device/ADB identity and server commit before comparing captures. The original APK contains hostname/certificate validation in `NetworkHTTP`; a working modified client may behave differently.
 

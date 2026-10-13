@@ -22,8 +22,10 @@ Downloads are pinned in `tools/research/emulator.lock.json`, with Google's
 repository SHA-1 checksums and locally recorded SHA-256 checksums. The installer
 verifies both. It installs the base APK and ARM32 split by default. Use
 `-Abi arm64-v8a` to reproduce the ARM64 experiment.
-The launcher uses software graphics with Vulkan disabled after an initial
-automatic-graphics boot failed to expose ADB. `-Headless` suppresses the device
+The launcher now uses host graphics, Vulkan disabled, and dynamic GLES versions
+(observed GLES 3.1). The initial apparent boot failure was an ADB port conflict;
+software graphics exposed only GLES 2 and produced missing-shader errors.
+`-Gpu swiftshader` retains that diagnostic fallback. `-Headless` suppresses the device
 window for automation. The launcher does not reset an existing device.
 
 ```powershell
@@ -47,6 +49,9 @@ a WSL relay on the setup machine. Pass `-P 5038` when invoking ADB outside the
 launcher environment. The Android device serial is `emulator-5556`.
 
 ## First runtime results
+
+These are the original-client baseline. The later [research client](research-client.md)
+gets past licensing and the billing-query failure; see its current limitations.
 
 Machine-readable results and raw-log hashes: [emulator-results.json](emulator-results.json).
 

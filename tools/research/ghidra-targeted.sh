@@ -11,8 +11,11 @@ if [ "$ACTUAL_BINARY" != "$EXPECTED_BINARY" ]; then
   exit 1
 fi
 PROJECT_ROOT="$(mktemp -d /tmp/pocket-protocols-XXXXXX)"
+OUTPUT_PATH="${1:-$REPO_ROOT/.research/ghidra-protocols.json}"
+EXTRA_ARGS=()
+if [ "$#" -gt 1 ]; then EXTRA_ARGS+=("$2"); fi
 "$TOOL_ROOT/ghidra_12.1.4_PUBLIC/support/analyzeHeadless" "$PROJECT_ROOT" pocket \
   -import "$REPO_ROOT/.research/android/split_config.arm64_v8a/lib/arm64-v8a/libil2cpp.so" \
   -noanalysis -scriptPath "$REPO_ROOT/tools/research/ghidra" \
-  -postScript PocketProtocols.java "$REPO_ROOT/.research/dumper/script.json" "$REPO_ROOT/.research/ghidra-protocols.json"
+  -postScript PocketProtocols.java "$REPO_ROOT/.research/dumper/script.json" "$OUTPUT_PATH" "${EXTRA_ARGS[@]}"
 echo "Analysis project retained at $PROJECT_ROOT for review."

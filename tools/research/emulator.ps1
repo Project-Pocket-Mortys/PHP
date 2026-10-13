@@ -1,5 +1,6 @@
 param([switch]$Headless, [switch]$InstallGame,
-    [ValidateSet('armeabi-v7a', 'arm64-v8a')][string]$Abi = 'armeabi-v7a')
+    [ValidateSet('armeabi-v7a', 'arm64-v8a')][string]$Abi = 'armeabi-v7a',
+    [ValidateSet('host', 'swiftshader')][string]$Gpu = 'host')
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $work = Join-Path $root '.research/emulator'
@@ -10,7 +11,7 @@ $adb = Join-Path $env:ANDROID_HOME 'platform-tools/adb.exe'
 $emulator = Join-Path $env:ANDROID_HOME 'emulator/emulator.exe'
 if (!(Test-Path $emulator)) { throw 'Run py tools/research/emulator_setup.py first.' }
 & $adb start-server
-$emulatorArgs = @('-avd', 'PocketMortys_API30', '-port', '5556', '-no-snapshot', '-no-boot-anim', '-no-metrics', '-gpu', 'swiftshader', '-feature', '-Vulkan', '-show-kernel')
+$emulatorArgs = @('-avd', 'PocketMortys_API30', '-port', '5556', '-no-snapshot', '-no-boot-anim', '-no-metrics', '-gpu', $Gpu, '-feature', '-Vulkan,GLESDynamicVersion')
 if ($Headless) { $emulatorArgs += '-no-window' }
 if (!((& $adb devices) -match 'emulator-5556\s+device')) {
     $windowStyle = if ($Headless) { 'Hidden' } else { 'Normal' }
