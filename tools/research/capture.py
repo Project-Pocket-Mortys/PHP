@@ -9,7 +9,8 @@ from urllib.parse import urlsplit, parse_qsl, urlencode, urlunsplit
 
 SECRET_KEYS = {'session_id', 'secret', 'token', 'authorization', 'cookie', 'set-cookie',
                'password', 'email', 'consent_identifier', 'receipt', 'recovery_code', 'username',
-               'device_id', 'advertising_id', 'idfa', 'idfv', 'access_token', 'refresh_token'}
+               'device_id', 'advertising_id', 'idfa', 'idfv', 'access_token', 'refresh_token',
+               'session_url', 'recovery_code_hash'}
 
 def sanitize(value):
     if isinstance(value, dict):

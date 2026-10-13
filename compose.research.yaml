@@ -24,6 +24,8 @@ services:
       PM_DB_NAME: pocket_mortys
       PM_DB_USER: pocket
       PM_DB_PASS: research-only
+      PM_LOGIN_MAINTENANCE: "0"
+      PM_PUBLIC_ORIGIN: http://localhost:8087
     volumes:
       - .:/var/www/html:ro
     depends_on:
