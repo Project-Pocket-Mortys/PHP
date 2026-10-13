@@ -229,53 +229,61 @@
     "client_header": "X-PMCLIENT",
     "evidence": "NetworkHTTP$$Request 0x17b5a44; ARM64 0x17b5ba0..0x17b5bb4 selects Post=2 for a default Get=0 request with non-null serialized postData",
     "session_auth": "Request bodies carry session_id; replacement SSE decodes it from token query JWT payload without verifying signature",
-    "reconnect": "Server accepts Last-Event-ID/since but does not emit event IDs; client retry/cursor behavior needs runtime verification"
+    "reconnect": "Observed Android 2.41.0 diagnostic profile: interrupted stream shows ES_CLOSED; Play performs a new login and SSE GET without Last-Event-ID/since. OnRetryHandler statically returns false. Other interruption modes unverified; see movement-and-reconnect.md."
   },
   "udp": {
-    "status": "native transport discovered; wire schema incomplete",
-    "send_position": {
-      "method": "UdpNodeSender$$SendPosition",
-      "address": "0x17c04c4",
-      "packet_size": 24,
-      "layout_candidates": [
-        {
-          "offset": 0,
-          "length": 16,
-          "meaning": "session GUID conversion"
-        },
-        {
-          "offset": 16,
-          "length": 1,
-          "meaning": "sequence low byte"
-        },
-        {
-          "offset": 17,
-          "length": 2,
-          "meaning": "coordinate component"
-        },
-        {
-          "offset": 19,
-          "length": 2,
-          "meaning": "coordinate component"
-        },
-        {
-          "offset": 21,
-          "length": 2,
-          "meaning": "position history"
-        },
-        {
-          "offset": 23,
-          "length": 1,
-          "meaning": "direction"
-        }
-      ],
-      "unresolved": [
-        "GUID byte order",
-        "coordinate encoding",
-        "history packing",
-        "receive packet format",
-        "server endpoint lifecycle"
-      ]
-    }
+    "status": "Client sender captured at syscall boundary; receiver statically established. No UDP server delivery or two-client acceptance yet.",
+    "evidence": [
+      "movement-native.json",
+      "../../tests/protocol/fixtures/udp-movement.json"
+    ],
+    "record_bytes": 24,
+    "receive_datagram": "One or more concatenated 24-byte records; other lengths ignored by client.",
+    "layout": [
+      {
+        "offset": 0,
+        "length": 16,
+        "meaning": "Canonical network-order GUID; outbound identifies session, verified against isolated DB. Inbound is netId; player identity substitution still requires runtime verification."
+      },
+      {
+        "offset": 16,
+        "length": 1,
+        "meaning": "Sequence 0..255; wraps to zero."
+      },
+      {
+        "offset": 17,
+        "length": 2,
+        "meaning": "Unsigned x coordinate, big-endian."
+      },
+      {
+        "offset": 19,
+        "length": 2,
+        "meaning": "Unsigned y coordinate, big-endian."
+      },
+      {
+        "offset": 21,
+        "length": 2,
+        "meaning": "Little-endian bit field: bits 0..11 are six 2-bit inverse steps (newest first), bits 12..15 are count; counts above six give empty history."
+      },
+      {
+        "offset": 23,
+        "length": 1,
+        "meaning": "Direction: NONE=0 RIGHT=1 LEFT=2 UP=3 DOWN=4."
+      }
+    ],
+    "history_codes": {
+      "0": "previous x+1",
+      "1": "previous x-1",
+      "2": "previous y+1",
+      "3": "previous y-1"
+    },
+    "sequence_rule": "(new>old and new-old<=127) or (old>new and old-new>127); equality discarded.",
+    "unresolved": [
+      "Inbound GUID mapping and live two-player acceptance",
+      "Room authentication and UDP endpoint lifecycle",
+      "Server-authoritative position validation and relay rate",
+      "UDP route from emulator to isolated host; ADB TCP reverse does not supply a UDP listener",
+      "Client behavior across teleports, interrupted movement and prolonged packet loss"
+    ]
   }
 }

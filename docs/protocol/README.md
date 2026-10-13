@@ -1,5 +1,9 @@
 # Pocket Mortys protocol research handoff
 
+Latest transport findings: [UDP movement and SSE recovery](movement-and-reconnect.md)
+includes sanitized attempted-send fixtures, a tested decoder, and observed manual
+recovery after an interrupted SSE stream. UDP delivery remains unimplemented.
+
 Latest asset follow-up: [Android cache repair](asset-cache-repair.md) verifies the
 merged multiplayer data download and fixes reuse of the older cache entry.
 

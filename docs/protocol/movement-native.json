@@ -1,0 +1,97 @@
+{
+  "binary": "Android 2.41.0 ARM64 libil2cpp.so",
+  "sha256": "ff773be7d3718ee307f6342358268748e8fa2487460e7b3857715478cb8e4326",
+  "method": "Targeted Ghidra pseudocode with ARM64 instruction checks; emulator observations use the ARM32 research client. Exception-edge pseudocode may contain unrelated functions and is not used as behavior evidence.",
+  "reproduce": "wsl -- bash tools/research/ghidra-movement.sh",
+  "raw_output_sha256": "d2065a66bce0bbb0b9eb4c5667538b0287092af7f888079937ddaec2031b978e",
+  "methods": [
+    {
+      "method": "NetworkEventSource$$OnRetryHandler",
+      "native_rva": "0x17b9fb8",
+      "address": "018b9fb8",
+      "image_base": "00100000",
+      "body_bytes": 80,
+      "finding": "SSE OnRetryHandler returns false; mov w0,wzr at RVA 0x17b9ffc."
+    },
+    {
+      "method": "UdpNodeSender$$SendPosition",
+      "native_rva": "0x17c04c4",
+      "address": "018c04c4",
+      "image_base": "00100000",
+      "body_bytes": 700,
+      "finding": "24-byte outbound layout; GUID/session access and byte sequence wrap."
+    },
+    {
+      "method": "UdpNodeSender$$UpdatePositionHistory",
+      "native_rva": "0x17c07ac",
+      "address": "018c07ac",
+      "image_base": "00100000",
+      "body_bytes": 660,
+      "finding": "Six previous steps packed into 12 low bits; count in high nibble."
+    },
+    {
+      "method": "UdpRoomReceiver$$PacketReceivedHandler",
+      "native_rva": "0x17c1460",
+      "address": "018c1460",
+      "image_base": "00100000",
+      "body_bytes": 180,
+      "finding": "Receive payload must be a positive multiple of 24 bytes."
+    },
+    {
+      "method": "UdpRoomReceiver$$PlacementReceivedHandler",
+      "native_rva": "0x17c1514",
+      "address": "018c1514",
+      "image_base": "00100000",
+      "body_bytes": 1628,
+      "finding": "Decode GUID, unsigned coordinates and history; suppress self/old sequence."
+    },
+    {
+      "method": "UdpRoomReceiver$$IsSequenceMoreRecent",
+      "native_rva": "0x17c1b9c",
+      "address": "018c1b9c",
+      "image_base": "00100000",
+      "body_bytes": 68,
+      "finding": "Sequence comparison with max=255 and asymmetric half-range boundary."
+    },
+    {
+      "method": "UdpRoomReceiver$$GetPositionHistoryCoords",
+      "native_rva": "0x17c1be0",
+      "address": "018c1be0",
+      "image_base": "00100000",
+      "body_bytes": 1236,
+      "finding": "Inverse history walk; count above six returns empty history."
+    },
+    {
+      "method": "Utils.BitConverter$$GetBytes",
+      "native_rva": "0x170049c",
+      "address": "0180049c",
+      "image_base": "00100000",
+      "body_bytes": 116,
+      "finding": "UInt16 GetBytes reverses native little-endian bytes."
+    },
+    {
+      "method": "Utils.BitConverter$$GetBytes",
+      "native_rva": "0x1700510",
+      "address": "01800510",
+      "image_base": "00100000",
+      "body_bytes": 408,
+      "finding": "GUID serializer reverses .NET 4/2/2 fields, keeps last eight bytes."
+    },
+    {
+      "method": "Utils.BitConverter$$ToUInt16",
+      "native_rva": "0x1700b34",
+      "address": "01800b34",
+      "image_base": "00100000",
+      "body_bytes": 140,
+      "finding": "UInt16 decoder uses reversed bytes."
+    },
+    {
+      "method": "Utils.BitConverter$$ToGuid",
+      "native_rva": "0x1700cd8",
+      "address": "01800cd8",
+      "image_base": "00100000",
+      "body_bytes": 196,
+      "finding": "GUID decoder restores corresponding numeric fields."
+    }
+  ]
+}
