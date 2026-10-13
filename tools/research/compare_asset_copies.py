@@ -4,7 +4,7 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
-from urllib.parse import urlsplit, unquote
+from audit_asset_update import bundle_path
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -26,8 +26,7 @@ def main():
         if not isinstance(value, dict) or 'url' not in value:
             continue
         # Match the repository's Apache rewrite for Windows-safe bundle folders.
-        relative = unquote(urlsplit(value['url']).path).lstrip('/')
-        relative = relative.replace('android:', 'android_').replace('ios:', 'ios_')
+        relative = bundle_path(value['url'])
         path = (ROOT / relative).resolve()
         if not path.is_relative_to(ROOT):
             raise ValueError('Manifest path escapes repository')

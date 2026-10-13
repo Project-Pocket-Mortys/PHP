@@ -1,5 +1,8 @@
 # Pocket Mortys protocol research handoff
 
+Latest asset follow-up: [Android cache repair](asset-cache-repair.md) verifies the
+merged multiplayer data download and fixes reuse of the older cache entry.
+
 See [upstream main integration](upstream-main-merge.md) for the merged version-1012
 manifest, changed Android data bundles, and newly added iOS assets. Earlier
 version-1011 capture and asset-comparison results remain historical evidence.

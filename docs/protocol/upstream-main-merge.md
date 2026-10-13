@@ -1,5 +1,9 @@
 # Upstream main integration
 
+Follow-up: [Android cache repair](asset-cache-repair.md) advances the manifest to
+1013 and multiplayer data to 1051 after runtime inspection found a stale-cache
+collision. The findings below describe the upstream merge before that repair.
+
 Merged `origin/main` at `3a579debace39badeb9e3dd1dfc526cf760a256e`
 (also the fetched `TORCommunity/main`) into the restoration branch. The two
 previously missing upstream commits are `76d4349` and `3a579de`.

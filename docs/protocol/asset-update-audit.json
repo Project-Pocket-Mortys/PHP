@@ -1,0 +1,25 @@
+{
+  "baseline_commit": "7576d6bdbdfdb9dc246631f70e7c91eee785f7f2",
+  "before_manifest_version": "1011",
+  "after_manifest_version": "1013",
+  "changed_bundles": [
+    {
+      "bundle": "mpdata",
+      "before_sha256": "4aaf41628752950012d0034624a3335964177ab723c91d979563eca144f821b5",
+      "after_sha256": "f9101d6012defb85545913db6a0f3fa0d1eb06014d604a6f341937a61887b413",
+      "before_version": "1050",
+      "after_version": "1051",
+      "cache_version_changed": true
+    },
+    {
+      "bundle": "spdata",
+      "before_sha256": "dd1997d763c65eef8ad622f55c9b209a755ca534d1dce1c251cd409a31730f97",
+      "after_sha256": "8743a6c221497a99a38be4c8cc4d2a67cb566e63ca3c4beccf49d8b4e067c563",
+      "before_version": "1045",
+      "after_version": "1046",
+      "cache_version_changed": true
+    }
+  ],
+  "cache_version_collisions": [],
+  "scope": "Tracked Android payload/version comparison; not Unity CRC or gameplay validation."
+}

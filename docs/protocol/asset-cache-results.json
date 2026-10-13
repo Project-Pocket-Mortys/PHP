@@ -1,0 +1,35 @@
+{
+  "client": "Android 2.41.0 ARM32 diagnostic multiplayer profile",
+  "saved_manifest_version": "1013",
+  "saved_mpdata_version": "1051",
+  "observations": [
+    {
+      "phase": "before",
+      "cache_key": "0000000000000000000000001a040000",
+      "matches_before_merge_text_assets": true,
+      "matches_current_text_assets": false,
+      "item_info_sha256": "c7ddb7536ad2a4fa1f48bf3e109e520a706b9056e5d9c484b808ba222f3e5fcc"
+    },
+    {
+      "phase": "after",
+      "cache_key": "0000000000000000000000001a040000",
+      "matches_before_merge_text_assets": true,
+      "matches_current_text_assets": false,
+      "item_info_sha256": "c7ddb7536ad2a4fa1f48bf3e109e520a706b9056e5d9c484b808ba222f3e5fcc"
+    },
+    {
+      "phase": "after",
+      "cache_key": "0000000000000000000000001b040000",
+      "matches_before_merge_text_assets": false,
+      "matches_current_text_assets": true,
+      "item_info_sha256": "ab713ae7e06f8b492628d10b73580d4016756d57072d04b5be43f271e7305a39"
+    }
+  ],
+  "download": {
+    "time_utc": "2026-10-13T01:30:10Z",
+    "path": "/AssetBundles/AssetBundle-android_1011-ios_1011__7b175320/Android/mpdata.assetbundle",
+    "status": 200,
+    "bytes": 1258844
+  },
+  "method": "UnityPy SHA-256 comparison of each decoded TextAsset; Unity cached container bytes can differ through recompression."
+}
