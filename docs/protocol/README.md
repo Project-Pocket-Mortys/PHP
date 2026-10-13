@@ -4,6 +4,8 @@ This workspace reconciles Android 2.41.0 against the existing PHP server. The ro
 
 ## Current evidence
 
+- [Supplied asset copies](asset-copies.md): all 155 version 1011 bundles match the repository; the saved manifest differs only by asset origin.
+
 - Archive and extracted input hashes, Unity version and repository baseline: [artifacts.json](artifacts.json).
 - REA/JADX package inspection: [android-package.json](android-package.json). Package version 2.41.0, code 602; min SDK 28, target SDK 36. Signature verification was not performed.
 - Cpp2IL parsed metadata header 31 as its internal variant **31.1**, recovered 85,926 method mappings, and found registration addresses `0x2e15e68` and `0x2ee8b28`. Il2CppDumper independently found the same addresses. Its generic protection warning did not prevent successful output; it is not proof of protection.
