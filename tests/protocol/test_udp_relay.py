@@ -1,4 +1,5 @@
 """Additive socket/DB tests for the optional, localhost-only UDP profile."""
+import select
 import socket
 import struct
 import unittest
@@ -27,8 +28,16 @@ class UdpRelayTests(unittest.TestCase):
             self.sockets.append(sock)
         self.send(0, 0)
         self.send(1, 0)
-        # Observing B's packet at A establishes that both registrations were processed.
-        self.assertEqual(self.sockets[0].recv(128)[:16], uuid.UUID(self.players[1]).bytes)
+        # Independent transport connections can deliver either registration first.
+        # A translated packet at either peer establishes that both were processed.
+        ready, _, _ = select.select(self.sockets[:2], [], [], 0.4)
+        self.assertTrue(ready, 'same-room UDP registrations did not complete')
+        while ready:
+            for sock in ready:
+                sender = 1 if sock is self.sockets[0] else 0
+                expected = uuid.UUID(self.players[sender]).bytes + self.packet(sender, 0)[16:]
+                self.assertEqual(sock.recv(128), expected)
+            ready, _, _ = select.select(self.sockets[:2], [], [], 0)
         self.send(2, 0)
 
     def cleanup(self):
