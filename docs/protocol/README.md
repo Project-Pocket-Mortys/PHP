@@ -1,5 +1,9 @@
 # Pocket Mortys protocol research handoff
 
+[UDP lifecycle verification](udp-lifecycle.md) covers same-session transport
+reconnects, session rotation, Android process restart and Home/resume observations.
+The optional adapter now survives per-connection accept/setup errors.
+
 [Optional stable UDP transport](udp-stable-transport.md) now passes the reproduced
 125-second synthetic quiet interval and two-emulator idle-delivery scenario. It
 bypasses Docker published UDP forwarding using a bounded local TCP adapter.
