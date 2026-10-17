@@ -35,7 +35,7 @@ credentials and remain ignored. The exported report omits identifiers, addresses
 ports and payload bytes.
 
 The probe refuses report overwrites and output paths outside `.research`, accepts
-125–180 seconds, creates its own room/accounts, and removes only those fixtures.
+125 to 660 seconds, creates its own room/accounts, and removes only those fixtures.
 It checks heartbeat session/room/state matches and age in the database before and
 after UDP silence. HTTP success alone is insufficient because invalid sessions
 also receive a success acknowledgement. Delivery checks compare the complete

@@ -38,11 +38,11 @@ def http_helpers():
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--seconds', type=int, default=125, help='UDP quiet seconds, 125 through 180')
+    parser.add_argument('--seconds', type=int, default=125, help='UDP quiet seconds, 125 through 660')
     parser.add_argument('--output', type=Path, default=ROOT / '.research/quiet-udp-report.json')
     args = parser.parse_args(argv)
-    if not 125 <= args.seconds <= 180:
-        parser.error('--seconds must be between 125 and 180')
+    if not 125 <= args.seconds <= 660:
+        parser.error('--seconds must be between 125 and 660')
     output = args.output.resolve()
     if not output.is_relative_to((ROOT / '.research').resolve()) or output.suffix != '.json':
         parser.error('--output must be a JSON file inside this repository .research directory')

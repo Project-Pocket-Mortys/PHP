@@ -106,6 +106,6 @@ connections do not guarantee cross-client ordering.
 This resolves the reproduced quiet-delivery failure for the tested local adapter
 configuration. Direct published UDP remains affected. Natural onboarding,
 longer silence, two-emulator room changes, app suspension, reconnect sequence
-reset and original-server behavior remain outside this acceptance. Transient
-server accept/socket-allocation errors can still terminate the helper; recover
-with a coordinated restart, not an independent sidecar restart.
+reset and original-server behavior remain outside this acceptance. The [lifecycle follow-up](udp-lifecycle.md) hardens transient server accept/setup
+errors and records reconnect behavior. Recover from helper restarts with a
+coordinated restart, not an independent sidecar restart.
