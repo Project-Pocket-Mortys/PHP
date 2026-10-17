@@ -244,6 +244,102 @@ class TransportTunnelTests(unittest.TestCase):
         self.relay.sendto(bytes(range(24)), new_path)
         self.assertEqual(self.receive(replacement)[0], b'\x00\x18' + bytes(range(24)))
 
+    def test_transient_accept_error_keeps_listener_and_existing_peer_alive(self):
+        existing = self.tcp()
+        pending = socket.create_connection(self.server.address, timeout=1)
+        self.sockets.append(pending)
+
+        class FailedAccept:
+            def accept(self):
+                raise OSError('injected transient accept failure')
+
+        with patch.object(self.server, 'listener', FailedAccept()):
+            self.server._accept()
+        self.assertEqual(self.server.counts['accept_error'], 1)
+        self.assertEqual(len(self.server.peers), 1)
+        self.assertEqual(len(self.server.selector.get_map()), 3)
+        existing.sendall(b'\x00\x18' + bytes(range(24)))
+        self.assertEqual(self.receive(self.relay)[0], bytes(range(24)))
+        self.pump(lambda: len(self.server.peers) == 2)
+
+    def test_failed_peer_setup_releases_partial_resources_without_using_capacity(self):
+        existing = self.tcp()
+        self.server.max_peers = 2
+        original_socket = socket.socket
+        original_listener = self.server.listener
+        original_register = self.server.selector.register
+        stages = ('tcp_nonblocking', 'udp_allocation', 'udp_bind', 'udp_connect',
+                  'udp_nonblocking', 'tcp_register', 'udp_register')
+
+        for failure_index, stage in enumerate(stages, 1):
+            with self.subTest(stage=stage):
+                pending = socket.create_connection(self.server.address, timeout=1)
+                self.sockets.append(pending)
+                allocated = []
+                accepted = []
+
+                class FaultSocket:
+                    def __init__(self, wrapped, prefix):
+                        self.wrapped, self.prefix = wrapped, prefix
+
+                    def __getattr__(self, name):
+                        if stage == self.prefix + '_' + name:
+                            def fail(*args, **kwargs):
+                                raise OSError('injected setup failure')
+                            return fail
+                        if name == 'setblocking' and stage == self.prefix + '_nonblocking':
+                            def fail(*args, **kwargs):
+                                raise OSError('injected nonblocking failure')
+                            return fail
+                        return getattr(self.wrapped, name)
+
+                class AcceptWrapper:
+                    def accept(self):
+                        tcp, address = original_listener.accept()
+                        accepted.append(tcp)
+                        return FaultSocket(tcp, 'tcp'), address
+
+                def allocate(*args, **kwargs):
+                    is_udp = len(args) > 1 and args[1] == socket.SOCK_DGRAM
+                    if is_udp and stage == 'udp_allocation':
+                        raise OSError('injected UDP allocation failure')
+                    sock = original_socket(*args, **kwargs)
+                    if is_udp:
+                        allocated.append(sock)
+                        return FaultSocket(sock, 'udp')
+                    return sock
+
+                def register(sock, events, data):
+                    result = original_register(sock, events, data)
+                    # Fail after registration to also exercise rollback of a
+                    # selector entry that was installed before setup failed.
+                    if stage == sock.prefix + '_register':
+                        raise OSError('injected selector failure')
+                    return result
+
+                with patch.object(self.server, 'listener', AcceptWrapper()), \
+                        patch('udp_transport_tunnel.socket.socket', side_effect=allocate), \
+                        patch.object(self.server.selector, 'register', side_effect=register):
+                    self.server._accept()
+
+                self.assertEqual(self.server.counts['accept_error'], failure_index)
+                self.assertEqual(self.server.counts['peers_opened'], 1)
+                self.assertEqual(len(self.server.peers), 1)
+                self.assertFalse(self.server.retired)
+                self.assertEqual(len(self.server.selector.get_map()), 3)
+                self.assertEqual(len(accepted), 1)
+                self.assertTrue(all(sock.fileno() == -1 for sock in accepted + allocated))
+                existing.sendall(b'\x00\x18' + bytes([failure_index]) * 24)
+                self.assertEqual(self.receive(self.relay)[0], bytes([failure_index]) * 24)
+
+        # Failed attempts consume no lifetime allocation slots; a healthy new
+        # peer can still use the second slot after every injected failure.
+        pending = socket.create_connection(self.server.address, timeout=1)
+        self.sockets.append(pending)
+        self.pump(lambda: len(self.server.peers) == 2)
+        pending.sendall(b'\x00\x18' + bytes(range(24)))
+        self.assertEqual(self.receive(self.relay)[0], bytes(range(24)))
+
 
 if __name__ == '__main__':
     unittest.main()

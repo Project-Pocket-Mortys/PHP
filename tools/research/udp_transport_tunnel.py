@@ -237,19 +237,40 @@ class ServerTunnel(Tunnel):
                 tcp, _ = self.listener.accept()
             except BlockingIOError:
                 break
+            except OSError:
+                self.counts["accept_error"] += 1
+                break
             if len(self.peers) + len(self.retired) >= self.max_peers:
                 tcp.close()
                 self.counts["peer_limit"] += 1
                 continue
-            tcp.setblocking(False)
-            udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            udp.bind(("127.0.0.1", 0))
-            udp.connect(self.target)
-            udp.setblocking(False)
-            peer = Peer(tcp=tcp, udp=udp)
+            udp = None
+            try:
+                tcp.setblocking(False)
+                udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                udp.bind(("127.0.0.1", 0))
+                udp.connect(self.target)
+                udp.setblocking(False)
+                peer = Peer(tcp=tcp, udp=udp)
+                self.selector.register(tcp, selectors.EVENT_READ, ("tcp", peer))
+                self.selector.register(udp, selectors.EVENT_READ, ("udp", peer))
+            except OSError:
+                # Neither socket has processed payload yet, so PHP cannot know
+                # this UDP endpoint. It is safe to release this failed setup.
+                for sock in (tcp, udp):
+                    if sock is None:
+                        continue
+                    try:
+                        self.selector.unregister(sock)
+                    except (KeyError, ValueError, OSError):
+                        pass
+                    try:
+                        sock.close()
+                    except OSError:
+                        pass
+                self.counts["accept_error"] += 1
+                continue
             self.peers.add(peer)
-            self.selector.register(tcp, selectors.EVENT_READ, ("tcp", peer))
-            self.selector.register(udp, selectors.EVENT_READ, ("udp", peer))
             self.counts["peers_opened"] += 1
 
     def _close_peer(self, peer, reason):
