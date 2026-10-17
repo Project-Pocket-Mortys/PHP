@@ -63,6 +63,13 @@ while (true) {
         $stats['old_sequence']++;
         continue;
     }
+    // Only accepted authenticated movement can replace an endpoint's owner.
+    // Otherwise another room's retained session can leak updates to this socket.
+    foreach ($peers as $registeredSession => $registeredPeer) {
+        if ($registeredSession !== $session && $registeredPeer['address'] === $address) {
+            unset($peers[$registeredSession]);
+        }
+    }
     if (!$previous && count($peers) >= 256) {
         $stats['rejected']++;
         continue;
