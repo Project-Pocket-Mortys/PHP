@@ -69,4 +69,4 @@ previous room without historical replay.
   with concurrent event publication. Snapshot/cursor races need a separate audit.
 - Multiple simultaneous streams for the same session still share a stored cursor.
 - Generic private-event filtering and original reconnect semantics remain open.
-- Two-emulator room transitions and idle UDP registration remain unverified.
+- A two-emulator same-world portal leave/rejoin now has HTTP, database and UDP evidence (`android-portal-transition.md`); distinct-room UI isolation and raw SSE event ordering remain unverified.
