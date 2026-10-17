@@ -1,4 +1,6 @@
 from pathlib import Path
+import io
+import json
 import socket
 import struct
 import sys
@@ -8,7 +10,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools/research'))
-from udp_transport_tunnel import HostTunnel, ServerTunnel, MAX_BUFFER
+from udp_transport_tunnel import HostTunnel, ServerTunnel, MAX_BUFFER, main
 
 
 class TransportTunnelTests(unittest.TestCase):
@@ -126,6 +128,96 @@ class TransportTunnelTests(unittest.TestCase):
             self.assertIn(host_peer, host.peers)
             self.assertEqual(self.server.counts['idle_expired'], 0)
             self.assertEqual(host.counts['idle_expired'], 0)
+
+    def test_disabled_idle_expiry_keeps_exact_paths_without_generating_packets(self):
+        server = ServerTunnel(bind=('127.0.0.1', 0), target=self.relay.getsockname(),
+                              idle_seconds=0)
+        host = HostTunnel(bind=('127.0.0.1', 0), target=server.address, idle_seconds=0)
+        self.tunnels.extend((server, host))
+        client = self.udp()
+        packet = bytes(range(24))
+        client.sendto(packet, host.address)
+        observed, relay_path = self.receive(self.relay)
+        self.assertEqual(observed, packet)
+        server_peer, host_peer = next(iter(server.peers)), next(iter(host.peers))
+        server_peer.active = host_peer.active = 0.0
+        server_counts, host_counts = dict(server.counts), dict(host.counts)
+
+        with patch('udp_transport_tunnel.time.monotonic', return_value=1000.0):
+            server.step(0)
+            host.step(0)
+            self.assertIn(server_peer, server.peers)
+            self.assertIn(host_peer, host.peers)
+            self.assertEqual(dict(server.counts), server_counts)
+            self.assertEqual(dict(host.counts), host_counts)
+            for sock in (client, self.relay):
+                with self.assertRaises(BlockingIOError):
+                    sock.recv(128)
+            reply = bytes(reversed(range(24)))
+            self.relay.sendto(reply, relay_path)
+            server.step(0.1)
+            server.step(0.1)
+            host.step(0.1)
+            self.assertEqual(client.recv(128), reply)
+
+        client.sendto(packet, host.address)
+        self.assertEqual(self.receive(self.relay), (packet, relay_path))
+        self.assertEqual(server.peers, {server_peer})
+        self.assertEqual(host.peers, {host_peer})
+
+    def test_disabled_idle_expiry_preserves_eof_quarantine_and_allocation_cap(self):
+        server = ServerTunnel(bind=('127.0.0.1', 0), target=self.relay.getsockname(),
+                              max_peers=1, idle_seconds=0)
+        self.tunnels.append(server)
+        tcp = socket.create_connection(server.address, timeout=1)
+        self.sockets.append(tcp)
+        self.pump(lambda: len(server.peers) == 1)
+        peer = next(iter(server.peers))
+        tcp.shutdown(socket.SHUT_RDWR)
+        tcp.close()
+        self.pump(lambda: not server.peers)
+        self.assertEqual(server.counts['eof'], 1)
+        self.assertIn(peer.udp, server.retired)
+        self.assertNotEqual(peer.udp.fileno(), -1)
+        self.sockets.append(socket.create_connection(server.address, timeout=1))
+        self.pump(lambda: server.counts['peer_limit'] == 1)
+        self.assertFalse(server.peers)
+
+    def test_invalid_idle_configuration_is_rejected_before_binding(self):
+        for value in (-1, float('nan'), float('inf'), float('-inf')):
+            for tunnel_type in (HostTunnel, ServerTunnel):
+                with self.subTest(value=value, tunnel=tunnel_type.__name__):
+                    with self.assertRaises(ValueError):
+                        tunnel_type(idle_seconds=value)
+        for mode in ('host', 'server'):
+            for value in ('-1', 'nan', 'inf', '-inf'):
+                with self.subTest(mode=mode, value=value), \
+                        patch('sys.argv', ['udp_transport_tunnel.py', mode, '--idle-seconds=' + value]), \
+                        patch('udp_transport_tunnel.HostTunnel') as host, \
+                        patch('udp_transport_tunnel.ServerTunnel') as server, \
+                        patch('sys.stderr', new_callable=io.StringIO):
+                    with self.assertRaises(SystemExit) as error:
+                        main()
+                    self.assertEqual(error.exception.code, 2)
+                    host.assert_not_called()
+                    server.assert_not_called()
+
+    def test_cli_passes_and_reports_idle_configuration_for_both_modes(self):
+        for mode, class_name in (('host', 'HostTunnel'), ('server', 'ServerTunnel')):
+            for arguments, expected in (([], 600.0), (['--idle-seconds', '0'], 0.0),
+                                        (['--idle-seconds', '12.5'], 12.5)):
+                with self.subTest(mode=mode, expected=expected), \
+                        patch('sys.argv', ['udp_transport_tunnel.py', mode] + arguments), \
+                        patch('udp_transport_tunnel.' + class_name) as constructor, \
+                        patch('udp_transport_tunnel.signal.signal'), \
+                        patch('sys.stdout', new_callable=io.StringIO) as output:
+                    constructor.return_value.counts = {}
+                    main()
+                    constructor.assert_called_once_with(idle_seconds=expected)
+                    startup = json.loads(output.getvalue().splitlines()[0])
+                    self.assertEqual(startup, {'mode': mode, 'state': 'started',
+                                               'idle_seconds': expected})
+                    constructor.return_value.close.assert_called_once()
 
     def test_malformed_length_closes_only_its_peer(self):
         bad = self.tcp()

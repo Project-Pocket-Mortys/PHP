@@ -47,7 +47,9 @@ controlled failure tests, not an observed operating-system outage.
 
 ## Limits
 
-A same-session sequence reset remains a known gap. Application suspension, TCP
+A same-session sequence reset remains an unproven client scenario; the
+[native lifecycle review](udp-native-lifecycle.md) preserves the sender across
+room and socket transitions. Application suspension, TCP
 loss and process restart are different scenarios and must not be conflated.
 The server adapter and PHP must still restart together to clear old registrations
 before UDP port reservations are released. No database or gameplay changes are
@@ -133,3 +135,7 @@ relay tests pass. All 13 adapter tests also pass inside the Linux sidecar. The
 normal-discovery skip gate was also checked. The evidence
 validator and Compose checks pass. Transient operating-system failures are
 covered by fault injection, not by deliberately disrupting the host network.
+
+The subsequent [idle-retention experiment](udp-idle-retention.md) disables the
+optional adapter timeout and verifies first delivery after 610 seconds. The
+default-timeout observations above remain historical evidence.
