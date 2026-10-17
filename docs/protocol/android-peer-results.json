@@ -1,0 +1,1006 @@
+{
+  "date": "2026-10-17",
+  "server_baseline": "7276377",
+  "client": "Android 2.41.0 (602), ARM32 diagnostic multiplayer profile",
+  "source": "Two independent API30 emulators against isolated replacement backend",
+  "result": "Two-client room visibility and bidirectional movement verified; idle Android delivery fails despite current HTTP heartbeats; relay-visible primary endpoint changes after renewed outbound movement.",
+  "runs": {
+    "peer-probe": {
+      "duration_seconds": 170,
+      "complete": true,
+      "heartbeats": {
+        "start": {
+          "elapsed_seconds": 0,
+          "completed_elapsed_seconds": null,
+          "rows": [
+            {
+              "username": "PMResearch01",
+              "in_world": 1,
+              "heartbeat_age_seconds": 17,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            },
+            {
+              "username": "PMResearch02",
+              "in_world": 1,
+              "heartbeat_age_seconds": 28,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            }
+          ]
+        },
+        "139": {
+          "elapsed_seconds": 139.008,
+          "completed_elapsed_seconds": 139.24,
+          "rows": [
+            {
+              "username": "PMResearch01",
+              "in_world": 1,
+              "heartbeat_age_seconds": 6,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            },
+            {
+              "username": "PMResearch02",
+              "in_world": 1,
+              "heartbeat_age_seconds": 17,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            }
+          ]
+        },
+        "155": {
+          "elapsed_seconds": 155.001,
+          "completed_elapsed_seconds": 155.195,
+          "rows": [
+            {
+              "username": "PMResearch01",
+              "in_world": 1,
+              "heartbeat_age_seconds": 22,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            },
+            {
+              "username": "PMResearch02",
+              "in_world": 1,
+              "heartbeat_age_seconds": 3,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            }
+          ]
+        }
+      },
+      "devices": {
+        "primary": {
+          "socket_identity_unchanged": true,
+          "packets": {
+            "capture_packet_count": 3,
+            "capture_span_seconds": 146.611544,
+            "directions": {
+              "outbound": {
+                "packet_count": 2,
+                "record_count": 2,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": 0.0,
+                "last_offset_seconds": 146.611544
+              },
+              "inbound": {
+                "packet_count": 1,
+                "record_count": 1,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": 8.606908,
+                "last_offset_seconds": 8.606908
+              },
+              "other": {
+                "packet_count": 0,
+                "record_count": 0,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": null,
+                "last_offset_seconds": null
+              }
+            },
+            "packets": [
+              {
+                "t": 0.0,
+                "direction": "outbound",
+                "sequence": [
+                  7
+                ],
+                "xy": [
+                  [
+                    31,
+                    31
+                  ]
+                ]
+              },
+              {
+                "t": 8.606908,
+                "direction": "inbound",
+                "sequence": [
+                  6
+                ],
+                "xy": [
+                  [
+                    30,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 146.611544,
+                "direction": "outbound",
+                "sequence": [
+                  8
+                ],
+                "xy": [
+                  [
+                    30,
+                    31
+                  ]
+                ]
+              }
+            ],
+            "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers."
+          },
+          "syscalls": {
+            "provenance": "Android syscall results; selected UDP descriptor mapped independently. Relative origin is first timestamped trace line, including other descriptors. Resumed calls use completion timestamp. Descriptor reuse is not detected. Syscall receipt does not prove game processing.",
+            "observed_span_seconds": 169.988737,
+            "summary": {
+              "recvfrom": {
+                "count": 1,
+                "bytes": 24,
+                "first_offset_seconds": 12.685749,
+                "last_offset_seconds": 12.685749
+              },
+              "sendto": {
+                "count": 2,
+                "bytes": 48,
+                "first_offset_seconds": 4.054486,
+                "last_offset_seconds": 150.666042
+              }
+            },
+            "events": [
+              {
+                "offset_seconds": 4.054486,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 12.685749,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 150.666042,
+                "syscall": "sendto",
+                "bytes": 24
+              }
+            ],
+            "packet_events": [
+              {
+                "offset_seconds": 4.054486,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 12.685749,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 150.666042,
+                "syscall": "sendto",
+                "bytes": 24
+              }
+            ],
+            "other_positive_completions": {
+              "recvmsg": 0,
+              "sendmsg": 0,
+              "recvmmsg": 0
+            },
+            "limitations": "recvmsg/sendmsg/recvmmsg are counted as positive completions only; their structures and datagram sizes are not decoded. Trace duration and UDP descriptor identity require separate evidence."
+          }
+        },
+        "peer": {
+          "socket_identity_unchanged": true,
+          "packets": {
+            "capture_packet_count": 5,
+            "capture_span_seconds": 147.012365,
+            "directions": {
+              "outbound": {
+                "packet_count": 3,
+                "record_count": 3,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": 0.0,
+                "last_offset_seconds": 137.097888
+              },
+              "inbound": {
+                "packet_count": 2,
+                "record_count": 2,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": 0.400955,
+                "last_offset_seconds": 147.012365
+              },
+              "other": {
+                "packet_count": 0,
+                "record_count": 0,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": null,
+                "last_offset_seconds": null
+              }
+            },
+            "packets": [
+              {
+                "t": 0.0,
+                "direction": "outbound",
+                "sequence": [
+                  5
+                ],
+                "xy": [
+                  [
+                    31,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 0.400955,
+                "direction": "inbound",
+                "sequence": [
+                  7
+                ],
+                "xy": [
+                  [
+                    31,
+                    31
+                  ]
+                ]
+              },
+              {
+                "t": 9.001711,
+                "direction": "outbound",
+                "sequence": [
+                  6
+                ],
+                "xy": [
+                  [
+                    30,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 137.097888,
+                "direction": "outbound",
+                "sequence": [
+                  7
+                ],
+                "xy": [
+                  [
+                    31,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 147.012365,
+                "direction": "inbound",
+                "sequence": [
+                  8
+                ],
+                "xy": [
+                  [
+                    30,
+                    31
+                  ]
+                ]
+              }
+            ],
+            "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers."
+          },
+          "syscalls": {
+            "provenance": "Android syscall results; selected UDP descriptor mapped independently. Relative origin is first timestamped trace line, including other descriptors. Resumed calls use completion timestamp. Descriptor reuse is not detected. Syscall receipt does not prove game processing.",
+            "observed_span_seconds": 169.983794,
+            "summary": {
+              "recvfrom": {
+                "count": 2,
+                "bytes": 48,
+                "first_offset_seconds": 4.042751,
+                "last_offset_seconds": 150.655536
+              },
+              "sendto": {
+                "count": 3,
+                "bytes": 72,
+                "first_offset_seconds": 3.636203,
+                "last_offset_seconds": 140.734768
+              }
+            },
+            "events": [
+              {
+                "offset_seconds": 3.636203,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 4.042751,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 12.637919,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 140.734768,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 150.655536,
+                "syscall": "recvfrom",
+                "bytes": 24
+              }
+            ],
+            "packet_events": [
+              {
+                "offset_seconds": 3.636203,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 4.042751,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 12.637919,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 140.734768,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 150.655536,
+                "syscall": "recvfrom",
+                "bytes": 24
+              }
+            ],
+            "other_positive_completions": {
+              "recvmsg": 0,
+              "sendmsg": 0,
+              "recvmmsg": 0
+            },
+            "limitations": "recvmsg/sendmsg/recvmmsg are counted as positive completions only; their structures and datagram sizes are not decoded. Trace duration and UDP descriptor identity require separate evidence."
+          }
+        }
+      },
+      "artifacts": {
+        ".research/emulator/peer-probe/primary.pcap": {
+          "bytes": 276,
+          "sha256": "bf0283f7af68162e8f02ca36db6b1f9591818bfb635e1afdbbc34f8f67349379"
+        },
+        ".research/emulator/peer-probe/primary.syscalls.log": {
+          "bytes": 3646311,
+          "sha256": "dcbfdb71270ac20937b6fb2cbc137599bd9da18b2791701752205d17522d95c5"
+        },
+        ".research/emulator/peer-probe/primary-139.png": {
+          "bytes": 693686,
+          "sha256": "4430d56b9c5ee0ceb3a305f0e162ecec723424653a263b7eca8f7dfde15cb32e"
+        },
+        ".research/emulator/peer-probe/primary-144.png": {
+          "bytes": 694505,
+          "sha256": "3402954949e6238b1f208a61e4bbb9d5d32d87dd76788ffcfc1ff66e97d20cae"
+        },
+        ".research/emulator/peer-probe/peer.pcap": {
+          "bytes": 444,
+          "sha256": "698863f5c626519dc683f9fa159721e103eebf5e29ef99bca96732ab313e1b5e"
+        },
+        ".research/emulator/peer-probe/peer.syscalls.log": {
+          "bytes": 3666457,
+          "sha256": "b1495ccb766485227b82c26a85254575c88cf396edfebe997c61ef9b51bc5265"
+        },
+        ".research/emulator/peer-probe/peer-139.png": {
+          "bytes": 711605,
+          "sha256": "ef27000ea21adf32f98ce69782aba2c55b21d396408ac7fc35955fb6089df2c5"
+        },
+        ".research/emulator/peer-probe/peer-144.png": {
+          "bytes": 707514,
+          "sha256": "051eb795650364102618e885bcb766be52a812dcc7f8be40d47c9c493a11cd63"
+        }
+      }
+    },
+    "peer-probe-relay-check": {
+      "duration_seconds": 170,
+      "complete": true,
+      "heartbeats": {
+        "start": {
+          "elapsed_seconds": 0,
+          "completed_elapsed_seconds": null,
+          "rows": [
+            {
+              "username": "PMResearch01",
+              "in_world": 1,
+              "heartbeat_age_seconds": 2,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            },
+            {
+              "username": "PMResearch02",
+              "in_world": 1,
+              "heartbeat_age_seconds": 13,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            }
+          ]
+        },
+        "139": {
+          "elapsed_seconds": 139.006,
+          "completed_elapsed_seconds": 139.193,
+          "rows": [
+            {
+              "username": "PMResearch01",
+              "in_world": 1,
+              "heartbeat_age_seconds": 20,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            },
+            {
+              "username": "PMResearch02",
+              "in_world": 1,
+              "heartbeat_age_seconds": 2,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            }
+          ]
+        },
+        "155": {
+          "elapsed_seconds": 155.0,
+          "completed_elapsed_seconds": 155.196,
+          "rows": [
+            {
+              "username": "PMResearch01",
+              "in_world": 1,
+              "heartbeat_age_seconds": 6,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            },
+            {
+              "username": "PMResearch02",
+              "in_world": 1,
+              "heartbeat_age_seconds": 18,
+              "session_matches": 1,
+              "room_matches": 1,
+              "same_room": 1
+            }
+          ]
+        }
+      },
+      "devices": {
+        "primary": {
+          "socket_identity_unchanged": true,
+          "packets": {
+            "capture_packet_count": 5,
+            "capture_span_seconds": 147.366415,
+            "directions": {
+              "outbound": {
+                "packet_count": 2,
+                "record_count": 2,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": 0.250464,
+                "last_offset_seconds": 147.366415
+              },
+              "inbound": {
+                "packet_count": 3,
+                "record_count": 3,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": 0.0,
+                "last_offset_seconds": 9.372718
+              },
+              "other": {
+                "packet_count": 0,
+                "record_count": 0,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": null,
+                "last_offset_seconds": null
+              }
+            },
+            "packets": [
+              {
+                "t": 0.0,
+                "direction": "inbound",
+                "sequence": [
+                  8
+                ],
+                "xy": [
+                  [
+                    32,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 0.250464,
+                "direction": "outbound",
+                "sequence": [
+                  9
+                ],
+                "xy": [
+                  [
+                    31,
+                    31
+                  ]
+                ]
+              },
+              {
+                "t": 0.517198,
+                "direction": "inbound",
+                "sequence": [
+                  9
+                ],
+                "xy": [
+                  [
+                    33,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 9.372718,
+                "direction": "inbound",
+                "sequence": [
+                  10
+                ],
+                "xy": [
+                  [
+                    32,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 147.366415,
+                "direction": "outbound",
+                "sequence": [
+                  10
+                ],
+                "xy": [
+                  [
+                    30,
+                    31
+                  ]
+                ]
+              }
+            ],
+            "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers."
+          },
+          "syscalls": {
+            "provenance": "Android syscall results; selected UDP descriptor mapped independently. Relative origin is first timestamped trace line, including other descriptors. Resumed calls use completion timestamp. Descriptor reuse is not detected. Syscall receipt does not prove game processing.",
+            "observed_span_seconds": 169.968799,
+            "summary": {
+              "recvfrom": {
+                "count": 3,
+                "bytes": 72,
+                "first_offset_seconds": 3.42141,
+                "last_offset_seconds": 12.781922
+              },
+              "sendto": {
+                "count": 2,
+                "bytes": 48,
+                "first_offset_seconds": 3.650886,
+                "last_offset_seconds": 150.766932
+              }
+            },
+            "events": [
+              {
+                "offset_seconds": 3.42141,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 3.650886,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 3.930735,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 12.781922,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 150.766932,
+                "syscall": "sendto",
+                "bytes": 24
+              }
+            ],
+            "packet_events": [
+              {
+                "offset_seconds": 3.42141,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 3.650886,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 3.930735,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 12.781922,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 150.766932,
+                "syscall": "sendto",
+                "bytes": 24
+              }
+            ],
+            "other_positive_completions": {
+              "recvmsg": 0,
+              "sendmsg": 0,
+              "recvmmsg": 0
+            },
+            "limitations": "recvmsg/sendmsg/recvmmsg are counted as positive completions only; their structures and datagram sizes are not decoded. Trace duration and UDP descriptor identity require separate evidence."
+          }
+        },
+        "peer": {
+          "socket_identity_unchanged": true,
+          "packets": {
+            "capture_packet_count": 6,
+            "capture_span_seconds": 147.373413,
+            "directions": {
+              "outbound": {
+                "packet_count": 4,
+                "record_count": 4,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": 0.0,
+                "last_offset_seconds": 137.225804
+              },
+              "inbound": {
+                "packet_count": 2,
+                "record_count": 2,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": 0.257298,
+                "last_offset_seconds": 147.373413
+              },
+              "other": {
+                "packet_count": 0,
+                "record_count": 0,
+                "malformed_payload_count": 0,
+                "first_offset_seconds": null,
+                "last_offset_seconds": null
+              }
+            },
+            "packets": [
+              {
+                "t": 0.0,
+                "direction": "outbound",
+                "sequence": [
+                  8
+                ],
+                "xy": [
+                  [
+                    32,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 0.257298,
+                "direction": "inbound",
+                "sequence": [
+                  9
+                ],
+                "xy": [
+                  [
+                    31,
+                    31
+                  ]
+                ]
+              },
+              {
+                "t": 0.51909,
+                "direction": "outbound",
+                "sequence": [
+                  9
+                ],
+                "xy": [
+                  [
+                    33,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 9.373997,
+                "direction": "outbound",
+                "sequence": [
+                  10
+                ],
+                "xy": [
+                  [
+                    32,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 137.225804,
+                "direction": "outbound",
+                "sequence": [
+                  11
+                ],
+                "xy": [
+                  [
+                    33,
+                    32
+                  ]
+                ]
+              },
+              {
+                "t": 147.373413,
+                "direction": "inbound",
+                "sequence": [
+                  10
+                ],
+                "xy": [
+                  [
+                    30,
+                    31
+                  ]
+                ]
+              }
+            ],
+            "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers."
+          },
+          "syscalls": {
+            "provenance": "Android syscall results; selected UDP descriptor mapped independently. Relative origin is first timestamped trace line, including other descriptors. Resumed calls use completion timestamp. Descriptor reuse is not detected. Syscall receipt does not prove game processing.",
+            "observed_span_seconds": 169.982048,
+            "summary": {
+              "recvfrom": {
+                "count": 2,
+                "bytes": 48,
+                "first_offset_seconds": 3.654752,
+                "last_offset_seconds": 150.788304
+              },
+              "sendto": {
+                "count": 4,
+                "bytes": 96,
+                "first_offset_seconds": 3.393934,
+                "last_offset_seconds": 140.62038
+              }
+            },
+            "events": [
+              {
+                "offset_seconds": 3.393934,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 3.654752,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 3.913042,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 12.767906,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 140.62038,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 150.788304,
+                "syscall": "recvfrom",
+                "bytes": 24
+              }
+            ],
+            "packet_events": [
+              {
+                "offset_seconds": 3.393934,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 3.654752,
+                "syscall": "recvfrom",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 3.913042,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 12.767906,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 140.62038,
+                "syscall": "sendto",
+                "bytes": 24
+              },
+              {
+                "offset_seconds": 150.788304,
+                "syscall": "recvfrom",
+                "bytes": 24
+              }
+            ],
+            "other_positive_completions": {
+              "recvmsg": 0,
+              "sendmsg": 0,
+              "recvmmsg": 0
+            },
+            "limitations": "recvmsg/sendmsg/recvmmsg are counted as positive completions only; their structures and datagram sizes are not decoded. Trace duration and UDP descriptor identity require separate evidence."
+          }
+        }
+      },
+      "artifacts": {
+        ".research/emulator/peer-probe-relay-check/primary.pcap": {
+          "bytes": 444,
+          "sha256": "f52ac8b5e0a581ada9dd8949c6673b3979ad2a5e7d7237afb9140a66f1b7255e"
+        },
+        ".research/emulator/peer-probe-relay-check/primary.syscalls.log": {
+          "bytes": 3560057,
+          "sha256": "799c6a4628d8851bb02d90bde5c8ebbd0bddac2344cdb9ece3c33a3ca7059c38"
+        },
+        ".research/emulator/peer-probe-relay-check/primary-139.png": {
+          "bytes": 692718,
+          "sha256": "00cd068c435504ad66d7652c8ab0896d9f7f353fc805a7f531e242f8738fa751"
+        },
+        ".research/emulator/peer-probe-relay-check/primary-144.png": {
+          "bytes": 692156,
+          "sha256": "0f9536c47c244691665b795a1302ce8cdf6902d66143533a0009c0125537dbc8"
+        },
+        ".research/emulator/peer-probe-relay-check/peer.pcap": {
+          "bytes": 528,
+          "sha256": "bf2137fd27bc5b08e4f85f1098a1d935211e44d1547a0af9512e3c903cd98b61"
+        },
+        ".research/emulator/peer-probe-relay-check/peer.syscalls.log": {
+          "bytes": 3607458,
+          "sha256": "b360b848cafe71a0c579c6c014189607184498a2e8375bfac5c302acf37f7d19"
+        },
+        ".research/emulator/peer-probe-relay-check/peer-139.png": {
+          "bytes": 709160,
+          "sha256": "82369aa5b710360bfc6f30f34bc4c6f7a43c4f6e14b4aac801d626450b8a9387"
+        },
+        ".research/emulator/peer-probe-relay-check/peer-144.png": {
+          "bytes": 723031,
+          "sha256": "207628fb49d12976efb88d8062d54b39da0abe2340e0a535b95a0e3f57f5e9b2"
+        },
+        ".research/emulator/peer-probe-relay-check/relay.pcap": {
+          "bytes": 1032,
+          "sha256": "98c5c41339d6d59e67874278a79c1ebed635e15884fb87c270c973b7df0262a4"
+        },
+        ".research/emulator/peer-probe-relay-check/primary-recovery.pcap": {
+          "bytes": 276,
+          "sha256": "427a2608da2b084694bd27a4aa855a3ca1a175b5501885087b0fce0632b26eb8"
+        },
+        ".research/emulator/peer-probe-relay-check/primary-recovered.png": {
+          "bytes": 702527,
+          "sha256": "c8a7853da76e250e62936ffad819344d16781015060f247c9a79fe15616dd568"
+        }
+      }
+    }
+  },
+  "recovery": {
+    "capture_packet_count": 3,
+    "capture_span_seconds": 0.399931,
+    "directions": {
+      "outbound": {
+        "packet_count": 0,
+        "record_count": 0,
+        "malformed_payload_count": 0,
+        "first_offset_seconds": null,
+        "last_offset_seconds": null
+      },
+      "inbound": {
+        "packet_count": 3,
+        "record_count": 3,
+        "malformed_payload_count": 0,
+        "first_offset_seconds": 0.0,
+        "last_offset_seconds": 0.399931
+      },
+      "other": {
+        "packet_count": 0,
+        "record_count": 0,
+        "malformed_payload_count": 0,
+        "first_offset_seconds": null,
+        "last_offset_seconds": null
+      }
+    },
+    "packets": [
+      {
+        "t": 0.0,
+        "direction": "inbound",
+        "sequence": [
+          12
+        ],
+        "xy": [
+          [
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "t": 0.199976,
+        "direction": "inbound",
+        "sequence": [
+          13
+        ],
+        "xy": [
+          [
+            31,
+            32
+          ]
+        ]
+      },
+      {
+        "t": 0.399931,
+        "direction": "inbound",
+        "sequence": [
+          14
+        ],
+        "xy": [
+          [
+            30,
+            32
+          ]
+        ]
+      }
+    ],
+    "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers.",
+    "interpretation": "After primary movement refreshed relay-visible endpoint, a separate15-second primary capture saw3 inbound24-byte peer movement packets; screenshot primary-recovered.png shows updated avatar. No primary outbound packet in that short capture."
+  },
+  "signed_apk_sha256": {
+    "base-aligned-debugSigned.apk": "515cf2e13ea677d546533ad09dd19ceb19aa5893aa7a40c252dc8b3bf713542e",
+    "split_config.arm64_v8a-aligned-debugSigned.apk": "2397bbb8acf284ef1f8dbc40c9f96e093f57bef1c92f0e84e76a9d5daab67604",
+    "split_config.armeabi_v7a-aligned-debugSigned.apk": "7791db3aa47c5477e9693251941fb91ed71c4f9e6715968709f993ad2ece8bc8"
+  },
+  "validation": {
+    "research_tests_passed": 35,
+    "slow_idle_test_passed": true,
+    "slow_idle_test_seconds": 129.264,
+    "aged_heartbeat_test": "Controlled DB timestamp aging after natural idle; not another real120-second wait"
+  },
+  "limitations": [
+    "No exact mapping timeout or responsible component established",
+    "Rawstrace bytecounts avoid ARM32 structure decoding limitation; entry vs completion timestamps differ",
+    "Same-room foreground diagnostic clients only; not two-client room-change/privacy/battle acceptance",
+    "No original-server evidence or new wire heartbeat invented"
+  ],
+  "relay_hop_comparison": "android-peer-relay-hops.json"
+}

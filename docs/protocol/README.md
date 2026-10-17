@@ -1,7 +1,12 @@
 # Pocket Mortys protocol research handoff
 
+[Two Android clients](android-peer-verification.md) now verify same-room visibility
+and bidirectional movement. Idle delivery still fails in the emulator/host path:
+the relay retains its registration, but an intermediate endpoint mapping changes.
+
 [UDP idle heartbeats](udp-heartbeats.md) retain learned stationary-peer endpoints
-using validated HTTP pings in the isolated research profile. This adds one
+using validated HTTP pings in the isolated research profile. This preserves
+server-side registration, not intermediate network mappings. It adds one
 versioned research table and an initialization service.
 
 [SSE room transitions](sse-room-transitions.md) stop old-room delivery and follow
@@ -49,7 +54,7 @@ This workspace reconciles Android 2.41.0 against the existing PHP server. The ro
 - [static-content.json](static-content.json) records served data files separately. `Status/rat.json` is empty; its client behavior is unresolved. The manifest's colon-delimited bundle path is now rewritten to the existing underscore-delimited directory and checked by a byte-hash regression test.
 - [external-services.json](external-services.json) separates known backend hostnames from external/SDK/documentation candidates found in string literals. Presence in the binary does not establish traffic or a startup dependency.
 
-There are no original-server captures in this handoff. Automated tests exercise the replacement server. Android emulator startup, local redirection, diagnostic multiplayer entry and one-emulator/synthetic-peer UDP exchange are verified. Full completed-feature smoke coverage, natural onboarding, two-emulator movement and iOS compatibility remain unverified.
+There are no original-server captures in this handoff. Automated tests exercise the replacement server. Android emulator startup, local redirection, diagnostic multiplayer entry and one-emulator/synthetic-peer UDP exchange are verified. Full completed-feature smoke coverage, natural onboarding, two-emulator room changes/privacy and iOS compatibility remain unverified. Two-emulator movement is verified above; idle delivery has a confirmed network-mapping gap.
 
 [Validation results](validation-results.json) record the initial 15-test baseline. Later milestone pages record additional focused checks; these are not one final combined acceptance run. This is a research and repair handoff, not a claim of full restoration or complete runtime compatibility.
 

@@ -1,5 +1,8 @@
 # Windows Android test device
 
+For a second independent device and bounded movement/idle captures, see
+[two Android research clients](android-peer-verification.md).
+
 The dedicated `PocketMortys_API30` AVD uses Android 11 Google APIs x86_64
 revision 16, Android Emulator 37.2.12 and platform-tools 37.0.1. The Google
 APIs Android 11 image includes ARM64 translation for the supplied game's ARM

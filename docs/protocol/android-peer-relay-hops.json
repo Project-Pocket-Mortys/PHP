@@ -1,0 +1,163 @@
+{
+  "capture_packet_counts": {
+    "relay": 12,
+    "primary": 5,
+    "peer": 6
+  },
+  "source_endpoint_changes": {
+    "primary": 1,
+    "peer": 0
+  },
+  "malformed_payload_counts": {
+    "relay": 0,
+    "primary": 0,
+    "peer": 0
+  },
+  "records": [
+    {
+      "t": 0.0,
+      "kind": "ingress",
+      "sender": "peer",
+      "target": "relay",
+      "sequence": 8,
+      "xy": [
+        32,
+        32
+      ],
+      "seen_in_destination_capture": null
+    },
+    {
+      "t": 0.001638,
+      "kind": "egress",
+      "sender": "peer",
+      "target": "unknown",
+      "sequence": 8,
+      "xy": [
+        32,
+        32
+      ],
+      "seen_in_destination_capture": null
+    },
+    {
+      "t": 0.253978,
+      "kind": "ingress",
+      "sender": "primary",
+      "target": "relay",
+      "sequence": 9,
+      "xy": [
+        31,
+        31
+      ],
+      "seen_in_destination_capture": null
+    },
+    {
+      "t": 0.255099,
+      "kind": "egress",
+      "sender": "primary",
+      "target": "peer",
+      "sequence": 9,
+      "xy": [
+        31,
+        31
+      ],
+      "seen_in_destination_capture": true
+    },
+    {
+      "t": 0.518497,
+      "kind": "ingress",
+      "sender": "peer",
+      "target": "relay",
+      "sequence": 9,
+      "xy": [
+        33,
+        32
+      ],
+      "seen_in_destination_capture": null
+    },
+    {
+      "t": 0.519068,
+      "kind": "egress",
+      "sender": "peer",
+      "target": "primary",
+      "sequence": 9,
+      "xy": [
+        33,
+        32
+      ],
+      "seen_in_destination_capture": true
+    },
+    {
+      "t": 9.369641,
+      "kind": "ingress",
+      "sender": "peer",
+      "target": "relay",
+      "sequence": 10,
+      "xy": [
+        32,
+        32
+      ],
+      "seen_in_destination_capture": null
+    },
+    {
+      "t": 9.370448,
+      "kind": "egress",
+      "sender": "peer",
+      "target": "primary",
+      "sequence": 10,
+      "xy": [
+        32,
+        32
+      ],
+      "seen_in_destination_capture": true
+    },
+    {
+      "t": 137.221057,
+      "kind": "ingress",
+      "sender": "peer",
+      "target": "relay",
+      "sequence": 11,
+      "xy": [
+        33,
+        32
+      ],
+      "seen_in_destination_capture": null
+    },
+    {
+      "t": 137.222608,
+      "kind": "egress",
+      "sender": "peer",
+      "target": "primary",
+      "sequence": 11,
+      "xy": [
+        33,
+        32
+      ],
+      "seen_in_destination_capture": false
+    },
+    {
+      "t": 147.366237,
+      "kind": "ingress",
+      "sender": "primary",
+      "target": "relay",
+      "sequence": 10,
+      "xy": [
+        30,
+        31
+      ],
+      "seen_in_destination_capture": null
+    },
+    {
+      "t": 147.367298,
+      "kind": "egress",
+      "sender": "primary",
+      "target": "peer",
+      "sequence": 10,
+      "xy": [
+        30,
+        31
+      ],
+      "seen_in_destination_capture": true
+    }
+  ],
+  "limitations": "Exactly two peers are assumed: guest outbound record prefixes identify its session role; guest inbound prefixes identify the opposite player role. Conflicting prefix or endpoint mappings remain unknown. Relay destination roles use previously observed ingress endpoints, including historical ones. Endpoint changes describe observed relay source tuples, not local socket or FD changes, NAT lifetime, or the cause of a mapping change. Receipt means an identical complete UDP payload appears in the destination capture; a replay may match an earlier packet. No clock alignment or latency is inferred. False means absent from the supplied destination capture, not proof of network loss; null means unknown destination or ingress. Capture coverage and drops require separate verification. Packet observation does not prove application processing. Times are relative to the first relay capture packet. Malformed/truncated capture headers, lengths and IPv4 fragments are rejected. Non-placement UDP payloads are counted and omitted. Checksums are not checked. Identifiers, addresses, ports, payload bytes and payload hashes are omitted."
+}

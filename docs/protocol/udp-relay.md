@@ -1,5 +1,9 @@
 # Isolated PHP UDP relay
 
+Later evidence: [two Android clients](android-peer-verification.md) verifies
+bidirectional movement and identifies idle endpoint remapping. The earlier
+one-emulator results below remain historical evidence.
+
 The optional `udp` Compose profile runs a PHP 8.3 CLI listener from
 `tools/research/server/udp-relay.php`. Windows publishes it only at
 `127.0.0.1:5055/udp`; the dedicated emulator reaches the host through `10.0.2.2`.
