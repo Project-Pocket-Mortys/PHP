@@ -36,7 +36,7 @@ Independent ARM64 call mappings are in `native-transport.json`:
 | `NetworkRoomAPI.Join` | `0x17ad988` | constructs `/session/join-room`, invokes `NetworkHTTP.Request` |
 | join callback `<Join>b__0` | `0x17b34f8` | response parser, then `SetUpRoom` at call site `0x17b35bc` |
 | `SetUpRoom` | `0x17adc00` | updates users/bots/wild Morties/pickups, then `OpenComs` at `0x17ae054` |
-| `OpenComs` | `0x17aee64` | `NetworkSessionAPI.On`, resets UDP sequence tracking, `UdpChannel.Open` |
+| `OpenComs` | `0x17aee64` | `NetworkSessionAPI.On`, clears receiver UDP sequence tracking (preserves sender sequence), `UdpChannel.Open` |
 | `CloseComs` | `0x17af900` | `NetworkSessionAPI.Off`, then `UdpChannel.Close` at `0x17b0224` |
 
 These static calls support room subscriptions on an existing session transport;
