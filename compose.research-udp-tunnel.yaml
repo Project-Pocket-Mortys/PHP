@@ -9,7 +9,7 @@ services:
     profiles: [udp]
     image: python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641
     network_mode: service:udp
-    command: [python, -u, /research/tools/research/udp_transport_tunnel.py, server]
+    command: [python, -u, /research/tools/research/udp_transport_tunnel.py, server, --idle-seconds, "0"]
     volumes:
       - .:/research:ro
     depends_on:

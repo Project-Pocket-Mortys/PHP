@@ -27,7 +27,7 @@ Compose 5.6.0 and the pinned Python 3.13 image were used for validation.
 docker compose -f compose.research.yaml -f compose.research-udp-tunnel.yaml --profile udp stop udp-tunnel udp
 docker compose -f compose.research.yaml -f compose.research-udp-tunnel.yaml --profile udp up -d --force-recreate --no-deps udp udp-tunnel
 # Keep this terminal running:
-py tools/research/udp_transport_tunnel.py host
+py tools/research/udp_transport_tunnel.py host --idle-seconds 0
 ```
 
 Start the base web/database/migration stack first if it is not already running.
@@ -47,10 +47,12 @@ accounts and database contents are not reset by this procedure.
 
 ## Bounds and tradeoffs
 
-Connections expire after 600 seconds without packet activity in either direction.
-HTTP pings do not reset this adapter timer. Longer fully quiet intervals still
-require fresh client movement; this is not unlimited idle support. Connections
-are capped at 256 and each outgoing userspace queue is capped at 256 frames.
+The optional Compose overlay and host command above disable inactivity expiry
+with `--idle-seconds 0`. The standalone CLI retains its 600-second default;
+positive finite values select another timeout. HTTP pings do not reset that timer.
+The zero setting retains quiet connections until EOF, error, or shutdown; it does
+not guarantee indefinite delivery. Connections remain capped at 256 and each
+outgoing userspace queue at 256 frames. See [long-idle evidence](udp-idle-retention.md).
 Slow peers, invalid framing and disconnected peers fail independently. TCP changes
 loss and ordering behavior and can delay later movement behind retransmissions;
 this is a local research transport, not recovered original-server networking.
@@ -60,6 +62,13 @@ packets are discarded. This prevents an old PHP registration from being delivere
 to a new connection that inherits the port. Active plus retired server sockets
 count against a lifetime cap of 256; exhaustion refuses new connections until a
 coordinated restart. No credentials, endpoints or packet bytes are logged.
+
+The host identifies clients only by their UDP source address and port. A different
+local process reusing that tuple can receive old replies before it sends a new
+registration. Disabling idle expiry extends this existing ambiguity: use this
+adapter only for trusted local research. Server-side port quarantine does not
+solve host tuple reuse. The relay now removes another session's registration at
+an endpoint after accepting its new owner; see the ownership regression below.
 
 ## Verification
 

@@ -12,6 +12,7 @@ Restart the PHP relay together with the server to clear its learned endpoints.
 import argparse
 import errno
 import json
+import math
 import selectors
 import signal
 import socket
@@ -42,7 +43,7 @@ class Peer:
 
 class Tunnel:
     def __init__(self, *, max_peers=MAX_PEERS, idle_seconds=IDLE_SECONDS):
-        if not 1 <= max_peers <= MAX_PEERS or idle_seconds <= 0:
+        if not 1 <= max_peers <= MAX_PEERS or not math.isfinite(idle_seconds) or idle_seconds < 0:
             raise ValueError("invalid peer limit or idle timeout")
         self.selector = selectors.DefaultSelector()
         self.peers = set()
@@ -143,7 +144,7 @@ class Tunnel:
                 self._receive_udp(peer)
         now = time.monotonic()
         for peer in list(self.peers):
-            if now - peer.active >= self.idle_seconds:
+            if self.idle_seconds and now - peer.active >= self.idle_seconds:
                 self._close_peer(peer, "idle_expired")
 
     def run(self, seconds=None):
@@ -318,17 +319,22 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=("host", "server"))
     parser.add_argument("--seconds", type=float, help="stop after this many seconds")
+    parser.add_argument("--idle-seconds", type=float, default=IDLE_SECONDS,
+                        help="expire inactive peers after this many seconds; 0 disables expiry (default: 600)")
     args = parser.parse_args()
     if args.seconds is not None and not (0 < args.seconds < float("inf")):
         parser.error("--seconds must be positive and finite")
-    tunnel = HostTunnel() if args.mode == "host" else ServerTunnel()
+    if not math.isfinite(args.idle_seconds) or args.idle_seconds < 0:
+        parser.error("--idle-seconds must be nonnegative and finite")
+    tunnel_type = HostTunnel if args.mode == "host" else ServerTunnel
+    tunnel = tunnel_type(idle_seconds=args.idle_seconds)
 
     def stop(signum, frame):
         tunnel.stopped = True
 
     signal.signal(signal.SIGINT, stop)
     signal.signal(signal.SIGTERM, stop)
-    print(json.dumps({"mode": args.mode, "state": "started"}), flush=True)
+    print(json.dumps({"mode": args.mode, "state": "started", "idle_seconds": args.idle_seconds}), flush=True)
     try:
         tunnel.run(args.seconds)
     finally:
