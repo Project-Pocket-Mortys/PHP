@@ -7,3 +7,4 @@ sse/index.php text eol=lf
 session/leave-room/index.php text eol=lf
 session/join-room/index.php text eol=lf
 session/ping-dynamic/index.php text eol=lf
+compose.research-udp-tunnel.yaml text eol=lf

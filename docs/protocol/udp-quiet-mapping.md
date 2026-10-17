@@ -59,10 +59,11 @@ published. The parser now rejects such changes of fixture identity instead of
 counting them as mapping changes. Forty research tests pass, including five
 quiet-capture parser tests; the evidence validator also passes.
 
-## Remaining work
+## Follow-up and remaining work
 
-Test a research transport configuration that avoids the expiring published-port
-mapping, then repeat both this quiet probe and the two-emulator scenario. Retain
+The [optional stable transport](udp-stable-transport.md) now passes this quiet
+probe and the two-emulator idle-delivery scenario. It avoids the published UDP
+mapping with a bounded local TCP adapter. Test its longer-idle and restart limits. Retain
 room/session/privacy checks. Do not add guessed heartbeat datagrams to the game
 protocol. Exact timeout, Docker/backend attribution, app suspension, sequence
 reset on reconnect, and original server liveness behavior remain unresolved.
