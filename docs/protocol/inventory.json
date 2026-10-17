@@ -3293,7 +3293,7 @@
       "server_evidence": {
         "file": "session/join-room/index.php",
         "line": 1,
-        "sha256": "d72de20b57fe31858dab2bee154f31eec691c88fa30f62267dd12df037b35649"
+        "sha256": "88fb0cc167079517e9339978a3601d40b3d82b3ee47b7c24d8b2ed2d81755b76"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",

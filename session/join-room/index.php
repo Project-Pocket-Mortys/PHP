@@ -132,9 +132,10 @@ while ($u = $usersStmt->fetch(PDO::FETCH_ASSOC)) {
         $mortyStmt = $pdo->prepare("
             SELECT *
             FROM owned_morties
-            WHERE owned_morty_id IN ($placeholders)
+            WHERE player_id = ?
+            AND owned_morty_id IN ($placeholders)
         ");
-        $mortyStmt->execute($mortyIds);
+        $mortyStmt->execute([$u["player_id"], ...$mortyIds]);
 
         while ($m = $mortyStmt->fetch(PDO::FETCH_ASSOC)) {
             $owned_morties[] = [
