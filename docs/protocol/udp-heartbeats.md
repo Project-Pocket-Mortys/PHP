@@ -1,5 +1,10 @@
 # Stationary UDP recipients and HTTP heartbeats
 
+Follow-up: [two Android clients](android-peer-verification.md) confirms movement
+but reproduces an idle-delivery failure outside the relay: its stored endpoint
+becomes stale despite current HTTP pings. The synthetic results below remain
+valid; they do not establish end-to-end Android idle delivery.
+
 The research relay originally expired every registration 120 seconds after the
 last accepted UDP movement packet. The earlier Android capture recorded no UDP
 packets during 135 seconds standing in the world, while separate HTTP logs showed
