@@ -175,16 +175,20 @@ $fresh_connect = ($client_last_event_id === null);
 // -------------------- INITIAL SNAPSHOT (ONLY ON FRESH CONNECT) --------------------
 
 if ($fresh_connect) {
+    // Fix one boundary before reading entities. Later publications belong to
+    // the live queue, even if they arrive while a snapshot is being sent.
+    $snapshot_last_id = room_max_event_id($pdo, $room_id);
+
     // ---------------- PICKUPS ----------------
     $pickupStmt = $pdo->prepare("
         SELECT id, only_show_to_player_id, pickup_id, placement, pick_up_contents
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:pickup-added'
         AND pickup_id_collected_by_player_id IS NULL
         ORDER BY id ASC
     ");
-    $pickupStmt->execute([$room_id]);
+    $pickupStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
         if (!event_is_visible_to_player($p, $player_id)) continue;
@@ -212,11 +216,11 @@ if ($fresh_connect) {
     $wildStmt = $pdo->prepare("
         SELECT id, only_show_to_player_id, wild_morty_id, morty_id, placement, state, division, variant, shiny_if_potion
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:wild-morty-added'
         ORDER BY id ASC
     ");
-    $wildStmt->execute([$room_id]);
+    $wildStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
         if (!event_is_visible_to_player($w, $player_id)) continue;
@@ -250,11 +254,11 @@ if ($fresh_connect) {
     $botStmt = $pdo->prepare("
         SELECT id, only_show_to_player_id, bot_id, username, player_avatar_id, placement, state, owned_morties
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:bot-added'
         ORDER BY id ASC
     ");
-    $botStmt->execute([$room_id]);
+    $botStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
         if (!event_is_visible_to_player($b, $player_id)) continue;
@@ -283,8 +287,8 @@ if ($fresh_connect) {
         );
     }
 
-    // move cursor forward after snapshot
-    $last_id = room_max_event_id($pdo, $room_id);
+    // Continue above the original boundary, not a new maximum after delivery.
+    $last_id = $snapshot_last_id;
     cursor_set($pdo, $player_id, $last_id, $session_id, $room_id, $generation);
 
 } else {
