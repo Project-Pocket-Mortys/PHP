@@ -8,7 +8,7 @@ failure blocks gameplay or exposes another player's data.
 | Order | Feature | Next deliverable and acceptance |
 |---|---|---|
 | 1 | Lock/unlock Morties | Implemented and Android-tested in this branch; enforce protection in destructive operations separately. |
-| 2 | Use items | Eight world healing items now implemented (`use-item-implementation.md`); finish revive/AP/cure/stat items and battle synchronization. General items have a separate client endpoint. |
+| 2 | Use items | Eight world healing items and full revival/AP restoration now implemented (`full-restore-items.md`); finish percentage variants, cure/stat items and battle synchronization. General items have a separate client endpoint. |
 | 3 | Release Morties | Recover attempt/confirmation contracts, protect locked/deck/trading Morties, remove associated data atomically. Test cancel, confirmation, invalid ownership and retry without deleting unrelated records. |
 | 4 | Crafting | Recover recipe response and asset ingredients/output; deduct ingredients and grant output atomically. Test insufficient materials and retries, then Android UI. |
 | 5 | Wild battles and catching | Complete run/victory/defeat/capture persistence, item consumption and rewards. Preserve playable behavior; distinguish recovered rules from replacement formulas. |

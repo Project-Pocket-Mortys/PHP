@@ -16,6 +16,50 @@ function morty_healing_items(): array {
     ];
 }
 
+// Database stats are nullable integers; never turn malformed data into zero HP.
+function item_nonnegative_integer($value): ?int {
+    if (!is_int($value) && !is_string($value)) return null;
+    $integer = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
+    return $integer === false ? null : $integer;
+}
+
+// A null plan means no applicable effect. Build it before changing any rows.
+function morty_item_effect_plan(string $itemId, array $morty, array $attacks): ?array {
+    $hp = item_nonnegative_integer($morty['hp'] ?? null);
+    $maximum = item_nonnegative_integer($morty['hp_stat'] ?? null);
+    if ($hp === null || $maximum === null || $maximum <= 0 || $hp > $maximum) return null;
+
+    if ($itemId === 'ItemPureHalzinger') {
+        return $hp === 0 ? ['hp' => $maximum, 'attacks' => [], 'effect_value' => 100] : null;
+    }
+    if ($hp === 0) return null;
+    if ($itemId === 'ItemPurePlutonicRock') {
+        // The Android client derives maximum AP from AttackInfo, not this row.
+        static $attackMaximums = null;
+        if ($attackMaximums === null) {
+            $catalog = __DIR__ . '/../config/attack_max_ap.json';
+            $attackMaximums = is_file($catalog) ? json_decode(file_get_contents($catalog), true) : [];
+        }
+        if (!is_array($attackMaximums)) return null;
+        $changes = [];
+        $hasDeficit = false;
+        foreach ($attacks as $attack) {
+            $pp = item_nonnegative_integer($attack['pp'] ?? null);
+            $ppMaximum = item_nonnegative_integer($attackMaximums[$attack['attack_id'] ?? ''] ?? null);
+            if ($pp === null || $ppMaximum === null || $ppMaximum <= 0 || $pp > $ppMaximum) return null;
+            if ($pp < $ppMaximum) $hasDeficit = true;
+            if ($pp < $ppMaximum || item_nonnegative_integer($attack['pp_stat'] ?? null) !== $ppMaximum) {
+                $changes[] = ['id' => $attack['id'], 'pp' => $ppMaximum];
+            }
+        }
+        return $hasDeficit ? ['hp' => $hp, 'attacks' => $changes, 'effect_value' => 100] : null;
+    }
+    $healers = morty_healing_items();
+    if (!array_key_exists($itemId, $healers) || $hp >= $maximum) return null;
+    $restored = min($maximum - $hp, $healers[$itemId] ?? ($maximum - $hp));
+    return ['hp' => $hp + $restored, 'attacks' => [], 'effect_value' => $restored];
+}
+
 function item_updated_morty(PDO $pdo, array $morty): array {
     $result = [];
     foreach (['owned_morty_id', 'morty_id', 'variant'] as $field) {

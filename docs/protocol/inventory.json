@@ -4350,11 +4350,11 @@
       "server_evidence": {
         "file": "session/use-item/index.php",
         "line": 1,
-        "sha256": "4d94200478c03d40e1edb96c3a96e6b646765ff86bbb630364f7bd283848b572"
+        "sha256": "90f5f71c07f45989c32a5e8073a2b8a0a8bdd6570b110c51eefc5e10924d573c"
       },
       "implementation_status": "partial",
-      "status_basis": "Eight world HP-restoring items implemented; revive/AP/cure/stat/general/battle use pending",
-      "evidence_confidence": "observed Android 2.41.0 Serum use; statically established contract and item descriptions; integration tests for all eight healers",
+      "status_basis": "Eight world HP healers, full revival and full AP restoration implemented; other effects and battle use pending",
+      "evidence_confidence": "observed Android 2.41.0 Serum/full-revive/full-AP uses; native contract and static maxima; 22 item regression tests",
       "http_method": "POST",
       "input_field_candidates": [],
       "query_fields": [],
@@ -4364,7 +4364,8 @@
       "events_published": [],
       "authentication": "requires review",
       "unresolved": [
-        "revive/AP/cure/stat effects",
+        "50% revive/AP rounding and minimum HP",
+        "cure/stat/general effects",
         "battle item synchronization",
         "original retry/consumption policy"
       ],
@@ -4372,7 +4373,10 @@
         "use-item-contract.md",
         "use-item-data.md",
         "use-item-capture.json",
-        "use-item-implementation.md"
+        "use-item-implementation.md",
+        "full-restore-items.md",
+        "full-restore-capture.json",
+        "ap-maxima-contract.md"
       ]
     },
     {

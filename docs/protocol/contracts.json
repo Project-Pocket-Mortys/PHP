@@ -169,17 +169,20 @@
         "owned_morty_id": "string",
         "item_id": "string",
         "is_success": "boolean",
-        "effect_value": "integer; restored HP for supported HP items",
+        "effect_value": "integer; absolute HP for healing, 100 percent for full revive/AP",
         "owned_morties": "array of changed Morties",
         "owned_items": "array of changed items including zero quantity",
         "attacks_to_learn": "array; empty for HP items"
       },
       "evidence": [
         "use-item-contract.md",
-        "use-item-data.md"
+        "use-item-data.md",
+        "full-restore-items.md",
+        "full-restore-capture.json",
+        "ap-maxima-contract.md"
       ],
       "limitations": [
-        "Eight world RestoreHP items only",
+        "Eight world RestoreHP items plus Pure Halzinger and Pure Plutonic Rock; remaining effects and battle items pending",
         "No request identity: identical effective requests can each consume an item",
         "Original HTTP validation/consumption parity unknown"
       ]
