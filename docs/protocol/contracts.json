@@ -105,6 +105,42 @@
         "500": "failed transaction with rollback"
       },
       "evidence": "room-leave-repair.md; additive database, concurrent HTTP and UDP tests"
+    },
+    "/session/owned_morties/lock": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$LockMorty",
+      "address": "0x17a3444",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "is_locked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id",
+          "is_locked"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-lock-contract.md",
+        "morty-lock-capture.json"
+      ],
+      "limitations": [
+        "Original HTTP error status parity unknown",
+        "Toggle does not implement protection in destructive operations"
+      ]
     }
   },
   "sse": {

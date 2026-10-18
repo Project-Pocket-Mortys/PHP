@@ -32,7 +32,7 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 - Raid & other event Battles
 - Use Items
 - Release Morties
-- Lock Morties
+- Lock Morties: [toggle and persistence implemented/tested](docs/protocol/missing-features.md); protection in destructive server actions remains
 - Crafting
 - Challenges
 

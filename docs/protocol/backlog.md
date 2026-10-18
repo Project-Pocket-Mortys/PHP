@@ -20,6 +20,14 @@ Implementation status and evidence confidence are independent. The root README r
 | P3 | Decode remaining embedded Unity carriers | `embedded-assets.json` inventories the APK assets. Only globalgamemanagers and repository data bundles were decoded in this pass. | Target additional carriers from unresolved data references; compare hashes and schema versions. |
 | P3 | iOS compatibility | IPA unavailable. | Inspect bundle/Mach-O/metadata and compare matching-version contracts; document platform differences. |
 
+## Current implementation priority
+
+Player-visible missing features now take priority over broad transport audits; see
+[the feature delivery order](missing-features.md). Lock/unlock toggle and persistence
+are implemented with Android capture; destructive-action lock enforcement remains.
+Older P0 research labels above describe research risk, not the current feature
+execution order. Completed README features remain the playable baseline.
+
 ## Repairs included
 
 Readiness now uses `battle_id`; both battle routes verify initiator ownership and active state; attack requests verify active Morty ownership; capture no longer concatenates two JSON responses; SSE active-deck lookup joins the selected deck and excludes foreign-owned Morties; join-room snapshots now also exclude foreign-owned Morties referenced by stale decks (`join-snapshot-ownership.md`); room membership events identify the queued player rather than the subscriber (see `sse-membership.md`); shared bootstrap disables error display and supports environment database configuration; Apache serves the existing bundles at their manifest paths.

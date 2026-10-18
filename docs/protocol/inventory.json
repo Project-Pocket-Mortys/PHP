@@ -3720,13 +3720,22 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "observed Android 2.41.0 replacement-server lock/unlock; statically established native callback",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "original HTTP error status parity",
+        "lock enforcement in destructive operations"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/lock/index.php",
+        "line": 1,
+        "sha256": "a58758dbb289520b31e5d0ed3919c9a02ea7a77ad22bed7614e4a629b644a38c"
+      },
+      "status_basis": "Owner-scoped toggle and persistence; destructive action protection remains separate",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-lock-contract.md",
+        "morty-lock-capture.json"
       ]
     },
     {

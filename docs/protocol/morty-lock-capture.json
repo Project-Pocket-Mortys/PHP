@@ -1,0 +1,77 @@
+{
+  "evidence_kind": "Android 2.41.0 replacement-server capture; not original-server evidence",
+  "requests": [
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-18T17:07:18+00:00",
+      "method": "POST",
+      "path": "/session/owned_morties/lock",
+      "request": {
+        "session_id": "[REDACTED]",
+        "owned_morty_id": "research-morty-1",
+        "is_locked": true
+      },
+      "status": 200,
+      "response": {
+        "active_deck_id": 0,
+        "decks": [
+          {
+            "deck_id": 0,
+            "owned_morty_ids": [
+              "research-morty-1"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-18T17:07:36+00:00",
+      "method": "POST",
+      "path": "/session/owned_morties/lock",
+      "request": {
+        "session_id": "[REDACTED]",
+        "owned_morty_id": "research-morty-1",
+        "is_locked": false
+      },
+      "status": 200,
+      "response": {
+        "active_deck_id": 0,
+        "decks": [
+          {
+            "deck_id": 0,
+            "owned_morty_ids": [
+              "research-morty-1"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "database": {
+    "before": "false",
+    "after_lock": "1",
+    "after_unlock": "0",
+    "hp_unchanged": 20,
+    "active_deck_unchanged": 0,
+    "note": "Logical unlocked state restored; legacy false string normalized to 0."
+  },
+  "ui": {
+    "locked": "padlock shown; Unlock button; Release disabled",
+    "unlocked": "padlock absent; Lock button; Release enabled"
+  },
+  "screenshots": {
+    "selected": {
+      "path": ".research/emulator/lock-selected.png",
+      "sha256": "41c292efb77edf4756c38234ef055fde779e139194748fc6725b41e999be352b"
+    },
+    "click": {
+      "path": ".research/emulator/lock-click.png",
+      "sha256": "eeabca58b9c18c775d210dd9f78f9a673353d95814fddc096785c4cd70eb6d81"
+    },
+    "unlocked": {
+      "path": ".research/emulator/lock-unlocked.png",
+      "sha256": "3501bfc1e8e059da43ed9b2ce5d3b4cb994b82e6b90597f42ba4449cd5f93a5c"
+    }
+  }
+}
