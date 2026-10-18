@@ -9,7 +9,8 @@
     "Buy deck slots",
     "Learn Attacks",
     "Swap Stop",
-    "Salesman Rick's"
+    "Salesman Rick's",
+    "Release Morties"
   ],
   "limitations": [
     "heuristic PHP extraction includes comment/string candidates",
@@ -3593,13 +3594,24 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "statically established native constructors/callbacks; 15 integration tests; Android Stats confirmation and synthetic preview capture",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original HTTP validation/status parity",
+        "Storage multi-select Android UI acceptance",
+        "Cross-endpoint writers do not share one locking protocol"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/attempt-release-multiple/index.php",
+        "line": 1,
+        "sha256": "66114ae6ef8d9ff2161f8ffef68be70dc429373edf63a104ecb988a4045e2937"
+      },
+      "status_basis": "Atomic world release with read-only preview, ownership and protection checks",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-release-contract.md",
+        "morty-release-implementation.md",
+        "morty-release-capture.json"
       ]
     },
     {
@@ -3762,13 +3774,24 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "statically established native constructors/callbacks; 15 integration tests; Android Stats confirmation and synthetic preview capture",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original HTTP validation/status parity",
+        "Storage multi-select Android UI acceptance",
+        "Cross-endpoint writers do not share one locking protocol"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/release-multiple/index.php",
+        "line": 1,
+        "sha256": "989d10db22ee33eda1df1e6a05c2e355f93146cbb34a6d832ef8f5a4cce6516a"
+      },
+      "status_basis": "Atomic world release with read-only preview, ownership and protection checks",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-release-contract.md",
+        "morty-release-implementation.md",
+        "morty-release-capture.json"
       ]
     },
     {

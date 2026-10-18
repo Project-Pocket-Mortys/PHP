@@ -186,6 +186,78 @@
         "No request identity: identical effective requests can each consume an item",
         "Original HTTP validation/consumption parity unknown"
       ]
+    },
+    "/session/owned_morties/attempt-release-multiple": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$AttemptReleaseMortys",
+      "address": "0x17a3688",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_ids"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "complete array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-release-contract.md",
+        "morty-release-capture.json"
+      ],
+      "limitations": [
+        "No partial-success subset: client removes all requested IDs on confirmation success",
+        "Preview reserves nothing; confirmation independently validates",
+        "Original validation/status rules unknown; stronger protective policies documented"
+      ]
+    },
+    "/session/owned_morties/release-multiple": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$ReleaseMortys",
+      "address": "0x17a38fc",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_ids"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "complete array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-release-contract.md",
+        "morty-release-capture.json"
+      ],
+      "limitations": [
+        "No partial-success subset: client removes all requested IDs on confirmation success",
+        "Preview reserves nothing; confirmation independently validates",
+        "Original validation/status rules unknown; stronger protective policies documented"
+      ]
     }
   },
   "sse": {

@@ -9,7 +9,7 @@ failure blocks gameplay or exposes another player's data.
 |---|---|---|
 | 1 | Lock/unlock Morties | Implemented and Android-tested in this branch; enforce protection in destructive operations separately. |
 | 2 | Use items | Eight world healing items and full revival/AP restoration now implemented (`full-restore-items.md`); finish percentage variants, cure/stat items and battle synchronization. General items have a separate client endpoint. |
-| 3 | Release Morties | Recover attempt/confirmation contracts, protect locked/deck/trading Morties, remove associated data atomically. Test cancel, confirmation, invalid ownership and retry without deleting unrelated records. |
+| 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
 | 4 | Crafting | Recover recipe response and asset ingredients/output; deduct ingredients and grant output atomically. Test insufficient materials and retries, then Android UI. |
 | 5 | Wild battles and catching | Complete run/victory/defeat/capture persistence, item consumption and rewards. Preserve playable behavior; distinguish recovered rules from replacement formulas. |
 | 6 | Bot/friend battles | Replace stubs after recovering opponent/invitation lifecycle, participant events and disconnect behavior. |
@@ -51,6 +51,6 @@ returned to the world without a save reset. See the sanitized
 [capture](morty-lock-capture.json); raw screenshots/captures remain ignored.
 
 This delivers the toggle and persistence, not universal server enforcement of
-protection: the existing absorb handler still ignores locks, and release is not
-implemented. README retains that outstanding work. No original-server capture,
+protection: the existing absorb handler still ignores locks, and release now enforces both lock flags
+(`morty-release-implementation.md`). README retains that outstanding work. No original-server capture,
 production deployment or client relaunch persistence test is claimed.

@@ -1,0 +1,90 @@
+{
+  "evidence_kind": "Android 2.41.0 replacement-server capture plus separately labeled synthetic preview; not original-server evidence",
+  "cancel": {
+    "rows_unchanged": true,
+    "confirmation_requests_before": 0,
+    "confirmation_requests_after": 0
+  },
+  "requests": [
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-18T18:39:45+00:00",
+      "method": "POST",
+      "path": "/session/owned_morties/attempt-release-multiple/",
+      "request": {
+        "session_id": "[REDACTED]",
+        "owned_morty_ids": [
+          "fixture-morty"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "active_deck_id": 0,
+        "decks": [
+          {
+            "deck_id": 0,
+            "owned_morty_ids": [
+              "original-morty",
+              "fixture-morty"
+            ]
+          }
+        ]
+      },
+      "request_source": "Synthetic preview request against Android fixture"
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-18T18:41:47+00:00",
+      "method": "POST",
+      "path": "/session/owned_morties/release-multiple",
+      "request": {
+        "session_id": "[REDACTED]",
+        "owned_morty_ids": [
+          "fixture-morty"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "active_deck_id": 0,
+        "decks": [
+          {
+            "deck_id": 0,
+            "owned_morty_ids": [
+              "original-morty"
+            ]
+          }
+        ]
+      },
+      "request_source": "Android Stats confirmation"
+    }
+  ],
+  "database": {
+    "fixture_morty_removed": true,
+    "fixture_attacks_removed": true,
+    "original_morty_unchanged": true,
+    "original_deck_membership_restored": true
+  },
+  "screenshots": {
+    "stats-before": {
+      "path": ".research/emulator/release-stats-before.png",
+      "sha256": "1122fe613841ac0d2b4fa16fa67419c51cedbf1811ec86c7edf709ab5480c33a"
+    },
+    "confirm-dialog": {
+      "path": ".research/emulator/release-confirm-dialog.png",
+      "sha256": "4736069535234473a8fdf47fbbc5877ee1b2bbcc436ab7f310be2689ecc2bd2a"
+    },
+    "cancelled": {
+      "path": ".research/emulator/release-cancelled.png",
+      "sha256": "a7231db5a6f8df0883b232ddc63a6ffe2da740ec5360650abaf888b70c54aa22"
+    },
+    "done": {
+      "path": ".research/emulator/release-done.png",
+      "sha256": "2af559028a0936661a2471b30c1526c8f4faa8ba60ef233b9cbb1a1c9c8533fb"
+    }
+  },
+  "fixture_cleanup": {
+    "unused_items_removed": true,
+    "original_deck_restored": true,
+    "temporary_morty_and_attacks_absent": true
+  }
+}
