@@ -141,6 +141,48 @@
         "Original HTTP error status parity unknown",
         "Toggle does not implement protection in destructive operations"
       ]
+    },
+    "/session/use-item": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$UseItem",
+      "address": "0x17a46c8",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "item_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id",
+          "item_id"
+        ]
+      },
+      "response": {
+        "owned_morty_id": "string",
+        "item_id": "string",
+        "is_success": "boolean",
+        "effect_value": "integer; restored HP for supported HP items",
+        "owned_morties": "array of changed Morties",
+        "owned_items": "array of changed items including zero quantity",
+        "attacks_to_learn": "array; empty for HP items"
+      },
+      "evidence": [
+        "use-item-contract.md",
+        "use-item-data.md"
+      ],
+      "limitations": [
+        "Eight world RestoreHP items only",
+        "No request identity: identical effective requests can each consume an item",
+        "Original HTTP validation/consumption parity unknown"
+      ]
     }
   },
   "sse": {

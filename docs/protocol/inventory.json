@@ -4350,12 +4350,12 @@
       "server_evidence": {
         "file": "session/use-item/index.php",
         "line": 1,
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        "sha256": "4d94200478c03d40e1edb96c3a96e6b646765ff86bbb630364f7bd283848b572"
       },
-      "implementation_status": "stub",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "partial",
+      "status_basis": "Eight world HP-restoring items implemented; revive/AP/cure/stat/general/battle use pending",
+      "evidence_confidence": "observed Android 2.41.0 Serum use; statically established contract and item descriptions; integration tests for all eight healers",
+      "http_method": "POST",
       "input_field_candidates": [],
       "query_fields": [],
       "response_key_candidates": [],
@@ -4364,11 +4364,15 @@
       "events_published": [],
       "authentication": "requires review",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "revive/AP/cure/stat effects",
+        "battle item synchronization",
+        "original retry/consumption policy"
+      ],
+      "contract_evidence": [
+        "use-item-contract.md",
+        "use-item-data.md",
+        "use-item-capture.json",
+        "use-item-implementation.md"
       ]
     },
     {
