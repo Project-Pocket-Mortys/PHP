@@ -3293,7 +3293,7 @@
       "server_evidence": {
         "file": "session/join-room/index.php",
         "line": 1,
-        "sha256": "88fb0cc167079517e9339978a3601d40b3d82b3ee47b7c24d8b2ed2d81755b76"
+        "sha256": "2ad9ff8e57f38ab7d55f05e87432171cb2bd96a4b44a6d8a18188ce4e30cfb47"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3398,7 +3398,7 @@
       "server_evidence": {
         "file": "session/leave-room/index.php",
         "line": 1,
-        "sha256": "f6159428ad2ec64e2b51b4c7946af0348691d0132ce10222d8f5a96b0aafa141"
+        "sha256": "4b365c22cc46cb298a8f1f2a07421d79c760c8afcd620186d730848b1bcf21a8"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4162,7 +4162,7 @@
       "server_evidence": {
         "file": "session/room-details/index.php",
         "line": 1,
-        "sha256": "ef7e1c795d0dc49bcb2ca8e8ecc4e353b5a2a55de7e5f16fd33a8a948440ce07"
+        "sha256": "7a0dbdc7ce7f5f2d254913f0e3258f92775266e8d298a1306d8c460f49bb9e27"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4496,7 +4496,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "d78f6bf3f10c32a16f23151b371612f1839798fed3ba3e48bde4be6d3157b03c"
+        "sha256": "de1905bd1eee1ea0892276e8dae010f44f3b27e3eb35561b3df28aa8b7da0806"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
