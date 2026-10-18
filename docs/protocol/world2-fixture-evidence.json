@@ -1,0 +1,64 @@
+{
+  "evidence_kind": "Read-only inspection of recovered Android Unity assets and replacement-server source",
+  "inspected_date": "2026-10-17",
+  "source_apk": {
+    "path": ".research/android/base.apk",
+    "sha256": "b44f255bdd58b3196d73ff811c3e645d68edcbd76366a39f5c4489bc538ebf74",
+    "version_scope": "Recovered APK identified by the research workspace as Android 2.41.0; not a claim about every release or the original server"
+  },
+  "world_id": "2",
+  "world_constant": {
+    "source": ".research/dumper/dump.cs",
+    "type": "MPWorldDefs",
+    "field": "kWorld2Id",
+    "value": "2"
+  },
+  "english_label": {
+    "apk_entry": "assets/bin/Data/5eaa370fb472742fd9c0f40448eb1f08",
+    "entry_sha256": "67ce6b22d3607f7920aa6cac442543bd5c57f2ef160a12fac929ce3b19a5169a",
+    "object_path_id": 1,
+    "object_type": "TextAsset",
+    "object_name": "EN",
+    "text_utf8_sha256": "75618cb2696867a26f3f29714345a35b21af1506f44c3eb3646c565df25d0d46",
+    "json_field": "TextDefs.MP_WORLD_TITLE_2.label",
+    "value": "Plumbubo Prime 51b"
+  },
+  "world_asset": {
+    "resource_manager_apk_entry": "assets/bin/Data/globalgamemanagers",
+    "resource_manager_entry_sha256": "fcc8db5017b103ed7b93c50327aa77695164bd00a4a9b0ea8bf160831f978dd2",
+    "resource_key": "world/multiplayer/dimensions/mpdimension2",
+    "resource_pointer": {"m_FileID": 1280, "m_PathID": 412},
+    "external_table_zero_based_index": 1279,
+    "external_path": "09090185f9294494db8fed68cd00257b",
+    "apk_entry": "assets/bin/Data/09090185f9294494db8fed68cd00257b",
+    "entry_sha256": "e7dad565314446df1b8cd3debb6575f63aaf026e75e0c147ff8b797d64f1413e",
+    "object_path_id": 412,
+    "object_type": "GameObject",
+    "object_fields": {"m_Name": "MPDimension2", "m_IsActive": true},
+    "interpretation": "The world-2 constant, title suffix, resource key and GameObject name consistently identify the intended destination. This inspection does not establish the native GetResourceId implementation or successful runtime loading."
+  },
+  "zone_scope": {
+    "recovered_types_source": ".research/dumper/dump.cs",
+    "recovered_types": ["RoomJoinedResponse", "RoomDetailsResponse"],
+    "observation": "Neither recovered response type declares zone_id",
+    "server_schema_source": "pocket_mortys.sql",
+    "server_schema_field": "room_ids.zone_id text NOT NULL",
+    "server_join_source": "session/join-room/index.php",
+    "server_join_observation": "Selects a room by world_id and returns the stored zone_id unchanged",
+    "fixture_zone_id": "[1,1]",
+    "fixture_zone_interpretation": "Opaque schema fixture copied from the established world-1 seed; not a recovered world-2 zone or spawn coordinate"
+  },
+  "minimal_synthetic_destination": {
+    "room_id": "Unique additive research room identifier",
+    "world_id": "2",
+    "zone_id": "[1,1]",
+    "room_udp_host": "Copy the working world-1 fixture transport host",
+    "room_udp_port": "Copy the working world-1 fixture transport port",
+    "entities": "Empty destination entity collections are sufficient for a minimal fixture; this is a recommendation, not live validation"
+  },
+  "limitations": [
+    "No database mutations, tests, emulator actions or service restarts were performed for this inspection",
+    "Spawn fields are intentionally omitted; zone_id is not asserted to encode a Unity coordinate",
+    "Original-server behavior and runtime destination loading are outside this static evidence"
+  ]
+}
