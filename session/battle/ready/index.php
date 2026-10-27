@@ -8,13 +8,14 @@ ini_set('display_errors', 1);
 
 require __DIR__ . "/../../../pocket_f4894h398r8h9w9er8he98he.php";
 require_once __DIR__ . "/../../../lib/events.php";
+require_once __DIR__ . "/../../../lib/battle_access.php";
 
 // Read body
 $raw  = file_get_contents("php://input");
 $body = json_decode($raw, true);
 
 // Accept session_id from JSON body
-$session_id = (string)($body["session_id"]);
+$session_id = is_string($body["session_id"] ?? null) ? $body["session_id"] : '';
 if ($session_id === "") {
     http_response_code(400);
     echo json_encode(["success" => false, "error" => "Error"], JSON_UNESCAPED_SLASHES);
@@ -22,7 +23,7 @@ if ($session_id === "") {
 }
 
 // Accept battle_id from JSON body
-$battle_id = (string)($body["session_id"]);
+$battle_id = is_string($body["battle_id"] ?? null) ? $body["battle_id"] : '';
 if ($battle_id === "") {
     http_response_code(400);
     echo json_encode(["success" => false, "error" => "Error"], JSON_UNESCAPED_SLASHES);
@@ -48,6 +49,7 @@ if (!$u) {
 
 $player_id = (string)$u["player_id"];
 $room_id   = (string)($u["room_id"] ?? "");
+require_active_owned_battle($pdo, $battle_id, $player_id);
 
 if ($room_id === "" || $room_id === "0") {
     http_response_code(409);

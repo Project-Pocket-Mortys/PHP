@@ -16,7 +16,8 @@ $allowedSecrets = [
     '9af289a7-1bd7-471b-8a96-23926e244967'
 ];
 
-if (!in_array($secret, $allowedSecrets, true)) {
+// Keep the existing maintenance restriction unless explicitly disabled by deployment config.
+if (getenv('PM_LOGIN_MAINTENANCE') !== '0' && !in_array($secret, $allowedSecrets, true)) {
     http_response_code(400);
 
     echo json_encode([
@@ -61,7 +62,8 @@ $username = $user['username'];
 $level = $user['level'];
 $tags = $user['tags'];
 $session_id = uuidv4();
-$ping_url = 'https://game.conspiracyrick.com/session/ping-dynamic';
+$public_origin = rtrim(getenv('PM_PUBLIC_ORIGIN') ?: 'https://game.conspiracyrick.com', '/');
+$ping_url = $public_origin . '/session/ping-dynamic';
 // Generate issued token time
 $iat = time(); // issued at (now)
 // when to expire token
@@ -107,7 +109,7 @@ $base64Signature = base64url_encode($signature);
 $jwt = $base64Header . "." . $base64Payload . "." . $base64Signature;
 
 $response = json_encode([
-    "session_url" => "https://game.conspiracyrick.com/sse/?token=".$jwt,
+    "session_url" => $public_origin . "/sse/?token=".$jwt,
     "session_url_ttl" => "60"
 ], JSON_UNESCAPED_SLASHES);
 

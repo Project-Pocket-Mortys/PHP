@@ -1,0 +1,16 @@
+{
+  "evidence_kind": "synthetic replacement-server regression contract",
+  "client_contract_evidence": "NetworkBattleAPI$$SelectingMove at native RVA 0x1788078 constructs session_id and battle_id",
+  "request": {
+    "method": "POST",
+    "path": "/session/battle/ready",
+    "body": {"session_id": "test-session-a", "battle_id": "test-battle"}
+  },
+  "response": {"status": 200, "body": {"success": true}},
+  "event": {
+    "name": "battle:move-timer-started",
+    "recipient": "test-player-a",
+    "payload": {"battle_id": "test-battle", "timeout": 30}
+  },
+  "limitations": ["The original server acknowledgement and timer duration are not established."]
+}

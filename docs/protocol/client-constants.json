@@ -1,0 +1,1451 @@
+[
+  {
+    "symbol": "kPrivacyCentreURL",
+    "value": "https://newc137.bps-pmnet.com/ccpa-link-redirector/?link=center&language={0}",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/GameDefs.cs",
+      "line": 21,
+      "sha256": "da0980b15b6336b8bab679f349be355e2b023485e90ad022e1dfa0258dd8f84d"
+    }
+  },
+  {
+    "symbol": "kPrivacyPolicyURL",
+    "value": "https://newc137.bps-pmnet.com/ccpa-link-redirector/?link=privacy&language={0}",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/GameDefs.cs",
+      "line": 22,
+      "sha256": "da0980b15b6336b8bab679f349be355e2b023485e90ad022e1dfa0258dd8f84d"
+    }
+  },
+  {
+    "symbol": "kTermsOfUseURL",
+    "value": "https://newc137.bps-pmnet.com/ccpa-link-redirector/?link=terms&language={0}",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/GameDefs.cs",
+      "line": 23,
+      "sha256": "da0980b15b6336b8bab679f349be355e2b023485e90ad022e1dfa0258dd8f84d"
+    }
+  },
+  {
+    "symbol": "APP_STORE_URL",
+    "value": "http://hyperurl.co/zrn5s4",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/GameDefs.cs",
+      "line": 24,
+      "sha256": "da0980b15b6336b8bab679f349be355e2b023485e90ad022e1dfa0258dd8f84d"
+    }
+  },
+  {
+    "symbol": "kServerTimeURL",
+    "value": "https://newc137.bps-pmnet.com/time?a=pm_{0}",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/GameDefs.cs",
+      "line": 25,
+      "sha256": "da0980b15b6336b8bab679f349be355e2b023485e90ad022e1dfa0258dd8f84d"
+    }
+  },
+  {
+    "symbol": "kFAQSiteUrl",
+    "value": "https://adultswimgames.zendesk.com/hc/en-us/categories/9515323935387-Pocket-Mortys",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/GameDefs.cs",
+      "line": 26,
+      "sha256": "da0980b15b6336b8bab679f349be355e2b023485e90ad022e1dfa0258dd8f84d"
+    }
+  },
+  {
+    "symbol": "PM_FACEBOOK_URL",
+    "value": "https://www.facebook.com/OfficialPocketMortys/",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/MainMenuUI.cs",
+      "line": 18,
+      "sha256": "43da949a4ccec6449191a7957e77ffe1657083ed3966e46243203027f7fb505d"
+    }
+  },
+  {
+    "symbol": "PM_TWITTER_URL",
+    "value": "https://twitter.com/PocketMortys",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/MainMenuUI.cs",
+      "line": 19,
+      "sha256": "43da949a4ccec6449191a7957e77ffe1657083ed3966e46243203027f7fb505d"
+    }
+  },
+  {
+    "symbol": "DEFAULT_ENVIRONMENT",
+    "value": "rat",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 5,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_BOT",
+    "value": "/session/battle-bot",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 6,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_WILD_MORTY",
+    "value": "/session/battle-wild-morty",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 7,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_CUSTOM_BATTLE",
+    "value": "/session/battle-custom-battle",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 8,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_RAID_BOSS",
+    "value": "/session/battle-boss",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 9,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_BATTLE_INVITE_RECEIVED",
+    "value": "battle-invite:received",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 10,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_BATTLE_INVITE_DECLINED",
+    "value": "battle-invite:declined",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 11,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_BATTLE_INVITE_REVOKED",
+    "value": "battle-invite:revoked",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 12,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_INVITE_REVOKE",
+    "value": "/session/battle-invite/revoke",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 13,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_BATTLE_INVITE_ACCEPTED",
+    "value": "battle-invite:accepted",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 14,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_MOVE_SELECTED",
+    "value": "/session/battle/move",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 15,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_BATTLE_START",
+    "value": "battle:start",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 16,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_BATTLE_ABANDONED",
+    "value": "battle:abandoned",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 17,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_BATTLE_MOVE_TIMER",
+    "value": "battle:move-timer-started",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 18,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_BATTLE_TURN_RESULT",
+    "value": "battle:turn-result",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 19,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_VIDEO_REWARD_RECEIVED",
+    "value": "ironsource:reward",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 20,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_VIDEO_REWARD_MEESEEK_RECEIVED",
+    "value": "incentive:reward",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 21,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_SELECTING_MOVE",
+    "value": "/session/battle/ready",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 22,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PROMOTIONS_CAMPAIGN_GACHA",
+    "value": "/sp/gacha-info",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 23,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_INVITE_REPLY",
+    "value": "/session/battle-invite/response",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 24,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_RAID_BOSS_STATE_CHANGED",
+    "value": "shard:raid-boss-state-changed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 25,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_INCENTIVE",
+    "value": "incentive:npc_create",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 26,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_USER_ADDED",
+    "value": "room:user-added",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 27,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_USER_REMOVED",
+    "value": "room:user-removed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 28,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_USER_STATE_CHANGED",
+    "value": "room:user-state-changed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 29,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_USER_MODIFIED",
+    "value": "room:user-modified",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 30,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_BOT_ADDED",
+    "value": "room:bot-added",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 31,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_BOT_REMOVED",
+    "value": "room:bot-removed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 32,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_BATTLE_INVITE_REQUEST",
+    "value": "/session/battle-invite/create",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 33,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_BOT_STATE_CHANGED",
+    "value": "room:bot-state-changed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 34,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_WILD_MORTY_REMOVED",
+    "value": "room:wild-morty-removed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 35,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_WILD_MORTY_STATE_CHANGED",
+    "value": "room:wild-morty-state-changed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 36,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ROOM_ITEM_PICK_UP",
+    "value": "/session/collect-pickup",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 37,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_PICKUP_ADDED",
+    "value": "room:pickup-added",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 38,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_PICKUP_REMOVED",
+    "value": "room:pickup-removed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 39,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_RAID_BOSS_ADDED",
+    "value": "shard:raid-boss-added",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 40,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_RAID_BOSS_REMOVED",
+    "value": "shard:raid-boss-removed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 41,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ROOM_WILD_MORTY_ADDED",
+    "value": "room:wild-morty-added",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 42,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PROMOTIONS_MULTIPLAYER_GACHA",
+    "value": "/session/gacha-info",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 43,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_EVENT_CHECK",
+    "value": "/event/check",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 44,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_EVENT_REWARD_BRACKETS",
+    "value": "/event/brackets",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 45,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_FYRE_PHASE_CHANGE",
+    "value": "fyre:event-phase-change",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 46,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_MOVING_MORTYS_PURCHASE_PASS",
+    "value": "/moving-mortys/purchase-pass",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 47,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_MOVING_MORTYS_BATTLE",
+    "value": "/moving-mortys/battle",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 48,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_MOVING_MORTYS_EVENT_LIST",
+    "value": "/moving-mortys/events/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 49,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_MOVING_MORTYS_ACTIVE",
+    "value": "moving-mortys:active",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 50,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_MOVING_MORTYS_GRACE",
+    "value": "moving-mortys:grace",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 51,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_MOVING_MORTYS_END",
+    "value": "moving-mortys:end",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 52,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_FYRE_STARTED",
+    "value": "fyre:event-started",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 53,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_MOVING_MORTYS_MAINTENANCE",
+    "value": "moving-mortys:maintenance",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 54,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_MOVING_MORTYS_TELEPORT",
+    "value": "moving-mortys:teleport",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 55,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_MOVING_MORTYS_POST_TELEPORT",
+    "value": "moving-mortys:post-teleport",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 56,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_MOVING_MORTYS_CLAIMED_REWARD",
+    "value": "moving-mortys:claimed-reward",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 57,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PROMO_ACTIVE",
+    "value": "/promos/active",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 58,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "DEEP_LINK_SOURCE_START",
+    "value": "://",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 59,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "DEEP_LINK_SOURCE_END",
+    "value": "/?",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 60,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_MOVING_MORTYS_PRE_TELEPORT",
+    "value": "moving-mortys:pre-teleport",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 62,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_FYRE_BUILD_UP",
+    "value": "fyre:event-build-up",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 63,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FYRE_SALE_EVENT_PLAYER_INFO",
+    "value": "/lte/fyre/events/playerinfo",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 64,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FYRE_SALE_EVENT_BATTLE_SUMMER",
+    "value": "/lte/fyre/battle/summer",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 65,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_EVENT_CLAIM_REWARDS",
+    "value": "/event/claimRewards",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 66,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_REWARD_SP",
+    "value": "/reward/single-player",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 67,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_REWARD_MP",
+    "value": "/reward/multiplayer",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 68,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_SHARD_SCORES",
+    "value": "/shard/scores",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 69,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_SHARD_HEALTH",
+    "value": "/shard/health",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 70,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ARENA_BOT_BATTLE",
+    "value": "/arena/battle/bot",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 71,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ARENA_EVENT_LIST",
+    "value": "/arena/events/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 72,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ARENA_LEADERBOARD",
+    "value": "/arena/scores/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 73,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ARENA_ENERGY_REQUEST",
+    "value": "/arena/energy/fetch",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 74,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ARENA_REWARDS",
+    "value": "/arena/rewards/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 75,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ARENA_PENDING_REWARDS",
+    "value": "/arena/rewards/pending/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 76,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ARENA_CLAIM_REWARD",
+    "value": "/arena/rewards/claim",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 77,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ARENA_EVENT_STARTED",
+    "value": "arena:event-started",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 78,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_ARENA_EVENT_PHASE_CHANGED",
+    "value": "arena:event-phase-change",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 79,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FYRE_SALE_EVENT_LIST",
+    "value": "/lte/fyre/events/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 80,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FYRE_SALE_EVENT_PURCHASE_ITEM",
+    "value": "/lte/fyre/purchase/item",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 81,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FYRE_SALE_EVENT_PURCHASE_PACK",
+    "value": "/lte/fyre/purchase/pack",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 82,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ROOM_DETAILS",
+    "value": "/session/room-details",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 83,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_INAPPDELETION_ACCOUNT_DELETION_REQUEST",
+    "value": "/inappdeletion/request-account-deletion",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 84,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ROOM_LEAVE",
+    "value": "/session/leave-room",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 85,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_SESSION_EMOTE",
+    "value": "emote:room",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 86,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_DECK_SLOT_CONFIG",
+    "value": "/decks/slots/config",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 87,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_BUY_MORTY_SLOT",
+    "value": "/session/morty/slots/buy",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 88,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_COMPLETE_MORTY_SLOT_FTUE",
+    "value": "/session/morty/slots/ftue",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 89,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_MORTY_SLOT_CONFIG",
+    "value": "/morty/slots/config",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 90,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_BUY_DIMENSION",
+    "value": "/session/dimensions/buy",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 91,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_QUERY_DIMENSIONS",
+    "value": "/session/dimensions/query",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 92,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_CHECK_IF_DIM_FTUE_REWARDS_DISPENSED",
+    "value": "/session/dimensions/check-if-dimension-ftue-rewards-dispensed",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 93,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_BUY_DECK_SLOT",
+    "value": "/session/decks/slots/buy",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 94,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_DISPENSE_DIM_FTUE_REWARDS",
+    "value": "/session/dimensions/dispense-dimension-ftue-rewards",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 95,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_EDIT_ATTACKS",
+    "value": "/session/owned_morties/learn-attacks",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 96,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_RELEASE_MUTLIPLE",
+    "value": "/session/owned_morties/release-multiple",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 97,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_ATTEMPT_RELEASE_MUTLIPLE",
+    "value": "/session/owned_morties/attempt-release-multiple",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 98,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_LOCK",
+    "value": "/session/owned_morties/lock",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 99,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_USE_ITEM",
+    "value": "/session/use-item",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 100,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_USE_GENERAL_ITEM",
+    "value": "/session/use-general-item",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 101,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_BUY_ITEM",
+    "value": "/session/buy-item",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 102,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_HEAL_DECK",
+    "value": "/session/heal",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 103,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_CRAFT_RECIPE",
+    "value": "/session/recipe/use",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 104,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_EDIT_DECK",
+    "value": "/session/deck/edit",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 105,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_DETAILS",
+    "value": "/session/player-details",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 106,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "DEFAULT_GAME_ENDPOINT_UNFORMATE",
+    "value": "https://{0}.game.bps-pmnet.com",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 107,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "SERVER_MESSAGE_ENDPOINT_UNFORMATED",
+    "value": "https://assets.bps-pmnet.com/Status",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 108,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ASSET_BUNDLE_ENDPOINT_UNFORMATED",
+    "value": "https://assets.bps-pmnet.com/Aliases/{0}/{1}",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 109,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "CONSENT_SEND_ENDPOINT",
+    "value": "https://newc137.bps-pmnet.com/consent",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 110,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "CONSENT_IS_REQUIRED_ENDPOINT",
+    "value": "https://newc137.bps-pmnet.com/is-gdpr",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 111,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "HEADER_KEY",
+    "value": "X-PMCLIENT",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 113,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_SET_ACTIVE_DECK",
+    "value": "/session/deck/set-active",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 114,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "WWW_SERVER_MESSAGE",
+    "value": "{0}.json",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 120,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_LOGIN",
+    "value": "/user/login",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 121,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_REGISTER",
+    "value": "/user/register",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 122,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_USE_GACHA",
+    "value": "/session/gacha",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 124,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_STATE",
+    "value": "/session/state",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 125,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_IAP",
+    "value": "/iap",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 126,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_TRADING_OFFER_MORTY",
+    "value": "/trading/offer-morty",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 127,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_TRADING_OFFER_RESPONSE",
+    "value": "/trading/offer-response",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 128,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_TRADING_GET_TRADES",
+    "value": "/trading/get-trades",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 129,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_TRADING_CANCEL_TRADE",
+    "value": "/trading/cancel-trade",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 130,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_TRADING_CANCEL_OFFER",
+    "value": "/trading/cancel-trade-offer",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 131,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_TRADING_GET_CONFIG",
+    "value": "/trading/config",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 132,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_TRADE_REQUEST_SUBMIT",
+    "value": "trade:request-submit",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 133,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_TRADING_REQUEST_MORTY",
+    "value": "/trading/request-morty",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 134,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_TRADE_OFFER_SUBMIT",
+    "value": "trade:offer-submit",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 135,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_TRADE_TRADE_REJECTED",
+    "value": "trade:offer-rejected",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 136,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_SESSION_EMOTE_TO_USER",
+    "value": "/session/emote/p2p",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 137,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_SESSION_EMOTE_TO_ROOM",
+    "value": "/session/emote/room",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 138,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_SESSION_REPORT_PROFANITY",
+    "value": "/session/player-flag",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 139,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_SESSION_START",
+    "value": "session:start",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 140,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_SESSION_END",
+    "value": "session:end",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 141,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_SESSION_EMOTE_DIRECT",
+    "value": "emote:p2p",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 142,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_TRADE_OFFER_ACCEPTED",
+    "value": "trade:offer-accepted",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 143,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_FRIEND_DONATION_MORTY_RECEIVED",
+    "value": "friend:donation",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 144,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FRIEND_DONATE_MORTY",
+    "value": "/session/friend/donate-morty",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 145,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FRIEND_REQUEST_MORTY",
+    "value": "/session/friend/request-morty",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 146,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_IAP_DISPLAY",
+    "value": "/iap/display/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 147,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_BUY_AVATAR",
+    "value": "/session/player-avatar/buy",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 148,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_USE_AVATAR",
+    "value": "/session/player-avatar/set-active",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 149,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_MIGRATE_AVATARS",
+    "value": "/session/player-avatar/migrate",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 150,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_ABSORB_MORTIES",
+    "value": "/session/owned_morties/absorb",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 151,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_GET_CHALLENGES",
+    "value": "/session/challenge/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 152,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_CLAIM_CHALLENGE",
+    "value": "/session/challenge/claim-reward",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 153,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_VIDEO_REWARD_PASS",
+    "value": "/session/incentive/reject",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 154,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_PLAYER_CHALLENGES_COMPLETE",
+    "value": "challenge:complete",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 155,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_DISPENSE_ITEM",
+    "value": "/session/dispense-item",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 156,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_PLAYER_USE_SHINY_POTION",
+    "value": "/session/use-shiny-potion",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 157,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "ES_PLAYER_SHINY_POTION_EXPIRED",
+    "value": "shiny-potion:shiny-potion-expired",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 158,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FRIEND_REFRESH_DATA",
+    "value": "/session/friend/list",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 159,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FRIEND_SEARCH_FOR_USER",
+    "value": "/session/friend/search",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 160,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FRIEND_SEND_REQUEST",
+    "value": "/session/friend/request",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 161,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FRIEND_RESPOND_TO_REQUEST",
+    "value": "/session/friend/response",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 162,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_FRIEND_REMOVE",
+    "value": "/session/friend/remove",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 163,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_ROOM_JOIN",
+    "value": "/session/join-room",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 164,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  },
+  {
+    "symbol": "EP_INAPPDELETION_TIME_ACCOUNT_DATA_STORED_FOR",
+    "value": "/inappdeletion/get-account-data-storage-time",
+    "evidence": {
+      "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/NetworkDefs.cs",
+      "line": 165,
+      "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
+    }
+  }
+]

@@ -530,7 +530,7 @@
   "mpdata": {
     "id": "mpdata",
     "crc": "4099569620",
-    "version": "1050",
+    "version": "1051",
     "url": "https://github.com/Project-Pocket-Mortys/.github/raw/refs/heads/main/AssetBundles/AssetBundle-android_1011-ios_1011__7b175320/Android/mpdata.assetbundle"
   },
   "preload": {
@@ -1248,5 +1248,5 @@
       "psh027"
     ]
   },
-  "version": "1012"
+  "version": "1013"
 }

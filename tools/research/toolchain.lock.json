@@ -1,0 +1,35 @@
+{
+  "cpp2il": {
+    "version": "2022.1.0-pre-release.21+58fc404",
+    "sha256": "663fb432433b4371fd1ee0ebc321a8fff2a9aac5ac4230c843f9e03ddee4e04c"
+  },
+  "il2cppdumper": {
+    "version": "6.7.46",
+    "sha256": "f5fc60dfc5c034c1ff3fc651514416ebd47658a63493207734537fd25fa2dea2"
+  },
+  "node": {
+    "version": "24.20.0",
+    "sha256": "2f2c0da162318f0de47665410c7c8c2ed3d36c8f3105de4bbc61176c70a7cbf2"
+  },
+  "ghidra": {
+    "version": "12.1.4",
+    "sha256": "ddac49f903da9d5bac833e5cc79395098b9c33cfd3279be5f31bd00387d2d4db"
+  },
+  "jdk": {
+    "version": "21.0.12.1+1",
+    "sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94"
+  },
+  "jadx-headless-mcp": {
+    "version": "0.7.1",
+    "sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75"
+  },
+  "rea": {
+    "version": "6.4.0"
+  },
+  "UnityPy": {
+    "version": "1.25.0"
+  },
+  "capstone": {
+    "version": "5.0.7"
+  }
+}

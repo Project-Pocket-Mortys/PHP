@@ -21,6 +21,10 @@ This repository contains the server-side components required to support client a
 - MySQL or MariaDB
 - Apache or Nginx
 
+## Protocol research
+
+See [the Android protocol inventory and developer handoff](docs/protocol/README.md) for reproducible analysis tools, evidence, an isolated test server, regression tests, and remaining compatibility work. The completed gameplay features below remain the project baseline.
+
 ## To Do
 - Battle & catch mortys
 - Battle Bots
@@ -68,6 +72,8 @@ You are free to use, fork, clone, modify, and redistribute this project, provide
 Any modified, forked, or derivative version of this project that is distributed or made available to others must remain **open source** and must comply with the corresponding source-code and licensing requirements of the GPLv3. Source code for such versions must be made available in accordance with the GPLv3.
 
 **Credit to the Project Pocket Mortys Team must remain clearly and visibly displayed to users. Attribution must not be removed, hidden, obscured, or altered in a way that prevents users from readily identifying the original project.**
+
+Original implementation credit: **ConspiracyRick ? Project Pocket Mortys**.
 
 The required attribution is:
 

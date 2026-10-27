@@ -21,31 +21,35 @@ if ($session_id === "") {
     exit;
 }
 
-$stmt = $pdo->prepare("
-    SELECT player_id, room_id
-    FROM users
-    WHERE session_id = ?
-    LIMIT 1
-");
-$stmt->execute([$session_id]);
-$session = $stmt->fetch(PDO::FETCH_ASSOC);
+try {
+    $pdo->beginTransaction();
+    // Serialize concurrent retries and membership updates on this account.
+    $stmt = $pdo->prepare("SELECT player_id, room_id FROM users WHERE session_id = ? LIMIT 1 FOR UPDATE");
+    $stmt->execute([$session_id]);
+    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$session) {
+        $pdo->rollBack();
+        http_response_code(404);
+        echo json_encode(["success" => false, "error" => "Invalid session"], JSON_UNESCAPED_SLASHES);
+        exit;
+    }
 
-if (!$session) {
-    http_response_code(404);
-    echo json_encode([
-        "success" => false,
-        "error" => "Invalid session"
-    ]);
+    $player_id = (string)$session["player_id"];
+    $room_id = (string)($session["room_id"] ?? "");
+    if ($room_id !== "" && $room_id !== "0") {
+        $update = $pdo->prepare("UPDATE users SET room_id = NULL WHERE player_id = ?");
+        $update->execute([$player_id]);
+        // Membership and its departure event must commit together.
+        publish_event($pdo, $room_id, "room:user-removed", ["player_id" => $player_id]);
+    }
+    $pdo->commit();
+} catch (Throwable $error) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    error_log("Room leave transaction failed");
+    http_response_code(500);
+    echo json_encode(["success" => false, "error" => "Unable to leave room"], JSON_UNESCAPED_SLASHES);
     exit;
 }
-
-$player_id = $session["player_id"];
-$room_id   = $session["room_id"];
-
-// ✅ Broadcast leave to everyone still in that room
-publish_event($pdo, (string)$room_id, "room:user-removed", [
-    "player_id" => $player_id
-]);
 
 echo json_encode([
     "success" => true

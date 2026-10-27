@@ -1,0 +1,223 @@
+[
+  {
+    "host": "adultswimgames.zendesk.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9340"
+    ]
+  },
+  {
+    "host": "assets.bps-pmnet.com",
+    "classification": "first-party backend",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9348",
+      "0x30C9350"
+    ]
+  },
+  {
+    "host": "bestdocshub.pages.dev",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30BD638"
+    ]
+  },
+  {
+    "host": "clients3.google.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9358"
+    ]
+  },
+  {
+    "host": "github.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9360"
+    ]
+  },
+  {
+    "host": "go.microsoft.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C1DB0"
+    ]
+  },
+  {
+    "host": "hyperurl.co",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9218"
+    ]
+  },
+  {
+    "host": "james.newtonking.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9220"
+    ]
+  },
+  {
+    "host": "localhost",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9368"
+    ]
+  },
+  {
+    "host": "microsoft.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9228"
+    ]
+  },
+  {
+    "host": "mobile-data.onetrust.io",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9370",
+      "0x30C9378"
+    ]
+  },
+  {
+    "host": "newc137.bps-pmnet.com",
+    "classification": "first-party backend",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9380",
+      "0x30C9388",
+      "0x30C9390",
+      "0x30C9398",
+      "0x30C93A0"
+    ]
+  },
+  {
+    "host": "schemas.microsoft.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9230",
+      "0x30C9238",
+      "0x30C9240",
+      "0x30C9248"
+    ]
+  },
+  {
+    "host": "schemas.xmlsoap.org",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C9250",
+      "0x30C9258",
+      "0x30C9260"
+    ]
+  },
+  {
+    "host": "twitter.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C93A8"
+    ]
+  },
+  {
+    "host": "www.facebook.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C93B0"
+    ]
+  },
+  {
+    "host": "www.googleapis.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C93B8",
+      "0x30C93C0"
+    ]
+  },
+  {
+    "host": "www.gstatic.com",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C93C8"
+    ]
+  },
+  {
+    "host": "www.w3.org",
+    "classification": "external/SDK/documentation candidate",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30B4190",
+      "0x30BC5F8",
+      "0x30C0028",
+      "0x30C0C18",
+      "0x30C0C20",
+      "0x30C0D70",
+      "0x30C0FC8",
+      "0x30C9268",
+      "0x30C9270",
+      "0x30C9278",
+      "0x30C9280",
+      "0x30C9288",
+      "0x30C9290",
+      "0x30C9298",
+      "0x30C92A0",
+      "0x30C92A8",
+      "0x30C92B0",
+      "0x30C92B8",
+      "0x30C92C0",
+      "0x30C92C8",
+      "0x30C92D0",
+      "0x30C92D8",
+      "0x30C92E0",
+      "0x30C92E8",
+      "0x30C92F0",
+      "0x30C92F8",
+      "0x30C9300",
+      "0x30C9308",
+      "0x30C9310",
+      "0x30C9318"
+    ]
+  },
+  {
+    "host": "{0}.game.bps-pmnet.com",
+    "classification": "first-party backend",
+    "observed_traffic": false,
+    "startup_dependency": "unknown; literal presence does not establish a request",
+    "literal_addresses": [
+      "0x30C93D0"
+    ]
+  }
+]

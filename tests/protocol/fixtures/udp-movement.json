@@ -1,0 +1,50 @@
+{
+  "provenance": "Android 2.41.0 ARM32 research client sendto trace; UDP delivery rejected by isolation firewall; session GUID replaced with 00112233-4455-6677-8899-aabbccddeeff",
+  "packets": [
+    {
+      "hex": "00112233445566778899aabbccddeeff02001e0023052001"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff03001f0023153001"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff04001f0022564004"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff05001f00215a5104"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff06001f00206a6504"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff07001f001faa6504"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff08001f001eaa6604"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff09001e001ea86a02"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff0a001d001ea06a02"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff0b001c001e806a02"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff0c001b001e006a02"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff0d001b001f036803"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff0e001b00200f6003"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff0f001b00213f6003"
+    },
+    {
+      "hex": "00112233445566778899aabbccddeeff10001b0022ff6003"
+    }
+  ]
+}

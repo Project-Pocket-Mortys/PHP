@@ -1,0 +1,622 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Pocket Mortys Android 2.41.0 protocol inventory",
+    "version": "0.1.0",
+    "description": "Discovery index. Unknown methods and schemas are not fabricated; reviewed operations are in contracts.json."
+  },
+  "paths": {
+    "/": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/arena/battle/bot": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/arena/energy/fetch": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/arena/events/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/arena/rewards/claim": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/arena/rewards/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/arena/rewards/pending/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/arena/scores/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/consent": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/decks/slots/config": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/event/brackets": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/event/check": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/event/claimRewards": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/event/pendingRewards": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/iap": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/iap/display/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/inappdeletion/get-account-data-storage-time": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/inappdeletion/request-account-deletion": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/is-gdpr": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/linkaccount": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/lte/fyre/battle/summer": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/lte/fyre/events/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/lte/fyre/events/playerinfo": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/lte/fyre/purchase/item": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/lte/fyre/purchase/pack": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/morty/slots/config": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/moving-mortys/battle": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/moving-mortys/events/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/moving-mortys/purchase-pass": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/promos/active": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/reward/multiplayer": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/reward/single-player": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/battle-boss": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/session/battle-bot": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/session/battle-custom-battle": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/battle-invite/create": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/battle-invite/response": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/battle-invite/revoke": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/battle-wild-morty": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/battle/move": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "post": {
+        "summary": "NetworkBattleAPI$$SelectMove",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "battle_id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "owned_morty_id": {
+                    "type": "string"
+                  },
+                  "move_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "battle_id",
+                  "type"
+                ],
+                "description": "Client constructs all five properties. Required list describes current server validation only."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current replacement-server acknowledgement",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error envelope compatibility remains unresolved"
+          }
+        },
+        "x-native-address": "0x17882bc"
+      }
+    },
+    "/session/battle/ready": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "post": {
+        "summary": "NetworkBattleAPI$$SelectingMove",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "battle_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "battle_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current replacement-server acknowledgement",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error envelope compatibility remains unresolved"
+          }
+        },
+        "x-native-address": "0x1788078"
+      }
+    },
+    "/session/buy-item": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "implemented",
+      "x-method-unresolved": true
+    },
+    "/session/challenge/claim-reward": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/challenge/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/collect-pickup": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "implemented",
+      "x-method-unresolved": true
+    },
+    "/session/deck/edit": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/deck/set-active": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/decks/slots/buy": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "implemented",
+      "x-method-unresolved": true
+    },
+    "/session/dimensions/buy": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/dimensions/check-if-dimension-ftue-rewards-dispensed": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/dimensions/dispense-dimension-ftue-rewards": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/session/dimensions/query": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/session/dispense-item": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/emote/p2p": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/emote/room": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/friend/donate-morty": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/friend/list": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/friend/remove": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/friend/request": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/friend/request-morty": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/friend/response": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/friend/search": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/gacha": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/gacha-info": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/heal": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "implemented",
+      "x-method-unresolved": true
+    },
+    "/session/incentive/reject": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/join-room": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/leave-room": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/morty/slots/buy": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/morty/slots/ftue": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/owned_morties/absorb": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "implemented",
+      "x-method-unresolved": true
+    },
+    "/session/owned_morties/attempt-release-multiple": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/owned_morties/learn-attacks": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "implemented",
+      "x-method-unresolved": true
+    },
+    "/session/owned_morties/lock": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/owned_morties/release-multiple": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/ping-dynamic": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/session/player-avatar/buy": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/player-avatar/migrate": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/session/player-avatar/set-active": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/player-details": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/player-flag": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/recipe/use": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/room-details": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/session/state": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/session/use-general-item": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/session/use-item": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/session/use-shiny-potion": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/shard/health": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/shard/scores": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/sp/gacha-info": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/sse": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/time": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/trading/cancel-trade": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/trading/cancel-trade-offer": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "absent",
+      "x-method-unresolved": true
+    },
+    "/trading/config": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "stub",
+      "x-method-unresolved": true
+    },
+    "/trading/get-trades": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/trading/offer-morty": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/trading/offer-response": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/trading/request-morty": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/user/login": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    },
+    "/user/register": {
+      "description": "Unverified contract. See inventory.json for source evidence.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true
+    }
+  }
+}

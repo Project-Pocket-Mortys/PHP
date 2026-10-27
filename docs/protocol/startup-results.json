@@ -1,0 +1,167 @@
+{
+  "date": "2026-10-12",
+  "baseline_commit": "4708a708f174ed07ac966ef98de0738a76a5a3e9",
+  "status": "partial: local backend reached; consent/loading spinner unresolved",
+  "environment": {
+    "emulator": "37.2.12",
+    "android": "API 30 Google APIs x86_64 revision 16",
+    "runtime_abi": "armeabi-v7a via translation",
+    "gpu": "host GLES 3.1",
+    "adb_server_port": 5038,
+    "serial": "emulator-5556",
+    "native_analysis_host": "default WSL Ubuntu"
+  },
+  "patch_report": {
+    "original_base_sha256": "b44f255bdd58b3196d73ff811c3e645d68edcbd76366a39f5c4489bc538ebf74",
+    "patches": [
+      {
+        "method": "Lcom/pairip/licensecheck/LicenseClient;->initializeLicenseCheck()V",
+        "code_offset": 4469492,
+        "instruction_offset": 4469508,
+        "before": "6200e957",
+        "after": "0e000000",
+        "dex": "classes.dex"
+      },
+      {
+        "method": "Lcom/prime31/GoogleIABPlugin;->queryInventory([Ljava/lang/String;)V",
+        "code_offset": 4624172,
+        "instruction_offset": 4624188,
+        "before": "6e10fcef04000c006e104bef00000c001a016fb1713065be1005",
+        "after": "5440bd4c39000b001a0070b16201bb4c6e303dbe04010e000000",
+        "dex": "classes2.dex"
+      }
+    ],
+    "url_redirects": [
+      {
+        "literal_index": 16424,
+        "before": "https://assets.bps-pmnet.com/Aliases/{0}/{1}",
+        "after": "http://127.0.0.1:8087/Aliases/{0}/{1}"
+      },
+      {
+        "literal_index": 16425,
+        "before": "https://assets.bps-pmnet.com/Status",
+        "after": "http://127.0.0.1:8087/Status"
+      },
+      {
+        "literal_index": 16426,
+        "before": "https://clients3.google.com/generate_204",
+        "after": "http://127.0.0.1:8087/_research/online"
+      },
+      {
+        "literal_index": 16434,
+        "before": "https://newc137.bps-pmnet.com/is-gdpr",
+        "after": "http://127.0.0.1:8087/is-gdpr"
+      },
+      {
+        "literal_index": 16435,
+        "before": "https://newc137.bps-pmnet.com/time?a=pm_{0}",
+        "after": "http://127.0.0.1:8087/time?a=pm_{0}"
+      },
+      {
+        "literal_index": 16441,
+        "before": "https://{0}.game.bps-pmnet.com",
+        "after": "http://127.0.0.1:8087"
+      }
+    ],
+    "insecureHttpOption": 2,
+    "scope": "Local startup research; does not confer a Play license or purchase entitlement."
+  },
+  "apk_payload_audit": [
+    {
+      "original": "base.apk",
+      "original_sha256": "b44f255bdd58b3196d73ff811c3e645d68edcbd76366a39f5c4489bc538ebf74",
+      "signed": "base-aligned-debugSigned.apk",
+      "signed_sha256": "294f24902550a4a999b75ee3e4e2d6619e6b67eb6f6e8f0c1de68151bc06a698",
+      "changed_zip_entries_excluding_META_INF": [
+        "assets/bin/Data/Managed/Metadata/global-metadata.dat",
+        "assets/bin/Data/globalgamemanagers",
+        "classes.dex",
+        "classes2.dex",
+        "stamp-cert-sha256"
+      ]
+    },
+    {
+      "original": "split_config.armeabi_v7a.apk",
+      "original_sha256": "3514f19fe25e1cd3729e72cebdef87c105d86cf6e943000f11a4dce024a6cb09",
+      "signed": "split_config.armeabi_v7a-aligned-debugSigned.apk",
+      "signed_sha256": "d8074d4fcb04feb8e7c4bdda01a2fb2964f555cbd3d110e930fd6641b77318a2",
+      "changed_zip_entries_excluding_META_INF": [
+        "stamp-cert-sha256"
+      ]
+    }
+  ],
+  "audit_note": "Signing metadata and source stamp change on re-signing. Native library payloads are unchanged.",
+  "observed_replacement_backend_requests": [
+    {
+      "method": "GET",
+      "path": "/_research/online",
+      "status": 204
+    },
+    {
+      "method": "GET",
+      "path": "/time",
+      "status": 200
+    }
+  ],
+  "evidence_limits": [
+    "Replacement-server observations are not original-server contracts.",
+    "Automated manifest/appdata requests are not game-originated asset evidence.",
+    "OneTrust downloads are current third-party data, not original game backend responses.",
+    "Ghidra startup and asset candidate pseudocode needs instruction-boundary verification."
+  ],
+  "unverified": [
+    "ARM64 startup",
+    "consent WebView and state transition",
+    "game-driven manifest and appdata download",
+    "main-menu startup completion",
+    "registration and multiplayer runtime"
+  ],
+  "tests": {
+    "research_patch_tests": 3,
+    "protocol_tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "commands": [
+      "py -m unittest discover -s tests/research -v",
+      "py -m unittest discover -s tests/protocol -v"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": ".research/emulator/license-initialize.json",
+      "sha256": "e3aa1d266996c5f4a039f468f1324d3bb6ca1ad70851cafc680933b8e2b94e01",
+      "rea_evidence_id": "ev_fd27618bd6c3feb6a4c8a05733a25a9c4de8e8156af521dda7294f3c0c99047a"
+    },
+    {
+      "path": ".research/emulator/billing-patched.json",
+      "sha256": "03f5688367041b83b33c3012771bafad5f237c1402885880a5468727e2b963c9",
+      "rea_evidence_id": "ev_07bd93ff184780e1e42c6333004e15767ca3861db04c52626c0ecb9641fb625f"
+    },
+    {
+      "path": ".research/emulator/billing-guard.log",
+      "sha256": "8c4d4ec769d32fde3e8710ea1fbbd02a74b5c68843b8143ef5e79c60ee3e5dd8"
+    },
+    {
+      "path": ".research/emulator/latest-startup.log",
+      "sha256": "c3c0c34f7a2c3f880a859d78484018e56f2a538b5b218b4eeac7dc7985fe8343"
+    },
+    {
+      "path": ".research/emulator/latest-startup.png",
+      "sha256": "54fc7f318d9656ec36ad4d37d31f44fdf04882a600ee4ad6069ab602cee239ae"
+    },
+    {
+      "path": ".research/emulator/pocket-ui.xml",
+      "sha256": "41c0ca0329f0272cb9b5df5c9a5b46d6388eca1ddbdf643e31979cc1ab5de5b4"
+    },
+    {
+      "path": ".research/emulator/regression.log",
+      "sha256": "28eae48842892af11bd839fe89d7034001688b136a379ae8506b38e30d7ddc66"
+    },
+    {
+      "path": ".research/emulator/backend-startup.log",
+      "sha256": "c3531242188f41b601764696e4745d629f588709a3616c90ee76825b8f554f53",
+      "scope": "Client startup interval, without automated test requests"
+    }
+  ],
+  "next_step": "Trace ConsentState coroutine, OneTrust initialization/ShowBanner and WebView lifecycle; capture game-originated manifest fetch."
+}

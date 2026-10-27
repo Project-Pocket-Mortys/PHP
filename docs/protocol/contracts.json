@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "evidence": "ARM64 binary in artifacts.json; native-transport.json instruction references; server integration tests",
+  "http": {
+    "/session/battle/ready": {
+      "method": "POST",
+      "native_constructor": "NetworkBattleAPI$$SelectingMove",
+      "address": "0x1788078",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "battle_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "battle_id"
+        ]
+      },
+      "success": {
+        "success": true
+      },
+      "success_origin": "replacement server; original acknowledgement body not established",
+      "event": "battle:move-timer-started",
+      "error_enum": "eBattleReadyError",
+      "errors": {
+        "400": "missing/malformed identifier",
+        "401": "invalid session",
+        "403": "other initiator",
+        "404": "missing battle",
+        "409": "inactive battle or missing room"
+      },
+      "errors_origin": "replacement server regression contract; original error envelopes unresolved"
+    },
+    "/session/battle/move": {
+      "method": "POST",
+      "native_constructor": "NetworkBattleAPI$$SelectMove",
+      "address": "0x17882bc",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "battle_id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "move_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "battle_id",
+          "type"
+        ],
+        "description": "Client constructs all five properties. Required list describes current server validation only."
+      },
+      "success": {
+        "success": true
+      },
+      "event": "battle:turn-result",
+      "limitations": [
+        "combat remains placeholder",
+        "capture is not persisted",
+        "duplicate active turns are not idempotent",
+        "item consumption unresolved"
+      ]
+    },
+    "/session/leave-room": {
+      "method": "POST",
+      "native_constructor": "NetworkRoomAPI$$Leave",
+      "address": "0x17ad678",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id"
+        ]
+      },
+      "success": {
+        "success": true
+      },
+      "success_origin": "Existing replacement-server envelope retained; original-server acknowledgement parity not established.",
+      "event": "room:user-removed",
+      "persistent_effect": "Atomically clear users.room_id and publish one departure in prior room; already outside room acknowledges without event.",
+      "retry_limit": "Concurrent retries before another join publish once. No request identity exists to distinguish a delayed leave after a new join.",
+      "errors": {
+        "400": "missing session",
+        "404": "invalid session (existing behavior)",
+        "500": "failed transaction with rollback"
+      },
+      "evidence": "room-leave-repair.md; additive database, concurrent HTTP and UDP tests"
+    }
+  },
+  "sse": {
+    "battle:start": {
+      "client_type": "BattleStartResponse",
+      "handler_address": "0x1788674",
+      "managed_fields": [
+        {
+          "name": "battle_id",
+          "managed_type": "string",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleStartResponse.cs",
+            "line": 5,
+            "sha256": "5a5f78d835d8d3f6e33edfbc529d96949dff5994f82594ff4e8184ca58089d96"
+          }
+        },
+        {
+          "name": "battle_type",
+          "managed_type": "string",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleStartResponse.cs",
+            "line": 6,
+            "sha256": "5a5f78d835d8d3f6e33edfbc529d96949dff5994f82594ff4e8184ca58089d96"
+          }
+        },
+        {
+          "name": "player",
+          "managed_type": "Dictionary<String, Object>",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleStartResponse.cs",
+            "line": 7,
+            "sha256": "5a5f78d835d8d3f6e33edfbc529d96949dff5994f82594ff4e8184ca58089d96"
+          }
+        },
+        {
+          "name": "opponent",
+          "managed_type": "Dictionary<String, Object>",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleStartResponse.cs",
+            "line": 8,
+            "sha256": "5a5f78d835d8d3f6e33edfbc529d96949dff5994f82594ff4e8184ca58089d96"
+          }
+        },
+        {
+          "name": "meta",
+          "managed_type": "Dictionary<String, Object>",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleStartResponse.cs",
+            "line": 9,
+            "sha256": "5a5f78d835d8d3f6e33edfbc529d96949dff5994f82594ff4e8184ca58089d96"
+          }
+        }
+      ],
+      "requiredness": "unknown; managed fields alone do not establish missing-field handling",
+      "audience": "requesting player in current PvWM server implementation"
+    },
+    "battle:move-timer-started": {
+      "client_type": "BattleMoveTimeResponse",
+      "handler_address": "0x1788d00",
+      "managed_fields": [
+        {
+          "name": "timeout",
+          "managed_type": "int",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleMoveTimeResponse.cs",
+            "line": 5,
+            "sha256": "11b8b33b667e8e4802fb94a57e40d76be4ea499ed986208e456ce93a77e54476"
+          }
+        }
+      ],
+      "requiredness": "unknown; managed fields alone do not establish missing-field handling",
+      "audience": "requesting player in current PvWM server implementation"
+    },
+    "battle:turn-result": {
+      "client_type": "BattleTurnResultResponse",
+      "handler_address": "0x1788dc4",
+      "managed_fields": [
+        {
+          "name": "outcome",
+          "managed_type": "eMPBattleTurnResult",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleTurnResultResponse.cs",
+            "line": 5,
+            "sha256": "fe65c1d1bb1cd8bb63acec389820cecc242ece2dfd1387971df2c109aaa12417"
+          }
+        },
+        {
+          "name": "battle_abandoned",
+          "managed_type": "bool",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleTurnResultResponse.cs",
+            "line": 6,
+            "sha256": "fe65c1d1bb1cd8bb63acec389820cecc242ece2dfd1387971df2c109aaa12417"
+          }
+        },
+        {
+          "name": "turn_datas",
+          "managed_type": "Dictionary<String, Object>[]",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleTurnResultResponse.cs",
+            "line": 7,
+            "sha256": "fe65c1d1bb1cd8bb63acec389820cecc242ece2dfd1387971df2c109aaa12417"
+          }
+        },
+        {
+          "name": "player_datas",
+          "managed_type": "Dictionary<String, Object>",
+          "wire_name": "unknown; confirm serializer attributes/native parser",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleTurnResultResponse.cs",
+            "line": 8,
+            "sha256": "fe65c1d1bb1cd8bb63acec389820cecc242ece2dfd1387971df2c109aaa12417"
+          }
+        }
+      ],
+      "requiredness": "unknown; managed fields alone do not establish missing-field handling",
+      "audience": "requesting player in current PvWM server implementation"
+    }
+  },
+  "transport": {
+    "content_type": "application/json",
+    "client_header": "X-PMCLIENT",
+    "evidence": "NetworkHTTP$$Request 0x17b5a44; ARM64 0x17b5ba0..0x17b5bb4 selects Post=2 for a default Get=0 request with non-null serialized postData",
+    "session_auth": "Request bodies carry session_id; replacement SSE decodes it from token query JWT payload without verifying signature",
+    "reconnect": "Observed Android 2.41.0 diagnostic profile: interrupted stream shows ES_CLOSED; Play performs a new login and SSE GET without Last-Event-ID/since. OnRetryHandler statically returns false. Other interruption modes unverified; see movement-and-reconnect.md."
+  },
+  "udp": {
+    "status": "Client codec recovered; optional research PHP relay verified with one Android emulator plus synthetic peer. Two Android clients and production movement authority remain unverified.",
+    "evidence": [
+      "movement-native.json",
+      "../../tests/protocol/fixtures/udp-movement.json",
+      "udp-relay.md"
+    ],
+    "record_bytes": 24,
+    "receive_datagram": "One or more concatenated 24-byte records; other lengths ignored by client.",
+    "layout": [
+      {
+        "offset": 0,
+        "length": 16,
+        "meaning": "Canonical network-order GUID: session ID outbound from client; player ID on relay deliveries to client, verified by synthetic peer avatar in Android."
+      },
+      {
+        "offset": 16,
+        "length": 1,
+        "meaning": "Sequence 0..255; wraps to zero."
+      },
+      {
+        "offset": 17,
+        "length": 2,
+        "meaning": "Unsigned x coordinate, big-endian."
+      },
+      {
+        "offset": 19,
+        "length": 2,
+        "meaning": "Unsigned y coordinate, big-endian."
+      },
+      {
+        "offset": 21,
+        "length": 2,
+        "meaning": "Little-endian bit field: bits 0..11 are six 2-bit inverse steps (newest first), bits 12..15 are count; counts above six give empty history."
+      },
+      {
+        "offset": 23,
+        "length": 1,
+        "meaning": "Direction: NONE=0 RIGHT=1 LEFT=2 UP=3 DOWN=4."
+      }
+    ],
+    "history_codes": {
+      "0": "previous x+1",
+      "1": "previous x-1",
+      "2": "previous y+1",
+      "3": "previous y-1"
+    },
+    "sequence_rule": "(new>old and new-old<=127) or (old>new and old-new>127); equality discarded.",
+    "unresolved": [
+      "Two-emulator and iOS acceptance",
+      "Idle peer expiry, initial snapshots, room transitions and endpoint lifecycle",
+      "Server-authoritative movement validation and persistence",
+      "Restart/reconnect sequence handling and prolonged packet loss"
+    ]
+  }
+}

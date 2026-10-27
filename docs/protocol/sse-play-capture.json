@@ -1,0 +1,185 @@
+{
+  "capture_start_utc": "2026-10-13T01:36:47.783985+00:00",
+  "capture_end_utc": "2026-10-13T01:36:54.540939+00:00",
+  "streams": [
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/user/login",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/decks/slots/config",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/lte/fyre/events/list",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    },
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/sse/",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    },
+    {
+      "direction": "from_backend",
+      "requests": [],
+      "events": [
+        "session:start",
+        "room:user-added"
+      ],
+      "has_sse_id_field": false
+    },
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/morty/slots/config",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/arena/events/list",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    },
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/trading/config",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/event/pendingRewards",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    },
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/session/player-details",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/session/dimensions/query",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/event/check",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    },
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/session/friend/list",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/session/join-room",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/moving-mortys/events/list",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/session/challenge/list",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "GET",
+          "path": "/promos/active",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    },
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/arena/rewards/pending/list",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/session/state",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/session/state",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "POST",
+          "path": "/session/state",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    }
+  ],
+  "limitations": "Per-direction TCP order only; partial initial streams possible. Query strings, header values, bodies, addresses and identifiers omitted."
+}

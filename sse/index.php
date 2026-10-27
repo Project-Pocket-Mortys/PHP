@@ -68,9 +68,10 @@ function cursor_get(PDO $pdo, string $player_id): int {
     $q->execute([$player_id]);
     return (int)$q->fetchColumn();
 }
-function cursor_set(PDO $pdo, string $player_id, int $last_id): void {
-    $q = $pdo->prepare("UPDATE users SET last_event_id = ?, last_seen = NOW() WHERE player_id = ?");
-    $q->execute([$last_id, $player_id]);
+function cursor_set(PDO $pdo, string $player_id, int $last_id, string $session_id, string $room_id): void {
+    // A previous room's poll must not overwrite a new join's cursor.
+    $q = $pdo->prepare("UPDATE users SET last_event_id = ?, last_seen = NOW() WHERE player_id = ? AND session_id = ? AND room_id = ?");
+    $q->execute([$last_id, $player_id, $session_id, $room_id]);
 }
 function room_max_event_id(PDO $pdo, string $room_id): int {
     $q = $pdo->prepare("SELECT COALESCE(MAX(id), 0) FROM event_queue WHERE room_id = ?");
@@ -78,94 +79,19 @@ function room_max_event_id(PDO $pdo, string $room_id): int {
     return (int)$q->fetchColumn();
 }
 
+// A stream belongs to the session that opened it, not every future login
+// for the same player. End revoked streams without inventing a wire event.
+function require_live_stream_session(PDO $pdo, string $player_id, string $session_id): array {
+    $q = $pdo->prepare("SELECT room_id, COALESCE(last_event_id, 0) AS last_event_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+    $q->execute([$player_id, $session_id]);
+    $membership = $q->fetch(PDO::FETCH_ASSOC);
+    if (!$membership) exit;
+    return $membership;
+}
+
 
 /* ---------------- ACTIVE DECK MORTIES ---------------- */
-function get_active_deck_morties(PDO $pdo, string $player_id): array {
-
-    /* ---------------- 1. GET ACTIVE DECK ---------------- */
-    $q = $pdo->prepare("
-        SELECT deck_id, owned_morty_ids
-        FROM decks
-        WHERE player_id = ?
-        LIMIT 1
-    ");
-    $q->execute([$player_id]);
-    $deck = $q->fetch(PDO::FETCH_ASSOC);
-
-    if (!$deck || !$deck["owned_morty_ids"]) {
-        return [];
-    }
-
-    $raw = $deck["owned_morty_ids"];
-
-    /* ---------------- 2. PARSE MORTY IDS ---------------- */
-    $morty_ids = json_decode($raw, true);
-
-    if (!is_array($morty_ids)) {
-        // fallback if stored as CSV
-        $morty_ids = array_filter(array_map('trim', explode(',', $raw)));
-    }
-
-    if (empty($morty_ids)) {
-        return [];
-    }
-
-    /* ---------------- 3. LOAD MORTIES ---------------- */
-    $in = implode(',', array_fill(0, count($morty_ids), '?'));
-
-    $q = $pdo->prepare("
-        SELECT 
-            owned_morty_id,
-            morty_id,
-            hp,
-            variant,
-            is_locked,
-            is_trading_locked,
-            fight_pit_id
-        FROM owned_morties
-        WHERE owned_morty_id IN ($in)
-    ");
-    $q->execute($morty_ids);
-
-    $morties = $q->fetchAll(PDO::FETCH_ASSOC);
-
-    /* ---------------- 4. NORMALIZE TYPES ---------------- */
-    foreach ($morties as &$m) {
-        $m["hp"] = (int)$m["hp"];
-
-        $m["is_locked"] = filter_var(
-            $m["is_locked"],
-            FILTER_VALIDATE_BOOLEAN
-        );
-
-        $m["is_trading_locked"] = filter_var(
-            $m["is_trading_locked"],
-            FILTER_VALIDATE_BOOLEAN
-        );
-
-        $m["fight_pit_id"] = (
-    empty($m["fight_pit_id"]) ||
-    strtolower((string)$m["fight_pit_id"]) === "null"
-)
-    ? null
-    : $m["fight_pit_id"];
-    }
-    unset($m);
-
-    /* ---------------- 5. PRESERVE ORIGINAL DECK ORDER ---------------- */
-    $ordered = [];
-
-    foreach ($morty_ids as $id) {
-        foreach ($morties as $m) {
-            if ($m["owned_morty_id"] === $id) {
-                $ordered[] = $m;
-                break;
-            }
-        }
-    }
-
-    return $ordered;
-}
+require_once __DIR__ . '/../lib/active_deck.php';
 
 // -------------------- AUTH --------------------
 
@@ -238,9 +164,11 @@ $room_id = "";
 $last_keepalive = time();
 
 while (!connection_aborted()) {
-    $st = $pdo->prepare("SELECT room_id FROM users WHERE player_id = ? LIMIT 1");
-    $st->execute([$player_id]);
-    $room_id = (string)$st->fetchColumn();
+    $st = $pdo->prepare("SELECT room_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+    $st->execute([$player_id, $session_id]);
+    $membership = $st->fetch(PDO::FETCH_ASSOC);
+    if (!$membership) exit;
+    $room_id = (string)$membership['room_id'];
 
     if ($room_id !== "" && $room_id !== "0") break;
 
@@ -280,6 +208,7 @@ if ($fresh_connect) {
     $pickupStmt->execute([$room_id]);
 
     while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
+        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
 
         $placement = explode(",", $p["placement"] ?? "0,0");
 
@@ -310,6 +239,7 @@ if ($fresh_connect) {
     $wildStmt->execute([$room_id]);
 
     while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
+        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
 
         $placement = explode(",", $w["placement"] ?? "0,0");
 
@@ -346,6 +276,7 @@ if ($fresh_connect) {
     $botStmt->execute([$room_id]);
 
     while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
+        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
 
         $placement = explode(",", $b["placement"] ?? "0,0");
 
@@ -372,11 +303,11 @@ if ($fresh_connect) {
 
     // move cursor forward after snapshot
     $last_id = room_max_event_id($pdo, $room_id);
-    cursor_set($pdo, $player_id, $last_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
 
 } else {
     $last_id = (int)$client_last_event_id;
-    cursor_set($pdo, $player_id, $last_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
 }
 
 // -------------------- MAIN STREAM LOOP --------------------
@@ -392,15 +323,32 @@ $privateEvents = [
 
 while (!connection_aborted()) {
 
+    $membership = require_live_stream_session($pdo, $player_id, $session_id);
+    $current_room_id = (string)$membership['room_id'];
+    if ($current_room_id !== $room_id) {
+        $room_id = $current_room_id;
+        // join-room supplies the snapshot over HTTP and installs this baseline
+        // together with membership. Do not replay the destination's history.
+        $last_id = (int)$membership['last_event_id'];
+    }
+    if ($room_id === '' || $room_id === '0') {
+        if ((time() - $last_keepalive) >= $keepalive_interval_sec) {
+            sse_send('session:keep-alive', '0');
+            $last_keepalive = time();
+        }
+        usleep(250000);
+        continue;
+    }
+
     // keep user online
     $pdo->prepare("
-        UPDATE users 
-        SET last_seen = NOW() 
+        UPDATE users
+        SET last_seen = NOW()
         WHERE player_id = ?
     ")->execute([$player_id]);
 
     $stmt = $pdo->prepare("
-        SELECT 
+        SELECT
             id,
             room_id,
             event_name,
@@ -437,6 +385,7 @@ while (!connection_aborted()) {
     $sent = false;
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
 
         $eventName = (string)$row["event_name"];
         $eid = (int)$row["id"];
@@ -537,12 +486,12 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
         }
-		
+
 		// ---------------- RAID EVENTS ----------------
         elseif ($eventName === "shard:raid-boss-state-changed") {
            $payload = (string)$row["current_raid"];
 		}
-		
+
 		// ---------------- WILD MORTY STATE CHANGE ----------------
         elseif ($eventName === "room:wild-morty-state-changed") {
 		   $rebuilt = [
@@ -555,7 +504,7 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- USER ROOM STATE CHANGE ----------------
         elseif ($eventName === "room:user-state-changed") {
 		   $rebuilt = [
@@ -568,22 +517,22 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- BATTLE START EVENT ----------------
         elseif ($eventName === "battle:start") {
            $payload = (string)$row["battle_start"];
 		}
-		
+
 		// ---------------- BATTLE TURN ----------------
 		elseif ($eventName === "battle:turn-result") {
            $payload = (string)$row["battle_turn_result"];
 		}
-		
+
 		// ---------------- BATTLE TIMER ----------------
 		elseif ($eventName === "battle:move-timer-started") {
            $payload = (string)$row["battle_move_timer_started"];
 		}
-		
+
 		// ---------------- REMOVE PICKUP ----------------
         elseif ($eventName === "room:pickup-removed") {
 		   $rebuilt = [
@@ -595,7 +544,7 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- EMOTE ----------------
         elseif ($eventName === "emote:room") {
 		   $rebuilt = [
@@ -608,34 +557,42 @@ while (!connection_aborted()) {
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- ROOM USER ADDED ----------------
         elseif ($eventName === "room:user-added") {
+		// The queued player is the arriving subject, not the stream subscriber.
+		$subjectStmt = $pdo->prepare("SELECT player_id, username, player_avatar_id, level, state FROM users WHERE player_id = ? LIMIT 1");
+		$subjectStmt->execute([$targetPid]);
+		$subject = $subjectStmt->fetch(PDO::FETCH_ASSOC);
+		if (!$subject) {
+		    $last_id = $eid;
+		    continue;
+		}
 		$roomuser = [
-                "player_id" => (string)$user["player_id"],
-                "username" => (string)$user["username"],
-                "player_avatar_id" => (string)$user["player_avatar_id"],
-                "level" => (int)$user["level"],
-                "owned_morties" => get_active_deck_morties($pdo, (string)$user["player_id"]),
-                "state" => (string)($user["state"] ?: "WORLD")
+                "player_id" => (string)$subject["player_id"],
+                "username" => (string)$subject["username"],
+                "player_avatar_id" => (string)$subject["player_avatar_id"],
+                "level" => (int)$subject["level"],
+                "owned_morties" => get_active_deck_morties($pdo, (string)$subject["player_id"]),
+                "state" => (string)($row["state"] ?: "WORLD")
             ];
 		$payload = json_encode(
                 $roomuser,
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 		// ---------------- ROOM USER LEFT ----------------
         elseif ($eventName === "room:user-removed") {
 		$roomuser = [
-                "player_id" => (string)$user["player_id"]
+                "player_id" => $targetPid
             ];
 		$payload = json_encode(
                 $roomuser,
                 JSON_UNESCAPED_SLASHES
             );
 		}
-		
+
 
         // send the payload to the live SSE
         sse_send_id($eventName, $payload, $eid);
@@ -644,7 +601,7 @@ while (!connection_aborted()) {
         $sent = true;
     }
 
-    cursor_set($pdo, $player_id, $last_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
 
     if (
         !$sent &&

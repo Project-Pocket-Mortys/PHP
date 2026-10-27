@@ -1,0 +1,39 @@
+{
+  "capture_start_utc": "2026-10-13T01:36:01.875857+00:00",
+  "capture_end_utc": "2026-10-13T01:36:08.839730+00:00",
+  "streams": [
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/Status/rat.json",
+          "has_last_event_id": false,
+          "has_since_query": false
+        },
+        {
+          "method": "GET",
+          "path": "/Aliases/rat/Android/manifest.json",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    },
+    {
+      "direction": "to_backend",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/_research/online",
+          "has_last_event_id": false,
+          "has_since_query": false
+        }
+      ],
+      "events": [],
+      "has_sse_id_field": false
+    }
+  ],
+  "limitations": "Per-direction TCP order only; partial initial streams possible. Query strings, header values, bodies, addresses and identifiers omitted."
+}

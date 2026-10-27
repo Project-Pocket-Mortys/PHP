@@ -1,0 +1,1705 @@
+{
+  "client": "Android 2.41.0 ARM32 localhost multiplayer diagnostic profile",
+  "onboarding_queries_overridden": true,
+  "evidence_kind": "replacement-server runtime, not original-server capture",
+  "excluded_test_request": "POST /decks/slots/config/ from additive fixture test",
+  "exchanges": [
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:54+00:00",
+      "method": "POST",
+      "path": "/user/register",
+      "request": {
+        "username": "[REDACTED]",
+        "player_avatar_ids": [
+          "AvatarRickDefault"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "player_id": "8001b72a-9080-4801-a676-bc908ebe120c",
+        "username": "[REDACTED]",
+        "player_avatar_ids": [
+          "AvatarRickDefault"
+        ],
+        "level": 1,
+        "xp": 27,
+        "streak": 0,
+        "owned_morties": [
+          {
+            "id": 229,
+            "player_id": "8001b72a-9080-4801-a676-bc908ebe120c",
+            "owned_morty_id": "345010e0-7c21-4f7a-99a4-09ab42a71d14",
+            "morty_id": "MortyDefault",
+            "level": 5,
+            "xp": 125,
+            "hp": 20,
+            "hp_stat": 20,
+            "attack_stat": 11,
+            "defence_stat": 10,
+            "variant": "Normal",
+            "speed_stat": 10,
+            "is_locked": "false",
+            "is_trading_locked": "false",
+            "fight_pit_id": "null",
+            "evolution_points": 0,
+            "xp_lower": 125,
+            "xp_upper": 216,
+            "created_at": "2026-10-13 01:03:54",
+            "owned_attacks": [
+              {
+                "attack_id": "AttackOutburst",
+                "position": 0,
+                "pp": 12,
+                "pp_stat": 12
+              }
+            ]
+          }
+        ],
+        "active_deck_id": 0,
+        "decks_owned": 3,
+        "decks": [
+          {
+            "deck_id": 0,
+            "owned_morty_ids": [
+              "345010e0-7c21-4f7a-99a4-09ab42a71d14"
+            ]
+          }
+        ],
+        "owned_items": [
+          {
+            "item_id": "ItemMortyChip",
+            "quantity": 1
+          },
+          {
+            "item_id": "ItemSerum",
+            "quantity": 1
+          }
+        ],
+        "mortydex": [
+          {
+            "morty_id": "MortyDefault",
+            "caught": "true"
+          }
+        ],
+        "tags": [],
+        "xp_lower": 27,
+        "xp_upper": 64,
+        "secret": "[REDACTED]"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:54+00:00",
+      "method": "POST",
+      "path": "/user/login",
+      "request": {
+        "secret": "[REDACTED]",
+        "consent_identifier": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "session_url": "[REDACTED]",
+        "session_url_ttl": "60"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:55+00:00",
+      "method": "POST",
+      "path": "/decks/slots/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "omitted": "non-JSON or malformed content",
+        "size": 21
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:55+00:00",
+      "method": "POST",
+      "path": "/trading/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "config_id": "DEFAULT",
+        "premium_trade_cost": 3,
+        "max_trades": 3,
+        "trade_cooldown_minutes": 1440
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:55+00:00",
+      "method": "POST",
+      "path": "/morty/slots/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "config_data": {
+          "config_id": "MP",
+          "starting_morty_slots": 350,
+          "max_morty_slots": 750,
+          "increment_slot_count": 100,
+          "cost_additional_slot": 5
+        }
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:55+00:00",
+      "method": "POST",
+      "path": "/session/player-details",
+      "request": {
+        "session_id": "[REDACTED]",
+        "include": [
+          "tags",
+          "avatars",
+          "currency",
+          "morties",
+          "attacks",
+          "decks",
+          "mortydex",
+          "items",
+          "challenge_reward",
+          "morty_slots",
+          "shiny_potion"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "player_id": "8001b72a-9080-4801-a676-bc908ebe120c",
+        "username": "[REDACTED]",
+        "player_avatar_id": "AvatarRickDefault",
+        "level": 1,
+        "xp": 27,
+        "streak": 0,
+        "coins": 0,
+        "coupons": 0,
+        "permits": 0,
+        "challenge_reward": false,
+        "owned_morties": [
+          {
+            "owned_morty_id": "345010e0-7c21-4f7a-99a4-09ab42a71d14",
+            "morty_id": "MortyDefault",
+            "level": 5,
+            "xp": 125,
+            "hp": 20,
+            "hp_stat": 20,
+            "attack_stat": 11,
+            "defence_stat": 10,
+            "variant": "Normal",
+            "speed_stat": 10,
+            "is_locked": false,
+            "is_trading_locked": false,
+            "fight_pit_id": null,
+            "evolution_points": 0,
+            "owned_attacks": [
+              {
+                "attack_id": "AttackOutburst",
+                "position": 0,
+                "pp": 12,
+                "pp_stat": 12
+              }
+            ],
+            "xp_lower": 125,
+            "xp_upper": 216
+          }
+        ],
+        "active_deck_id": 0,
+        "decks_owned": 3,
+        "decks": [
+          {
+            "deck_id": 0,
+            "owned_morty_ids": [
+              "345010e0-7c21-4f7a-99a4-09ab42a71d14"
+            ]
+          }
+        ],
+        "owned_items": [
+          {
+            "item_id": "ItemMortyChip",
+            "quantity": 1
+          },
+          {
+            "item_id": "ItemSerum",
+            "quantity": 1
+          }
+        ],
+        "owned_avatars": [
+          {
+            "player_avatar_id": "AvatarRickDefault"
+          }
+        ],
+        "mortydex": [
+          {
+            "morty_id": "MortyDefault",
+            "caught": true
+          }
+        ],
+        "tags": [],
+        "play_shiny_potion": null,
+        "xp_lower": 27,
+        "xp_upper": 64
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:55+00:00",
+      "method": "POST",
+      "path": "/session/friend/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "requests_sent": [],
+        "requests_received": [],
+        "friends": [],
+        "poll_period": 5,
+        "donation_request": {
+          "morty_id": null,
+          "next_countdown": 0,
+          "donation": null
+        },
+        "limit_friends": 30
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:55+00:00",
+      "method": "POST",
+      "path": "/session/dimensions/query",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "dimension_1_owned": true,
+        "dimension_2_owned": true,
+        "dimension_3_owned": true,
+        "dimension_4_owned": true,
+        "dimension_5_owned": true,
+        "dimension_6_owned": true,
+        "dimension_7_owned": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:03:55+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "request": {
+        "session_id": "[REDACTED]",
+        "world_id": "1"
+      },
+      "status": 400,
+      "response": {
+        "error": "NO_ROOM_FOUND"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:04:25+00:00",
+      "method": "POST",
+      "path": "/session/ping-dynamic/",
+      "request": {
+        "session_id": "[REDACTED]",
+        "type": "DEFAULT"
+      },
+      "status": 200,
+      "response": {
+        "success": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:04:55+00:00",
+      "method": "POST",
+      "path": "/session/ping-dynamic/",
+      "request": {
+        "session_id": "[REDACTED]",
+        "type": "DEFAULT"
+      },
+      "status": 200,
+      "response": {
+        "success": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:05:25+00:00",
+      "method": "POST",
+      "path": "/session/ping-dynamic/",
+      "request": {
+        "session_id": "[REDACTED]",
+        "type": "DEFAULT"
+      },
+      "status": 200,
+      "response": {
+        "success": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:05:44+00:00",
+      "method": "GET",
+      "path": "/time",
+      "request": {
+        "omitted": "non-JSON or malformed content",
+        "size": 0
+      },
+      "status": 200,
+      "response": {
+        "utc_timestamp": 1791853544930
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:05:45+00:00",
+      "method": "POST",
+      "path": "/inappdeletion/get-account-data-storage-time",
+      "request": {},
+      "status": 200,
+      "response": {
+        "time_anyUnits": 12
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:05:46+00:00",
+      "method": "GET",
+      "path": "/promos/active",
+      "request": {
+        "omitted": "non-JSON or malformed content",
+        "size": 0
+      },
+      "status": 200,
+      "response": {
+        "SP": {},
+        "MP": {}
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:05:53+00:00",
+      "method": "GET",
+      "path": "/is-gdpr/",
+      "request": {
+        "omitted": "non-JSON or malformed content",
+        "size": 0
+      },
+      "status": 200,
+      "response": {
+        "countryCode": "US",
+        "GDPR": false,
+        "CCPA": false
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:21+00:00",
+      "method": "POST",
+      "path": "/user/login",
+      "request": {
+        "secret": "[REDACTED]",
+        "consent_identifier": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "session_url": "[REDACTED]",
+        "session_url_ttl": "60"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/decks/slots/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "omitted": "non-JSON or malformed content",
+        "size": 21
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/morty/slots/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "config_data": {
+          "config_id": "MP",
+          "starting_morty_slots": 350,
+          "max_morty_slots": 750,
+          "increment_slot_count": 100,
+          "cost_additional_slot": 5
+        }
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/trading/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "config_id": "DEFAULT",
+        "premium_trade_cost": 3,
+        "max_trades": 3,
+        "trade_cooldown_minutes": 1440
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/session/player-details",
+      "request": {
+        "session_id": "[REDACTED]",
+        "include": [
+          "tags",
+          "avatars",
+          "currency",
+          "morties",
+          "attacks",
+          "decks",
+          "mortydex",
+          "items",
+          "challenge_reward",
+          "morty_slots",
+          "shiny_potion"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "player_id": "8001b72a-9080-4801-a676-bc908ebe120c",
+        "username": "[REDACTED]",
+        "player_avatar_id": "AvatarRickDefault",
+        "level": 1,
+        "xp": 27,
+        "streak": 0,
+        "coins": 0,
+        "coupons": 0,
+        "permits": 0,
+        "challenge_reward": false,
+        "owned_morties": [
+          {
+            "owned_morty_id": "345010e0-7c21-4f7a-99a4-09ab42a71d14",
+            "morty_id": "MortyDefault",
+            "level": 5,
+            "xp": 125,
+            "hp": 20,
+            "hp_stat": 20,
+            "attack_stat": 11,
+            "defence_stat": 10,
+            "variant": "Normal",
+            "speed_stat": 10,
+            "is_locked": false,
+            "is_trading_locked": false,
+            "fight_pit_id": null,
+            "evolution_points": 0,
+            "owned_attacks": [
+              {
+                "attack_id": "AttackOutburst",
+                "position": 0,
+                "pp": 12,
+                "pp_stat": 12
+              }
+            ],
+            "xp_lower": 125,
+            "xp_upper": 216
+          }
+        ],
+        "active_deck_id": 0,
+        "decks_owned": 3,
+        "decks": [
+          {
+            "deck_id": 0,
+            "owned_morty_ids": [
+              "345010e0-7c21-4f7a-99a4-09ab42a71d14"
+            ]
+          }
+        ],
+        "owned_items": [
+          {
+            "item_id": "ItemMortyChip",
+            "quantity": 1
+          },
+          {
+            "item_id": "ItemSerum",
+            "quantity": 1
+          }
+        ],
+        "owned_avatars": [
+          {
+            "player_avatar_id": "AvatarRickDefault"
+          }
+        ],
+        "mortydex": [
+          {
+            "morty_id": "MortyDefault",
+            "caught": true
+          }
+        ],
+        "tags": [],
+        "play_shiny_potion": null,
+        "xp_lower": 27,
+        "xp_upper": 64
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/session/friend/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "requests_sent": [],
+        "requests_received": [],
+        "friends": [],
+        "poll_period": 5,
+        "donation_request": {
+          "morty_id": null,
+          "next_countdown": 0,
+          "donation": null
+        },
+        "limit_friends": 30
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/session/dimensions/query",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "dimension_1_owned": true,
+        "dimension_2_owned": true,
+        "dimension_3_owned": true,
+        "dimension_4_owned": true,
+        "dimension_5_owned": true,
+        "dimension_6_owned": true,
+        "dimension_7_owned": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "request": {
+        "session_id": "[REDACTED]",
+        "world_id": "1"
+      },
+      "status": 200,
+      "response": {
+        "room_id": "00000000-0000-4000-8000-000000000001",
+        "room_udp_host": "localhost",
+        "room_udp_port": 5055,
+        "world_id": 1,
+        "zone_id": "[1,1]",
+        "incentive": {
+          "incentive_id": "NPCAd",
+          "rewards": [
+            {
+              "type": "ITEM",
+              "amount": 1,
+              "item_id": "ItemSerum",
+              "rarity": 100
+            },
+            {
+              "type": "ITEM",
+              "amount": 1,
+              "item_id": "ItemParalysisCure",
+              "rarity": 75
+            },
+            {
+              "type": "COIN",
+              "amount": 200
+            }
+          ],
+          "token": "[REDACTED]"
+        },
+        "users": [
+          {
+            "player_id": "8001b72a-9080-4801-a676-bc908ebe120c",
+            "username": "[REDACTED]",
+            "player_avatar_id": "AvatarRickDefault",
+            "level": 1,
+            "owned_morties": [
+              {
+                "owned_morty_id": "345010e0-7c21-4f7a-99a4-09ab42a71d14",
+                "morty_id": "MortyDefault",
+                "hp": 20,
+                "variant": "Normal",
+                "is_locked": true,
+                "is_trading_locked": true,
+                "fight_pit_id": "null"
+              }
+            ],
+            "state": "WORLD"
+          }
+        ],
+        "pickups": [],
+        "wild_morties": [],
+        "bots": []
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/event/check",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "success": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/lte/fyre/events/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {}
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/event/pendingRewards",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "NO_REWARDS_PENDING"
+        }
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/arena/events/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "events": [
+          {
+            "event_id": "dace4578-cdca-11ef-a9a1-3f079e2d6aa5",
+            "current_phase": "active",
+            "reward_time_remaining": 318892832,
+            "phase_time_remaining": 316792832,
+            "data_time": "2026-01-29T16:25:07.168Z",
+            "starting_energy": 100,
+            "energy_refill_time_minutes": 10,
+            "battle_energy_cost": 0,
+            "battle_premium_energy_cost": 0,
+            "max_regen_energy": 100,
+            "maintenance": false
+          }
+        ]
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/moving-mortys/events/list",
+      "request": {
+        "player_id": "8001b72a-9080-4801-a676-bc908ebe120c"
+      },
+      "status": 200,
+      "response": {
+        "event_data": [],
+        "next_event_active": "2026-02-02T14:00:00.000Z"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:22+00:00",
+      "method": "POST",
+      "path": "/arena/rewards/pending/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "result": []
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:23+00:00",
+      "method": "POST",
+      "path": "/session/state",
+      "request": {
+        "session_id": "[REDACTED]",
+        "state": "WORLD"
+      },
+      "status": 200,
+      "response": {
+        "state": "WORLD"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:23+00:00",
+      "method": "POST",
+      "path": "/session/challenge/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": [
+        {
+          "challenge_id": "9e5d1da5-e8d1-46a0-bb66-3ffc6b9c21ee",
+          "target": 3,
+          "reward_type": "COIN",
+          "reward_amount": 50,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "BattleWinPvWM",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 3,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "98d200db-fb67-46df-94ea-d73667b52ec0",
+          "target": 1,
+          "reward_type": "ITEM",
+          "reward_amount": 1,
+          "reward_id": "ItemGreatSerum",
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "PurchaseItemName",
+          "tag_id": "ItemPoisonCure",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "7c812c30-29d4-47d1-bd83-31c25ce921ff",
+          "target": 1,
+          "reward_type": "COIN",
+          "reward_amount": 200,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "PurchaseItemName",
+          "tag_id": "ItemGreatSerum",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "a0d87751-c5d3-46a7-b9c6-d12607ec514b",
+          "target": 1,
+          "reward_type": "COIN",
+          "reward_amount": 500,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "UseItemName",
+          "tag_id": "ItemMegaSeedLevelUp",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "5433a483-b571-448d-a096-19d097f55447",
+          "target": 4,
+          "reward_type": "COIN",
+          "reward_amount": 100,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "BattleCompleteArena",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "783a59bc-7694-4124-8ca3-baca6f7e9b47",
+          "target": 2,
+          "reward_type": "COIN",
+          "reward_amount": 200,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "EvolveMorty",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "b2cd638c-ef0c-4c47-bf3f-6b08ef6c07f1",
+          "target": 5,
+          "reward_type": "COIN",
+          "reward_amount": 100,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "WildMorty",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "715473f3-bf86-4310-b5b7-163e324feaa2",
+          "target": 4,
+          "reward_type": "COIN",
+          "reward_amount": 100,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "BattleCompleteArena",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "5c27e488-3a08-43cd-b40e-323168e772eb",
+          "target": 5,
+          "reward_type": "ITEM",
+          "reward_amount": 1,
+          "reward_id": "ItemCable",
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "BattleCatchPvWMElement",
+          "tag_id": "Rock",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "9b99c800-b69f-44e3-b7e1-651644e94b83",
+          "target": 1,
+          "reward_type": "ITEM",
+          "reward_amount": 1,
+          "reward_id": "ItemParalysisCure",
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "UseItemName",
+          "tag_id": "ItemPoisonCure",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        }
+      ]
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:23+00:00",
+      "method": "POST",
+      "path": "/session/state",
+      "request": {
+        "session_id": "[REDACTED]",
+        "state": "OCCUPIED"
+      },
+      "status": 200,
+      "response": {
+        "state": "OCCUPIED"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:24+00:00",
+      "method": "POST",
+      "path": "/session/state",
+      "request": {
+        "session_id": "[REDACTED]",
+        "state": "OCCUPIED"
+      },
+      "status": 200,
+      "response": {
+        "state": "OCCUPIED"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:24+00:00",
+      "method": "GET",
+      "path": "/promos/active",
+      "request": {
+        "omitted": "non-JSON or malformed content",
+        "size": 0
+      },
+      "status": 200,
+      "response": {
+        "SP": {},
+        "MP": {}
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:06:52+00:00",
+      "method": "POST",
+      "path": "/session/ping-dynamic/",
+      "request": {
+        "session_id": "[REDACTED]",
+        "type": "DEFAULT"
+      },
+      "status": 200,
+      "response": {
+        "success": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:07:22+00:00",
+      "method": "POST",
+      "path": "/session/ping-dynamic/",
+      "request": {
+        "session_id": "[REDACTED]",
+        "type": "DEFAULT"
+      },
+      "status": 200,
+      "response": {
+        "success": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:07:58+00:00",
+      "method": "GET",
+      "path": "/time",
+      "request": {
+        "omitted": "non-JSON or malformed content",
+        "size": 0
+      },
+      "status": 200,
+      "response": {
+        "utc_timestamp": 1791853678597
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:07:58+00:00",
+      "method": "POST",
+      "path": "/inappdeletion/get-account-data-storage-time",
+      "request": {},
+      "status": 200,
+      "response": {
+        "time_anyUnits": 12
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:00+00:00",
+      "method": "GET",
+      "path": "/promos/active",
+      "request": {
+        "omitted": "non-JSON or malformed content",
+        "size": 0
+      },
+      "status": 200,
+      "response": {
+        "SP": {},
+        "MP": {}
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:07+00:00",
+      "method": "GET",
+      "path": "/is-gdpr/",
+      "request": {
+        "omitted": "non-JSON or malformed content",
+        "size": 0
+      },
+      "status": 200,
+      "response": {
+        "countryCode": "US",
+        "GDPR": false,
+        "CCPA": false
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/user/login",
+      "request": {
+        "secret": "[REDACTED]",
+        "consent_identifier": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "session_url": "[REDACTED]",
+        "session_url_ttl": "60"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/decks/slots/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "config_data": {
+          "config_id": "MP",
+          "starting_deck_slots": 3,
+          "max_deck_slots": 9,
+          "cost_additional_slot": 10
+        }
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/morty/slots/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "config_data": {
+          "config_id": "MP",
+          "starting_morty_slots": 350,
+          "max_morty_slots": 750,
+          "increment_slot_count": 100,
+          "cost_additional_slot": 5
+        }
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/session/player-details",
+      "request": {
+        "session_id": "[REDACTED]",
+        "include": [
+          "tags",
+          "avatars",
+          "currency",
+          "morties",
+          "attacks",
+          "decks",
+          "mortydex",
+          "items",
+          "challenge_reward",
+          "morty_slots",
+          "shiny_potion"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "player_id": "8001b72a-9080-4801-a676-bc908ebe120c",
+        "username": "[REDACTED]",
+        "player_avatar_id": "AvatarRickDefault",
+        "level": 1,
+        "xp": 27,
+        "streak": 0,
+        "coins": 0,
+        "coupons": 0,
+        "permits": 0,
+        "challenge_reward": false,
+        "owned_morties": [
+          {
+            "owned_morty_id": "345010e0-7c21-4f7a-99a4-09ab42a71d14",
+            "morty_id": "MortyDefault",
+            "level": 5,
+            "xp": 125,
+            "hp": 20,
+            "hp_stat": 20,
+            "attack_stat": 11,
+            "defence_stat": 10,
+            "variant": "Normal",
+            "speed_stat": 10,
+            "is_locked": false,
+            "is_trading_locked": false,
+            "fight_pit_id": null,
+            "evolution_points": 0,
+            "owned_attacks": [
+              {
+                "attack_id": "AttackOutburst",
+                "position": 0,
+                "pp": 12,
+                "pp_stat": 12
+              }
+            ],
+            "xp_lower": 125,
+            "xp_upper": 216
+          }
+        ],
+        "active_deck_id": 0,
+        "decks_owned": 3,
+        "decks": [
+          {
+            "deck_id": 0,
+            "owned_morty_ids": [
+              "345010e0-7c21-4f7a-99a4-09ab42a71d14"
+            ]
+          }
+        ],
+        "owned_items": [
+          {
+            "item_id": "ItemMortyChip",
+            "quantity": 1
+          },
+          {
+            "item_id": "ItemSerum",
+            "quantity": 1
+          }
+        ],
+        "owned_avatars": [
+          {
+            "player_avatar_id": "AvatarRickDefault"
+          }
+        ],
+        "mortydex": [
+          {
+            "morty_id": "MortyDefault",
+            "caught": true
+          }
+        ],
+        "tags": [],
+        "play_shiny_potion": null,
+        "xp_lower": 27,
+        "xp_upper": 64
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/trading/config",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "config_id": "DEFAULT",
+        "premium_trade_cost": 3,
+        "max_trades": 3,
+        "trade_cooldown_minutes": 1440
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/session/friend/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "requests_sent": [],
+        "requests_received": [],
+        "friends": [],
+        "poll_period": 5,
+        "donation_request": {
+          "morty_id": null,
+          "next_countdown": 0,
+          "donation": null
+        },
+        "limit_friends": 30
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/session/dimensions/query",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "dimension_1_owned": true,
+        "dimension_2_owned": true,
+        "dimension_3_owned": true,
+        "dimension_4_owned": true,
+        "dimension_5_owned": true,
+        "dimension_6_owned": true,
+        "dimension_7_owned": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "request": {
+        "session_id": "[REDACTED]",
+        "world_id": "1"
+      },
+      "status": 200,
+      "response": {
+        "room_id": "00000000-0000-4000-8000-000000000001",
+        "room_udp_host": "localhost",
+        "room_udp_port": 5055,
+        "world_id": 1,
+        "zone_id": "[1,1]",
+        "incentive": {
+          "incentive_id": "NPCAd",
+          "rewards": [
+            {
+              "type": "ITEM",
+              "amount": 1,
+              "item_id": "ItemSerum",
+              "rarity": 100
+            },
+            {
+              "type": "ITEM",
+              "amount": 1,
+              "item_id": "ItemParalysisCure",
+              "rarity": 75
+            },
+            {
+              "type": "COIN",
+              "amount": 200
+            }
+          ],
+          "token": "[REDACTED]"
+        },
+        "users": [
+          {
+            "player_id": "8001b72a-9080-4801-a676-bc908ebe120c",
+            "username": "[REDACTED]",
+            "player_avatar_id": "AvatarRickDefault",
+            "level": 1,
+            "owned_morties": [
+              {
+                "owned_morty_id": "345010e0-7c21-4f7a-99a4-09ab42a71d14",
+                "morty_id": "MortyDefault",
+                "hp": 20,
+                "variant": "Normal",
+                "is_locked": true,
+                "is_trading_locked": true,
+                "fight_pit_id": "null"
+              }
+            ],
+            "state": "WORLD"
+          }
+        ],
+        "pickups": [],
+        "wild_morties": [],
+        "bots": []
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/event/check",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "success": true
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/event/pendingRewards",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "NO_REWARDS_PENDING"
+        }
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/arena/events/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "events": [
+          {
+            "event_id": "dace4578-cdca-11ef-a9a1-3f079e2d6aa5",
+            "current_phase": "active",
+            "reward_time_remaining": 318892832,
+            "phase_time_remaining": 316792832,
+            "data_time": "2026-01-29T16:25:07.168Z",
+            "starting_energy": 100,
+            "energy_refill_time_minutes": 10,
+            "battle_energy_cost": 0,
+            "battle_premium_energy_cost": 0,
+            "max_regen_energy": 100,
+            "maintenance": false
+          }
+        ]
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/moving-mortys/events/list",
+      "request": {
+        "player_id": "8001b72a-9080-4801-a676-bc908ebe120c"
+      },
+      "status": 200,
+      "response": {
+        "event_data": [],
+        "next_event_active": "2026-02-02T14:00:00.000Z"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/arena/rewards/pending/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {
+        "result": []
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:41+00:00",
+      "method": "POST",
+      "path": "/lte/fyre/events/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": {}
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:43+00:00",
+      "method": "POST",
+      "path": "/session/state",
+      "request": {
+        "session_id": "[REDACTED]",
+        "state": "WORLD"
+      },
+      "status": 200,
+      "response": {
+        "state": "WORLD"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:43+00:00",
+      "method": "POST",
+      "path": "/session/challenge/list",
+      "request": {
+        "session_id": "[REDACTED]"
+      },
+      "status": 200,
+      "response": [
+        {
+          "challenge_id": "9e5d1da5-e8d1-46a0-bb66-3ffc6b9c21ee",
+          "target": 3,
+          "reward_type": "COIN",
+          "reward_amount": 50,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "BattleWinPvWM",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 3,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "98d200db-fb67-46df-94ea-d73667b52ec0",
+          "target": 1,
+          "reward_type": "ITEM",
+          "reward_amount": 1,
+          "reward_id": "ItemGreatSerum",
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "PurchaseItemName",
+          "tag_id": "ItemPoisonCure",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "7c812c30-29d4-47d1-bd83-31c25ce921ff",
+          "target": 1,
+          "reward_type": "COIN",
+          "reward_amount": 200,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "PurchaseItemName",
+          "tag_id": "ItemGreatSerum",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "a0d87751-c5d3-46a7-b9c6-d12607ec514b",
+          "target": 1,
+          "reward_type": "COIN",
+          "reward_amount": 500,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "UseItemName",
+          "tag_id": "ItemMegaSeedLevelUp",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "5433a483-b571-448d-a096-19d097f55447",
+          "target": 4,
+          "reward_type": "COIN",
+          "reward_amount": 100,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "BattleCompleteArena",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "783a59bc-7694-4124-8ca3-baca6f7e9b47",
+          "target": 2,
+          "reward_type": "COIN",
+          "reward_amount": 200,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "EvolveMorty",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "b2cd638c-ef0c-4c47-bf3f-6b08ef6c07f1",
+          "target": 5,
+          "reward_type": "COIN",
+          "reward_amount": 100,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "WildMorty",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "715473f3-bf86-4310-b5b7-163e324feaa2",
+          "target": 4,
+          "reward_type": "COIN",
+          "reward_amount": 100,
+          "reward_id": null,
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "BattleCompleteArena",
+          "tag_id": null,
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "5c27e488-3a08-43cd-b40e-323168e772eb",
+          "target": 5,
+          "reward_type": "ITEM",
+          "reward_amount": 1,
+          "reward_id": "ItemCable",
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "BattleCatchPvWMElement",
+          "tag_id": "Rock",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        },
+        {
+          "challenge_id": "9b99c800-b69f-44e3-b7e1-651644e94b83",
+          "target": 1,
+          "reward_type": "ITEM",
+          "reward_amount": 1,
+          "reward_id": "ItemParalysisCure",
+          "reward_parameters": null,
+          "cooldown": 0,
+          "is_daily": true,
+          "tag": "UseItemName",
+          "tag_id": "ItemPoisonCure",
+          "challange_name": null,
+          "progress": 0,
+          "cooldown_expires": null,
+          "in_cooldown": false,
+          "end_time": "2026-01-28T04:59:59.999Z"
+        }
+      ]
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:43+00:00",
+      "method": "POST",
+      "path": "/session/state",
+      "request": {
+        "session_id": "[REDACTED]",
+        "state": "OCCUPIED"
+      },
+      "status": 200,
+      "response": {
+        "state": "OCCUPIED"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:43+00:00",
+      "method": "POST",
+      "path": "/session/state",
+      "request": {
+        "session_id": "[REDACTED]",
+        "state": "OCCUPIED"
+      },
+      "status": 200,
+      "response": {
+        "state": "OCCUPIED"
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:08:43+00:00",
+      "method": "GET",
+      "path": "/promos/active",
+      "request": {
+        "omitted": "non-JSON or malformed content",
+        "size": 0
+      },
+      "status": 200,
+      "response": {
+        "SP": {},
+        "MP": {}
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-13T01:09:12+00:00",
+      "method": "POST",
+      "path": "/session/ping-dynamic/",
+      "request": {
+        "session_id": "[REDACTED]",
+        "type": "DEFAULT"
+      },
+      "status": 200,
+      "response": {
+        "success": true
+      }
+    }
+  ]
+}
