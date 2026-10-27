@@ -73,8 +73,9 @@ contract/database tests. Five existing lock tests also pass after integration.
 
 ## Remaining item features
 
-Revival, AP restoration, ailment cures, stat/level items, account/general items,
-and in-battle items are not yet implemented here. `ItemFullRecover` must not be
+Full revival and full AP restoration are now implemented in the
+[follow-up](full-restore-items.md). Percentage variants, ailment cures, stat/level
+items, account/general items and in-battle items remain. `ItemFullRecover` must not be
 treated as plain HP healing because its documented effect includes ailments.
 The metadata/data notes distinguish known effects from unresolved percentage
 rounding and the single-player arithmetic precedent. The next increment can
