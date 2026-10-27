@@ -17,6 +17,8 @@ RewriteRule ^session/heal$ /session/heal/ [L]
 
 
 RewriteRule ^session/owned_morties/lock$ /session/owned_morties/lock/ [L]
+RewriteRule ^session/owned_morties/attempt-release-multiple$ /session/owned_morties/attempt-release-multiple/ [L]
+RewriteRule ^session/owned_morties/release-multiple$ /session/owned_morties/release-multiple/ [L]
 
 RewriteCond %{REQUEST_URI} ^/session/owned_morties/absorb$
 RewriteRule ^session/owned_morties/absorb$ /session/owned_morties/absorb/ [L]
