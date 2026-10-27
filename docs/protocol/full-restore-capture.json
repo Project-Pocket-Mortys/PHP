@@ -1,0 +1,174 @@
+{
+  "evidence_kind": "Android 2.41.0 replacement-server capture; not original-server evidence",
+  "fixture": {
+    "extra_morty_level": 6,
+    "initial_hp": 0,
+    "max_hp": 20,
+    "initial_ap": 0,
+    "initial_stored_ap_maximum": 8,
+    "client_ap_maximum": 12,
+    "original_morty_unchanged": true
+  },
+  "requests": [
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-18T18:00:22+00:00",
+      "method": "POST",
+      "path": "/session/use-item",
+      "request": {
+        "session_id": "[REDACTED]",
+        "owned_morty_id": "fixture-morty",
+        "item_id": "ItemPureHalzinger"
+      },
+      "status": 200,
+      "response": {
+        "owned_morty_id": "fixture-morty",
+        "item_id": "ItemPureHalzinger",
+        "is_success": true,
+        "effect_value": 100,
+        "owned_morties": [
+          {
+            "owned_morty_id": "fixture-morty",
+            "morty_id": "MortyDefault",
+            "variant": "Normal",
+            "level": 6,
+            "xp": 125,
+            "hp": 20,
+            "hp_stat": 20,
+            "attack_stat": 11,
+            "defence_stat": 10,
+            "speed_stat": 10,
+            "evolution_points": 0,
+            "xp_lower": 125,
+            "xp_upper": 216,
+            "is_locked": false,
+            "is_trading_locked": false,
+            "fight_pit_id": null,
+            "owned_attacks": [
+              {
+                "attack_id": "AttackOutburst",
+                "position": 0,
+                "pp": 0,
+                "pp_stat": 8
+              }
+            ]
+          }
+        ],
+        "owned_items": [
+          {
+            "item_id": "ItemPureHalzinger",
+            "quantity": 0
+          }
+        ],
+        "attacks_to_learn": []
+      }
+    },
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-18T18:01:25+00:00",
+      "method": "POST",
+      "path": "/session/use-item",
+      "request": {
+        "session_id": "[REDACTED]",
+        "owned_morty_id": "fixture-morty",
+        "item_id": "ItemPurePlutonicRock"
+      },
+      "status": 200,
+      "response": {
+        "owned_morty_id": "fixture-morty",
+        "item_id": "ItemPurePlutonicRock",
+        "is_success": true,
+        "effect_value": 100,
+        "owned_morties": [
+          {
+            "owned_morty_id": "fixture-morty",
+            "morty_id": "MortyDefault",
+            "variant": "Normal",
+            "level": 6,
+            "xp": 125,
+            "hp": 20,
+            "hp_stat": 20,
+            "attack_stat": 11,
+            "defence_stat": 10,
+            "speed_stat": 10,
+            "evolution_points": 0,
+            "xp_lower": 125,
+            "xp_upper": 216,
+            "is_locked": false,
+            "is_trading_locked": false,
+            "fight_pit_id": null,
+            "owned_attacks": [
+              {
+                "attack_id": "AttackOutburst",
+                "position": 0,
+                "pp": 12,
+                "pp_stat": 12
+              }
+            ]
+          }
+        ],
+        "owned_items": [
+          {
+            "item_id": "ItemPurePlutonicRock",
+            "quantity": 0
+          }
+        ],
+        "attacks_to_learn": []
+      }
+    }
+  ],
+  "after_revive": [
+    {
+      "hp": 20,
+      "hp_stat": 20,
+      "pp": 0,
+      "pp_stat": 8
+    }
+  ],
+  "after_ap_restore": [
+    {
+      "hp": 20,
+      "hp_stat": 20,
+      "pp": 12,
+      "pp_stat": 12
+    }
+  ],
+  "inventory_after_use": [
+    {
+      "item_id": "ItemPureHalzinger",
+      "quantity": 0
+    },
+    {
+      "item_id": "ItemPurePlutonicRock",
+      "quantity": 0
+    }
+  ],
+  "screenshots": {
+    "party": {
+      "path": ".research/emulator/restore-party.png",
+      "sha256": "23d165997418a222540bbc8e0f6c30a7b656fcc16643a9613c3f2030a44882f8"
+    },
+    "revive-result": {
+      "path": ".research/emulator/restore-revive-result.png",
+      "sha256": "c6de752530770765182a7f0fefe7ed47170d57e1990060079a7f43d2b354482f"
+    },
+    "ap-before": {
+      "path": ".research/emulator/restore-ap-before.png",
+      "sha256": "b6a7c30e903b973720342432d1a37daa99d7a3e6ecc688dc7e30d0ba510676e6"
+    },
+    "rock-used": {
+      "path": ".research/emulator/restore-rock-used.png",
+      "sha256": "35b244942f492912efe48bd8b1a58adc3d2c483acb92be3cd7b13f590e6482e3"
+    },
+    "ap-after": {
+      "path": ".research/emulator/restore-ap-after.png",
+      "sha256": "c10498abf6f5f34a43323f867c8e581eaadbac5cb4a02ef71993165d74fa659c"
+    }
+  },
+  "fixture_restored": {
+    "extra_morty_removed": true,
+    "extra_attack_removed": true,
+    "fixture_items_removed": true,
+    "original_deck_restored": true
+  }
+}

@@ -3720,13 +3720,22 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "observed Android 2.41.0 replacement-server lock/unlock; statically established native callback",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "original HTTP error status parity",
+        "lock enforcement in destructive operations"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/lock/index.php",
+        "line": 1,
+        "sha256": "a58758dbb289520b31e5d0ed3919c9a02ea7a77ad22bed7614e4a629b644a38c"
+      },
+      "status_basis": "Owner-scoped toggle and persistence; destructive action protection remains separate",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-lock-contract.md",
+        "morty-lock-capture.json"
       ]
     },
     {
@@ -4341,12 +4350,12 @@
       "server_evidence": {
         "file": "session/use-item/index.php",
         "line": 1,
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        "sha256": "90f5f71c07f45989c32a5e8073a2b8a0a8bdd6570b110c51eefc5e10924d573c"
       },
-      "implementation_status": "stub",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "partial",
+      "status_basis": "Eight world HP healers, full revival and full AP restoration implemented; other effects and battle use pending",
+      "evidence_confidence": "observed Android 2.41.0 Serum/full-revive/full-AP uses; native contract and static maxima; 22 item regression tests",
+      "http_method": "POST",
       "input_field_candidates": [],
       "query_fields": [],
       "response_key_candidates": [],
@@ -4355,11 +4364,19 @@
       "events_published": [],
       "authentication": "requires review",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "50% revive/AP rounding and minimum HP",
+        "cure/stat/general effects",
+        "battle item synchronization",
+        "original retry/consumption policy"
+      ],
+      "contract_evidence": [
+        "use-item-contract.md",
+        "use-item-data.md",
+        "use-item-capture.json",
+        "use-item-implementation.md",
+        "full-restore-items.md",
+        "full-restore-capture.json",
+        "ap-maxima-contract.md"
       ]
     },
     {

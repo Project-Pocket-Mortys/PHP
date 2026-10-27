@@ -8,3 +8,10 @@ session/leave-room/index.php text eol=lf
 session/join-room/index.php text eol=lf
 session/ping-dynamic/index.php text eol=lf
 compose.research-udp-tunnel.yaml text eol=lf
+
+session/owned_morties/lock/index.php text eol=lf
+
+session/use-item/index.php text eol=lf
+lib/healing_items.php text eol=lf
+
+config/attack_max_ap.json text eol=lf

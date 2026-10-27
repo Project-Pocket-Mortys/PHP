@@ -105,6 +105,87 @@
         "500": "failed transaction with rollback"
       },
       "evidence": "room-leave-repair.md; additive database, concurrent HTTP and UDP tests"
+    },
+    "/session/owned_morties/lock": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$LockMorty",
+      "address": "0x17a3444",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "is_locked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id",
+          "is_locked"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-lock-contract.md",
+        "morty-lock-capture.json"
+      ],
+      "limitations": [
+        "Original HTTP error status parity unknown",
+        "Toggle does not implement protection in destructive operations"
+      ]
+    },
+    "/session/use-item": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$UseItem",
+      "address": "0x17a46c8",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "item_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id",
+          "item_id"
+        ]
+      },
+      "response": {
+        "owned_morty_id": "string",
+        "item_id": "string",
+        "is_success": "boolean",
+        "effect_value": "integer; absolute HP for healing, 100 percent for full revive/AP",
+        "owned_morties": "array of changed Morties",
+        "owned_items": "array of changed items including zero quantity",
+        "attacks_to_learn": "array; empty for HP items"
+      },
+      "evidence": [
+        "use-item-contract.md",
+        "use-item-data.md",
+        "full-restore-items.md",
+        "full-restore-capture.json",
+        "ap-maxima-contract.md"
+      ],
+      "limitations": [
+        "Eight world RestoreHP items plus Pure Halzinger and Pure Plutonic Rock; remaining effects and battle items pending",
+        "No request identity: identical effective requests can each consume an item",
+        "Original HTTP validation/consumption parity unknown"
+      ]
     }
   },
   "sse": {

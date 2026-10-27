@@ -30,9 +30,9 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 - Battle Bots
 - Battle friends
 - Raid & other event Battles
-- Use Items
+- Use Items: [eight world healing items](docs/protocol/use-item-implementation.md) and [full revival/AP restoration](docs/protocol/full-restore-items.md) implemented; other effects and battle use remain
 - Release Morties
-- Lock Morties
+- Lock Morties: [toggle and persistence implemented/tested](docs/protocol/missing-features.md); protection in destructive server actions remains
 - Crafting
 - Challenges
 

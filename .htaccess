@@ -16,6 +16,8 @@ RewriteCond %{REQUEST_URI} ^/session/heal$
 RewriteRule ^session/heal$ /session/heal/ [L]
 
 
+RewriteRule ^session/owned_morties/lock$ /session/owned_morties/lock/ [L]
+
 RewriteCond %{REQUEST_URI} ^/session/owned_morties/absorb$
 RewriteRule ^session/owned_morties/absorb$ /session/owned_morties/absorb/ [L]
 
