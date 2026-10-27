@@ -3,7 +3,10 @@
 Follow-up: [two Android clients](android-peer-verification.md) confirms movement
 but reproduces an idle-delivery failure outside the relay: its stored endpoint
 becomes stale despite current HTTP pings. The synthetic results below remain
-valid; they do not establish end-to-end Android idle delivery.
+valid; they do not establish end-to-end Android idle delivery. The newer
+[fully quiet Windows probe](udp-quiet-mapping.md) reproduces loss without Android;
+the slow regression below keeps UDP flowing every 20 seconds and therefore does
+not cover expiry of an entirely quiet network mapping.
 
 The research relay originally expired every registration 120 seconds after the
 last accepted UDP movement packet. The earlier Android capture recorded no UDP

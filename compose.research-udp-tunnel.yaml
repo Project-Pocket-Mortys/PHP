@@ -1,0 +1,17 @@
+# Optional local research transport. The PHP relay still receives original UDP
+# datagrams; only the Windows-to-container hop uses framed TCP.
+# Requires Docker Compose supporting !override (tested with 5.6.0).
+services:
+  udp:
+    ports: !override
+      - "127.0.0.1:5056:5056/tcp"
+  udp-tunnel:
+    profiles: [udp]
+    image: python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641
+    network_mode: service:udp
+    command: [python, -u, /research/tools/research/udp_transport_tunnel.py, server, --idle-seconds, "0"]
+    volumes:
+      - .:/research:ro
+    depends_on:
+      udp:
+        condition: service_started

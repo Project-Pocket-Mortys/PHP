@@ -1,0 +1,497 @@
+{
+  "environment": {
+    "host": "Windows",
+    "docker_engine": "29.8.2",
+    "relay_php": "8.3.35",
+    "transport": "Windows localhost to Docker published UDP port"
+  },
+  "source_commit": "79c0ff5",
+  "capture": {
+    "input_sha256": "1e3b8e2324462735120cb607be7a52c77fc89214d979a32d31aeade5168b3fbe",
+    "capture_packet_count": 9,
+    "source_endpoint_changes": {
+      "role0": 1,
+      "role1": 0
+    },
+    "totals": {
+      "ingress_role0": 2,
+      "ingress_role1": 3,
+      "egress_role0": 1,
+      "egress_role1": 3
+    },
+    "events": [
+      {
+        "t": 0.0,
+        "kind": "ingress",
+        "sender": "role0",
+        "target": "relay",
+        "sequence": 0,
+        "xy": [
+          29,
+          35
+        ]
+      },
+      {
+        "t": 0.100836,
+        "kind": "ingress",
+        "sender": "role1",
+        "target": "relay",
+        "sequence": 0,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 0.102593,
+        "kind": "egress",
+        "sender": "role1",
+        "target": "role0",
+        "sequence": 0,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 125.502295,
+        "kind": "ingress",
+        "sender": "role1",
+        "target": "relay",
+        "sequence": 1,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 125.504854,
+        "kind": "egress",
+        "sender": "role1",
+        "target": "role0",
+        "sequence": 1,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 126.205127,
+        "kind": "ingress",
+        "sender": "role0",
+        "target": "relay",
+        "sequence": 1,
+        "xy": [
+          29,
+          35
+        ]
+      },
+      {
+        "t": 126.206924,
+        "kind": "egress",
+        "sender": "role0",
+        "target": "role1",
+        "sequence": 1,
+        "xy": [
+          29,
+          35
+        ]
+      },
+      {
+        "t": 126.207754,
+        "kind": "ingress",
+        "sender": "role1",
+        "target": "relay",
+        "sequence": 2,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 126.209026,
+        "kind": "egress",
+        "sender": "role1",
+        "target": "role0",
+        "sequence": 2,
+        "xy": [
+          35,
+          35
+        ]
+      }
+    ],
+    "limitations": "Synthetic roles are inferred from fixed coordinates: role0 x=29, role1 x=35, both y=35. Each role must retain the same internal ingress identity throughout the capture; mixed probe identities are rejected. Endpoint changes describe relay-observed source tuples, not local socket changes or their cause. Targets use previously observed ingress endpoints, including historical ones; missing or ambiguous mappings remain unknown. Times are relative to the first capture packet. Egress observation does not establish socket delivery. Correlate independent probe receipts by target, sender, sequence and coordinates; repeated records do not establish latency. Capture coverage and drops require separate evidence. Checksums are not checked. Only port-5055 UDP is summarized. Identifiers, endpoint addresses/ports, payload bytes and payload hashes are omitted. The input SHA-256 identifies the complete capture artifact."
+  },
+  "probe": {
+    "probe": "synthetic_localhost_two_peers",
+    "started_utc": "2026-10-17T16:24:29.541250+00:00",
+    "requested_quiet_seconds": 125,
+    "receive_timeout_seconds": 0.7,
+    "heartbeat_interval_seconds": 20,
+    "events": [
+      {
+        "event": "started",
+        "elapsed_seconds": 0.0
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 0.738,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 0.75,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "heartbeat_persistence_checked",
+        "elapsed_seconds": 0.922,
+        "role": 0,
+        "label": "before_quiet",
+        "age_seconds": 0,
+        "success": true
+      },
+      {
+        "event": "heartbeat_persistence_checked",
+        "elapsed_seconds": 1.094,
+        "role": 1,
+        "label": "before_quiet",
+        "age_seconds": 0,
+        "success": true
+      },
+      {
+        "event": "registration_confirmed",
+        "elapsed_seconds": 1.198,
+        "received": true,
+        "expected_translation": true
+      },
+      {
+        "event": "quiet_started",
+        "elapsed_seconds": 1.198
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 21.212,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 21.224,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 21.225,
+        "quiet_elapsed_seconds": 20.026
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 41.228,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 41.255,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 41.255,
+        "quiet_elapsed_seconds": 40.057
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 61.216,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 61.229,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 61.229,
+        "quiet_elapsed_seconds": 60.031
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 81.246,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 81.282,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 81.282,
+        "quiet_elapsed_seconds": 80.084
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 101.214,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 101.227,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 101.227,
+        "quiet_elapsed_seconds": 100.028
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 121.234,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 121.246,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 121.246,
+        "quiet_elapsed_seconds": 120.048
+      },
+      {
+        "event": "heartbeat_persistence_checked",
+        "elapsed_seconds": 126.418,
+        "role": 0,
+        "label": "after_quiet",
+        "age_seconds": 5,
+        "success": true
+      },
+      {
+        "event": "heartbeat_persistence_checked",
+        "elapsed_seconds": 126.597,
+        "role": 1,
+        "label": "after_quiet",
+        "age_seconds": 6,
+        "success": true
+      },
+      {
+        "event": "quiet_ended",
+        "elapsed_seconds": 126.597
+      },
+      {
+        "event": "peer_to_quiet_recipient",
+        "elapsed_seconds": 127.299,
+        "received": false,
+        "expected_translation": false
+      },
+      {
+        "event": "recipient_sends_again",
+        "elapsed_seconds": 127.302,
+        "received": true,
+        "expected_translation": true
+      },
+      {
+        "event": "peer_to_refreshed_recipient",
+        "elapsed_seconds": 127.305,
+        "received": true,
+        "expected_translation": true
+      },
+      {
+        "event": "probe_finished",
+        "elapsed_seconds": 127.305
+      },
+      {
+        "event": "cleanup_finished",
+        "elapsed_seconds": 128.376,
+        "success": true
+      }
+    ],
+    "heartbeats": [
+      {
+        "role": 0,
+        "started_elapsed_seconds": 0.706,
+        "completed_elapsed_seconds": 0.738,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 0.738,
+        "completed_elapsed_seconds": 0.75,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 21.199,
+        "completed_elapsed_seconds": 21.212,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 21.213,
+        "completed_elapsed_seconds": 21.224,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 41.199,
+        "completed_elapsed_seconds": 41.228,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 41.228,
+        "completed_elapsed_seconds": 41.255,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 61.199,
+        "completed_elapsed_seconds": 61.216,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 61.216,
+        "completed_elapsed_seconds": 61.229,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 81.198,
+        "completed_elapsed_seconds": 81.246,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 81.246,
+        "completed_elapsed_seconds": 81.282,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 101.199,
+        "completed_elapsed_seconds": 101.214,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 101.214,
+        "completed_elapsed_seconds": 101.227,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 121.199,
+        "completed_elapsed_seconds": 121.234,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 121.234,
+        "completed_elapsed_seconds": 121.246,
+        "success": true
+      }
+    ],
+    "heartbeat_persistence_checks": [
+      {
+        "label": "before_quiet",
+        "role": 0,
+        "elapsed_seconds": 0.922,
+        "age_seconds": 0,
+        "current_and_fresh": true
+      },
+      {
+        "label": "before_quiet",
+        "role": 1,
+        "elapsed_seconds": 1.094,
+        "age_seconds": 0,
+        "current_and_fresh": true
+      },
+      {
+        "label": "after_quiet",
+        "role": 0,
+        "elapsed_seconds": 126.418,
+        "age_seconds": 5,
+        "current_and_fresh": true
+      },
+      {
+        "label": "after_quiet",
+        "role": 1,
+        "elapsed_seconds": 126.597,
+        "age_seconds": 6,
+        "current_and_fresh": true
+      }
+    ],
+    "deliveries": [
+      {
+        "label": "registration_confirmed",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 0,
+        "sent_elapsed_seconds": 1.195,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 1.198
+      },
+      {
+        "label": "peer_to_quiet_recipient",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 1,
+        "sent_elapsed_seconds": 126.597,
+        "received": false,
+        "expected_translation": false,
+        "checked_elapsed_seconds": 127.299
+      },
+      {
+        "label": "recipient_sends_again",
+        "sender_role": 0,
+        "receiver_role": 1,
+        "sequence": 1,
+        "sent_elapsed_seconds": 127.299,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 127.302
+      },
+      {
+        "label": "peer_to_refreshed_recipient",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 2,
+        "sent_elapsed_seconds": 127.302,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 127.305
+      }
+    ],
+    "complete": true,
+    "cleanup_complete": true,
+    "actual_quiet_seconds": 125.399,
+    "local_socket_tuple_unchanged": [
+      true,
+      true
+    ],
+    "finished_utc": "2026-10-17T16:26:37.960374+00:00"
+  },
+  "private_probe_report_sha256": "8ae3a00aed53525c9b2f76239391cd8849ff5c86e0f44d15fc5ef646d91714cf",
+  "capture_statistics": {
+    "captured": 9,
+    "received_by_filter": 9,
+    "kernel_dropped": 0
+  }
+}

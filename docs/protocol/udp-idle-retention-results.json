@@ -1,0 +1,75 @@
+{
+  "kind": "replacement-server synthetic quiet-delivery experiment",
+  "date": "2026-10-17",
+  "baseline_commit": "1f41358",
+  "host_idle_seconds": 0,
+  "server_idle_seconds": 0,
+  "raw_report": {
+    "path": ".research/quiet-retained-610-report.json",
+    "sha256": "e4de9293ea356c4f0e1f81152122af25e0ffa9ead511cdfa006c4cea195f8eda"
+  },
+  "source_sha256": {
+    "tools/research/udp_transport_tunnel.py": "ee177f3d1a59d12fb316380de5a2c0fdf9f4ae170d880eab4f5ee2a609d3930b",
+    "compose.research-udp-tunnel.yaml": "1dfbc6fddfc9c91d5a8bbeb4cc1ee82dccdea4c5b5ff3ce99fa3c7732b4c9ae4"
+  },
+  "heartbeat_success_count": 62,
+  "observations": {
+    "started_utc": "2026-10-17T18:41:53.072607+00:00",
+    "finished_utc": "2026-10-17T18:52:05.953775+00:00",
+    "actual_quiet_seconds": 610.387,
+    "local_socket_tuple_unchanged": [
+      true,
+      true
+    ],
+    "deliveries": [
+      {
+        "label": "registration_confirmed",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 0,
+        "sent_elapsed_seconds": 1.313,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 1.316
+      },
+      {
+        "label": "peer_to_quiet_recipient",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 1,
+        "sent_elapsed_seconds": 611.703,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 611.706
+      },
+      {
+        "label": "recipient_sends_again",
+        "sender_role": 0,
+        "receiver_role": 1,
+        "sequence": 1,
+        "sent_elapsed_seconds": 611.706,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 611.708
+      },
+      {
+        "label": "peer_to_refreshed_recipient",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 2,
+        "sent_elapsed_seconds": 611.708,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 611.709
+      }
+    ],
+    "complete": true,
+    "cleanup_complete": true
+  },
+  "limitations": [
+    "Natural elapsed time; no shortened expiry or database timestamp manipulation.",
+    "No relay PCAP or per-connection trace; socket receipt does not prove unchanged relay endpoints.",
+    "Run preceded the endpoint ownership repair; quiet retention and ownership regression are separate evidence."
+  ],
+  "source_hash_encoding": "UTF-8 with LF newlines (Git-normalized)"
+}

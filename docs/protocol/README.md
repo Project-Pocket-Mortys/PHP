@@ -1,8 +1,17 @@
 # Pocket Mortys protocol research handoff
 
-[Two Android clients](android-peer-verification.md) now verify same-room visibility
-and bidirectional movement. Idle delivery still fails in the emulator/host path:
-the relay retains its registration, but an intermediate endpoint mapping changes.
+[UDP lifecycle verification](udp-lifecycle.md) covers same-session transport
+reconnects, session rotation, Android process restart and Home/resume observations.
+The optional adapter now survives per-connection accept/setup errors.
+
+[Optional stable UDP transport](udp-stable-transport.md) now passes the reproduced
+125-second synthetic quiet interval and two-emulator idle-delivery scenario. It
+bypasses Docker published UDP forwarding using a bounded local TCP adapter.
+Direct UDP remains affected; lifecycle and longer-idle limits are documented.
+
+[Two Android clients](android-peer-verification.md) verify same-room visibility
+and bidirectional movement. Those earlier captures exposed the mapping failure
+subsequently isolated in the [Windows-only probe](udp-quiet-mapping.md).
 
 [UDP idle heartbeats](udp-heartbeats.md) retain learned stationary-peer endpoints
 using validated HTTP pings in the isolated research profile. This preserves
@@ -54,7 +63,7 @@ This workspace reconciles Android 2.41.0 against the existing PHP server. The ro
 - [static-content.json](static-content.json) records served data files separately. `Status/rat.json` is empty; its client behavior is unresolved. The manifest's colon-delimited bundle path is now rewritten to the existing underscore-delimited directory and checked by a byte-hash regression test.
 - [external-services.json](external-services.json) separates known backend hostnames from external/SDK/documentation candidates found in string literals. Presence in the binary does not establish traffic or a startup dependency.
 
-There are no original-server captures in this handoff. Automated tests exercise the replacement server. Android emulator startup, local redirection, diagnostic multiplayer entry and one-emulator/synthetic-peer UDP exchange are verified. Full completed-feature smoke coverage, natural onboarding, two-emulator room changes/privacy and iOS compatibility remain unverified. Two-emulator movement is verified above; idle delivery has a confirmed network-mapping gap.
+There are no original-server captures in this handoff. Automated tests exercise the replacement server. Android emulator startup, local redirection, diagnostic multiplayer entry and one-emulator/synthetic-peer UDP exchange are verified. Full completed-feature smoke coverage, natural onboarding, two-emulator room changes/privacy and iOS compatibility remain unverified. Two-emulator movement is verified above; idle delivery passes the bounded adapter scenario above; direct UDP and broader lifecycle coverage remain unresolved.
 
 [Validation results](validation-results.json) record the initial 15-test baseline. Later milestone pages record additional focused checks; these are not one final combined acceptance run. This is a research and repair handoff, not a claim of full restoration or complete runtime compatibility.
 

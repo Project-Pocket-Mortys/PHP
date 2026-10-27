@@ -1,0 +1,127 @@
+{
+  "evidence_kind": "Bounded static native inspection plus observed Android diagnostic-client exception",
+  "inspected_date": "2026-10-17",
+  "artifacts": [
+    {
+      "path": ".research/ghidra-fastshoes.json",
+      "sha256": "91493bd7bc0b8502d26b092a2b8bdaf443ef41853bc3ef8c16be88a393fb0c7c"
+    },
+    {
+      "path": ".research/ghidra-fastshoes-detail.json",
+      "sha256": "7450c07b3a792f566119da387f7604ff444dc26f69604b911c9210f817ad9ca2"
+    },
+    {
+      "path": ".research/emulator/world2-logcat.txt",
+      "sha256": "5dd5cead7eafbb2f2e4c9bfc0cd46e766d7394833db0e02c30c6311a36eed2a1"
+    },
+    {
+      "path": ".research/dumper/dump.cs",
+      "sha256": "8b659049aada5d5037f0c4d108d81e8ab9ff5e8127a11dd78f0a3954aeced27e"
+    },
+    {
+      "path": ".research/android/split_config.arm64_v8a/lib/arm64-v8a/libil2cpp.so",
+      "sha256": "ff773be7d3718ee307f6342358268748e8fa2487460e7b3857715478cb8e4326"
+    }
+  ],
+  "analysis_scope": {
+    "native_binary": "Android 2.41.0 ARM64 recovered build",
+    "runtime_client": "ARM32 diagnostic client",
+    "limitation": "Corresponding-build static evidence, not direct fault-address analysis of the executing ARM32 binary",
+    "annotations": "Existing helper uses noanalysis, bounded method bodies, build-specific null-throw and tail-call annotations; managed parameter types are not imported"
+  },
+  "methods": [
+    {
+      "source": ".research/ghidra-fastshoes.json",
+      "method": "PlayerDefs$$CanShowFastShoesFtue",
+      "native_rva": "0x173ff58",
+      "body_bytes": 92
+    },
+    {
+      "source": ".research/ghidra-fastshoes.json",
+      "method": "DialogueUI$$ContinuePressedHandler",
+      "native_rva": "0x1542ddc",
+      "body_bytes": 276
+    },
+    {
+      "source": ".research/ghidra-fastshoes-detail.json",
+      "method": "DialogueUI$$DisplayAction",
+      "native_rva": "0x1542a30",
+      "body_bytes": 240
+    },
+    {
+      "source": ".research/ghidra-fastshoes-detail.json",
+      "method": "DialogueUI$$ContinueCurrentDialogue",
+      "native_rva": "0x1542c5c",
+      "body_bytes": 52
+    },
+    {
+      "source": ".research/ghidra-fastshoes-detail.json",
+      "method": "DialogueUI$$FinishCurrentBox",
+      "native_rva": "0x1542d40",
+      "body_bytes": 116
+    },
+    {
+      "source": ".research/ghidra-fastshoes-detail.json",
+      "method": "MPWorldFtueController$$AttemptToShowOnWorldEnteredFTUEs",
+      "native_rva": "0x160e880",
+      "body_bytes": 632
+    },
+    {
+      "source": ".research/ghidra-fastshoes-detail.json",
+      "method": "MPWorldFtueController$$FastShoesReturningPlayerDialogueFinished",
+      "native_rva": "0x160f508",
+      "body_bytes": 300
+    },
+    {
+      "source": ".research/ghidra-fastshoes-detail.json",
+      "method": "MPWorldFtueController$$FastShoesStepCounterReached",
+      "native_rva": "0x160f92c",
+      "body_bytes": 492
+    },
+    {
+      "source": ".research/ghidra-fastshoes-detail.json",
+      "method": "MPWorldFtueController$$FastShoesReturningPlayerRan",
+      "native_rva": "0x160fc50",
+      "body_bytes": 356
+    }
+  ],
+  "runtime_observation": {
+    "source": ".research/emulator/world2-logcat.txt",
+    "device_log_timestamps": [
+      "10-17 19:58:27.676",
+      "10-17 19:58:43.630"
+    ],
+    "exception": "NullReferenceException",
+    "top_managed_frame": "DialogueUI.ContinuePressedHandler",
+    "interpretation": "Does not identify the absent reference or establish that the world-2 fixture caused the exception"
+  },
+  "completion_marker": {
+    "declaring_type": "PlayerSaveData",
+    "field": "hasPlayerCompletedFastShoesFtue",
+    "arm64_field_offset": "0x13b",
+    "declared_persistent_key": "HasPlayerCompletedFastShoesFtueKey",
+    "gate": "PlayerDefs.CanShowFastShoesFtue returns the inverse of this field",
+    "normal_completion": "After normal dismissal, FastShoesReturningPlayerDialogueFinished enables input and subscribes to RunActivatedEvent; FastShoesReturningPlayerRan sets the field to true and invokes SaveDataController.Save with mask 0x10",
+    "repeat_path": "FastShoesReturningPlayerDialogueFinished installs a 100-step counter; FastShoesStepCounterReached can display FAST_SHOES_BRAZE again"
+  },
+  "continue_handler": {
+    "checked_references": [
+      "AudioController",
+      "DialogueUI._currentBox",
+      "DialogueUI._data",
+      "DialogueUI._data.entries"
+    ],
+    "limitation": "The observed exception stack cannot distinguish which checked reference is null; no exact-reference attribution is made"
+  },
+  "english_label": {
+    "source_apk": ".research/android/base.apk",
+    "apk_entry": "assets/bin/Data/5eaa370fb472742fd9c0f40448eb1f08",
+    "object_path_id": 1,
+    "object_name": "EN",
+    "json_field": "TextDefs.FAST_SHOES_BRAZE.label",
+    "value": "You can now run by holding down the A button!",
+    "provenance": "APK and English asset hashes are recorded in world2-fixture-evidence.json"
+  },
+  "conclusion": "Client-local FTUE completion exists, but the failure cause is unresolved; no server response field or client/server patch is established",
+  "mutations": "Only ignored bounded analysis outputs and the two requested evidence documents; no database, client binary or runtime setting changes"
+}

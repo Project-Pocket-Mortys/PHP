@@ -10,7 +10,7 @@ snapshot/queued event. Outside a room it keeps the session stream alive without
 reading room events. On a room change it adopts the destination baseline stored
 by `join-room`. Join now installs room membership and that baseline in one SQL
 update. Cursor writes check both the session and room, preventing a previous
-room's poll from overwriting the destination baseline. No schema change is needed.
+room's poll from overwriting the destination baseline. This initial repair needed no schema change; the subsequent [same-room rejoin repair](sse-rejoin-generation.md) adds a required membership-generation column.
 
 The join HTTP response already contains users, pickups, wild Morties and bots.
 Transitions therefore do not send another initial snapshot or another
@@ -36,7 +36,7 @@ Independent ARM64 call mappings are in `native-transport.json`:
 | `NetworkRoomAPI.Join` | `0x17ad988` | constructs `/session/join-room`, invokes `NetworkHTTP.Request` |
 | join callback `<Join>b__0` | `0x17b34f8` | response parser, then `SetUpRoom` at call site `0x17b35bc` |
 | `SetUpRoom` | `0x17adc00` | updates users/bots/wild Morties/pickups, then `OpenComs` at `0x17ae054` |
-| `OpenComs` | `0x17aee64` | `NetworkSessionAPI.On`, resets UDP sequence tracking, `UdpChannel.Open` |
+| `OpenComs` | `0x17aee64` | `NetworkSessionAPI.On`, clears receiver UDP sequence tracking (preserves sender sequence), `UdpChannel.Open` |
 | `CloseComs` | `0x17af900` | `NetworkSessionAPI.Off`, then `UdpChannel.Close` at `0x17b0224` |
 
 These static calls support room subscriptions on an existing session transport;
@@ -61,12 +61,10 @@ previous room without historical replay.
 
 ## Remaining limits
 
-- A leave/rejoin to the same room entirely between polls can escape detection.
-  A membership generation would distinguish successive joins; adding one needs
-  a versioned migration and concurrent transition tests.
+- Rapid same-room leave/rejoin is now covered by [membership generations](sse-rejoin-generation.md) and a deterministic regression. Direct database membership edits must preserve this invariant.
 - An event already being written when membership changes cannot be recalled.
 - Initial snapshots and join HTTP snapshots are not transactionally consistent
   with concurrent event publication. Snapshot/cursor races need a separate audit.
 - Multiple simultaneous streams for the same session still share a stored cursor.
-- Generic private-event filtering and original reconnect semantics remain open.
-- Two-emulator room transitions and idle UDP registration remain unverified.
+- [Recipient privacy](sse-event-privacy.md) now has two-account HTTP/SSE coverage; original reconnect semantics remain open.
+- A two-emulator same-world portal leave/rejoin now has HTTP, database and UDP evidence (`android-portal-transition.md`); distinct-world UDP isolation now also passes (`distinct-world-verification.md`); Android battle SSE ordering/privacy captures remain outstanding; synthetic recipient and rapid-rejoin checks now pass.
