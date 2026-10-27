@@ -8,24 +8,40 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[2]
 ADB = ROOT/'.research/emulator/sdk/platform-tools/adb.exe'
 PACKAGE = 'com.turner.pocketmorties'
+DEVICES = {'PocketMortys_API30': 'emulator-5556',
+           'PocketMortys_API30_Peer': 'emulator-5558'}
+SERIAL = DEVICES['PocketMortys_API30']
 
 
 def adb(*args, check=True):
-    return subprocess.run([str(ADB), '-P', '5038', '-s', 'emulator-5556', *args],
+    return subprocess.run([str(ADB), '-P', '5038', '-s', SERIAL, *args],
                           capture_output=True, text=True, check=check)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--avd', choices=DEVICES, default='PocketMortys_API30')
+    parser.add_argument('--serial', choices=DEVICES.values(),
+                        help='Optional serial; must match the selected dedicated AVD')
     parser.add_argument('--replace-original', action='store_true',
                         help='Remove the original-signed test installation and its data first')
     parser.add_argument('--sdk-network', action='store_true',
                         help='Allow current OneTrust provider IPv4 addresses to fetch consent configuration')
     parser.add_argument('--udp', action='store_true',
                         help='Allow UDP 5055 to the emulator host alias for the isolated relay')
-    args = parser.parse_args()
-    if adb('emu', 'avd', 'name').stdout.splitlines()[0] != 'PocketMortys_API30':
-        raise RuntimeError('This installer is restricted to the dedicated research AVD')
+    args = parser.parse_args(argv)
+    if args.serial is not None and args.serial != DEVICES[args.avd]:
+        parser.error('--serial must match --avd: ' + DEVICES[args.avd])
+    args.serial = DEVICES[args.avd]
+    return args
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    SERIAL = args.serial
+    name = adb('emu', 'avd', 'name').stdout.splitlines()
+    if not name or name[0].strip() != args.avd:
+        raise RuntimeError(f'{SERIAL} must be the dedicated research AVD {args.avd}')
     signed = ROOT/'.research/emulator/research-signed'
     inputs = [signed/'base-aligned-debugSigned.apk', signed/'split_config.armeabi_v7a-aligned-debugSigned.apk']
     if not all(p.is_file() for p in inputs):

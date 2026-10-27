@@ -1,4 +1,5 @@
 """Install pinned Windows emulator tools and a dedicated research AVD locally."""
+import argparse
 import concurrent.futures
 import hashlib
 import json
@@ -9,6 +10,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[2]
 WORK = ROOT / '.research' / 'emulator'
 SDK = WORK / 'sdk'
+AVDS = ('PocketMortys_API30', 'PocketMortys_API30_Peer')
 
 
 def install(item):
@@ -40,21 +42,26 @@ def install(item):
         return dict(item, sha256=hashlib.file_digest(stream, 'sha256').hexdigest())
 
 
-if __name__ == '__main__':
-    WORK.mkdir(parents=True, exist_ok=True)
-    packages = json.loads((ROOT / 'tools/research/emulator.lock.json').read_text())
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
-        records = list(pool.map(install, packages))
-    (WORK / 'installed.json').write_text(json.dumps(records, indent=2) + '\n')
-    avd = WORK / 'avd' / 'PocketMortys_API30.avd'
+def provision_avd(name):
+    if name not in AVDS:
+        raise ValueError('Unsupported research AVD')
+    avd = WORK / 'avd' / (name + '.avd')
+    if avd.resolve() != avd.absolute():
+        raise ValueError('Research AVD directory must not redirect to shared userdata')
     avd.mkdir(parents=True, exist_ok=True)
-    (avd.parent / 'PocketMortys_API30.ini').write_text(
-        f'avd.ini.encoding=UTF-8\npath={avd}\ntarget=android-30\n')
+    locator = avd.parent / (name + '.ini')
+    if locator.exists():
+        entries = dict(line.split('=', 1) for line in locator.read_text().splitlines() if '=' in line)
+        if Path(entries.get('path', '')).resolve() != avd.resolve():
+            raise ValueError('Existing AVD locator points outside its dedicated directory')
+    else:
+        locator.write_text(f'avd.ini.encoding=UTF-8\npath={avd}\ntarget=android-30\n')
     config = avd / 'config.ini'
     if not config.exists():
-        config.write_text('''avd.ini.encoding=UTF-8
-AvdId=PocketMortys_API30
-avd.ini.displayname=Pocket Mortys Research
+        display_name = 'Pocket Mortys Research' + (' Peer' if name.endswith('_Peer') else '')
+        config.write_text(f'''avd.ini.encoding=UTF-8
+AvdId={name}
+avd.ini.displayname={display_name}
 abi.type=x86_64
 hw.cpu.arch=x86_64
 hw.cpu.ncore=4
@@ -76,4 +83,18 @@ PlayStore.enabled=false
 showDeviceFrame=no
 fastboot.forceColdBoot=yes
 ''')
-    print('Installed. Start with tools/research/emulator.ps1')
+    return avd
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--avd', choices=AVDS, default=AVDS[0],
+                        help='Dedicated AVD to create; existing device data is retained')
+    args = parser.parse_args()
+    WORK.mkdir(parents=True, exist_ok=True)
+    packages = json.loads((ROOT / 'tools/research/emulator.lock.json').read_text())
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+        records = list(pool.map(install, packages))
+    (WORK / 'installed.json').write_text(json.dumps(records, indent=2) + '\n')
+    provision_avd(args.avd)
+    print(f'Installed. Start with tools/research/emulator.ps1 -Avd {args.avd}')

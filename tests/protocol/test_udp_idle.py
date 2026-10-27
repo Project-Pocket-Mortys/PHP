@@ -50,6 +50,18 @@ class UdpIdleTests(unittest.TestCase):
         self.sockets[1].recv(128)
         self.send(0, seq + 2)
         self.assertEqual(self.sockets[2].recv(128)[16], seq + 2)
+        self.assertEqual(self.sockets[1].recv(128),
+                         uuid.UUID(self.players[0]).bytes + self.packet(0, seq + 2)[16:])
+        # Controlled DB timestamp fault: verify expiry of a recorded heartbeat
+        # without another natural 120-second wait. This peer's UDP is already old.
+        sql(f"UPDATE research_client_heartbeats h JOIN users u ON u.id=h.user_id "
+            f"SET h.received_at=CURRENT_TIMESTAMP - INTERVAL 121 SECOND "
+            f"WHERE u.player_id='{self.players[1]}' AND h.session_id='{self.sessions[1]}' "
+            f"AND h.room_id='{self.room}'")
+        self.send(0, seq + 3)
+        self.assertEqual(self.sockets[2].recv(128),
+                         uuid.UUID(self.players[0]).bytes + self.packet(0, seq + 3)[16:])
+        self.silent(1)
 
 
 if __name__ == '__main__':
