@@ -105,6 +105,41 @@
         "500": "failed transaction with rollback"
       },
       "evidence": "room-leave-repair.md; additive database, concurrent HTTP and UDP tests"
+    },
+    "/session/recipe/use": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$CraftRecipe",
+      "address": "0x17a4ccc",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "recipe_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "recipe_id"
+        ]
+      },
+      "response": {
+        "owned_items": "absolute final counts for all touched items, including zeroes",
+        "result": "{type:3,item_id:string,quantity:final total,amount:1,amount_received:1}"
+      },
+      "evidence": [
+        "crafting-contract.md",
+        "crafting-data.md",
+        "crafting-implementation.md",
+        "crafting-capture.json"
+      ],
+      "limitations": [
+        "Original HTTP validation/reward rules unknown",
+        "All catalog recipes accepted; no recovered event/unlock gate",
+        "No request idempotency key"
+      ]
     }
   },
   "sse": {

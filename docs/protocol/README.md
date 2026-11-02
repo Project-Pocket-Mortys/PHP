@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Multiplayer crafting](crafting-implementation.md) now supports the 22 recovered
+recipes, with Android Serum Quick Craft and inventory verification. This work
+starts directly from current main (`9ff1a11`); earlier stacked item/lock/release
+branches are separate. Research now uses [REA 6.8.0](rea-6.8-upgrade.md).
+
 [Two Android clients](android-peer-verification.md) now verify same-room visibility
 and bidirectional movement. Idle delivery still fails in the emulator/host path:
 the relay retains its registration, but an intermediate endpoint mapping changes.

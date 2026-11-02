@@ -20,6 +20,15 @@ Implementation status and evidence confidence are independent. The root README r
 | P3 | Decode remaining embedded Unity carriers | `embedded-assets.json` inventories the APK assets. Only globalgamemanagers and repository data bundles were decoded in this pass. | Target additional carriers from unresolved data references; compare hashes and schema versions. |
 | P3 | iOS compatibility | IPA unavailable. | Inspect bundle/Mach-O/metadata and compare matching-version contracts; document platform differences. |
 
+## Crafting on current main
+
+The `hayward/crafting` feature is based directly on `origin/main` at `9ff1a11`.
+It implements the previously missing recipe endpoint from recovered multiplayer
+contracts and all 22 recipe records; see [crafting-implementation.md](crafting-implementation.md).
+Later item/lock/release work on other branches is not silently imported here.
+Player-visible missing features remain the execution priority; research gaps
+do not by themselves mark ConspiracyRick's completed features as broken.
+
 ## Repairs included
 
 Readiness now uses `battle_id`; both battle routes verify initiator ownership and active state; attack requests verify active Morty ownership; capture no longer concatenates two JSON responses; SSE active-deck lookup joins the selected deck and excludes foreign-owned Morties; room membership events identify the queued player rather than the subscriber (see `sse-membership.md`); shared bootstrap disables error display and supports environment database configuration; Apache serves the existing bundles at their manifest paths.
