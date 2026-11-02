@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Multiplayer crafting](crafting-implementation.md) now supports the 22 recovered
+recipes, with Android Serum Quick Craft and inventory verification. This work
+starts directly from current main (`9ff1a11`); earlier stacked item/lock/release
+branches are separate. Research now uses [REA 6.8.0](rea-6.8-upgrade.md).
+
 [Two Android clients](android-peer-verification.md) now verify same-room visibility
 and bidirectional movement. Idle delivery still fails in the emulator/host path:
 the relay retains its registration, but an intermediate endpoint mapping changes.
@@ -77,7 +82,7 @@ py tools/research/contracts.py
 py tools/research/assets.py
 ```
 
-The verifier expects the downloaded Node and Ghidra archives in the WSL tool directory. Compare hashes before executing downloaded binaries; `toolchain.lock.json` records the inspected artifacts. REA is pinned to npm 6.4.0; tool downloads come from the upstream projects. Generated research data is not runnable server code.
+The verifier expects the downloaded Node and Ghidra archives in the WSL tool directory. Compare hashes before executing downloaded binaries; `toolchain.lock.json` records the inspected artifacts. REA is pinned to npm 6.8.0 with private Node 24.22.1; tool downloads come from the upstream projects. Generated research data is not runnable server code.
 
 ```powershell
 wsl -d Ubuntu -- bash tools/research/rea.sh doctor --provider ghidra --format json

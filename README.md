@@ -33,7 +33,6 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 - Use Items
 - Release Morties
 - Lock Morties
-- Crafting
 - Challenges
 
 ## Completed
@@ -45,6 +44,7 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 - <s>Learn Attacks</s>
 - <s>Swap Stop</s>
 - <s>Salesman Rick's</s>
+- <s>Crafting</s>: [22 multiplayer recipes](docs/protocol/crafting-implementation.md)
 
 ## Legal Disclaimer
 

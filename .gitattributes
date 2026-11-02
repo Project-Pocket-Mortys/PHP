@@ -7,3 +7,6 @@ sse/index.php text eol=lf
 session/leave-room/index.php text eol=lf
 session/join-room/index.php text eol=lf
 session/ping-dynamic/index.php text eol=lf
+
+session/recipe/use/index.php text eol=lf
+config/crafting_recipes.json text eol=lf

@@ -9,7 +9,8 @@
     "Buy deck slots",
     "Learn Attacks",
     "Swap Stop",
-    "Salesman Rick's"
+    "Salesman Rick's",
+    "Crafting"
   ],
   "limitations": [
     "heuristic PHP extraction includes comment/string candidates",
@@ -4127,13 +4128,25 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "observed Android 2.41.0 Quick Craft; recovered native contract and MP assets; 12 integration tests",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original-server validation/reward parity",
+        "Cross-route inventory concurrency",
+        "Android UI acceptance for other catalog recipes"
+      ],
+      "server_evidence": {
+        "file": "session/recipe/use/index.php",
+        "line": 1,
+        "sha256": "583f749cf7125dff6cd6f75ac3bd2c2a80cdd74664e0e40d021c306751499479"
+      },
+      "status_basis": "All 22 catalog recipes; atomic ingredients/output, owner scoping and client cap; Android Serum Quick Craft verified",
+      "http_method": "POST",
+      "contract_evidence": [
+        "crafting-contract.md",
+        "crafting-data.md",
+        "crafting-implementation.md",
+        "crafting-capture.json"
       ]
     },
     {
