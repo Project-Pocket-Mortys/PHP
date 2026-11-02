@@ -77,7 +77,7 @@ py tools/research/contracts.py
 py tools/research/assets.py
 ```
 
-The verifier expects the downloaded Node and Ghidra archives in the WSL tool directory. Compare hashes before executing downloaded binaries; `toolchain.lock.json` records the inspected artifacts. REA is pinned to npm 6.4.0; tool downloads come from the upstream projects. Generated research data is not runnable server code.
+The verifier expects the downloaded Node and Ghidra archives in the WSL tool directory. Compare hashes before executing downloaded binaries; `toolchain.lock.json` records the inspected artifacts. REA is pinned to npm 6.8.0 with private Node 24.22.1; tool downloads come from the upstream projects. Generated research data is not runnable server code.
 
 ```powershell
 wsl -d Ubuntu -- bash tools/research/rea.sh doctor --provider ghidra --format json
