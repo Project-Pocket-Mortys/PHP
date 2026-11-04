@@ -37,7 +37,7 @@ try {
     $player_id = (string)$session["player_id"];
     $room_id = (string)($session["room_id"] ?? "");
     if ($room_id !== "" && $room_id !== "0") {
-        $update = $pdo->prepare("UPDATE users SET room_id = NULL WHERE player_id = ?");
+        $update = $pdo->prepare("UPDATE users SET room_id = NULL, room_membership_generation = room_membership_generation + 1 WHERE player_id = ?");
         $update->execute([$player_id]);
         // Membership and its departure event must commit together.
         publish_event($pdo, $room_id, "room:user-removed", ["player_id" => $player_id]);

@@ -9,7 +9,8 @@
     "Buy deck slots",
     "Learn Attacks",
     "Swap Stop",
-    "Salesman Rick's"
+    "Salesman Rick's",
+    "Release Morties"
   ],
   "limitations": [
     "heuristic PHP extraction includes comment/string candidates",
@@ -3293,7 +3294,7 @@
       "server_evidence": {
         "file": "session/join-room/index.php",
         "line": 1,
-        "sha256": "d72de20b57fe31858dab2bee154f31eec691c88fa30f62267dd12df037b35649"
+        "sha256": "2ad9ff8e57f38ab7d55f05e87432171cb2bd96a4b44a6d8a18188ce4e30cfb47"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3398,7 +3399,7 @@
       "server_evidence": {
         "file": "session/leave-room/index.php",
         "line": 1,
-        "sha256": "f6159428ad2ec64e2b51b4c7946af0348691d0132ce10222d8f5a96b0aafa141"
+        "sha256": "4b365c22cc46cb298a8f1f2a07421d79c760c8afcd620186d730848b1bcf21a8"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3593,13 +3594,24 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "statically established native constructors/callbacks; 15 integration tests; Android Stats confirmation and synthetic preview capture",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original HTTP validation/status parity",
+        "Storage multi-select Android UI acceptance",
+        "Cross-endpoint writers do not share one locking protocol"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/attempt-release-multiple/index.php",
+        "line": 1,
+        "sha256": "66114ae6ef8d9ff2161f8ffef68be70dc429373edf63a104ecb988a4045e2937"
+      },
+      "status_basis": "Atomic world release with read-only preview, ownership and protection checks",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-release-contract.md",
+        "morty-release-implementation.md",
+        "morty-release-capture.json"
       ]
     },
     {
@@ -3720,13 +3732,22 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "observed Android 2.41.0 replacement-server lock/unlock; statically established native callback",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "original HTTP error status parity",
+        "lock enforcement in destructive operations"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/lock/index.php",
+        "line": 1,
+        "sha256": "a58758dbb289520b31e5d0ed3919c9a02ea7a77ad22bed7614e4a629b644a38c"
+      },
+      "status_basis": "Owner-scoped toggle and persistence; destructive action protection remains separate",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-lock-contract.md",
+        "morty-lock-capture.json"
       ]
     },
     {
@@ -3753,13 +3774,24 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "statically established native constructors/callbacks; 15 integration tests; Android Stats confirmation and synthetic preview capture",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original HTTP validation/status parity",
+        "Storage multi-select Android UI acceptance",
+        "Cross-endpoint writers do not share one locking protocol"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/release-multiple/index.php",
+        "line": 1,
+        "sha256": "989d10db22ee33eda1df1e6a05c2e355f93146cbb34a6d832ef8f5a4cce6516a"
+      },
+      "status_basis": "Atomic world release with read-only preview, ownership and protection checks",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-release-contract.md",
+        "morty-release-implementation.md",
+        "morty-release-capture.json"
       ]
     },
     {
@@ -4162,7 +4194,7 @@
       "server_evidence": {
         "file": "session/room-details/index.php",
         "line": 1,
-        "sha256": "ef7e1c795d0dc49bcb2ca8e8ecc4e353b5a2a55de7e5f16fd33a8a948440ce07"
+        "sha256": "7a0dbdc7ce7f5f2d254913f0e3258f92775266e8d298a1306d8c460f49bb9e27"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4341,12 +4373,12 @@
       "server_evidence": {
         "file": "session/use-item/index.php",
         "line": 1,
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        "sha256": "90f5f71c07f45989c32a5e8073a2b8a0a8bdd6570b110c51eefc5e10924d573c"
       },
-      "implementation_status": "stub",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "partial",
+      "status_basis": "Eight world HP healers, full revival and full AP restoration implemented; other effects and battle use pending",
+      "evidence_confidence": "observed Android 2.41.0 Serum/full-revive/full-AP uses; native contract and static maxima; 22 item regression tests",
+      "http_method": "POST",
       "input_field_candidates": [],
       "query_fields": [],
       "response_key_candidates": [],
@@ -4355,11 +4387,19 @@
       "events_published": [],
       "authentication": "requires review",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "50% revive/AP rounding and minimum HP",
+        "cure/stat/general effects",
+        "battle item synchronization",
+        "original retry/consumption policy"
+      ],
+      "contract_evidence": [
+        "use-item-contract.md",
+        "use-item-data.md",
+        "use-item-capture.json",
+        "use-item-implementation.md",
+        "full-restore-items.md",
+        "full-restore-capture.json",
+        "ap-maxima-contract.md"
       ]
     },
     {
@@ -4496,7 +4536,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "d78f6bf3f10c32a16f23151b371612f1839798fed3ba3e48bde4be6d3157b03c"
+        "sha256": "a69070afa81aa1c6278e27e6b0bafb83fc0d75209f37521b07a03f55609353f9"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",

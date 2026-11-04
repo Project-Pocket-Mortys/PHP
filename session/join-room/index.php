@@ -85,7 +85,8 @@ $baseline_event_id = (int)$baselineStmt->fetchColumn();
 
 $pdo->prepare("
     UPDATE users
-    SET room_id = ?, state = 'WORLD', last_seen = NOW(), last_event_id = ?
+    SET room_id = ?, state = 'WORLD', last_seen = NOW(), last_event_id = ?,
+        room_membership_generation = room_membership_generation + 1
     WHERE player_id = ? AND session_id = ?
 ")->execute([$room_id, $baseline_event_id, $player_id, $session_id]);
 
@@ -132,9 +133,10 @@ while ($u = $usersStmt->fetch(PDO::FETCH_ASSOC)) {
         $mortyStmt = $pdo->prepare("
             SELECT *
             FROM owned_morties
-            WHERE owned_morty_id IN ($placeholders)
+            WHERE player_id = ?
+            AND owned_morty_id IN ($placeholders)
         ");
-        $mortyStmt->execute($mortyIds);
+        $mortyStmt->execute([$u["player_id"], ...$mortyIds]);
 
         while ($m = $mortyStmt->fetch(PDO::FETCH_ASSOC)) {
             $owned_morties[] = [
@@ -166,7 +168,7 @@ while ($u = $usersStmt->fetch(PDO::FETCH_ASSOC)) {
 /* ---------------- PICKUPS ---------------- */
 
 $pickupStmt = $pdo->prepare("
-    SELECT pickup_id, placement, pick_up_contents
+    SELECT only_show_to_player_id, pickup_id, placement, pick_up_contents
     FROM event_queue
     WHERE room_id = ?
     AND event_name = 'room:pickup-added'
@@ -177,6 +179,7 @@ $pickupStmt->execute([$room_id]);
 $pickups = [];
 
 while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($p, $player_id)) continue;
 
     $pos = explode(",", $p["placement"]);
 
@@ -214,6 +217,7 @@ $wildStmt->execute([$room_id]);
 $wild_morties = [];
 
 while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($w, $player_id)) continue;
 
     $pos = explode(",", $w["placement"]);
 
@@ -236,7 +240,7 @@ while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
 /* ---------------- BOTS ---------------- */
 
 $botStmt = $pdo->prepare("
-    SELECT bot_id, username, player_avatar_id, placement, state, division, zone_id, shiny_if_potion, owned_morties
+    SELECT only_show_to_player_id, bot_id, username, player_avatar_id, placement, state, division, zone_id, shiny_if_potion, owned_morties
     FROM event_queue
     WHERE room_id = ?
     AND event_name = 'room:bot-added'
@@ -247,6 +251,7 @@ $botStmt->execute([$room_id]);
 $bots = [];
 
 while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($b, $player_id)) continue;
 
     $placement = isset($b["placement"]) ? explode(",", $b["placement"]) : [0, 0];
 

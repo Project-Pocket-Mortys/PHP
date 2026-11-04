@@ -33,45 +33,17 @@ function decode_jwt_payload($jwt) {
     return json_decode(base64url_decode($parts[1]), true);
 }
 
-// Only used as fallback if event_queue.player_id is NULL for private events
-function payload_involves_player(string $payloadJson, string $player_id): bool {
-    $d = json_decode($payloadJson, true);
-    if (!is_array($d)) return false;
-
-    $keys = [
-        "player_id",
-        "attacker_player_id",
-        "defender_player_id",
-        "challenger_player_id",
-        "challenged_player_id",
-        "owner_player_id",
-    ];
-
-    foreach ($keys as $k) {
-        if (isset($d[$k]) && (string)$d[$k] === $player_id) return true;
-    }
-
-    if (isset($d["turn_datas"]) && is_array($d["turn_datas"])) {
-        foreach ($d["turn_datas"] as $t) {
-            if (!is_array($t)) continue;
-            if (isset($t["attacker_player_id"]) && (string)$t["attacker_player_id"] === $player_id) return true;
-            if (isset($t["defender_player_id"]) && (string)$t["defender_player_id"] === $player_id) return true;
-        }
-    }
-
-    return false;
-}
-
 // Cursor stored in users table
 function cursor_get(PDO $pdo, string $player_id): int {
     $q = $pdo->prepare("SELECT COALESCE(last_event_id, 0) FROM users WHERE player_id = ? LIMIT 1");
     $q->execute([$player_id]);
     return (int)$q->fetchColumn();
 }
-function cursor_set(PDO $pdo, string $player_id, int $last_id, string $session_id, string $room_id): void {
-    // A previous room's poll must not overwrite a new join's cursor.
-    $q = $pdo->prepare("UPDATE users SET last_event_id = ?, last_seen = NOW() WHERE player_id = ? AND session_id = ? AND room_id = ?");
-    $q->execute([$last_id, $player_id, $session_id, $room_id]);
+function cursor_set(PDO $pdo, string $player_id, int $last_id, string $session_id, string $room_id, string $generation): void {
+    // A previous membership's poll must not overwrite a new join's cursor,
+    // including a leave/rejoin to the same room between polls.
+    $q = $pdo->prepare("UPDATE users SET last_event_id = ?, last_seen = NOW() WHERE player_id = ? AND session_id = ? AND room_id = ? AND room_membership_generation = ?");
+    $q->execute([$last_id, $player_id, $session_id, $room_id, $generation]);
 }
 function room_max_event_id(PDO $pdo, string $room_id): int {
     $q = $pdo->prepare("SELECT COALESCE(MAX(id), 0) FROM event_queue WHERE room_id = ?");
@@ -82,13 +54,19 @@ function room_max_event_id(PDO $pdo, string $room_id): int {
 // A stream belongs to the session that opened it, not every future login
 // for the same player. End revoked streams without inventing a wire event.
 function require_live_stream_session(PDO $pdo, string $player_id, string $session_id): array {
-    $q = $pdo->prepare("SELECT room_id, COALESCE(last_event_id, 0) AS last_event_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+    $q = $pdo->prepare("SELECT room_id, room_membership_generation, COALESCE(last_event_id, 0) AS last_event_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
     $q->execute([$player_id, $session_id]);
     $membership = $q->fetch(PDO::FETCH_ASSOC);
     if (!$membership) exit;
     return $membership;
 }
 
+
+// Keep BIGINT generations as decimal strings, including values above PHP_INT_MAX.
+function stream_membership_matches(array $membership, string $room_id, string $generation): bool {
+    return (string)$membership['room_id'] === $room_id
+        && (string)$membership['room_membership_generation'] === $generation;
+}
 
 /* ---------------- ACTIVE DECK MORTIES ---------------- */
 require_once __DIR__ . '/../lib/active_deck.php';
@@ -164,11 +142,12 @@ $room_id = "";
 $last_keepalive = time();
 
 while (!connection_aborted()) {
-    $st = $pdo->prepare("SELECT room_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+    $st = $pdo->prepare("SELECT room_id, room_membership_generation FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
     $st->execute([$player_id, $session_id]);
     $membership = $st->fetch(PDO::FETCH_ASSOC);
     if (!$membership) exit;
     $room_id = (string)$membership['room_id'];
+    $generation = (string)$membership['room_membership_generation'];
 
     if ($room_id !== "" && $room_id !== "0") break;
 
@@ -196,19 +175,24 @@ $fresh_connect = ($client_last_event_id === null);
 // -------------------- INITIAL SNAPSHOT (ONLY ON FRESH CONNECT) --------------------
 
 if ($fresh_connect) {
+    // Fix one boundary before reading entities. Later publications belong to
+    // the live queue, even if they arrive while a snapshot is being sent.
+    $snapshot_last_id = room_max_event_id($pdo, $room_id);
+
     // ---------------- PICKUPS ----------------
     $pickupStmt = $pdo->prepare("
-        SELECT id, pickup_id, placement, pick_up_contents
+        SELECT id, only_show_to_player_id, pickup_id, placement, pick_up_contents
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:pickup-added'
         AND pickup_id_collected_by_player_id IS NULL
         ORDER BY id ASC
     ");
-    $pickupStmt->execute([$room_id]);
+    $pickupStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
-        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
+        if (!event_is_visible_to_player($p, $player_id)) continue;
+        if (!stream_membership_matches(require_live_stream_session($pdo, $player_id, $session_id), $room_id, $generation)) break;
 
         $placement = explode(",", $p["placement"] ?? "0,0");
 
@@ -230,16 +214,17 @@ if ($fresh_connect) {
 
     // ---------------- WILD MORTIES ----------------
     $wildStmt = $pdo->prepare("
-        SELECT id, wild_morty_id, morty_id, placement, state, division, variant, shiny_if_potion
+        SELECT id, only_show_to_player_id, wild_morty_id, morty_id, placement, state, division, variant, shiny_if_potion
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:wild-morty-added'
         ORDER BY id ASC
     ");
-    $wildStmt->execute([$room_id]);
+    $wildStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
-        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
+        if (!event_is_visible_to_player($w, $player_id)) continue;
+        if (!stream_membership_matches(require_live_stream_session($pdo, $player_id, $session_id), $room_id, $generation)) break;
 
         $placement = explode(",", $w["placement"] ?? "0,0");
 
@@ -267,16 +252,17 @@ if ($fresh_connect) {
 
     // ---------------- BOTS ----------------
     $botStmt = $pdo->prepare("
-        SELECT id, bot_id, username, player_avatar_id, placement, state, owned_morties
+        SELECT id, only_show_to_player_id, bot_id, username, player_avatar_id, placement, state, owned_morties
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:bot-added'
         ORDER BY id ASC
     ");
-    $botStmt->execute([$room_id]);
+    $botStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
-        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
+        if (!event_is_visible_to_player($b, $player_id)) continue;
+        if (!stream_membership_matches(require_live_stream_session($pdo, $player_id, $session_id), $room_id, $generation)) break;
 
         $placement = explode(",", $b["placement"] ?? "0,0");
 
@@ -301,13 +287,13 @@ if ($fresh_connect) {
         );
     }
 
-    // move cursor forward after snapshot
-    $last_id = room_max_event_id($pdo, $room_id);
-    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
+    // Continue above the original boundary, not a new maximum after delivery.
+    $last_id = $snapshot_last_id;
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id, $generation);
 
 } else {
     $last_id = (int)$client_last_event_id;
-    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id, $generation);
 }
 
 // -------------------- MAIN STREAM LOOP --------------------
@@ -315,18 +301,13 @@ if ($fresh_connect) {
 $keepalive_interval_sec = 30;
 $last_keepalive = time();
 
-$privateEvents = [
-    "battle:start",
-    "battle:move-timer-started",
-    "battle:turn-result"
-];
-
 while (!connection_aborted()) {
 
     $membership = require_live_stream_session($pdo, $player_id, $session_id);
     $current_room_id = (string)$membership['room_id'];
-    if ($current_room_id !== $room_id) {
+    if (!stream_membership_matches($membership, $room_id, $generation)) {
         $room_id = $current_room_id;
+        $generation = (string)$membership['room_membership_generation'];
         // join-room supplies the snapshot over HTTP and installs this baseline
         // together with membership. Do not replay the destination's history.
         $last_id = (int)$membership['last_event_id'];
@@ -385,7 +366,7 @@ while (!connection_aborted()) {
     $sent = false;
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
+        if (!stream_membership_matches(require_live_stream_session($pdo, $player_id, $session_id), $room_id, $generation)) break;
 
         $eventName = (string)$row["event_name"];
         $eid = (int)$row["id"];
@@ -393,21 +374,10 @@ while (!connection_aborted()) {
 
         $payload = (string)null;
 
-        // ---------------- PRIVATE EVENT FILTER ----------------
-        if (in_array($eventName, $privateEvents, true)) {
-
-            if ($targetPid !== "" && $targetPid !== $player_id) {
-                $last_id = $eid;
-                continue;
-            }
-
-            if (
-                $targetPid === "" &&
-                !payload_involves_player($payload, $player_id)
-            ) {
-                $last_id = $eid;
-                continue;
-            }
+        // Recipient metadata is authoritative; ambiguous private events stay private.
+        if (!event_is_visible_to_player($row, $player_id)) {
+            $last_id = $eid;
+            continue;
         }
 
         // ---------------- REBUILD PICKUP EVENTS ----------------
@@ -601,7 +571,7 @@ while (!connection_aborted()) {
         $sent = true;
     }
 
-    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id, $generation);
 
     if (
         !$sent &&
