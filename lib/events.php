@@ -102,6 +102,10 @@ function publish_event(PDO $pdo, string $room_id, string $event, array $payload,
 		$wild_morty_id = $payload["wild_morty_id"] ?? null;
 		$state = $payload["state"] ?? null;
     }
+
+    if ($event === "room:wild-morty-removed") {
+        $wild_morty_id = $payload["wild_morty_id"] ?? null;
+    }
 	
 	// ---------------- USER ROOM STATE CHANGE ----------------
     if ($event === "room:user-state-changed") {
@@ -119,6 +123,7 @@ function publish_event(PDO $pdo, string $room_id, string $event, array $payload,
     if ($event === "battle:turn-result") {
 		// ALWAYS preserve original payload
     	$battle_turn_result = json_encode($payload, JSON_UNESCAPED_SLASHES);
+        $only_show_to_player_id = $player_id;
     }
 	
 	// ---------------- BATTLE TIMER ----------------

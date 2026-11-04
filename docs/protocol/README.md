@@ -114,7 +114,12 @@ docker compose -f compose.research.yaml --profile udp down
 
 The server binds only `127.0.0.1:8087`. The test suite reseeds the dedicated Compose database; never point it at a shared server. Its named database volume survives `down`. Credentials are synthetic and restricted to this local stack. `PM_DB_HOST`, `PM_DB_NAME`, `PM_DB_USER`, and `PM_DB_PASS` configure the shared PHP connection. Existing manually configured fallback strings can still be used outside Compose.
 
-Repairs preserve routes and success envelopes: readiness uses the actual battle ID; ready/move reject another initiator and inactive/missing battles; attacks reject another player's or inactive Morty; capture emits one JSON acknowledgement; SSE deck payloads use the active owned deck; shared bootstrap logs PHP errors without printing them into responses. No schema migration is needed. Error HTTP statuses are tested replacement-server behavior, not a claim of original-server parity.
+When preserving emulator accounts in this stack, run only the additive lifecycle
+suite: `py -m unittest discover -s tests/protocol -p test_battle_lifecycle.py -v`.
+It creates UUID fixtures and removes only those fixtures. Full discovery includes
+the older `BattleContractTests` global reseed and must use a disposable database.
+
+Repairs preserve routes and supported success envelopes: readiness uses the actual battle ID; ready/move reject another initiator and inactive/missing battles; attacks reject another player's or inactive Morty; SSE deck payloads use the active owned deck; shared bootstrap logs PHP errors without printing them into responses. The [wild-battle lifecycle](battle-completion-contract.md) now persists supported attack HP/AP and run/win/loss results atomically. Capture returns an explicit unsupported-item error while durable capture remains unimplemented. No schema migration is needed. Error HTTP statuses are tested replacement-server behavior, not a claim of original-server parity.
 
 ## Runtime capture and remaining validation
 

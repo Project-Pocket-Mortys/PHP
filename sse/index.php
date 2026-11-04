@@ -463,6 +463,9 @@ while (!connection_aborted()) {
 		}
 
 		// ---------------- WILD MORTY STATE CHANGE ----------------
+        elseif ($eventName === "room:wild-morty-removed") {
+            $payload = json_encode(["wild_morty_id" => $row["wild_morty_id"]], JSON_UNESCAPED_SLASHES);
+        }
         elseif ($eventName === "room:wild-morty-state-changed") {
 		   $rebuilt = [
                 "wild_morty_id" => $row["wild_morty_id"],
