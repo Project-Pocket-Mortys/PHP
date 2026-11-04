@@ -1567,12 +1567,12 @@
       "server_evidence": {
         "file": "session/battle-wild-morty/index.php",
         "line": 1,
-        "sha256": "432579285788c1acdb782dc3e434d273a7ca1683aa2f58ecaa5b1a6efc9ad30d"
+        "sha256": "80c97974b8ff218da3c49d148becf7b4251a9b8519768da0c8935be31ab5b4c4"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete.",
+      "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
+      "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "session_id",
         "wild_morty_id"
@@ -1632,10 +1632,12 @@
         "xp_upper"
       ],
       "http_status_candidates": [
+        200,
         400,
         401,
-        404,
-        409
+        403,
+        409,
+        500
       ],
       "table_candidates": [
         "BATTLES",
@@ -1657,12 +1659,14 @@
       ],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
         "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
-      ]
+        "original error compatibility",
+        "active-turn retry/cooldown semantics",
+        "original combat/stat/reward formulas",
+        "durable capture",
+        "interrupted-battle reconnect"
+      ],
+      "reviewed_contract": "docs/protocol/battle-completion-contract.md"
     },
     {
       "path": "/session/battle/move",
@@ -1694,12 +1698,12 @@
       "server_evidence": {
         "file": "session/battle/move/index.php",
         "line": 1,
-        "sha256": "bcf45ed013096449e1521e1e0507ba4d0bc5d2eab3b9861ddd35624ceffbca7f"
+        "sha256": "f3db1fe835d47a097d702361944ceaa3c2bc40d9471c6cf5a9b7f3ca9109d261"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete.",
+      "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
+      "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "battle_id",
         "move_id",
@@ -1712,79 +1716,63 @@
         "ATTACK",
         "ITEM",
         "RUN",
-        "added_to_active_deck",
-        "amount",
-        "amount_received",
         "attack_id",
-        "attack_stat",
         "attacker_morty_datas",
         "attacker_player_id",
         "attacks_to_learn",
         "battle_abandoned",
         "battle_id",
+        "code",
         "continue_on_miss",
         "cooldown",
         "cooldown_next",
         "count",
         "damage",
-        "defence_stat",
         "defender_morty_datas",
         "defender_player_id",
         "effect_datas",
         "element_modifier",
+        "error",
         "hp",
-        "hp_stat",
         "is_accurate",
         "is_critical",
-        "is_poisoned",
-        "item_id",
         "last_move_type",
-        "level",
-        "morty_id",
         "move_log",
         "opponent",
         "outcome",
         "owned_attacks",
-        "owned_items",
-        "owned_morty",
-        "owned_morty_datas",
         "owned_morty_id",
-        "owned_morty_limit_reached",
         "player",
         "player_datas",
         "player_id",
-        "position",
         "pp",
-        "quantity",
         "rewards",
-        "speed_stat",
         "state",
         "success",
-        "timeout",
         "to_self",
         "turn_datas",
         "type",
-        "variant",
         "wild_morty_id",
-        "xp",
-        "xp_datas",
-        "xp_earned",
-        "xp_lower",
-        "xp_upper"
+        "xp_datas"
       ],
       "http_status_candidates": [
+        200,
         400,
-        401
+        401,
+        403,
+        404,
+        409,
+        500,
+        501
       ],
       "table_candidates": [
-        "DB",
         "battles",
-        "owned_items",
+        "event_queue",
+        "owned_attacks",
         "owned_morties",
         "users"
       ],
       "events_published": [
-        "battle:move-timer-started",
         "battle:turn-result",
         "room:user-state-changed",
         "room:wild-morty-removed",
@@ -1792,12 +1780,14 @@
       ],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
         "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
-      ]
+        "original error compatibility",
+        "active-turn retry/cooldown semantics",
+        "original combat/stat/reward formulas",
+        "durable capture",
+        "interrupted-battle reconnect"
+      ],
+      "reviewed_contract": "docs/protocol/battle-completion-contract.md"
     },
     {
       "path": "/session/battle/ready",
@@ -4496,7 +4486,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "d78f6bf3f10c32a16f23151b371612f1839798fed3ba3e48bde4be6d3157b03c"
+        "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -5374,18 +5364,18 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 125,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 130,
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 304,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 320,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 498,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 535,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5404,18 +5394,18 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 112,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 116,
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 303,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 319,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 488,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 525,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5434,18 +5424,18 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 119,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 123,
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 305,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 321,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 493,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 530,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5490,13 +5480,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 131,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 136,
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 515,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 552,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5711,22 +5701,22 @@
         {
           "file": "lib/events.php",
           "line": 64,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 258,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 273,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 282,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 298,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 429,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 463,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5772,22 +5762,22 @@
         {
           "file": "lib/events.php",
           "line": 27,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 191,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 204,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 211,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 225,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 380,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 414,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5807,12 +5797,12 @@
         {
           "file": "lib/events.php",
           "line": 44,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 503,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 540,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5832,12 +5822,12 @@
         {
           "file": "lib/events.php",
           "line": 86,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 528,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 565,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5870,12 +5860,12 @@
         {
           "file": "lib/events.php",
           "line": 94,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 544,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 589,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5894,13 +5884,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 106,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 110,
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 475,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 512,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5920,22 +5910,22 @@
         {
           "file": "lib/events.php",
           "line": 49,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 222,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 236,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 247,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 262,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 403,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 437,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5952,7 +5942,19 @@
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "delivery_semantics": "unknown until handler trace and runtime capture",
+      "server_evidence": [
+        {
+          "file": "lib/events.php",
+          "line": 105,
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
+        },
+        {
+          "file": "sse/index.php",
+          "line": 496,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
+        }
+      ]
     },
     {
       "name": "room:wild-morty-state-changed",
@@ -5968,12 +5970,12 @@
         {
           "file": "lib/events.php",
           "line": 100,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 462,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 499,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5998,13 +6000,18 @@
       "server_evidence": [
         {
           "file": "sse/index.php",
-          "line": 163,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 176,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         },
         {
           "file": "sse/index.php",
-          "line": 568,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 336,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
+        },
+        {
+          "file": "sse/index.php",
+          "line": 613,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6023,8 +6030,8 @@
       "server_evidence": [
         {
           "file": "sse/index.php",
-          "line": 148,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 159,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6070,12 +6077,12 @@
         {
           "file": "lib/events.php",
           "line": 80,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "sha256": "fd6965ca7140f0b24bc2c22dbb4ed21c5248f203a625d5770e9d91b44fa1cd47"
         },
         {
           "file": "sse/index.php",
-          "line": 457,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 491,
+          "sha256": "432ad2b537ba062f3afcf2843a6eb55de178a92b07c0337f13dc1f59966a9f6d"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
