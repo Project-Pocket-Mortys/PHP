@@ -1569,7 +1569,7 @@
       "server_evidence": {
         "file": "session/battle-wild-morty/index.php",
         "line": 1,
-        "sha256": "2def91d1b99a98442506eafaae8c856c0f67a26933ea6ac8a9b9ff7fac895e3c"
+        "sha256": "6e14fa64d1cec36e3645994d60b0475bfa4f7f36a0a5a527089c6c7ebdf46733"
       },
       "implementation_status": "partial",
       "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete.",
@@ -1671,7 +1671,8 @@
         "interrupted-battle reconnect"
       ],
       "reviewed_contract": "docs/protocol/battle-completion-contract.md",
-      "ailment_contract": "docs/protocol/status-cure-implementation.md"
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "switch_contract": "docs/protocol/battle-switch-implementation.md"
     },
     {
       "path": "/session/battle/move",
@@ -1703,10 +1704,10 @@
       "server_evidence": {
         "file": "session/battle/move/index.php",
         "line": 1,
-        "sha256": "f3db1fe835d47a097d702361944ceaa3c2bc40d9471c6cf5a9b7f3ca9109d261"
+        "sha256": "e36af37c09d9b2f3961ac8eb944bde4058c332a53387caf0bfa720f7a8533c6a"
       },
       "implementation_status": "partial",
-      "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete.",
+      "status_basis": "Partial PvWM: durable ATTACK/RUN/SWITCH, forced replacement and party exhaustion; native and Android switch contract verified. Damage/initiative/capture/rewards remain incomplete.",
       "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
       "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -1721,6 +1722,7 @@
         "ATTACK",
         "ITEM",
         "RUN",
+        "SWITCH",
         "attack_id",
         "attacker_morty_datas",
         "attacker_player_id",
@@ -1792,7 +1794,8 @@
         "durable capture",
         "interrupted-battle reconnect"
       ],
-      "reviewed_contract": "docs/protocol/battle-completion-contract.md"
+      "reviewed_contract": "docs/protocol/battle-completion-contract.md",
+      "switch_contract": "docs/protocol/battle-switch-implementation.md"
     },
     {
       "path": "/session/battle/ready",

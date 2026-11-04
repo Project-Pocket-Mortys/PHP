@@ -53,11 +53,15 @@
             "type": "string"
           },
           "owned_morty_id": {
-            "type": "string"
+            "type": "string",
+            "description": "Current/outgoing active ID for ATTACK and SWITCH."
           },
           "move_id": {
-            "type": ["string", "null"],
-            "description": "Android RUN sends null (captured 2026-11-04); ATTACK requires a nonempty attack ID string."
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "ATTACK: attack ID. SWITCH: incoming owned Morty ID. RUN: nullable."
           }
         },
         "required": [
@@ -65,18 +69,52 @@
           "battle_id",
           "type"
         ],
-        "description": "Client constructs all five properties. Required list describes current server validation only."
+        "description": "Client constructs all five properties. Required list describes current server validation only.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "enum": [
+                    "ATTACK",
+                    "SWITCH"
+                  ]
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "owned_morty_id",
+                "move_id"
+              ],
+              "properties": {
+                "owned_morty_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "move_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
       },
       "success": {
         "success": true
       },
       "event": "battle:turn-result",
       "limitations": [
-        "Replacement combat remains placeholder: player damage 20, wild damage 1..3, wild PP 1; formulas and switching unresolved",
+        "Replacement combat remains placeholder: player damage 20, wild damage 1..3, wild PP 1; formulas/initiative remain unresolved",
         "ITEM including capture is explicitly unsupported: HTTP 501 ITEM_UNUSABLE, no inventory charge or simulated owned Morty",
         "WIN returns empty xp_datas/rewards; XP, stat growth and reward formulas unresolved",
         "Repeated active-turn bodies are not idempotent; constructor has no turn identity and cooldown enforcement/reconnect replay remain unresolved",
-        "Android research client RUN and ATTACK/WIN verified with synthetic private starts; live LOSE, natural battle initiation and interrupted-battle reconnect remain unverified (android-battle-lifecycle.md)"
+        "Android research client RUN and ATTACK/WIN verified with synthetic private starts; live LOSE, natural battle initiation and interrupted-battle reconnect remain unverified (android-battle-lifecycle.md)",
+        "Voluntary switch uses the existing AI counterattack; forced replacement is free. These are explicit replacement policies, not recovered original turn costs (battle-switch-contract.md)."
       ],
       "errors": {
         "400": "FAILED: malformed input, unsupported move type, or unknown attack",
@@ -94,7 +132,15 @@
         "RUN sets CANCELLED; WIN/LOSE set COMPLETED and winner; terminal moves set user WORLD",
         "WIN removes wild snapshot; RUN/LOSE release it to WORLD; room notifications and one initiator-private battle:turn-result share the transaction",
         "Commit all state and queued events together; failure rolls back and completed-battle retries cannot mutate or enqueue another terminal result",
-        "RUN permits verified legacy WORLD user/spawn state and does not change owned HP/PP"
+        "RUN permits verified legacy WORLD user/spawn state and does not change owned HP/PP",
+        "SWITCH validates outgoing/current and incoming member of immutable battle:start party; persists active ID/HP and emits SWITCH action with incoming owned ID; no player AP cost",
+        "Fainted active member with another living initial participant produces nonterminal FORCE_SWITCH; pending phase survives ready and rejected selection; LOSE requires party exhaustion"
+      ],
+      "evidence": [
+        "battle-completion-contract.md",
+        "battle-switch-contract.md",
+        "battle-switch-implementation.md",
+        "android-battle-switching.md"
       ]
     },
     "/session/leave-room": {

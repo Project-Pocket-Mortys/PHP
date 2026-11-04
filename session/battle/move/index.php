@@ -11,7 +11,7 @@ foreach (['session_id', 'battle_id', 'type'] as $key) {
     if (!is_string($body[$key] ?? null) || $body[$key] === '') respond(400, ['success' => false, 'error' => ['code' => 'FAILED']]);
 }
 foreach (['owned_morty_id', 'move_id'] as $key) {
-    // Android sends move_id:null for RUN. ATTACK still requires both strings.
+    // Android sends move_id:null for RUN; ATTACK/SWITCH require both strings.
     if (isset($body[$key]) && !is_string($body[$key])) respond(400, ['success' => false, 'error' => ['code' => 'FAILED']]);
 }
 $session_id = $body['session_id'];
@@ -19,7 +19,7 @@ $battle_id = $body['battle_id'];
 $type = $body['type'];
 $owned_morty_id = $body['owned_morty_id'] ?? '';
 $move_id = $body['move_id'] ?? '';
-if ($type === 'ATTACK' && ($owned_morty_id === '' || $move_id === '')) respond(400, ['success' => false, 'error' => ['code' => 'FAILED']]);
+if (in_array($type, ['ATTACK', 'SWITCH'], true) && ($owned_morty_id === '' || $move_id === '')) respond(400, ['success' => false, 'error' => ['code' => 'FAILED']]);
 
 try {
     $pdo->beginTransaction();
@@ -37,30 +37,58 @@ try {
     if ($battle['state'] !== 'ACTIVE') battle_reject(409);
     // Capture has no trustworthy stat/attack source yet. Never consume or fabricate it.
     if ($type === 'ITEM') battle_reject(501, 'ITEM_UNUSABLE');
-    if (!in_array($type, ['ATTACK', 'RUN'], true)) battle_reject(400);
+    if (!in_array($type, ['ATTACK', 'SWITCH', 'RUN'], true)) battle_reject(400);
 
     $morty = null;
     $attack = null;
-    if ($type === 'ATTACK') {
-        if ($owned_morty_id !== (string)$battle['player_active_morty']) battle_reject(403);
+    if ($type !== 'RUN') {
+        if ($owned_morty_id !== (string)$battle['player_active_morty']) {
+            if ($type === 'SWITCH') {
+                $stmt = $pdo->prepare('SELECT player_id FROM owned_morties WHERE owned_morty_id=? ORDER BY id FOR UPDATE');
+                $stmt->execute([$owned_morty_id]);
+                $outgoing = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if (count($outgoing) > 1 || (count($outgoing) === 1 && (string)$outgoing[0]['player_id'] === $player_id)) battle_reject(409);
+            }
+            battle_reject(403);
+        }
         // owned_attacks has no owner column: a globally ambiguous Morty ID is unsafe.
-        $stmt = $pdo->prepare('SELECT id, player_id, hp FROM owned_morties WHERE owned_morty_id=? FOR UPDATE');
+        $stmt = $pdo->prepare('SELECT * FROM owned_morties WHERE owned_morty_id=? ORDER BY id FOR UPDATE');
         $stmt->execute([$owned_morty_id]);
         $morties = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!$morties) battle_reject(409);
         $owned = array_filter($morties, fn($row) => (string)$row['player_id'] === $player_id);
         if (!$owned) battle_reject(403);
         if (count($morties) !== 1) battle_reject(409);
         $morty = $morties[0];
+        if (!battle_valid_hp($morty) || (int)$morty['hp'] !== (int)$battle['player_hp']) battle_reject(409);
+    }
+    if ($type === 'RUN' ? !in_array($user['state'], ['WORLD', 'BATTLE'], true) : $user['state'] !== 'BATTLE') battle_reject(409);
+    $room_id = battle_origin($pdo, $battle, $player_id, (string)($user['room_id'] ?? ''), $start);
+    $roster = battle_snapshot_roster($start, (string)$battle['player_active_morty']);
+    $party = [];
+    if ($type !== 'RUN') {
+        if ($type === 'SWITCH') {
+            if ($roster === null) battle_reject(409);
+            if ($move_id === $owned_morty_id) battle_reject(409);
+            if (!in_array($move_id, $roster, true)) battle_reject(403);
+            // Report explicit target ownership failures before generic roster damage.
+            $stmt = $pdo->prepare('SELECT player_id FROM owned_morties WHERE owned_morty_id=? ORDER BY id FOR UPDATE');
+            $stmt->execute([$move_id]);
+            $targets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($targets && !array_filter($targets, fn($row) => (string)$row['player_id'] === $player_id)) battle_reject(403);
+        }
+        $party = battle_lock_party($pdo, $roster ?? [$owned_morty_id], $player_id);
+        if ($type === 'SWITCH' && (int)$party[$move_id]['hp'] <= 0) battle_reject(409);
+    }
+    if ($type === 'ATTACK') {
+        if ((int)$morty['hp'] <= 0) battle_reject(409);
         $stmt = $pdo->prepare('SELECT id, pp FROM owned_attacks WHERE owned_morty_id=? AND attack_id=? FOR UPDATE');
         $stmt->execute([$owned_morty_id, $move_id]);
         $attacks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$attacks) battle_reject(400);
         if (count($attacks) !== 1 || (int)$attacks[0]['pp'] <= 0) battle_reject(409);
         $attack = $attacks[0];
-        if ((int)$morty['hp'] <= 0 || (int)$morty['hp'] !== (int)$battle['player_hp']) battle_reject(409);
     }
-    if ($type === 'ATTACK' ? $user['state'] !== 'BATTLE' : !in_array($user['state'], ['WORLD', 'BATTLE'], true)) battle_reject(409);
-    $room_id = battle_origin($pdo, $battle, $player_id, (string)($user['room_id'] ?? ''));
     $spawn = (string)$battle['opponent_active_morty'];
     // Do not release or damage a spawn simultaneously claimed by another legacy
     // ACTIVE row. Ambiguous historical battles require evidence before repair.
@@ -74,6 +102,23 @@ try {
     $enemy_hp = (int)$battle['opponent_hp'];
     $turn_datas = [];
     $outcome = $type === 'RUN' ? 'RUN' : 'CONTINUE';
+    $active_id = (string)$battle['player_active_morty'];
+    $forced_switch = $type === 'SWITCH' && $player_hp === 0 && (int)$morty['hp'] === 0;
+    if ($type === 'SWITCH') {
+        if ($enemy_hp <= 0) battle_reject(409);
+        $active_id = $move_id;
+        $morty = $party[$active_id];
+        $player_hp = (int)$morty['hp'];
+        $turn_datas[] = [
+            'type' => 'SWITCH', 'attacker_player_id' => $player_id, 'owned_morty_id' => $active_id,
+            'defender_player_id' => (string)$battle['opponent_id'],
+            'attacker_morty_datas' => [[
+                'owned_morty_id' => $active_id, 'hp' => $player_hp,
+                'is_poisoned' => (bool)$morty['is_poisoned'], 'is_paralysed' => (bool)$morty['is_paralysed'],
+            ]],
+            'defender_morty_datas' => [],
+        ];
+    }
     if ($type === 'ATTACK') {
         if ($enemy_hp <= 0) battle_reject(409);
         $pp = (int)$attack['pp'] - 1;
@@ -81,22 +126,28 @@ try {
         $turn_datas[] = battle_attack_data($player_id, (string)$battle['opponent_id'], $move_id, $owned_morty_id, $spawn, 20, $enemy_hp, $pp);
         if ($enemy_hp === 0) {
             $outcome = 'WIN';
-        } else {
-            $damage = random_int(1, 3);
-            $player_hp = max(0, $player_hp - $damage);
-            $ai_move = ['AttackBatteringRam', 'AttackVileSpew'][random_int(0, 1)];
-            // Wild AI PP remains a legacy placeholder: no owned wild attack rows exist.
-            $turn_datas[] = battle_attack_data((string)$battle['opponent_id'], $player_id, $ai_move, $spawn, $owned_morty_id, $damage, $player_hp, 1);
-            // SWITCH is unsupported: the sole active Morty fainting is legacy defeat.
-            if ($player_hp === 0) $outcome = 'LOSE';
         }
         $pdo->prepare('UPDATE owned_attacks SET pp=? WHERE id=?')->execute([$pp, $attack['id']]);
+    }
+    // Replacement policy: a voluntary switch consumes the player's action and
+    // the existing placeholder AI attacks the incoming Morty. Forced replacement
+    // only selects a survivor; original game's initiative/turn cost is unverified.
+    if (($type === 'ATTACK' && $outcome !== 'WIN') || ($type === 'SWITCH' && !$forced_switch)) {
+        $damage = random_int(1, 3);
+        $player_hp = max(0, $player_hp - $damage);
+        $ai_move = ['AttackBatteringRam', 'AttackVileSpew'][random_int(0, 1)];
+        // Wild AI PP remains a legacy placeholder: no owned wild attack rows exist.
+        $turn_datas[] = battle_attack_data((string)$battle['opponent_id'], $player_id, $ai_move, $spawn, $active_id, $damage, $player_hp, 1);
+        if ($player_hp === 0) {
+            $living = array_filter($party, fn($row) => (string)$row['owned_morty_id'] !== $active_id && (int)$row['hp'] > 0);
+            $outcome = $living ? 'FORCE_SWITCH' : 'LOSE';
+        }
         $pdo->prepare('UPDATE owned_morties SET hp=? WHERE id=? AND player_id=?')->execute([$player_hp, $morty['id'], $player_id]);
     }
-    $terminal = $outcome !== 'CONTINUE';
+    $terminal = in_array($outcome, ['RUN', 'WIN', 'LOSE'], true);
     $state = $outcome === 'RUN' ? 'CANCELLED' : ($terminal ? 'COMPLETED' : 'ACTIVE');
     $winner = $outcome === 'WIN' ? $player_id : ($outcome === 'LOSE' ? $battle['opponent_id'] : null);
-    $pdo->prepare('UPDATE battles SET player_hp=?, opponent_hp=?, state=?, winner=? WHERE battle_id=?')->execute([$player_hp, $enemy_hp, $state, $winner, $battle_id]);
+    $pdo->prepare('UPDATE battles SET player_active_morty=?, player_hp=?, opponent_hp=?, state=?, winner=? WHERE battle_id=?')->execute([$active_id, $player_hp, $enemy_hp, $state, $winner, $battle_id]);
     if ($terminal) {
         $pdo->prepare("UPDATE users SET state='WORLD' WHERE player_id=?")->execute([$player_id]);
         if ($outcome === 'WIN') {
@@ -109,8 +160,8 @@ try {
         publish_event($pdo, $room_id, 'room:user-state-changed', ['player_id' => $player_id, 'state' => 'WORLD']);
     }
     $player_data = ['move_log' => [
-        'cooldown' => $type === 'RUN' ? ['ATTACK' => 0, 'RUN' => 0] : ['ATTACK' => 0],
-        'count' => $type === 'RUN' ? ['ATTACK' => 0, 'RUN' => 1] : ['ATTACK' => 1],
+        'cooldown' => $type === 'RUN' ? ['ATTACK' => 0, 'RUN' => 0] : [$type => 0],
+        'count' => $type === 'RUN' ? ['ATTACK' => 0, 'RUN' => 1] : [$type => 1],
         'cooldown_next' => ['ITEM' => 1], 'last_move_type' => $type,
     ]];
     if ($terminal) $player_data['attacks_to_learn'] = [];

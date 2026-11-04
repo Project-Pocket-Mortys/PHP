@@ -19,7 +19,7 @@ MODULES = [
     'test_sse_snapshot_boundary', 'test_morty_lock', 'test_use_item',
     'test_full_restore_items', 'test_status_cure_items', 'test_morty_ailment_snapshots',
     'test_morty_release', 'test_crafting',
-    'test_battle_lifecycle', 'test_battle_world_guards',
+    'test_battle_lifecycle', 'test_battle_world_guards', 'test_battle_switching',
 ]
 
 

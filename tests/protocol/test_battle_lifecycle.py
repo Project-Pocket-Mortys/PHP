@@ -202,7 +202,7 @@ class BattleLifecycleTests(unittest.TestCase):
 
     def test_unsupported_move_types_do_not_change_anything(self):
         self.begin()
-        for kind in ('SWITCH', 'WAIT', 'INVALID'):
+        for kind in ('WAIT', 'INVALID'):
             with self.subTest(kind=kind):
                 self.assert_rejected_unchanged(lambda: self.move(kind), 400)
 

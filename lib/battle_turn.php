@@ -27,8 +27,49 @@ function battle_lock_spawn(PDO $pdo, string $room, string $spawn, string $player
     return $row;
 }
 
+/** Immutable party membership, with a narrow fallback for old starts without a roster. */
+function battle_snapshot_roster(array $snapshot, string $active): array|false|null {
+    $initial = $snapshot['player']['active_owned_morty'] ?? null;
+    if (!is_string($initial) || $initial === '' || $active === '') return false;
+    if (!array_key_exists('owned_morties', $snapshot['player'] ?? [])) return $initial === $active ? null : false;
+    $party = $snapshot['player']['owned_morties'];
+    if (!is_array($party) || !array_is_list($party) || !$party) return false;
+    $ids = [];
+    foreach ($party as $morty) {
+        $id = is_array($morty) ? ($morty['owned_morty_id'] ?? null) : null;
+        if (!is_string($id) || $id === '' || in_array($id, $ids, true)) return false;
+        $ids[] = $id;
+    }
+    return in_array($initial, $ids, true) && in_array($active, $ids, true) ? $ids : false;
+}
+
+/** Stored HP must be a real integer and fit the battle cache's signed INT. */
+function battle_valid_hp(array $morty): bool {
+    foreach (['hp', 'hp_stat'] as $key) {
+        $value = $morty[$key] ?? null;
+        if (!is_int($value) && !(is_string($value) && preg_match('/^[0-9]+$/D', $value))) return false;
+        if ((float)$value > 2147483647 || (int)$value < 0) return false;
+    }
+    return (int)$morty['hp_stat'] > 0 && (int)$morty['hp'] <= (int)$morty['hp_stat'];
+}
+
+/** Lock every global ID in deterministic order before trusting the party. */
+function battle_lock_party(PDO $pdo, array $ids, string $player): array {
+    sort($ids, SORT_STRING);
+    $party = [];
+    foreach ($ids as $id) {
+        $stmt = $pdo->prepare('SELECT * FROM owned_morties WHERE owned_morty_id=? ORDER BY id FOR UPDATE');
+        $stmt->execute([$id]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (count($rows) !== 1 || (string)$rows[0]['owned_morty_id'] !== $id
+            || (string)$rows[0]['player_id'] !== $player || !battle_valid_hp($rows[0])) battle_reject(409);
+        $party[$id] = $rows[0];
+    }
+    return $party;
+}
+
 /** No room column exists on battles: recover it from its private start snapshot. */
-function battle_origin(PDO $pdo, array $battle, string $player, string $currentRoom): string {
+function battle_origin(PDO $pdo, array $battle, string $player, string $currentRoom, ?array &$snapshot = null): string {
     $stmt = $pdo->prepare("SELECT room_id, battle_start FROM event_queue WHERE event_name='battle:start' AND player_id=? AND only_show_to_player_id=? AND JSON_VALID(battle_start) AND JSON_UNQUOTE(JSON_EXTRACT(IF(JSON_VALID(battle_start), battle_start, '{}'), '$.battle_id'))=? FOR UPDATE");
     $stmt->execute([$player, $player, $battle['battle_id']]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -38,7 +79,7 @@ function battle_origin(PDO $pdo, array $battle, string $player, string $currentR
     if ($room === '' || $room !== $currentRoom || ($snapshot['battle_id'] ?? null) !== (string)$battle['battle_id']
         || ($snapshot['battle_type'] ?? null) !== 'PvWM'
         || ($snapshot['player']['player_id'] ?? null) !== $player
-        || ($snapshot['player']['active_owned_morty'] ?? null) !== (string)$battle['player_active_morty']
+        || battle_snapshot_roster($snapshot, (string)$battle['player_active_morty']) === false
         || ($snapshot['opponent']['player_id'] ?? null) !== (string)$battle['opponent_id']
         || ($snapshot['opponent']['active_owned_morty'] ?? null) !== (string)$battle['opponent_active_morty']) battle_reject(409);
     return $room;
@@ -60,7 +101,7 @@ function battle_reconcile_legacy_terminals(PDO $pdo, string $player): void {
         if (($start['battle_id'] ?? null) !== (string)$battle['battle_id']
             || ($start['battle_type'] ?? null) !== 'PvWM'
             || ($start['player']['player_id'] ?? null) !== $player
-            || ($start['player']['active_owned_morty'] ?? null) !== (string)$battle['player_active_morty']
+            || battle_snapshot_roster($start, (string)$battle['player_active_morty']) === false
             || ($start['opponent']['player_id'] ?? null) !== (string)$battle['opponent_id']
             || ($start['opponent']['active_owned_morty'] ?? null) !== (string)$battle['opponent_active_morty']) continue;
         // Legacy delivery targets battle results by player_id; newer rows also

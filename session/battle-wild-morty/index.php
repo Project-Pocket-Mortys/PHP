@@ -45,8 +45,20 @@ function to_bool($v): bool {
 function parse_id_list($raw): array {
     $raw = trim((string)$raw);
     $ids = json_decode($raw, true);
-    if (is_array($ids)) return array_values(array_filter(array_map('trim', array_filter($ids, 'is_string'))));
-    return array_values(array_filter(array_map('trim', explode(',', $raw))));
+    if (json_last_error() === JSON_ERROR_NONE) {
+        if (!is_array($ids) || !array_is_list($ids)) battle_reject(409);
+    } else {
+        if (str_starts_with($raw, '[') || str_starts_with($raw, '{')) battle_reject(409);
+        $ids = explode(',', $raw);
+    }
+    $seen = [];
+    foreach ($ids as $id) {
+        if (!is_string($id)) battle_reject(409);
+        $id = trim($id);
+        if ($id === '' || in_array($id, $seen, true)) battle_reject(409);
+        $seen[] = $id;
+    }
+    return $seen;
 }
 
 // ------------------------
@@ -92,7 +104,7 @@ $stmt = $pdo->prepare("
   SELECT owned_morty_id, morty_id, level, xp, hp, variant, hp_stat, xp_lower, xp_upper, is_locked, is_trading_locked, is_poisoned, is_paralysed
   FROM owned_morties
   WHERE player_id = ?
-  ORDER BY created_at ASC FOR UPDATE
+  ORDER BY owned_morty_id, id FOR UPDATE
 ");
 $stmt->execute([$player_id]);
 $ownedMortiesRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -137,36 +149,25 @@ if ($activeDeckId !== "" && $activeDeckId !== null) {
     }
 }
 
-$hpMap = [];
-if (!empty($deckMortyIds)) {
-    $ph = implode(",", array_fill(0, count($deckMortyIds), "?"));
-    $stmt = $pdo->prepare("SELECT owned_morty_id, hp FROM owned_morties WHERE player_id = ? AND owned_morty_id IN ($ph) FOR UPDATE");
-    $stmt->execute([$player_id, ...$deckMortyIds]);
-    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $r) {
-        $hpMap[$r["owned_morty_id"]] = (int)$r["hp"];
-    }
-    foreach ($deckMortyIds as $oid) {
-        if (($hpMap[$oid] ?? 0) > 0) {
-            $activeOwnedMorty = $oid;
-            break;
-        }
+// Validate every initial party member before publishing its private snapshot.
+$party = battle_lock_party($pdo, $deckMortyIds, $player_id);
+foreach ($deckMortyIds as $oid) {
+    if ((int)$party[$oid]['hp'] > 0) {
+        $activeOwnedMorty = $oid;
+        break;
     }
 }
 
 if ($activeOwnedMorty === '') battle_reject(409);
-// Attack rows have no owner column. Do not expose ambiguous globally shared IDs.
-$stmt = $pdo->prepare('SELECT player_id FROM owned_morties WHERE owned_morty_id=? FOR UPDATE');
-$stmt->execute([$activeOwnedMorty]);
-if (count($stmt->fetchAll(PDO::FETCH_ASSOC)) !== 1) battle_reject(409);
 
 // ------------------------
 // Build owned morties payload (only from active deck)
 // ------------------------
 $ownedMorties = [];
 if (!empty($deckMortyIds)) {
-    $deckMortyMap = array_flip($deckMortyIds); // quick lookup
-    foreach ($ownedMortiesRows as $m) {
-        if (!isset($deckMortyMap[$m["owned_morty_id"]])) continue; // skip if not in deck
+    // Lock order is independent of the wire party order chosen by the deck.
+    foreach ($deckMortyIds as $oid) {
+        $m = $party[$oid];
         $oid = $m["owned_morty_id"];
         $ownedMorties[] = [
             "owned_morty_id" => $oid,
