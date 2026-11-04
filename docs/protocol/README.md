@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Poison and paralysis cures](status-cure-implementation.md) now use durable
+boolean ailments and atomic item consumption. Apply additive migration 003
+before loading the updated owned-Morty snapshot handlers. The accompanying
+[capture audit](capture-data-audit.md) distinguishes MP metadata from unrecovered
+server stat/chance rules and single-player formulas.
+
 [Multiplayer crafting](crafting-implementation.md) supports the 22 recovered recipes.
 The recovered item, lock/release and transport stack is integrated on this branch;
 see [integration provenance](gameplay-integration.md). Research uses [REA 6.8.0](rea-6.8-upgrade.md).

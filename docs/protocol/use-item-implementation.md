@@ -1,5 +1,9 @@
 # World healing items
 
+The shared route now also supports [targeted status cures](status-cure-implementation.md).
+Its current owned-Morty DTOs require migration 003; the original HP-only feature
+described below did not require a schema change.
+
 The previously empty `/session/use-item` handler now supports eight world HP
 items: Serum, Great Serum, Sensational Serum, Pure Serum, Easter Egg, Pumpkin,
 Spicy BBQ Pizza and Breakfast Medley. Exact IDs and amounts come from
@@ -31,8 +35,8 @@ schema permits duplicate logical identifiers.
 
 This implementation requires WORLD state and no existing ACTIVE battle. Party
 healing must not silently diverge from the separate HP stored by battle turns.
-These guards do not serialize concurrent battle creation, whose handlers do
-not yet share the same locking protocol. Battle healing remains separate work.
+The integrated battle start/move handlers now share the user-first locking
+protocol. Battle healing remains separate work.
 
 Requests contain no idempotency token. Concurrent requests cannot overspend the
 last item, and ineffective/full-HP retries do not consume anything. Identical
