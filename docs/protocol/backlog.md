@@ -27,6 +27,14 @@ Player-visible missing features now take priority over broad transport audits; s
 are implemented with Android capture; destructive-action lock enforcement remains.
 Older P0 research labels above describe research risk, not the current feature
 execution order. Completed README features remain the playable baseline.
+## Crafting on current main
+
+The `hayward/crafting` feature is based directly on `origin/main` at `9ff1a11`.
+It implements the previously missing recipe endpoint from recovered multiplayer
+contracts and all 22 recipe records; see [crafting-implementation.md](crafting-implementation.md).
+The integration branch explicitly combines crafting with the earlier item/lock/release work; see [integration provenance](gameplay-integration.md).
+Player-visible missing features remain the execution priority; research gaps
+do not by themselves mark ConspiracyRick's completed features as broken.
 
 ## Repairs included
 

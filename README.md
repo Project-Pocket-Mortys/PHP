@@ -32,7 +32,6 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 - Raid & other event Battles
 - Use Items: [eight world healing items](docs/protocol/use-item-implementation.md) and [full revival/AP restoration](docs/protocol/full-restore-items.md) implemented; other effects and battle use remain
 - Lock Morties: [toggle and persistence implemented/tested](docs/protocol/missing-features.md); protection in destructive server actions remains
-- Crafting
 - Challenges
 
 ## Completed
@@ -45,6 +44,7 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 - <s>Swap Stop</s>
 - <s>Salesman Rick's</s>
 - <s>Release Morties</s>: [world release and batch contracts](docs/protocol/morty-release-implementation.md)
+- <s>Crafting</s>: [22 multiplayer recipes](docs/protocol/crafting-implementation.md)
 
 ## Legal Disclaimer
 

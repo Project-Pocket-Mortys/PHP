@@ -19,3 +19,6 @@ config/attack_max_ap.json text eol=lf
 lib/morty_release.php text eol=lf
 session/owned_morties/attempt-release-multiple/index.php text eol=lf
 session/owned_morties/release-multiple/index.php text eol=lf
+
+session/recipe/use/index.php text eol=lf
+config/crafting_recipes.json text eol=lf
