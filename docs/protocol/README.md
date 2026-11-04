@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Battle party switching](battle-switch-implementation.md) now persists voluntary
+switches and forced replacement after fainting against the initial private
+party snapshot. Native request fields and replacement combat policies are
+explicit in the linked contract.
+
 [Poison and paralysis cures](status-cure-implementation.md) now use durable
 boolean ailments and atomic item consumption. Apply additive migration 003
 before loading the updated owned-Morty snapshot handlers. The accompanying
