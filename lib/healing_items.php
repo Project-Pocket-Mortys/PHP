@@ -16,6 +16,10 @@ function morty_healing_items(): array {
     ];
 }
 
+function morty_status_cure_items(): array {
+    return ['ItemPoisonCure' => 'is_poisoned', 'ItemParalysisCure' => 'is_paralysed'];
+}
+
 // Database stats are nullable integers; never turn malformed data into zero HP.
 function item_nonnegative_integer($value): ?int {
     if (!is_int($value) && !is_string($value)) return null;
@@ -33,6 +37,13 @@ function morty_item_effect_plan(string $itemId, array $morty, array $attacks): ?
         return $hp === 0 ? ['hp' => $maximum, 'attacks' => [], 'effect_value' => 100] : null;
     }
     if ($hp === 0) return null;
+    $cures = morty_status_cure_items();
+    if (isset($cures[$itemId])) {
+        $flag = $cures[$itemId];
+        // Cure result text uses effect_stat; the client ignores effect_value.
+        return filter_var($morty[$flag] ?? false, FILTER_VALIDATE_BOOLEAN)
+            ? ['flags' => [$flag => false], 'attacks' => [], 'effect_value' => 0] : null;
+    }
     if ($itemId === 'ItemPurePlutonicRock') {
         // The Android client derives maximum AP from AttackInfo, not this row.
         static $attackMaximums = null;
@@ -69,7 +80,7 @@ function item_updated_morty(PDO $pdo, array $morty): array {
               'speed_stat', 'evolution_points', 'xp_lower', 'xp_upper'] as $field) {
         $result[$field] = (int)($morty[$field] ?? 0);
     }
-    foreach (['is_locked', 'is_trading_locked'] as $field) {
+    foreach (['is_locked', 'is_trading_locked', 'is_poisoned', 'is_paralysed'] as $field) {
         $result[$field] = filter_var($morty[$field] ?? false, FILTER_VALIDATE_BOOLEAN);
     }
     $fightPit = (string)($morty['fight_pit_id'] ?? '');

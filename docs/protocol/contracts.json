@@ -190,20 +190,23 @@
         "owned_morty_id": "string",
         "item_id": "string",
         "is_success": "boolean",
-        "effect_value": "integer; absolute HP for healing, 100 percent for full revive/AP",
-        "owned_morties": "array of changed Morties",
+        "effect_value": "integer; HP restored for healing, 100 for full revive/AP, 0 for targeted cures (compatible convention)",
+        "owned_morties": "array of changed Morties, including explicit boolean is_poisoned/is_paralysed",
         "owned_items": "array of changed items including zero quantity",
-        "attacks_to_learn": "array; empty for HP items"
+        "attacks_to_learn": "array; empty for currently supported world items"
       },
       "evidence": [
         "use-item-contract.md",
         "use-item-data.md",
         "full-restore-items.md",
         "full-restore-capture.json",
-        "ap-maxima-contract.md"
+        "ap-maxima-contract.md",
+        "status-cure-contract.md",
+        "status-cure-implementation.md"
       ],
       "limitations": [
-        "Eight world RestoreHP items plus Pure Halzinger and Pure Plutonic Rock; remaining effects and battle items pending",
+        "Eight world RestoreHP items, Pure Halzinger, Pure Plutonic Rock and targeted poison/paralysis cures; remaining effects and battle items pending",
+        "Migration 003 is required before loading persistent ailment DTOs; ailment application/ticks during combat remain unimplemented",
         "No request identity: identical effective requests can each consume an item",
         "Original HTTP validation/consumption parity unknown"
       ]

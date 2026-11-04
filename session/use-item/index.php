@@ -16,6 +16,7 @@ foreach (['session_id', 'owned_morty_id', 'item_id'] as $field) {
 }
 $effects = morty_healing_items();
 if (!array_key_exists($body['item_id'], $effects)
+    && !array_key_exists($body['item_id'], morty_status_cure_items())
     && !in_array($body['item_id'], ['ItemPureHalzinger', 'ItemPurePlutonicRock'], true)) {
     respond(400, ['error' => ['code' => 'FAILED']]);
 }
@@ -36,12 +37,20 @@ try {
         $pdo->rollBack();
         respond(409, ['error' => ['code' => 'FAILED']]);
     }
-    $query = $pdo->prepare('SELECT * FROM owned_morties WHERE player_id = ? AND owned_morty_id = ? FOR UPDATE');
-    $query->execute([$user['player_id'], $body['owned_morty_id']]);
-    $morties = $query->fetchAll();
+    // Attack rows use only owned_morty_id, so reject globally ambiguous IDs
+    // before either serializing or changing those rows.
+    $query = $pdo->prepare('SELECT * FROM owned_morties WHERE owned_morty_id = ? FOR UPDATE');
+    $query->execute([$body['owned_morty_id']]);
+    $allMorties = $query->fetchAll();
+    $morties = array_values(array_filter($allMorties,
+        static fn(array $row): bool => (string)$row['player_id'] === (string)$user['player_id']));
     if (count($morties) !== 1) {
         $pdo->rollBack();
         respond(404, ['error' => ['code' => 'FAILED']]);
+    }
+    if (count($allMorties) !== 1) {
+        $pdo->rollBack();
+        respond(409, ['error' => ['code' => 'FAILED']]);
     }
     $morty = $morties[0];
     $query = $pdo->prepare('SELECT id, quantity FROM owned_items WHERE player_id = ? AND item_id = ? FOR UPDATE');
@@ -65,10 +74,18 @@ try {
         respond(409, ['error' => ['code' => 'FAILED']]);
     }
     $quantity = $stock - 1;
-    if ($body['item_id'] !== 'ItemPurePlutonicRock') {
+    if (array_key_exists('hp', $plan) && $body['item_id'] !== 'ItemPurePlutonicRock') {
         $morty['hp'] = $plan['hp'];
         $query = $pdo->prepare('UPDATE owned_morties SET hp = ? WHERE id = ? AND player_id = ?');
         $query->execute([$morty['hp'], $morty['id'], $user['player_id']]);
+    }
+    // SQL identifiers stay hardcoded even though the effect plan selects a flag.
+    foreach (['is_poisoned', 'is_paralysed'] as $flag) {
+        if (array_key_exists($flag, $plan['flags'] ?? [])) {
+            $morty[$flag] = $plan['flags'][$flag];
+            $query = $pdo->prepare("UPDATE owned_morties SET $flag = ? WHERE id = ? AND player_id = ?");
+            $query->execute([(int)$morty[$flag], $morty['id'], $user['player_id']]);
+        }
     }
     if ($plan['attacks']) {
         $query = $pdo->prepare('UPDATE owned_attacks SET pp = ?, pp_stat = ? WHERE id = ? AND owned_morty_id = ?');

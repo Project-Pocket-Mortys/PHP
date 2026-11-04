@@ -89,7 +89,7 @@ $playerRow = $u;
 // Load owned morties and attacks
 // ------------------------
 $stmt = $pdo->prepare("
-  SELECT owned_morty_id, morty_id, level, xp, hp, variant, hp_stat, xp_lower, xp_upper, is_locked, is_trading_locked
+  SELECT owned_morty_id, morty_id, level, xp, hp, variant, hp_stat, xp_lower, xp_upper, is_locked, is_trading_locked, is_poisoned, is_paralysed
   FROM owned_morties
   WHERE player_id = ?
   ORDER BY created_at ASC FOR UPDATE
@@ -176,6 +176,8 @@ if (!empty($deckMortyIds)) {
             "xp_upper" => (int)($m["xp_upper"] ?? 0),
             "xp" => (int)$m["xp"],
             "hp" => (int)$m["hp"],
+            "is_poisoned" => to_bool($m["is_poisoned"]),
+            "is_paralysed" => to_bool($m["is_paralysed"]),
             "variant" => $m["variant"],
             "hp_stat" => (int)$m["hp_stat"],
             "is_locked" => to_bool($m["is_locked"]),

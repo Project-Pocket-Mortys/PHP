@@ -208,6 +208,8 @@ try {
       "defence_stat"      => (int)$m["defence_stat"],
       "variant"           => (string)($m["variant"] ?? "Normal"),
       "speed_stat"        => (int)$m["speed_stat"],
+      "is_poisoned"       => toBool($m["is_poisoned"] ?? false),
+      "is_paralysed"      => toBool($m["is_paralysed"] ?? false),
       "is_locked"         => toBool($m["is_locked"] ?? false),
       "is_trading_locked" => toBool($m["is_trading_locked"] ?? false),
       "fight_pit_id"      => toNull($m["fight_pit_id"] ?? null),

@@ -7,7 +7,7 @@ header("Access-Control-Allow-Origin: *");
 header("Vary: Accept-Encoding");
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 require_once "../../pocket_f4894h398r8h9w9er8he98he.php";
 require_once __DIR__ . "/../../lib/events.php";
@@ -117,7 +117,7 @@ while ($u = $userStmt->fetch(PDO::FETCH_ASSOC)) {
 
         $mortyStmt = $pdo->prepare("
             SELECT owned_morty_id, morty_id, hp, variant,
-                   is_locked, is_trading_locked, fight_pit_id
+                   is_locked, is_trading_locked, fight_pit_id, is_poisoned, is_paralysed
             FROM owned_morties
             WHERE player_id = ?
             AND owned_morty_id IN ($placeholders)
@@ -129,6 +129,8 @@ while ($u = $userStmt->fetch(PDO::FETCH_ASSOC)) {
                 "owned_morty_id" => $m["owned_morty_id"],
                 "morty_id" => $m["morty_id"],
                 "hp" => (int)$m["hp"],
+                "is_poisoned" => (bool)$m["is_poisoned"],
+                "is_paralysed" => (bool)$m["is_paralysed"],
                 "variant" => $m["variant"] ?: "Normal",
                 "is_locked" => (bool)$m["is_locked"],
                 "is_trading_locked" => (bool)$m["is_trading_locked"],

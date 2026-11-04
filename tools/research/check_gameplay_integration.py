@@ -17,7 +17,8 @@ MODULES = [
     'test_join_room_ownership', 'test_sse_sessions', 'test_sse_membership',
     'test_sse_rooms', 'test_sse_event_privacy', 'test_sse_rejoin_generation',
     'test_sse_snapshot_boundary', 'test_morty_lock', 'test_use_item',
-    'test_full_restore_items', 'test_morty_release', 'test_crafting',
+    'test_full_restore_items', 'test_status_cure_items', 'test_morty_ailment_snapshots',
+    'test_morty_release', 'test_crafting',
     'test_battle_lifecycle', 'test_battle_world_guards',
 ]
 
@@ -32,6 +33,8 @@ def main():
         raise RuntimeError('Expected isolated Compose backend on localhost:8087')
     if not sql("SHOW COLUMNS FROM users LIKE 'room_membership_generation'"):
         raise RuntimeError('Apply the additive research migrations before running this suite')
+    if not {'is_poisoned', 'is_paralysed'}.issubset({column['Field'] for column in sql('SHOW COLUMNS FROM owned_morties')}):
+        raise RuntimeError('Apply migration 003-morty-ailments.sql before running the item/snapshot suites')
     modules = MODULES + (['test_udp_relay', 'test_udp_endpoint_ownership'] if args.udp else [])
     suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
     result = unittest.TextTestRunner(verbosity=2).run(suite)

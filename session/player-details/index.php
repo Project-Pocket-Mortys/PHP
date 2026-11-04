@@ -2,8 +2,8 @@
 // player-details (return ALL owned mortys, not just active deck)
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 header("X-Powered-By: Express");
@@ -92,6 +92,8 @@ $sql = "
         m.defence_stat,
         m.variant,
         m.speed_stat,
+        m.is_poisoned,
+        m.is_paralysed,
         m.is_locked,
         m.is_trading_locked,
         m.fight_pit_id,
@@ -134,6 +136,8 @@ foreach ($rows as $row) {
             "defence_stat"       => (int)$row['defence_stat'],
             "variant"            => (string)($row['variant'] ?? 'Normal'),
             "speed_stat"         => (int)$row['speed_stat'],
+            "is_poisoned"        => toBool($row['is_poisoned']),
+            "is_paralysed"       => toBool($row['is_paralysed']),
             "is_locked"          => toBool($row['is_locked']),
             "is_trading_locked"  => toBool($row['is_trading_locked']),
             "fight_pit_id"       => toNull($row['fight_pit_id']),
