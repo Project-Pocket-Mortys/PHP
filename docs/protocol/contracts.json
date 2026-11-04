@@ -56,7 +56,8 @@
             "type": "string"
           },
           "move_id": {
-            "type": "string"
+            "type": ["string", "null"],
+            "description": "Android RUN sends null (captured 2026-11-04); ATTACK requires a nonempty attack ID string."
           }
         },
         "required": [
@@ -71,10 +72,29 @@
       },
       "event": "battle:turn-result",
       "limitations": [
-        "combat remains placeholder",
-        "capture is not persisted",
-        "duplicate active turns are not idempotent",
-        "item consumption unresolved"
+        "Replacement combat remains placeholder: player damage 20, wild damage 1..3, wild PP 1; formulas and switching unresolved",
+        "ITEM including capture is explicitly unsupported: HTTP 501 ITEM_UNUSABLE, no inventory charge or simulated owned Morty",
+        "WIN returns empty xp_datas/rewards; XP, stat growth and reward formulas unresolved",
+        "Repeated active-turn bodies are not idempotent; constructor has no turn identity and cooldown enforcement/reconnect replay remain unresolved",
+        "Android research client RUN and ATTACK/WIN verified with synthetic private starts; live LOSE, natural battle initiation and interrupted-battle reconnect remain unverified (android-battle-lifecycle.md)"
+      ],
+      "errors": {
+        "400": "FAILED: malformed input, unsupported move type, or unknown attack",
+        "401": "FAILED: invalid session",
+        "403": "FAILED: foreign battle, Morty, or private spawn",
+        "404": "FAILED: missing battle",
+        "409": "FAILED: inactive battle, ambiguous/missing state, exhausted PP, stale HP, or inconsistent room/start/spawn evidence",
+        "501": "ITEM_UNUSABLE: ITEM/capture unsupported; no mutations",
+        "500": "FAILED: unexpected storage/runtime failure; transaction rolled back"
+      },
+      "errors_origin": "Replacement server envelope {success:false,error:{code:...}}; original status/error parity unresolved",
+      "persistence_effects": [
+        "Lock session user then owned ACTIVE battle; verify private battle:start origin and current room/spawn",
+        "ATTACK locks unambiguous owned active Morty and attack, decrements selected PP once, and persists HP matching ordered action dictionaries",
+        "RUN sets CANCELLED; WIN/LOSE set COMPLETED and winner; terminal moves set user WORLD",
+        "WIN removes wild snapshot; RUN/LOSE release it to WORLD; room notifications and one initiator-private battle:turn-result share the transaction",
+        "Commit all state and queued events together; failure rolls back and completed-battle retries cannot mutate or enqueue another terminal result",
+        "RUN permits verified legacy WORLD user/spawn state and does not change owned HP/PP"
       ]
     },
     "/session/leave-room": {
