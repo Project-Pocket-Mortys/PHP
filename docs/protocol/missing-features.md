@@ -10,8 +10,8 @@ failure blocks gameplay or exposes another player's data.
 | 1 | Lock/unlock Morties | Implemented and Android-tested in this branch; enforce protection in destructive operations separately. |
 | 2 | Use items | Eight world healing items and full revival/AP restoration now implemented (`full-restore-items.md`); finish percentage variants, cure/stat items and battle synchronization. General items have a separate client endpoint. |
 | 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
-| 4 | Crafting | Recover recipe response and asset ingredients/output; deduct ingredients and grant output atomically. Test insufficient materials and retries, then Android UI. |
-| 5 | Wild battles and catching | Complete run/victory/defeat/capture persistence, item consumption and rewards. Preserve playable behavior; distinguish recovered rules from replacement formulas. |
+| 4 | Crafting | 22 multiplayer recipes implemented atomically; Android Serum Quick Craft and inventory verified (`crafting-implementation.md`). |
+| 5 | Wild battles and catching | Durable attack/run/victory/defeat foundation and Android RUN/WIN verified (`battle-completion-contract.md`). Recover trustworthy stats/attacks, capture consumption/owned records and rewards; switching and reconnect remain. |
 | 6 | Bot/friend battles | Replace stubs after recovering opponent/invitation lifecycle, participant events and disconnect behavior. |
 | 7 | Challenges, raids and events | Implement claims and event battles after their underlying battle/reward flows work; no invented success responses. |
 

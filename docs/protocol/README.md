@@ -23,8 +23,10 @@ server-side registration, not intermediate network mappings. It adds one
 versioned research table and an initialization service.
 
 [SSE room transitions](sse-room-transitions.md) stop old-room delivery and follow
-destination membership on an existing stream. Rapid same-room rejoin and
-snapshot/cursor races remain explicit gaps.
+destination membership on an existing stream. The integrated stack also includes
+[same-room membership generations](sse-rejoin-generation.md) and a
+[bounded fresh snapshot](sse-snapshot-boundary.md); shared cursors, mutable rows
+and out-of-order transaction commits remain explicit gaps.
 
 [Live SSE session revocation](sse-session-revocation.md) closes streams after
 session replacement or account deletion, with additive regression coverage.
@@ -107,19 +109,19 @@ The full REA/Ghidra automatic pass was cancelled after prolonged function-bounda
 
 ```powershell
 docker compose -f compose.research.yaml --profile udp up -d --build
-py -m unittest discover -s tests/protocol -v
+py -3 tools/research/check_gameplay_integration.py
 docker compose -f compose.research.yaml logs web
 docker compose -f compose.research.yaml --profile udp down
 ```
 
-The server binds only `127.0.0.1:8087`. The test suite reseeds the dedicated Compose database; never point it at a shared server. Its named database volume survives `down`. Credentials are synthetic and restricted to this local stack. `PM_DB_HOST`, `PM_DB_NAME`, `PM_DB_USER`, and `PM_DB_PASS` configure the shared PHP connection. Existing manually configured fallback strings can still be used outside Compose.
+The server binds only `127.0.0.1:8087`. The explicit integration runner uses additive synthetic fixtures; never point it at a shared server. Its named database volume survives `down`. Credentials are synthetic and restricted to this local stack. `PM_DB_HOST`, `PM_DB_NAME`, `PM_DB_USER`, and `PM_DB_PASS` configure the shared PHP connection. Existing manually configured fallback strings can still be used outside Compose. See [integration prerequisites and test selection](gameplay-integration.md), including the required additive migrations.
 
 When preserving emulator accounts in this stack, run only the additive lifecycle
 suite: `py -m unittest discover -s tests/protocol -p test_battle_lifecycle.py -v`.
 It creates UUID fixtures and removes only those fixtures. Full discovery includes
-the older `BattleContractTests` global reseed and must use a disposable database.
+the older account and battle global reseeds and must use a disposable database.
 
-Repairs preserve routes and supported success envelopes: readiness uses the actual battle ID; ready/move reject another initiator and inactive/missing battles; attacks reject another player's or inactive Morty; SSE deck payloads use the active owned deck; shared bootstrap logs PHP errors without printing them into responses. The [wild-battle lifecycle](battle-completion-contract.md) now persists supported attack HP/AP and run/win/loss results atomically. Capture returns an explicit unsupported-item error while durable capture remains unimplemented. No schema migration is needed. Error HTTP statuses are tested replacement-server behavior, not a claim of original-server parity.
+Repairs preserve routes and supported success envelopes: readiness uses the actual battle ID; ready/move reject another initiator and inactive/missing battles; attacks reject another player's or inactive Morty; SSE deck payloads use the active owned deck; shared bootstrap logs PHP errors without printing them into responses. The [wild-battle lifecycle](battle-completion-contract.md) now persists supported attack HP/AP and run/win/loss results atomically. Capture returns an explicit unsupported-item error while durable capture remains unimplemented. Battle changes add no migration, but the recovered SSE/join/leave handlers require the additive membership-generation migration. Error HTTP statuses are tested replacement-server behavior, not a claim of original-server parity.
 
 ## Runtime capture and remaining validation
 
