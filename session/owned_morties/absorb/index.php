@@ -1,13 +1,14 @@
 <?php
 // owned_morties/absorb
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 header("X-Powered-By: Express");
 header("Access-Control-Allow-Origin: *");
 
 require '../../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../../lib/world_action_guard.php';
 
 // ============================
 // 📥 INPUT
@@ -28,16 +29,22 @@ try {
     // ============================
     // 🔐 AUTH
     // ============================
-    $stmt = $pdo->prepare("SELECT player_id FROM users WHERE session_id = ? LIMIT 1");
+    $pdo->beginTransaction();
+    $stmt = $pdo->prepare("SELECT player_id FROM users WHERE session_id = ? LIMIT 1 FOR UPDATE");
     $stmt->execute([$session_id]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
+        $pdo->rollBack();
         echo json_encode(["error" => ["code" => "NOT_AUTHENTICATED"]]);
         exit;
     }
 
     $player_id = $user['player_id'];
+    if (world_action_has_active_battle($pdo, (string)$player_id)) {
+        $pdo->rollBack();
+        respond(409, ["error" => ["code" => "FAILED"]]);
+    }
 
     // ============================
     // ✅ VERIFY TARGET EXISTS
@@ -47,6 +54,7 @@ try {
     $target = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$target) {
+        $pdo->rollBack();
         echo json_encode(["error" => ["code" => "NOT_FOUND"]]);
         exit;
     }
@@ -68,11 +76,10 @@ try {
     }
 
     if (empty($valid_absorb)) {
+        $pdo->rollBack();
         echo json_encode(["error" => ["code" => "NO_VALID_MORTYS"]]);
         exit;
     }
-
-    $pdo->beginTransaction();
 
     // ============================
     // 🔥 DELETE ABSORBED MORTYS

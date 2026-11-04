@@ -2,12 +2,13 @@
 // join-room
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php";
 require_once __DIR__ . "/../../lib/events.php";
+require_once __DIR__ . '/../../lib/world_action_guard.php';
 //require_once __DIR__ . "/../../lib/room_entities.php";
 
 function iso8601_z($date = null): string {
@@ -30,17 +31,20 @@ if (!$session_id || !$world_id_in) {
 
 /* ---------------- AUTH ---------------- */
 
+try {
+$pdo->beginTransaction();
 $stmt = $pdo->prepare("
     SELECT player_id, username, player_avatar_id, level, active_deck_id
     FROM users
     WHERE session_id = ?
-    LIMIT 1
+    LIMIT 1 FOR UPDATE
 ");
 $stmt->execute([$session_id]);
 
 $me = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$me) {
+    $pdo->rollBack();
     http_response_code(401);
     echo json_encode([
         "error" => "Not authenticated"
@@ -49,6 +53,10 @@ if (!$me) {
 }
 
 $player_id = $me["player_id"];
+if (world_action_has_active_battle($pdo, (string)$player_id)) {
+    $pdo->rollBack();
+    respond(409, ["error" => "Active battle"]);
+}
 
 /* ---------------- ROOM PICK ---------------- */
 
@@ -63,6 +71,7 @@ $roomStmt->execute([$world_id_in]);
 $room = $roomStmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$room) {
+    $pdo->rollBack();
     http_response_code(400);
     echo json_encode([
         "error" => "NO_ROOM_FOUND"
@@ -89,6 +98,12 @@ $pdo->prepare("
         room_membership_generation = room_membership_generation + 1
     WHERE player_id = ? AND session_id = ?
 ")->execute([$room_id, $baseline_event_id, $player_id, $session_id]);
+$pdo->commit();
+} catch (Throwable $error) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    error_log('Room join transaction failed');
+    respond(500, ["error" => "Unable to join room"]);
+}
 
 /* ---------------- USERS ---------------- */
 $usersStmt = $pdo->prepare("
