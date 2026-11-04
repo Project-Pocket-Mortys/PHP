@@ -157,7 +157,7 @@ while ($u = $userStmt->fetch(PDO::FETCH_ASSOC)) {
 |--------------------------------------------------------------------------
 */
 $pickupStmt = $pdo->prepare("
-    SELECT pickup_id, placement, pick_up_contents
+    SELECT only_show_to_player_id, pickup_id, placement, pick_up_contents
     FROM event_queue
     WHERE room_id = ?
     AND event_name = 'room:pickup-added'
@@ -168,6 +168,7 @@ $pickupStmt->execute([$room_id]);
 $pickups = [];
 
 while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($p, (string)$self["player_id"])) continue;
 
     $pos = explode(",", $p["placement"]);
 
@@ -200,7 +201,7 @@ while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
 |--------------------------------------------------------------------------
 */
 $wildStmt = $pdo->prepare("
-    SELECT wild_morty_id, morty_id, placement, state,
+    SELECT only_show_to_player_id, wild_morty_id, morty_id, placement, state,
            division, variant, shiny_if_potion, created_at, updated
     FROM event_queue
     WHERE room_id = ?
@@ -211,6 +212,7 @@ $wildStmt->execute([$room_id]);
 $wild_morties = [];
 
 while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($w, (string)$self["player_id"])) continue;
 
     $pos = explode(",", $w["placement"]);
 
@@ -238,7 +240,7 @@ while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
 |--------------------------------------------------------------------------
 */
 $botStmt = $pdo->prepare("
-    SELECT bot_id, username, player_avatar_id, placement, state, division, zone_id, shiny_if_potion, owned_morties
+    SELECT only_show_to_player_id, bot_id, username, player_avatar_id, placement, state, division, zone_id, shiny_if_potion, owned_morties
     FROM event_queue
     WHERE room_id = ?
     AND event_name = 'room:bot-added'
@@ -249,6 +251,7 @@ $botStmt->execute([$room_id]);
 $bots = [];
 
 while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($b, (string)$self["player_id"])) continue;
 
     $placement = isset($b["placement"]) ? explode(",", $b["placement"]) : [0, 0];
 

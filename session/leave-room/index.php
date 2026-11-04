@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 header("X-Powered-By: Express");
@@ -11,6 +11,7 @@ header("Vary: Accept-Encoding");
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php";
 require_once __DIR__ . "/../../lib/auth.php";
 require_once __DIR__ . "/../../lib/events.php";
+require_once __DIR__ . '/../../lib/world_action_guard.php';
 
 $body = json_decode(file_get_contents("php://input"), true) ?: [];
 $session_id = (string)($body["session_id"] ?? "");
@@ -35,9 +36,13 @@ try {
     }
 
     $player_id = (string)$session["player_id"];
+    if (world_action_has_active_battle($pdo, $player_id)) {
+        $pdo->rollBack();
+        respond(409, ["success" => false, "error" => "Active battle"]);
+    }
     $room_id = (string)($session["room_id"] ?? "");
     if ($room_id !== "" && $room_id !== "0") {
-        $update = $pdo->prepare("UPDATE users SET room_id = NULL WHERE player_id = ?");
+        $update = $pdo->prepare("UPDATE users SET room_id = NULL, room_membership_generation = room_membership_generation + 1 WHERE player_id = ?");
         $update->execute([$player_id]);
         // Membership and its departure event must commit together.
         publish_event($pdo, $room_id, "room:user-removed", ["player_id" => $player_id]);
