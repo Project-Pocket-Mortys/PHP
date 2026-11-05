@@ -2,8 +2,8 @@
 // player-details (return ALL owned mortys, not just active deck)
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 header("X-Powered-By: Express");
@@ -11,6 +11,7 @@ header("Access-Control-Allow-Origin: *");
 header("Vary: Accept-Encoding");
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../lib/shiny_potion.php';
 
 function toBool($v) {
     if ($v === null) return false;
@@ -92,6 +93,8 @@ $sql = "
         m.defence_stat,
         m.variant,
         m.speed_stat,
+        m.is_poisoned,
+        m.is_paralysed,
         m.is_locked,
         m.is_trading_locked,
         m.fight_pit_id,
@@ -134,6 +137,8 @@ foreach ($rows as $row) {
             "defence_stat"       => (int)$row['defence_stat'],
             "variant"            => (string)($row['variant'] ?? 'Normal'),
             "speed_stat"         => (int)$row['speed_stat'],
+            "is_poisoned"        => toBool($row['is_poisoned']),
+            "is_paralysed"       => toBool($row['is_paralysed']),
             "is_locked"          => toBool($row['is_locked']),
             "is_trading_locked"  => toBool($row['is_trading_locked']),
             "fight_pit_id"       => toNull($row['fight_pit_id']),
@@ -252,7 +257,7 @@ $responseArray = [
     "mortydex" => array_values($mortydex),
 
     "tags" => [],
-    "play_shiny_potion" => null,
+    "play_shiny_potion" => shiny_potion_startup_state($pdo, $player_id),
 
     "xp_lower" => (int)($user["xp_lower"] ?? 0),
     "xp_upper" => (int)($user["xp_upper"] ?? 0),
