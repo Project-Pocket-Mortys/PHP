@@ -81,6 +81,14 @@ lint passed for all 29 changed/new PHP files including prerequisites; protocol
 validation and the complete REA/Ghidra/Capstone reproduction passed. The reviewed
 integration runner includes the new suite and excludes global reseeding tests.
 
+Android 2.41.0 verified the storage partial-absorption path with synthetic
+same-species records: the padlocked donor remained disabled with no request
+or state change, while the unlocked donor produced one successful native
+request, one point and its actual removal. The target displayed 1/3 EVO and
+the locked donor survived. Full evolution was not exercised. Guarded cleanup
+restored the original two-account state; see the Android record for exact
+screens, requests and synthetic-stat provenance.
+
 ## Scope and remaining evidence gaps
 
 This branch starts from main `9ff1a11` with pending prerequisite PR #33 at
