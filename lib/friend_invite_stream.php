@@ -2,9 +2,11 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/friends.php';
+require_once __DIR__ . '/battle_membership_guard.php';
 
 /** Read-only eligibility: do not reconcile battles or mutate invitation state. */
 function friend_invite_stream_pair(PDO $pdo, string $sender, string $recipient): ?array {
+    if (battle_has_shared_membership($pdo, $sender) || battle_has_shared_membership($pdo, $recipient)) return null;
     $q = $pdo->prepare('SELECT player_id, username, player_avatar_id, level, state FROM users WHERE player_id IN (?, ?)');
     $q->execute([$sender, $recipient]);
     $users = $q->fetchAll(PDO::FETCH_ASSOC);

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/friends.php';
+require_once __DIR__ . '/battle_membership_guard.php';
 
 /** Policies here implement invitation state only, never human combat. */
 function friend_battle_invite_ttl(): int {
@@ -12,6 +13,7 @@ function friend_battle_invite_ttl(): int {
 }
 
 function friend_battle_invite_busy(PDO $pdo, string $player): bool {
+    if (battle_has_shared_membership($pdo, $player)) return true;
     $query = $pdo->prepare("SELECT battle_id FROM battles WHERE state='ACTIVE' AND (player_id=? OR opponent_id=?) LIMIT 1");
     $query->execute([$player, $player]);
     return $query->fetchColumn() !== false;

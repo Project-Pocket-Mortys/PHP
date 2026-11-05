@@ -9,6 +9,7 @@ ini_set('display_errors', '0');
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php";
 require_once __DIR__ . "/../../lib/events.php";
 require_once __DIR__ . "/../../lib/battle_turn.php";
+require_once __DIR__ . "/../../lib/battle_membership_guard.php";
 require_once __DIR__ . "/../../lib/shiny_potion.php";
 
 // ------------------------
@@ -75,9 +76,10 @@ if (!$u) battle_reject(401);
 $player_id = (string)$u["player_id"];
 $room_id = (string)($u["room_id"] ?? "");
 if ($room_id === "" || $room_id === "0") battle_reject(409);
+if (battle_has_shared_membership($pdo, $player_id)) battle_reject(409);
 battle_reconcile_legacy_terminals($pdo, $player_id);
-$stmt = $pdo->prepare("SELECT battle_id FROM battles WHERE player_id=? AND state='ACTIVE' FOR UPDATE");
-$stmt->execute([$player_id]);
+$stmt = $pdo->prepare("SELECT battle_id FROM battles WHERE (player_id=? OR opponent_id=?) AND state='ACTIVE' FOR UPDATE");
+$stmt->execute([$player_id, $player_id]);
 if ($stmt->fetch()) battle_reject(409);
 if ($u['state'] !== 'WORLD') battle_reject(409);
 
