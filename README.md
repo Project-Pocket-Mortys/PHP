@@ -26,7 +26,7 @@ This repository contains the server-side components required to support client a
 See [the Android protocol inventory and developer handoff](docs/protocol/README.md) for reproducible analysis tools, evidence, an isolated test server, regression tests, and remaining compatibility work. The completed gameplay features below remain the project baseline.
 
 ## To Do
-- Battle & catch mortys: [wild party switching](docs/protocol/battle-switch-implementation.md) and [battle healing items](docs/protocol/battle-item-implementation.md) implemented; full combat, capture and rewards remain
+- Battle & catch mortys: [wild party switching](docs/protocol/battle-switch-implementation.md) and [battle healing items](docs/protocol/battle-item-implementation.md) and [selection timeout recovery](docs/protocol/battle-timeout-implementation.md) implemented; full combat, capture and rewards remain
 - Battle Bots
 - Battle friends
 - Raid & other event Battles

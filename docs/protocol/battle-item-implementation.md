@@ -67,7 +67,8 @@ This branch starts at main `9ff1a11` with explicit pending prerequisite
 `8a64835` (PR #30). It adds no migration beyond the prerequisite's ailment
 migration 003. World item behavior is retained. Capture, percentage variants,
 cure-all/stat/damage/general items, battle ailment application/ticks, true combat
-formulas, timeout resolution, rewards and reconnect UI restoration remain gaps.
+formulas, original timeout penalties, rewards and reconnect UI restoration remain gaps.
+Selection expiry now recovers safely through [ABANDONED](battle-timeout-implementation.md).
 No public deployment or real purchase is included.
 
 ## Acceptance on 2026-11-05

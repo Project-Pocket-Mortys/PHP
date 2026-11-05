@@ -32,9 +32,23 @@
         "401": "invalid session",
         "403": "other initiator",
         "404": "missing battle",
-        "409": "inactive battle or missing room"
+        "409": "inactive, expired, ambiguous or inconsistent PvWM battle/current room/user/spawn state"
       },
-      "errors_origin": "replacement server regression contract; original error envelopes unresolved"
+      "errors_origin": "replacement server regression contract; original error envelopes unresolved",
+      "selection_window": {
+        "duration_seconds": 30,
+        "clock": "UTC database time; additive migration 004 nullable battles.move_deadline",
+        "duplicate_ready": "success without extending deadline or republishing event",
+        "accepted_move": "clears deadline atomically; next READY opens next window",
+        "expiry": "ABANDONED cancellation under user/battle locks; expiry on SSE poll, due MOVE/READY or optional research worker",
+        "effects": "CANCELLED without winner; user/spawn WORLD; one private result; no HP/AP/items/rewards mutation",
+        "policy_origin": "explicit replacement-server safety policy; original deadline/grace/penalties unknown",
+        "evidence": [
+          "battle-timeout-contract.md",
+          "battle-timeout-implementation.md",
+          "android-battle-timeouts.md"
+        ]
+      }
     },
     "/session/battle/move": {
       "method": "POST",
@@ -155,7 +169,7 @@
         "Repeated active-turn bodies are not idempotent; constructor has no turn identity and cooldown enforcement/reconnect replay remain unresolved",
         "Android research client RUN and ATTACK/WIN verified with synthetic private starts; live LOSE, natural battle initiation and interrupted-battle reconnect remain unverified (android-battle-lifecycle.md)",
         "Voluntary switch uses the existing AI counterattack; forced replacement is free. These are explicit replacement policies, not recovered original turn costs (battle-switch-contract.md).",
-        "Supported ITEM uses an action then existing AI1..3 counterattack against current active; original retaliation/cooldowns and expired-timer resolution remain unimplemented or unrecovered."
+        "Supported ITEM uses an action then existing AI1..3 counterattack against current active; original retaliation/cooldowns and timeout penalties remain unrecovered; expired selections now cancel safely through ABANDONED."
       ],
       "errors": {
         "400": "FAILED: malformed input, unsupported move type, or unknown attack",
@@ -186,7 +200,8 @@
         "battle-item-contract.md",
         "battle-item-implementation.md",
         "android-battle-items.md"
-      ]
+      ],
+      "selection_timeout": "Expired armed selection cancels atomically before resource mutations, returns 409, and emits one private ABANDONED result; accepted moves clear deadline."
     },
     "/session/leave-room": {
       "method": "POST",
@@ -497,7 +512,8 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation"
+      "audience": "requesting player in current PvWM server implementation",
+      "replacement_retry_policy": "one event per armed selection; repeated READY does not restart countdown"
     },
     "battle:turn-result": {
       "client_type": "BattleTurnResultResponse",
@@ -566,7 +582,18 @@
         "attacker_morty_datas": "array containing target post-item/pre-AI partial snapshot",
         "defender_morty_datas": "empty array",
         "inventory_location": "player_datas.player.owned_items: absolute quantities, including zero"
-      }
+      },
+      "reviewed_timeout_contract": "battle-timeout-contract.md",
+      "timeout_result": {
+        "outcome": "ABANDONED",
+        "battle_abandoned": false,
+        "turn_datas": [],
+        "player_datas": {
+          "player": {},
+          "opponent": {}
+        }
+      },
+      "timeout_audience": "initiator only; public room state notifications carry no private battle payload"
     }
   },
   "transport": {

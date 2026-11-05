@@ -13,6 +13,7 @@ session/owned_morties/lock/index.php text eol=lf
 
 session/use-item/index.php text eol=lf
 lib/healing_items.php text eol=lf
+lib/battle_timeouts.php text eol=lf
 
 config/attack_max_ap.json text eol=lf
 

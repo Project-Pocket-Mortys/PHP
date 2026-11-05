@@ -6,6 +6,7 @@ require __DIR__ . '/../../../pocket_f4894h398r8h9w9er8he98he.php';
 require_once __DIR__ . '/../../../lib/events.php';
 require_once __DIR__ . '/../../../lib/battle_turn.php';
 require_once __DIR__ . '/../../../lib/battle_items.php';
+require_once __DIR__ . '/../../../lib/battle_timeouts.php';
 
 $body = json_input();
 foreach (['session_id', 'battle_id', 'type'] as $key) {
@@ -36,6 +37,11 @@ try {
     if (!$battle) battle_reject(404);
     if ((string)$battle['player_id'] !== $player_id) battle_reject(403);
     if ($battle['state'] !== 'ACTIVE') battle_reject(409);
+    // A due selection wins before any HP/AP/stock validation or mutation.
+    if (battle_timeout_expire_locked($pdo, $user, $battle)) {
+        $pdo->commit();
+        respond(409, ['success' => false, 'error' => ['code' => 'FAILED']]);
+    }
     if ($type === 'ITEM') {
         if ($move_id === '') battle_reject(400);
         // Capture/unsupported items retain their legacy rejection before origin checks.
@@ -170,7 +176,7 @@ try {
     $terminal = in_array($outcome, ['RUN', 'WIN', 'LOSE'], true);
     $state = $outcome === 'RUN' ? 'CANCELLED' : ($terminal ? 'COMPLETED' : 'ACTIVE');
     $winner = $outcome === 'WIN' ? $player_id : ($outcome === 'LOSE' ? $battle['opponent_id'] : null);
-    $pdo->prepare('UPDATE battles SET player_active_morty=?, player_hp=?, opponent_hp=?, state=?, winner=? WHERE battle_id=?')->execute([$active_id, $player_hp, $enemy_hp, $state, $winner, $battle_id]);
+    $pdo->prepare('UPDATE battles SET player_active_morty=?, player_hp=?, opponent_hp=?, state=?, winner=?, move_deadline=NULL WHERE battle_id=?')->execute([$active_id, $player_hp, $enemy_hp, $state, $winner, $battle_id]);
     if ($terminal) {
         $pdo->prepare("UPDATE users SET state='WORLD' WHERE player_id=?")->execute([$player_id]);
         if ($outcome === 'WIN') {

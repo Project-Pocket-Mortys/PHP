@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Battle timeout recovery](battle-timeout-implementation.md) now closes expired
+selection windows with the native ABANDONED result, preserving HP/AP/stock
+and returning Party/Bag screens to the world. Apply additive migration 004.
+Original timeout penalties and complete reconnect replay remain unknown.
+
 [Battle healing items](battle-item-implementation.md) now apply the twelve
 established healing/revival/AP/cure effects to active or bench party members,
 with atomic consumption and ordered native action snapshots. Use the installed

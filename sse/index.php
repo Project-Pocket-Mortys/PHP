@@ -17,6 +17,7 @@ header('X-Accel-Buffering: no');
 require __DIR__ . "/../pocket_f4894h398r8h9w9er8he98he.php";
 require __DIR__ . "/../lib/auth.php";
 require __DIR__ . "/../lib/events.php"; // provides sse_send()
+require_once __DIR__ . '/../lib/battle_timeouts.php';
 
 // ---------------- SSE HELPERS ----------------
 function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
@@ -300,10 +301,19 @@ if ($fresh_connect) {
 
 $keepalive_interval_sec = 30;
 $last_keepalive = time();
+$last_timeout_check = 0;
 
 while (!connection_aborted()) {
 
     $membership = require_live_stream_session($pdo, $player_id, $session_id);
+    if (time() !== $last_timeout_check) {
+        $last_timeout_check = time();
+        try {
+            battle_timeout_expire_player($pdo, $player_id, 8, $session_id);
+        } catch (Throwable $error) {
+            error_log('SSE battle timeout check failed: ' . $error->getMessage());
+        }
+    }
     $current_room_id = (string)$membership['room_id'];
     if (!stream_membership_matches($membership, $room_id, $generation)) {
         $room_id = $current_room_id;
