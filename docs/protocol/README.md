@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Shiny Potion](shiny-potion-implementation.md) now activates for two hours with
+atomic consumption, durable UTC expiry and login/app-restart rehydration. Apply
+migration 005. Existing spawn flags/probabilities are retained; newly started
+private wild battles reflect the requesting player's active potion.
+
 [Absorption protection](absorb-protection-implementation.md) now preserves locked
 donors, scopes removals to verified owned rows and counts repeated donor IDs
 once. Ordinary locked recipients remain valid. Existing point/response behavior

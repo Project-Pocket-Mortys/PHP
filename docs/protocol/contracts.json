@@ -203,7 +203,8 @@
         "android-battle-items.md",
         "full-recover-contract.md",
         "full-recover-implementation.md",
-        "android-full-recover.md"
+        "android-full-recover.md",
+        "shiny-potion-implementation.md"
       ],
       "selection_timeout": "Expired armed selection cancels atomically before resource mutations, returns 409, and emits one private ABANDONED result; accepted moves clear deadline.",
       "full_recover": {
@@ -501,6 +502,45 @@
         "absorb-protection-contract.md",
         "absorb-protection-implementation.md",
         "android-absorb-protection.md"
+      ]
+    },
+    "/session/use-shiny-potion": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$UseShinyPotion",
+      "address": "0x17a423c",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id"
+        ],
+        "additionalProperties": false
+      },
+      "success": {
+        "quantity": "absolute remaining integer stock",
+        "shiny_potion_active": true,
+        "end_usage_time": "persisted UTC ISO8601 timestamp",
+        "shiny_potion_item_id": "ItemShinyPotion"
+      },
+      "persistent_effect": "Lock unambiguous session/player and inventory; consume one and persist UTC now+2h atomically. Active retry does not consume/extend. No background expiry writes.",
+      "startup": "player-details.play_shiny_potion is [{end_usage_time:UTC ISO8601}] while active; null otherwise. Empty array invalid for native parser.",
+      "errors": {
+        "400": "UNKNOWN malformed input",
+        "401": "UNKNOWN invalid/ambiguous identity",
+        "405": "UNKNOWN unsupported method",
+        "409": "NOT_ENOUGH_SHINY_POTIONS, ALREADY_ACTIVE_SHINY_POTION, or UNKNOWN inconsistent/world/battle state",
+        "500": "UNKNOWN unexpected failure with rollback"
+      },
+      "errors_origin": "Native enum spellings; HTTP choices and world/battle guard are replacement policy, original server parity unknown.",
+      "evidence": [
+        "shiny-potion-contract.md",
+        "shiny-potion-implementation.md",
+        "android-shiny-potion.md"
       ]
     }
   },

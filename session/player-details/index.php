@@ -11,6 +11,7 @@ header("Access-Control-Allow-Origin: *");
 header("Vary: Accept-Encoding");
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../lib/shiny_potion.php';
 
 function toBool($v) {
     if ($v === null) return false;
@@ -256,7 +257,7 @@ $responseArray = [
     "mortydex" => array_values($mortydex),
 
     "tags" => [],
-    "play_shiny_potion" => null,
+    "play_shiny_potion" => shiny_potion_state($pdo, $player_id),
 
     "xp_lower" => (int)($user["xp_lower"] ?? 0),
     "xp_upper" => (int)($user["xp_upper"] ?? 0),

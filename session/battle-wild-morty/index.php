@@ -9,6 +9,7 @@ ini_set('display_errors', '0');
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php";
 require_once __DIR__ . "/../../lib/events.php";
 require_once __DIR__ . "/../../lib/battle_turn.php";
+require_once __DIR__ . "/../../lib/shiny_potion.php";
 
 // ------------------------
 // Read input
@@ -242,11 +243,19 @@ $level = 999;
 $xp = 1000000;
 $opponentHP = 1;
 
+// Match the per-player conditional wild variant without changing spawn flags
+// or legacy battle IDs. Existing Shiny/Pulsing variants retain their identity.
+$wildVariant = (string)($wildPayload["variant"] ?? "Normal");
+if ($wildVariant === "Normal" && to_bool($wildPayload["shiny_if_potion"] ?? false)
+    && shiny_potion_state($pdo, $player_id) !== null) {
+    $wildVariant = "Shiny";
+}
+
 $opponentPayload = [
     "player_id"=>$wild_owned_PlayerId,
     "username"=>"AWILDMORTY",
     "player_avatar_id"=>"NOAVATAR",
-    "owned_morties"=>[["owned_morty_id"=>$wild_morty_id,"morty_id"=>$wildMortyId,"level"=>$level,"xp"=>$xp,"hp"=>$opponentHP,"variant"=>$wildPayload["variant"]??"Normal","hp_stat"=>$opponentHP]],
+    "owned_morties"=>[["owned_morty_id"=>$wild_morty_id,"morty_id"=>$wildMortyId,"level"=>$level,"xp"=>$xp,"hp"=>$opponentHP,"variant"=>$wildVariant,"hp_stat"=>$opponentHP]],
     "streak"=>0,
     "shiny_if_potion"=>to_bool($wildPayload["shiny_if_potion"]??false),
     "_meta"=>["isPlayerInDB"=>false,"isControlledByAI"=>true,"isRaidBoss"=>false],

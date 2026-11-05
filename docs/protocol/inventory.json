@@ -1569,7 +1569,7 @@
       "server_evidence": {
         "file": "session/battle-wild-morty/index.php",
         "line": 1,
-        "sha256": "6e14fa64d1cec36e3645994d60b0475bfa4f7f36a0a5a527089c6c7ebdf46733"
+        "sha256": "eb295b401819b699f84e331e9dc3af5845048a40842fd15cedd24b219c949db8"
       },
       "implementation_status": "partial",
       "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete.",
@@ -1672,7 +1672,8 @@
       ],
       "reviewed_contract": "docs/protocol/battle-completion-contract.md",
       "ailment_contract": "docs/protocol/status-cure-implementation.md",
-      "switch_contract": "docs/protocol/battle-switch-implementation.md"
+      "switch_contract": "docs/protocol/battle-switch-implementation.md",
+      "shiny_potion_contract": "docs/protocol/shiny-potion-implementation.md"
     },
     {
       "path": "/session/battle/move",
@@ -4062,7 +4063,7 @@
       "server_evidence": {
         "file": "session/player-details/index.php",
         "line": 1,
-        "sha256": "ad5af1320ed424c19c8dfb376b83265bdd933d09df7aa3d24fad50d158060ad6"
+        "sha256": "4f2a387c0aadcc5222d792ede0ad7c96cecf8a90fbfd0c4e9fede09580db5782"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4140,7 +4141,8 @@
         "retry semantics",
         "runtime verification"
       ],
-      "ailment_contract": "docs/protocol/status-cure-implementation.md"
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "shiny_potion_contract": "docs/protocol/shiny-potion-implementation.md"
     },
     {
       "path": "/session/player-flag",
@@ -4485,14 +4487,49 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "native constructor/parser/expiry consumers plus additive HTTP/database regressions; original encounter rates unknown",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
-      ]
+        "original encounter probabilities",
+        "original HTTP status parity",
+        "capture interaction"
+      ],
+      "server_evidence": {
+        "file": "session/use-shiny-potion/index.php",
+        "line": 1,
+        "sha256": "07342045ad9c9cd9ac3e32d7acf398848a600ed088d34865d24a15f84a641ee4"
+      },
+      "status_basis": "Dedicated account activation with one stock charge, two-hour UTC expiry, native typed response/errors and startup rehydration. Existing spawn flags/probabilities unchanged.",
+      "http_method": "POST",
+      "input_field_candidates": [
+        "session_id"
+      ],
+      "query_fields": [],
+      "response_key_candidates": [
+        "quantity",
+        "shiny_potion_active",
+        "end_usage_time",
+        "shiny_potion_item_id",
+        "error",
+        "code"
+      ],
+      "http_status_candidates": [
+        200,
+        400,
+        401,
+        405,
+        409,
+        500
+      ],
+      "table_candidates": [
+        "users",
+        "owned_items",
+        "battles",
+        "event_queue"
+      ],
+      "events_published": [],
+      "authentication": "unambiguous session and player row required",
+      "reviewed_contract": "docs/protocol/shiny-potion-implementation.md"
     },
     {
       "path": "/shard/health",
