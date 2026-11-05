@@ -26,14 +26,12 @@ This repository contains the server-side components required to support client a
 See [the Android protocol inventory and developer handoff](docs/protocol/README.md) for reproducible analysis tools, evidence, an isolated test server, regression tests, and remaining compatibility work. The completed gameplay features below remain the project baseline.
 
 ## To Do
-- Battle & catch mortys
+- Battle & catch mortys: [wild party switching](docs/protocol/battle-switch-implementation.md) and [battle healing items](docs/protocol/battle-item-implementation.md) implemented; full combat, capture and rewards remain
 - Battle Bots
 - Battle friends
 - Raid & other event Battles
-- Use Items
-- Release Morties
-- Lock Morties
-- Crafting
+- Use Items: [world healing](docs/protocol/use-item-implementation.md), [full revival/AP restoration](docs/protocol/full-restore-items.md), [poison/paralysis cures](docs/protocol/status-cure-implementation.md), and [battle use of these effects](docs/protocol/battle-item-implementation.md) implemented; other effects remain
+- Lock Morties: [toggle and persistence implemented/tested](docs/protocol/missing-features.md); protection in destructive server actions remains
 - Challenges
 
 ## Completed
@@ -45,6 +43,8 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 - <s>Learn Attacks</s>
 - <s>Swap Stop</s>
 - <s>Salesman Rick's</s>
+- <s>Release Morties</s>: [world release and batch contracts](docs/protocol/morty-release-implementation.md)
+- <s>Crafting</s>: [22 multiplayer recipes](docs/protocol/crafting-implementation.md)
 
 ## Legal Disclaimer
 
