@@ -36,7 +36,7 @@ schema permits duplicate logical identifiers.
 This implementation requires WORLD state and no existing ACTIVE battle. Party
 healing must not silently diverge from the separate HP stored by battle turns.
 The integrated battle start/move handlers now share the user-first locking
-protocol. Battle healing remains separate work.
+protocol. The [battle item route](battle-item-implementation.md) now reuses these established plans.
 
 Requests contain no idempotency token. Concurrent requests cannot overspend the
 last item, and ineffective/full-HP retries do not consume anything. Identical

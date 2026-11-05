@@ -44,8 +44,8 @@ Fresh player details, join/room snapshots, SSE user DTOs and battle-start player
 snapshots now include the persisted booleans. Existing healing, AP/revival and
 learn-attack responses preserve them. Those actions do not acquire an invented
 cure-all side effect. Battles still use placeholder damage and do not implement
-poison/paralysis application, damage ticks or cure turns; the battle item route
-remains separate. General items and `ItemFullRecover` are not enabled here.
+poison/paralysis application or damage ticks; the [battle item route](battle-item-implementation.md)
+now supports the established cures. General items and `ItemFullRecover` are not enabled here.
 
 ## Evidence and validation
 

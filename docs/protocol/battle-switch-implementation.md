@@ -37,7 +37,7 @@ markers without replaying rewards.
 Pending replacement is derived from ACTIVE plus zero owned/cache HP, so no
 new schema is needed. It survives ready/rejected requests/rollback, but does
 not restore the UI after client restart. Capture, ASK_SWITCH/opponent
-replacement, combat formulas, battle items, rewards and reconnect remain gaps.
+replacement, combat formulas, unsupported item effects, rewards and reconnect remain gaps. The established twelve healing/revive/AP/cure effects now support [battle use](battle-item-implementation.md).
 
 Run `py -3 -m unittest discover -s tests/protocol -p test_battle_switching.py -v`.
 The additive UUID tests first reproduced 400 for the exact native SWITCH body;

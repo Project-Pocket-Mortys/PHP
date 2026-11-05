@@ -26,11 +26,11 @@ This repository contains the server-side components required to support client a
 See [the Android protocol inventory and developer handoff](docs/protocol/README.md) for reproducible analysis tools, evidence, an isolated test server, regression tests, and remaining compatibility work. The completed gameplay features below remain the project baseline.
 
 ## To Do
-- Battle & catch mortys: [wild party switching](docs/protocol/battle-switch-implementation.md) implemented; full combat, capture and rewards remain
+- Battle & catch mortys: [wild party switching](docs/protocol/battle-switch-implementation.md) and [battle healing items](docs/protocol/battle-item-implementation.md) implemented; full combat, capture and rewards remain
 - Battle Bots
 - Battle friends
 - Raid & other event Battles
-- Use Items: [world healing](docs/protocol/use-item-implementation.md), [full revival/AP restoration](docs/protocol/full-restore-items.md), and [poison/paralysis cures](docs/protocol/status-cure-implementation.md) implemented; other effects and battle use remain
+- Use Items: [world healing](docs/protocol/use-item-implementation.md), [full revival/AP restoration](docs/protocol/full-restore-items.md), [poison/paralysis cures](docs/protocol/status-cure-implementation.md), and [battle use of these effects](docs/protocol/battle-item-implementation.md) implemented; other effects remain
 - Lock Morties: [toggle and persistence implemented/tested](docs/protocol/missing-features.md); protection in destructive server actions remains
 - Challenges
 

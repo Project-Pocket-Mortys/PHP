@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Battle healing items](battle-item-implementation.md) now apply the twelve
+established healing/revival/AP/cure effects to active or bench party members,
+with atomic consumption and ordered native action snapshots. Use the installed
+Python interpreter directly rather than the Windows Store execution aliases.
+
 [Battle party switching](battle-switch-implementation.md) now persists voluntary
 switches and forced replacement after fainting against the initial private
 party snapshot. Native request fields and replacement combat policies are
