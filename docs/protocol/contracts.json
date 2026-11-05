@@ -32,9 +32,23 @@
         "401": "invalid session",
         "403": "other initiator",
         "404": "missing battle",
-        "409": "inactive battle or missing room"
+        "409": "inactive, expired, ambiguous or inconsistent PvWM battle/current room/user/spawn state"
       },
-      "errors_origin": "replacement server regression contract; original error envelopes unresolved"
+      "errors_origin": "replacement server regression contract; original error envelopes unresolved",
+      "selection_window": {
+        "duration_seconds": 30,
+        "clock": "UTC database time; additive migration 004 nullable battles.move_deadline",
+        "duplicate_ready": "success without extending deadline or republishing event",
+        "accepted_move": "clears deadline atomically; next READY opens next window",
+        "expiry": "ABANDONED cancellation under user/battle locks; expiry on SSE poll, due MOVE/READY or optional research worker",
+        "effects": "CANCELLED without winner; user/spawn WORLD; one private result; no HP/AP/items/rewards mutation",
+        "policy_origin": "explicit replacement-server safety policy; original deadline/grace/penalties unknown",
+        "evidence": [
+          "battle-timeout-contract.md",
+          "battle-timeout-implementation.md",
+          "android-battle-timeouts.md"
+        ]
+      }
     },
     "/session/battle/move": {
       "method": "POST",
@@ -53,10 +67,15 @@
             "type": "string"
           },
           "owned_morty_id": {
-            "type": "string"
+            "type": "string",
+            "description": "ATTACK/SWITCH: current/outgoing ID. Supported ITEM: selected active or bench target in initial party."
           },
           "move_id": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "ATTACK: attack ID. SWITCH: incoming owned ID. ITEM: item ID. RUN: nullable."
           }
         },
         "required": [
@@ -64,18 +83,138 @@
           "battle_id",
           "type"
         ],
-        "description": "Client constructs all five properties. Required list describes current server validation only."
+        "description": "Client constructs all five properties. Required list describes current server validation only.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "enum": [
+                    "ATTACK",
+                    "SWITCH"
+                  ]
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "owned_morty_id",
+                "move_id"
+              ],
+              "properties": {
+                "owned_morty_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "move_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "ITEM"
+                },
+                "move_id": {
+                  "enum": [
+                    "ItemSerum",
+                    "ItemGreatSerum",
+                    "ItemSensationalSerum",
+                    "ItemPureSerum",
+                    "ItemEasterEgg",
+                    "ItemPumpkin",
+                    "ItemSpicyBBQPizza",
+                    "ItemBreakfastMedley",
+                    "ItemPureHalzinger",
+                    "ItemPurePlutonicRock",
+                    "ItemPoisonCure",
+                    "ItemParalysisCure",
+                    "ItemFullRecover"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "move_id"
+              ]
+            },
+            "then": {
+              "required": [
+                "owned_morty_id"
+              ],
+              "properties": {
+                "owned_morty_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
       },
       "success": {
         "success": true
       },
       "event": "battle:turn-result",
       "limitations": [
-        "combat remains placeholder",
-        "capture is not persisted",
-        "duplicate active turns are not idempotent",
-        "item consumption unresolved"
-      ]
+        "Replacement combat remains placeholder: player damage 20, wild damage 1..3, wild PP 1; formulas/initiative remain unresolved",
+        "Capture and unsupported item effects return 501 ITEM_UNUSABLE with no charge; thirteen established healing/revive/AP/cure items now work in battle",
+        "WIN returns empty xp_datas/rewards; XP, stat growth and reward formulas unresolved",
+        "Repeated active-turn bodies are not idempotent; constructor has no turn identity and cooldown enforcement/reconnect replay remain unresolved",
+        "Android research client RUN and ATTACK/WIN verified with synthetic private starts; live LOSE, natural battle initiation and interrupted-battle reconnect remain unverified (android-battle-lifecycle.md)",
+        "Voluntary switch uses the existing AI counterattack; forced replacement is free. These are explicit replacement policies, not recovered original turn costs (battle-switch-contract.md).",
+        "Supported ITEM uses an action then existing AI1..3 counterattack against current active; original retaliation/cooldowns and timeout penalties remain unrecovered; expired selections now cancel safely through ABANDONED."
+      ],
+      "errors": {
+        "400": "FAILED: malformed input, unsupported move type, or unknown attack",
+        "401": "FAILED: invalid session",
+        "403": "FAILED: foreign battle, Morty, or private spawn",
+        "404": "FAILED: missing battle",
+        "409": "FAILED: inactive battle, ambiguous/missing state, exhausted PP, stale HP, or inconsistent room/start/spawn evidence; ineffective supported item, invalid/insufficient stock/AP or pending replacement",
+        "501": "ITEM_UNUSABLE: capture or unsupported effect; no mutations",
+        "500": "FAILED: unexpected storage/runtime failure; transaction rolled back"
+      },
+      "errors_origin": "Replacement server envelope {success:false,error:{code:...}}; original status/error parity unresolved",
+      "persistence_effects": [
+        "Lock session user then owned ACTIVE battle; verify private battle:start origin and current room/spawn",
+        "ATTACK locks unambiguous owned active Morty and attack, decrements selected PP once, and persists HP matching ordered action dictionaries",
+        "RUN sets CANCELLED; WIN/LOSE set COMPLETED and winner; terminal moves set user WORLD",
+        "WIN removes wild snapshot; RUN/LOSE release it to WORLD; room notifications and one initiator-private battle:turn-result share the transaction",
+        "Commit all state and queued events together; failure rolls back and completed-battle retries cannot mutate or enqueue another terminal result",
+        "RUN permits verified legacy WORLD user/spawn state and does not change owned HP/PP",
+        "SWITCH validates outgoing/current and incoming member of immutable battle:start party; persists active ID/HP and emits SWITCH action with incoming owned ID; no player AP cost",
+        "Fainted active member with another living initial participant produces nonterminal FORCE_SWITCH; pending phase survives ready and rejected selection; LOSE requires party exhaustion",
+        "ITEM targets an initial-party member, applies shared world plan and stock decrement atomically, emits target post-item snapshot then AI active HP snapshot; absolute owned_items includes zero. Revived bench participates in subsequent FORCE_SWITCH/LOSE calculation."
+      ],
+      "evidence": [
+        "battle-completion-contract.md",
+        "battle-switch-contract.md",
+        "battle-switch-implementation.md",
+        "android-battle-switching.md",
+        "battle-item-contract.md",
+        "battle-item-implementation.md",
+        "android-battle-items.md",
+        "full-recover-contract.md",
+        "full-recover-implementation.md",
+        "android-full-recover.md"
+      ],
+      "selection_timeout": "Expired armed selection cancels atomically before resource mutations, returns 409, and emits one private ABANDONED result; accepted moves clear deadline.",
+      "full_recover": {
+        "item_id": "ItemFullRecover",
+        "name": "Pure Curum",
+        "eligibility": "living with missing HP or poison or paralysis; fainted/full-HP-unafflicted targets reject even with missing AP",
+        "effect": "HP becomes stored maximum; poison and paralysis false; AP unchanged",
+        "effect_value": 0,
+        "snapshot": "target post-item/pre-AI HP/status; unchanged AP omitted",
+        "policy_boundary": "existing placeholder AI retaliation unchanged; no new original-server formulas claimed"
+      }
     },
     "/session/leave-room": {
       "method": "POST",
@@ -97,14 +236,206 @@
       },
       "success_origin": "Existing replacement-server envelope retained; original-server acknowledgement parity not established.",
       "event": "room:user-removed",
-      "persistent_effect": "Atomically clear users.room_id and publish one departure in prior room; already outside room acknowledges without event.",
+      "persistent_effect": "Reject unresolved ACTIVE battles under the user lock; otherwise atomically clear users.room_id and publish one departure in prior room. Already outside room acknowledges without event. Consistent legacy terminal evidence can close old ACTIVE markers without reward replay (gameplay-integration.md).",
       "retry_limit": "Concurrent retries before another join publish once. No request identity exists to distinguish a delayed leave after a new join.",
       "errors": {
         "400": "missing session",
         "404": "invalid session (existing behavior)",
+        "409": "unresolved ACTIVE battle; membership and queued events unchanged",
         "500": "failed transaction with rollback"
       },
       "evidence": "room-leave-repair.md; additive database, concurrent HTTP and UDP tests"
+    },
+    "/session/owned_morties/lock": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$LockMorty",
+      "address": "0x17a3444",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "is_locked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id",
+          "is_locked"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-lock-contract.md",
+        "morty-lock-capture.json"
+      ],
+      "limitations": [
+        "Original HTTP error status parity unknown",
+        "Toggle does not implement protection in destructive operations"
+      ]
+    },
+    "/session/use-item": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$UseItem",
+      "address": "0x17a46c8",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "item_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id",
+          "item_id"
+        ]
+      },
+      "response": {
+        "owned_morty_id": "string",
+        "item_id": "string",
+        "is_success": "boolean",
+        "effect_value": "integer; HP restored for healing, 100 for full revive/AP, 0 for targeted cures (compatible convention)",
+        "owned_morties": "array of changed Morties, including explicit boolean is_poisoned/is_paralysed",
+        "owned_items": "array of changed items including zero quantity",
+        "attacks_to_learn": "array; empty for currently supported world items"
+      },
+      "evidence": [
+        "use-item-contract.md",
+        "use-item-data.md",
+        "full-restore-items.md",
+        "full-restore-capture.json",
+        "ap-maxima-contract.md",
+        "status-cure-contract.md",
+        "status-cure-implementation.md"
+      ],
+      "limitations": [
+        "Eight world RestoreHP items, Pure Halzinger, Pure Plutonic Rock and targeted poison/paralysis cures; remaining effects pending; these twelve also supported by battle/move",
+        "Migration 003 is required before loading persistent ailment DTOs; ailment application/ticks during combat remain unimplemented",
+        "No request identity: identical effective requests can each consume an item",
+        "Original HTTP validation/consumption parity unknown"
+      ]
+    },
+    "/session/owned_morties/attempt-release-multiple": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$AttemptReleaseMortys",
+      "address": "0x17a3688",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_ids"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "complete array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-release-contract.md",
+        "morty-release-capture.json"
+      ],
+      "limitations": [
+        "No partial-success subset: client removes all requested IDs on confirmation success",
+        "Preview reserves nothing; confirmation independently validates",
+        "Original validation/status rules unknown; stronger protective policies documented"
+      ]
+    },
+    "/session/owned_morties/release-multiple": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$ReleaseMortys",
+      "address": "0x17a38fc",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_ids"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "complete array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-release-contract.md",
+        "morty-release-capture.json"
+      ],
+      "limitations": [
+        "No partial-success subset: client removes all requested IDs on confirmation success",
+        "Preview reserves nothing; confirmation independently validates",
+        "Original validation/status rules unknown; stronger protective policies documented"
+      ]
+    },
+    "/session/recipe/use": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$CraftRecipe",
+      "address": "0x17a4ccc",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "recipe_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "recipe_id"
+        ]
+      },
+      "response": {
+        "owned_items": "absolute final counts for all touched items, including zeroes",
+        "result": "{type:3,item_id:string,quantity:final total,amount:1,amount_received:1}"
+      },
+      "evidence": [
+        "crafting-contract.md",
+        "crafting-data.md",
+        "crafting-implementation.md",
+        "crafting-capture.json"
+      ],
+      "limitations": [
+        "Original HTTP validation/reward rules unknown",
+        "All catalog recipes accepted; no recovered event/unlock gate",
+        "No request idempotency key"
+      ]
     }
   },
   "sse": {
@@ -194,7 +525,8 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation"
+      "audience": "requesting player in current PvWM server implementation",
+      "replacement_retry_policy": "one event per armed selection; repeated READY does not restart countdown"
     },
     "battle:turn-result": {
       "client_type": "BattleTurnResultResponse",
@@ -250,7 +582,32 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation"
+      "audience": "requesting player in current PvWM server implementation",
+      "reviewed_item_contract": "battle-item-contract.md",
+      "item_action_fields": {
+        "type": "ITEM",
+        "attacker_player_id": "owner player ID",
+        "defender_player_id": "opponent player ID",
+        "owned_morty_id": "selected party target ID",
+        "item_id": "supported item ID",
+        "success": "boolean",
+        "effect_value": "integer, shared item convention",
+        "attacker_morty_datas": "array containing target post-item/pre-AI partial snapshot",
+        "defender_morty_datas": "empty array",
+        "inventory_location": "player_datas.player.owned_items: absolute quantities, including zero"
+      },
+      "reviewed_timeout_contract": "battle-timeout-contract.md",
+      "timeout_result": {
+        "outcome": "ABANDONED",
+        "battle_abandoned": false,
+        "turn_datas": [],
+        "player_datas": {
+          "player": {},
+          "opponent": {}
+        }
+      },
+      "timeout_audience": "initiator only; public room state notifications carry no private battle payload",
+      "reviewed_full_recover_contract": "full-recover-contract.md"
     }
   },
   "transport": {
