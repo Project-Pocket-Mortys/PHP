@@ -97,11 +97,18 @@ and 72 existing battle/item/switch/lifecycle/world-guard/ailment cases. The fina
 timeout run includes the two additional migration and worker-paging cases.
 Those runs account for 96 distinct targeted regressions. Nine additional SSE
 session/privacy cases passed in 28.081 seconds. A final legacy READY error-body
-regression and five affected READY cases passed after retaining those envelopes,
+regression and five affected READY cases passed in 12.406 seconds after retaining those envelopes,
 bringing coverage to 106 distinct cases, including 25 timeout cases.
 PHP 8.3 lint passed for
 all 28 changed/new PHP files including prerequisites; Compose configuration,
 bounded analysis script syntax and protocol evidence checks passed.
+
+Native Android checks passed natural expiry on the ordinary battle screen,
+in Bag and in Party. Each emitted only READY, then received one ABANDONED result
+through its actual SSE stream and returned to WORLD. No move or synthetic RUN
+was used. Guarded cleanup and the two-account baseline comparison confirmed
+exact original account restoration after each case; see the separate Android
+record for captures, synthetic fixture provenance and loading retry details.
 
 ## Limits and provenance
 
