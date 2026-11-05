@@ -1463,17 +1463,20 @@
               "battle_type"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
       "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "evidence_confidence": "native Android request and missing-route failure observed; producer/callback statically established; original-server behavior unknown",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
-      ]
+        "original server HTTP errors/validation and token authorization/generation",
+        "server TTL, replay and reconnect policy",
+        "human battle implementation and cross-room event delivery"
+      ],
+      "http_method": "POST from reviewed native constructor",
+      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md",
+      "status_basis": "No matching PHP handler. Shared human battle participation, private event delivery and lifecycle must precede playable acceptance.",
+      "observed_replacement_behavior": "Native PvF create returns Apache404 HTML and client send-failed popup; no battle created. See android-friend-battle-probe.md."
     },
     {
       "path": "/session/battle-invite/response",
@@ -1497,17 +1500,19 @@
               "accept"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
       "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "evidence_confidence": "statically established native producer/callback; original-server behavior unknown",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
-      ]
+        "original server HTTP errors/validation and token authorization/generation",
+        "server TTL, replay and reconnect policy",
+        "human battle implementation and cross-room event delivery"
+      ],
+      "http_method": "POST from reviewed native constructor",
+      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md",
+      "status_basis": "No matching PHP handler. Shared human battle participation, private event delivery and lifecycle must precede playable acceptance."
     },
     {
       "path": "/session/battle-invite/revoke",
@@ -1530,17 +1535,19 @@
               "token"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
       "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "evidence_confidence": "statically established native producer/callback; original-server behavior unknown",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
-      ]
+        "original server HTTP errors/validation and token authorization/generation",
+        "server TTL, replay and reconnect policy",
+        "human battle implementation and cross-room event delivery"
+      ],
+      "http_method": "POST from reviewed native constructor",
+      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md",
+      "status_basis": "No matching PHP handler. Shared human battle participation, private event delivery and lifecycle must precede playable acceptance."
     },
     {
       "path": "/session/battle-wild-morty",
@@ -5471,8 +5478,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "schema_status": "statically established native DTO/consumer; missing/null details retained as gaps",
+      "delivery_semantics": "Constructs temporary invite; no pending clear, callback or battle start in bounded body. Original routing/replay unknown; current server lacks dispatch/storage.",
+      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "name": "battle-invite:declined",
@@ -5484,8 +5492,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "schema_status": "statically established native DTO/consumer; missing/null details retained as gaps",
+      "delivery_semantics": "Matching current sent ID clears pending; unmatched/absent sent invite ignored. Original routing/replay unknown; current server lacks dispatch/storage.",
+      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "name": "battle-invite:received",
@@ -5497,8 +5506,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "schema_status": "statically established native DTO/consumer; missing/null details retained as gaps",
+      "delivery_semantics": "Recipient queue append; from_player.player_id directly indexed; no visible deduplication. Original routing/replay unknown; current server lacks dispatch/storage.",
+      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "name": "battle-invite:revoked",
@@ -5510,8 +5520,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "schema_status": "statically established native DTO/consumer; missing/null details retained as gaps",
+      "delivery_semantics": "Removes first incoming ID match; unmatched ignored. Original routing/replay unknown; current server lacks dispatch/storage.",
+      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "name": "battle:abandoned",

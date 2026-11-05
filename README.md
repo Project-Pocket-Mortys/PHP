@@ -28,7 +28,7 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 ## To Do
 - Battle & catch mortys: [wild party switching](docs/protocol/battle-switch-implementation.md) and [battle healing items](docs/protocol/battle-item-implementation.md) and [selection timeout recovery](docs/protocol/battle-timeout-implementation.md) implemented; full combat, capture and rewards remain
 - Battle Bots
-- Battle friends: [friend request lifecycle](docs/protocol/friend-lifecycle-implementation.md) verified; invitations and combat remain
+- Battle friends: [friend request lifecycle](docs/protocol/friend-lifecycle-implementation.md) verified; [battle invitation/start contracts](docs/protocol/friend-battle-handoff.md) recovered with native404 reproduction; invitation and combat implementation remain
 - Raid & other event Battles
 - Use Items: [Shiny Potion activation](docs/protocol/shiny-potion-implementation.md), [world healing](docs/protocol/use-item-implementation.md), [full revival/AP restoration](docs/protocol/full-restore-items.md), [poison/paralysis cures](docs/protocol/status-cure-implementation.md), [combined Pure Curum recovery](docs/protocol/full-recover-implementation.md), and [battle use](docs/protocol/battle-item-implementation.md) implemented; other effects remain
 - Lock Morties: [toggle, persistence and release/absorption protection](docs/protocol/absorb-protection-implementation.md) implemented/tested; enforcement in other destructive actions remains

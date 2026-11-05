@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Friend battle contracts](friend-battle-handoff.md) now map the missing invite
+routes, four events and human battle-start/readiness handoff. Android's Battle
+button reaches the absent create route and receives Apache 404. The shared
+two-player battle lifecycle remains an implementation task.
+
 [Absorption eligibility](absorb-eligibility-implementation.md) now requires
 same-species donors and the recovered directional Normal/Shiny/Pulsing blend
 matrix. Incompatible batches reject before consumption; existing partial point

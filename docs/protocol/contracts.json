@@ -740,6 +740,183 @@
       },
       "persistent_effect": "Participant-only outgoing cancellation or accepted symmetric removal by exact relation row ID under pair locks.",
       "missing_status": 404
+    },
+    "/session/battle-invite/create": {
+      "method": "POST",
+      "native_constructor": "NetworkBattleInviteAPI$$SendInviteUser",
+      "address": "0x178b110",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "opponent_player_id": {
+            "type": "string"
+          },
+          "battle_type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "opponent_player_id",
+          "battle_type"
+        ]
+      },
+      "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
+      "implementation_status": "absent",
+      "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
+      "error_enum": "eSendInviteError",
+      "error_enum_values": {
+        "UNKOWN": 0,
+        "NO_RESPONSE": 1,
+        "INVALID_RESPONSE": 2,
+        "SENT_INVITE_PENDING": 3,
+        "SESSION_ID_INVALID": 4,
+        "SESSION_NOT_FOUND": 5,
+        "OPPONENT_SESSION_INVALID": 6,
+        "OPPONENT_STATE_INVALID": 7,
+        "OPPONENT_PLAYER_ID_INVALID": 8,
+        "WILD_MORTY_ID_INVALID": 9,
+        "BOT_ID_INVALID": 10,
+        "FAILED": 11,
+        "NOT_ENOUGH_ENERGY": 12,
+        "NOT_ENOUGH_COUPONS": 13,
+        "ARENA_NOT_ACTIVE": 14,
+        "ARENA_MAINTENANCE": 15,
+        "NONE": 16
+      },
+      "error_envelope": {
+        "error": {
+          "code": "<exact native enum name>"
+        }
+      },
+      "errors_origin": "Native unsuccessful-HTTP error parser vocabulary; original HTTP statuses and validation triggers unknown.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "client_friend_type": "PvF",
+      "success": {
+        "client_type": "SendInviteResponse",
+        "declared_fields": {
+          "battle_invite_id": "string",
+          "battle_type": "string",
+          "battle_invite_ttl": "float seconds",
+          "token": "string"
+        },
+        "requiredness": "Typed nonnull response required; complete per-field missing/null behavior not established."
+      },
+      "success_origin": "Native typed response parsed on eSendInviteError.NONE=16; does not start battle.",
+      "lifetime": "Server TTL copied into local total/countdown; no fixed TTL recovered; initial zero does not trigger local automatic expiry."
+    },
+    "/session/battle-invite/response": {
+      "method": "POST",
+      "native_constructor": "NetworkBattleInviteAPI$$RespondToReceivedInvite",
+      "address": "0x178b440",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "accept": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "token",
+          "accept"
+        ]
+      },
+      "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
+      "implementation_status": "absent",
+      "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
+      "error_enum": "eRespondToReceivedInviteError",
+      "error_enum_values": {
+        "UNKOWN": 0,
+        "NO_RESPONSE": 1,
+        "INVALID_RESPONSE": 2,
+        "TOKEN_INVALID": 3,
+        "TOKEN_EXPIRED": 4,
+        "TOKEN_NOTVALID": 5,
+        "ACCEPT_INVALID": 6,
+        "FAILED": 7,
+        "NONE": 8
+      },
+      "error_envelope": {
+        "error": {
+          "code": "<exact native enum name>"
+        }
+      },
+      "errors_origin": "Native unsuccessful-HTTP error parser vocabulary; original HTTP statuses and validation triggers unknown.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "success": {
+        "body": "ignored by ParseHTTPError; exact original acknowledgement unknown"
+      },
+      "success_origin": "Native error-only callback; acceptance HTTP body does not start battle."
+    },
+    "/session/battle-invite/revoke": {
+      "method": "POST",
+      "native_constructor": "NetworkBattleInviteAPI$$CancelPendingSentInvite",
+      "address": "0x178c548",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "token"
+        ]
+      },
+      "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
+      "implementation_status": "absent",
+      "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
+      "error_enum": "eRespondToSentInviteError",
+      "error_enum_values": {
+        "UNKOWN": 0,
+        "NO_RESPONSE": 1,
+        "INVALID_RESPONSE": 2,
+        "TOKEN_INVALID": 3,
+        "TOKEN_EXPIRED": 4,
+        "TOKEN_NOTVALID": 5,
+        "FAILED": 6,
+        "NONE": 7
+      },
+      "error_envelope": {
+        "error": {
+          "code": "<exact native enum name>"
+        }
+      },
+      "errors_origin": "Native unsuccessful-HTTP error parser vocabulary; original HTTP statuses and validation triggers unknown.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "success": {
+        "body": "ignored by ParseHTTPError; exact original acknowledgement unknown"
+      },
+      "success_origin": "Native error-only callback; acceptance HTTP body does not start battle."
     }
   },
   "sse": {
@@ -809,7 +986,29 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation"
+      "audience": "requesting player in current PvWM server implementation",
+      "friend_battle": {
+        "wire_type": "PvF",
+        "opponent_model": "MPUserData; type overwritten USER=2",
+        "perspective": "Same battle_id; each recipient sees itself as player and the other user as opponent.",
+        "operational_requirements": [
+          "player.move_log directly indexed",
+          "move_log.cooldown, cooldown_next and count must each be objects",
+          "both supplied active_owned_morty IDs must resolve within their supplied parties for intro animation"
+        ],
+        "empty_move_log": {
+          "cooldown": {},
+          "cooldown_next": {},
+          "count": {}
+        },
+        "meta": "PvF base metadata has no fields and does not parse envelope meta; no arena metadata required.",
+        "readiness": "Each client posts ready after initial send-out animations. No original barrier/timeout policy established.",
+        "acceptance": "battle-invite:accepted does not start battle; no proven accepted-before-start requirement.",
+        "evidence": [
+          "friend-battle-start-contract.md",
+          "friend-battle-invite-contract.md"
+        ]
+      }
     },
     "battle:move-timer-started": {
       "client_type": "BattleMoveTimeResponse",
@@ -912,6 +1111,190 @@
       },
       "timeout_audience": "initiator only; public room state notifications carry no private battle payload",
       "reviewed_full_recover_contract": "full-recover-contract.md"
+    },
+    "battle-invite:received": {
+      "client_type": "BattleInviteReceivedResponse",
+      "handler_address": "0x178c888",
+      "managed_fields": [
+        {
+          "name": "battle_invite_id",
+          "managed_type": "string",
+          "wire_name": "battle_invite_id",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 5,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        },
+        {
+          "name": "battle_type",
+          "managed_type": "string",
+          "wire_name": "battle_type",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 6,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        },
+        {
+          "name": "battle_invite_ttl",
+          "managed_type": "float",
+          "wire_name": "battle_invite_ttl",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 7,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        },
+        {
+          "name": "from_player",
+          "managed_type": "Dictionary<String, Object>",
+          "wire_name": "from_player",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 8,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        },
+        {
+          "name": "token",
+          "managed_type": "string",
+          "wire_name": "token",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 9,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        }
+      ],
+      "requiredness": "DTO declarations alone do not prove full missing/null behavior; from_player and its player_id must support direct indexing.",
+      "behavior": "Recipient queue append; from_player.player_id directly indexed; no visible deduplication.",
+      "audience": "Useful sender/recipient consumer roles, not proof of original-server routing; implementation must explicitly protect recipient and token.",
+      "ordering": "Create response must establish sent ID before matching decline can clear it. Acceptance event alone does not start battle; no accepted-before-start barrier established.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ]
+    },
+    "battle-invite:declined": {
+      "client_type": "InviteDeclinedResponse",
+      "handler_address": "0x178cb98",
+      "managed_fields": [
+        {
+          "name": "battle_invite_id",
+          "managed_type": "string",
+          "wire_name": "battle_invite_id",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteDeclinedResponse.cs",
+            "line": 5,
+            "sha256": "d00a4899f410c81d9455214f5ba97641aebc069d4767ba2e4f79efdce7806ffe"
+          }
+        }
+      ],
+      "requiredness": "DTO declarations alone do not prove full missing/null behavior; see the reviewed handler contract.",
+      "behavior": "Matching current sent ID clears pending; unmatched/absent sent invite ignored.",
+      "audience": "Useful sender/recipient consumer roles, not proof of original-server routing; implementation must explicitly protect recipient and token.",
+      "ordering": "Create response must establish sent ID before matching decline can clear it. Acceptance event alone does not start battle; no accepted-before-start barrier established.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ]
+    },
+    "battle-invite:accepted": {
+      "client_type": "InviteAcceptedResponse",
+      "handler_address": "0x178cc6c",
+      "managed_fields": [
+        {
+          "name": "battle_invite_id",
+          "managed_type": "string",
+          "wire_name": "battle_invite_id",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteAcceptedResponse.cs",
+            "line": 5,
+            "sha256": "f07cb74d96c1ca52b69d2a87d13a65a247cb8aa1c16038db5ebd5ef245989615"
+          }
+        },
+        {
+          "name": "battle_type",
+          "managed_type": "string",
+          "wire_name": "battle_type",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteAcceptedResponse.cs",
+            "line": 6,
+            "sha256": "f07cb74d96c1ca52b69d2a87d13a65a247cb8aa1c16038db5ebd5ef245989615"
+          }
+        },
+        {
+          "name": "opponent",
+          "managed_type": "Dictionary<String, Object>",
+          "wire_name": "opponent",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteAcceptedResponse.cs",
+            "line": 7,
+            "sha256": "f07cb74d96c1ca52b69d2a87d13a65a247cb8aa1c16038db5ebd5ef245989615"
+          }
+        }
+      ],
+      "requiredness": "DTO declarations alone do not prove full missing/null behavior; see the reviewed handler contract.",
+      "behavior": "Constructs temporary invite; no pending clear, callback or battle start in bounded body.",
+      "audience": "Useful sender/recipient consumer roles, not proof of original-server routing; implementation must explicitly protect recipient and token.",
+      "ordering": "Create response must establish sent ID before matching decline can clear it. Acceptance event alone does not start battle; no accepted-before-start barrier established.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ]
+    },
+    "battle-invite:revoked": {
+      "client_type": "InviteRevokedResponse",
+      "handler_address": "0x178cd68",
+      "managed_fields": [
+        {
+          "name": "battle_invite_id",
+          "managed_type": "string",
+          "wire_name": "battle_invite_id",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteRevokedResponse.cs",
+            "line": 5,
+            "sha256": "c13a8691dc98ac8b2d79f998f0989af516dcee9a4aa7548b7d4dc8a36045d079"
+          }
+        }
+      ],
+      "requiredness": "DTO declarations alone do not prove full missing/null behavior; see the reviewed handler contract.",
+      "behavior": "Removes first incoming ID match; unmatched ignored.",
+      "audience": "Useful sender/recipient consumer roles, not proof of original-server routing; implementation must explicitly protect recipient and token.",
+      "ordering": "Create response must establish sent ID before matching decline can clear it. Acceptance event alone does not start battle; no accepted-before-start barrier established.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ]
     }
   },
   "transport": {
