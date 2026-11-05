@@ -528,7 +528,7 @@
         "shiny_potion_item_id": "ItemShinyPotion"
       },
       "persistent_effect": "Lock unambiguous session/player and inventory; consume one and persist UTC now+2h atomically. Active retry does not consume/extend. No background expiry writes.",
-      "startup": "player-details.play_shiny_potion is [{end_usage_time:UTC ISO8601}] while active; null otherwise. Empty array invalid for native parser.",
+      "startup": "player-details.play_shiny_potion is [{end_usage_time:UTC wall-clock ISO datetime WITHOUT zone suffix}] while active; null otherwise. Native raw Parse(None) otherwise converts to local ticks. Typed activation retains UTC Z.",
       "errors": {
         "400": "UNKNOWN malformed input",
         "401": "UNKNOWN invalid/ambiguous identity",
@@ -540,7 +540,8 @@
       "evidence": [
         "shiny-potion-contract.md",
         "shiny-potion-implementation.md",
-        "android-shiny-potion.md"
+        "android-shiny-potion.md",
+        "shiny-potion-datetime.md"
       ]
     }
   },

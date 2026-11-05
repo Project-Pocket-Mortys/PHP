@@ -17,6 +17,7 @@ RewriteRule ^session/heal$ /session/heal/ [L]
 
 
 RewriteRule ^session/owned_morties/lock$ /session/owned_morties/lock/ [L]
+RewriteRule ^session/use-shiny-potion$ /session/use-shiny-potion/ [L]
 RewriteRule ^session/owned_morties/attempt-release-multiple$ /session/owned_morties/attempt-release-multiple/ [L]
 RewriteRule ^session/owned_morties/release-multiple$ /session/owned_morties/release-multiple/ [L]
 RewriteRule ^session/recipe/use$ /session/recipe/use/ [L]

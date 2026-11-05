@@ -257,7 +257,7 @@ $responseArray = [
     "mortydex" => array_values($mortydex),
 
     "tags" => [],
-    "play_shiny_potion" => shiny_potion_state($pdo, $player_id),
+    "play_shiny_potion" => shiny_potion_startup_state($pdo, $player_id),
 
     "xp_lower" => (int)($user["xp_lower"] ?? 0),
     "xp_upper" => (int)($user["xp_upper"] ?? 0),

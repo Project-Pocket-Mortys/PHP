@@ -14,3 +14,15 @@ function shiny_potion_state(PDO $pdo, string $playerId): ?array {
     // SetupFromDict consumes a dictionary array and parses its first end time.
     return [['end_usage_time' => (string)$row['end_usage_time']]];
 }
+
+/** Raw startup DateTime.Parse uses local conversion for Z, then compares UTC
+ * ticks without normalization. Keep UTC wall time here; typed use responses
+ * retain their UTC suffix. Both forms describe the same persisted deadline.
+ */
+function shiny_potion_startup_state(PDO $pdo, string $playerId): ?array {
+    $state = shiny_potion_state($pdo, $playerId);
+    if ($state !== null) {
+        $state[0]['end_usage_time'] = substr($state[0]['end_usage_time'], 0, -1);
+    }
+    return $state;
+}

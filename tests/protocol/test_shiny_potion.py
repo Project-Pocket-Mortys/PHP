@@ -1,9 +1,11 @@
 """Shiny Potion account timer with disposable UUID fixtures; no account reseeding."""
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
+from datetime import datetime, timezone
+import json
 import re
 import threading
 import unittest
+import urllib.request
 import uuid
 
 from test_http import ROOT, php, post, sql
@@ -12,6 +14,29 @@ ITEM = 'ItemShinyPotion'
 
 
 class ShinyPotionTests(unittest.TestCase):
+    def test_raw_startup_keeps_utc_wall_ticks_while_typed_response_has_zone(self):
+        status, body = self.request()
+        self.assertEqual(status, 200)
+        self.assertTrue(body['end_usage_time'].endswith('Z'))
+        _, details = post('/session/player-details', {'session_id':self.player})
+        raw = details['play_shiny_potion'][0]['end_usage_time']
+        self.assertRegex(raw, r'^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{6}$')
+        # Raw DateTime.Parse(None) must keep these UTC wall-clock ticks instead
+        # of converting a zoned value to the device's local timezone.
+        self.assertEqual(datetime.fromisoformat(raw).replace(tzinfo=timezone.utc),
+                         datetime.fromisoformat(body['end_usage_time']))
+        self.assertEqual(sql(f"SELECT quantity FROM owned_items WHERE player_id='{self.player}' AND item_id='{ITEM}'")[0]['quantity'], 1)
+
+    def test_native_slashless_post_preserves_body_without_redirect(self):
+        url = 'http://127.0.0.1:8087/session/use-shiny-potion'
+        request = urllib.request.Request(url, json.dumps({'session_id': self.player}).encode(),
+                                         {'Content-Type':'application/json'}, method='POST')
+        with urllib.request.urlopen(request, timeout=10) as response:
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.geturl(), url)
+            self.assertIs(json.load(response)['shiny_potion_active'], True)
+        self.assertEqual(sql(f"SELECT quantity FROM owned_items WHERE player_id='{self.player}' AND item_id='{ITEM}'")[0]['quantity'], 1)
+
     def setUp(self):
         self.assertEqual(php("echo getenv('PM_DB_HOST').':'.getenv('PM_PUBLIC_ORIGIN');"),
                          'db:http://localhost:8087')
@@ -62,7 +87,7 @@ class ShinyPotionTests(unittest.TestCase):
         self.assertEqual(body['shiny_potion_item_id'], ITEM)
         expiry = datetime.fromisoformat(body['end_usage_time'].replace('Z', '+00:00'))
         self.assertEqual(expiry.utcoffset().total_seconds(), 0)
-        self.assertEqual(self.details(), [{'end_usage_time': body['end_usage_time']}])
+        self.assertEqual(self.details(), [{'end_usage_time': body['end_usage_time'].removesuffix('Z')}])
         return body
 
     def test_activation_consumes_one_and_persists_exact_two_hour_db_timer(self):

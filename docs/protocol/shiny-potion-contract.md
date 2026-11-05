@@ -73,12 +73,17 @@ string accepted by `DateTime.Parse`. Active status derives from
 `UtcNow < end_usage_time`; the startup dictionary needs no bool or item ID.
 
 ```json
-{"play_shiny_potion":[{"end_usage_time":"2026-11-05T17:00:00Z"}]}
+{"play_shiny_potion":[{"end_usage_time":"2026-11-05T17:00:00"}]}
 ```
 
 Use null for inactive state. An empty array triggers the native index-out-of-
-bounds path and must not be emitted. An ISO 8601 UTC string is a compatible
-representation; the original server's exact timestamp spelling is unknown.
+bounds path and must not be emitted. The startup string uses UTC wall time
+without a zone suffix: native `DateTime.Parse` uses `DateTimeStyles.None`,
+converts a zoned value to local time, then compares unnormalized ticks against
+`UtcNow`. A `Z` value failed native restart testing in UTC-5. The typed use
+response keeps its UTC suffix. Both represent the same stored UTC deadline;
+the original server's spelling remains unknown. See the exact parser/ABI
+and HUD evidence in [the DateTime investigation](shiny-potion-datetime.md).
 
 `CheckIfShinyPotionDone` (`0x165f0bc`) clears active status and invokes the
 registered callback after expiry. `NetworkPlayerAPI.ShinyPotionExpired`
@@ -112,6 +117,28 @@ It does not construct a Morty, change its ID, or set its wild marker.
 `MPOpponentMortyNode.EnableAnimations` (`0x161e174`) calls the conditional
 getter both for the Shiny game-object toggle and for material variant selection.
 This establishes an actual rendering consumer of the account activation.
+
+That material consumer is a `MPOpponentMortyNode` (a following Morty actor),
+not proof that the main `MPWildMortyNode` overworld actor changes appearance.
+The bounded WORLD trace finds `MPWorldController.CreateWildMortyNode`
+(`0x1611640`) instantiates the `MPWildMorty` prefab and calls its
+`SetUpWithData`. `MPWildMortyNode.SetUpWithData` (`0x161cd38`) invokes base
+setup/state refresh and initializes `MortyNodeIcons` from
+`MPMortyDefs.Division(wildMortyID)`. Thus its division/rarity star is not a
+Shiny Potion indicator. `MPOpponentNode.RefreshAvatarSprites` (`0x1613b28`)
+passes only the asset ID to `MPNode.SetUpCharacterMoveModule` (`0x1619f80`),
+and `MPWildMortyNode.Update` (`0x161cd9c`) handles movement. None of these
+inspected main-actor paths applies the conditional variant. The public
+`MPOpponentData.variant` is a plain field, with no conditional property getter.
+
+Success UI handling `MPShinyPotionDefs.AfterAttemptedUseOfShinyPotion`
+(`0x1771810`) returns from the pause interface and schedules FTUE handling;
+the inspected expiry setter clears local activation. Neither setter nor the
+inspected main-actor update supplies a material-refresh callback. Immediate
+WORLD main-actor appearance changes, or a claim that rejoin/new spawn fixes
+them, therefore remain unproven. Activation/expiry, the typed account UI state,
+and the separately implemented wild-battle variant selection can be validated
+without treating a purple division star as evidence of Shiny appearance.
 
 The server currently has a pre-existing `shiny_if_potion` generator. Its
 placeholder probability is not recovered original-game behavior and must not
