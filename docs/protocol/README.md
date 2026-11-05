@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Absorption eligibility](absorb-eligibility-implementation.md) now requires
+same-species donors and the recovered directional Normal/Shiny/Pulsing blend
+matrix. Incompatible batches reject before consumption; existing partial point
+and deck behavior is retained. Full evolution remains separate.
+
 [Friend requests](friend-lifecycle-implementation.md) now enforce recipient-only
 responses, serialize pair changes and preserve the native list/polling contract.
 Outgoing cancellation and symmetric friend removal remain supported; friend

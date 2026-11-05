@@ -3581,8 +3581,8 @@
         "sha256": "f5139c7e5acb70e7db9a21ed009b76b1e684285dc91c483440704183c8485e38"
       },
       "implementation_status": "partial",
-      "status_basis": "Existing counter path retained; protects consumed donors and trade-locked target, deduplicates donors, rejects global ambiguity and commits owner-scoped removal/decks/points atomically. Full transformation and additional native eligibility remain separate.",
-      "evidence_confidence": "native consumer/lock eligibility plus additive HTTP/database regressions; conservative assignment guards labeled separately",
+      "status_basis": "Existing counter path retained; same-species and directional variant eligibility, donor protections, deduplication and owner-scoped removal/decks/points commit atomically. Full transformation and conditional active-party handling remain separate.",
+      "evidence_confidence": "Statically established native species/variant predicates and consumer; additive HTTP/database regressions; conservative malformed/assignment guards labeled separately",
       "http_method": "POST from reviewed native constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "absorb_owned_morty_ids",
@@ -3618,16 +3618,15 @@
       "authentication": "session lookup present",
       "unresolved": [
         "full created/evolution result and stat transformation",
-        "same-species/variant server validation",
         "conditional active-party preservation",
         "original error/status compatibility"
       ],
       "integration_contract": "docs/protocol/gameplay-integration.md",
-      "reviewed_contract": "docs/protocol/absorb-protection-implementation.md",
+      "reviewed_contract": "docs/protocol/absorb-eligibility-implementation.md",
       "implementation_helpers": [
         {
           "file": "lib/morty_absorb.php",
-          "sha256": "f0b18fbed1cc31087be928c31839c8cde6e5e387384d862d92dae5566659d8a8"
+          "sha256": "87f99404514ec6922a7760b410c4049717e40a4dcf42f6456372b63899e40996"
         }
       ]
     },

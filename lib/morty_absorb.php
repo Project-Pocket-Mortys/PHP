@@ -28,6 +28,23 @@ function morty_absorb_request($body): array {
         array_values(array_unique($ids, SORT_STRING))];
 }
 
+/** Native CanBeBlended uses target first; NULL follows player-details' Normal default. */
+function morty_absorb_compatible(array $target, array $donor): bool {
+    $species = $target['morty_id'] ?? null;
+    if (!is_string($species) || trim($species) === ''
+        || $species !== ($donor['morty_id'] ?? null)) return false;
+    $variants = [
+        'Normal' => ['Normal', 'Shiny', 'Pulsing'],
+        'Shiny' => ['Normal', 'Shiny'],
+        'Pulsing' => ['Normal', 'Pulsing'],
+    ];
+    $targetVariant = $target['variant'] ?? 'Normal';
+    $donorVariant = $donor['variant'] ?? 'Normal';
+    // Fail closed on malformed legacy storage; do not rewrite or coerce it.
+    return is_string($targetVariant) && isset($variants[$targetVariant])
+        && in_array($donorVariant, $variants[$targetVariant], true);
+}
+
 /** Caller owns the transaction; the user lock serializes Lock and Absorb. */
 function morty_absorb_apply(PDO $pdo, string $sessionId, string $targetId, array $ids): array {
     $query = $pdo->prepare('SELECT player_id FROM users WHERE session_id = ? LIMIT 1 FOR UPDATE');
@@ -64,6 +81,9 @@ function morty_absorb_apply(PDO $pdo, string $sessionId, string $targetId, array
             || morty_release_is_locked($morty['is_trading_locked'])
             || ($pit !== '' && strtolower($pit) !== 'null')) {
             throw new MortyAbsorbError('FAILED', 409);
+        }
+        if (!morty_absorb_compatible($target, $morty)) {
+            throw new MortyAbsorbError('ABSORB_INVALID_MORTY', 409);
         }
         $donors[] = $morty;
     }

@@ -37,7 +37,7 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 ## Completed
 - <s>Fix item spawning</s>
 - <s>Fix Morties roaming</s>
-- <s>Evolve Mortys</s>
+- <s>Evolve Mortys</s> — [same-species/variant donor validation](docs/protocol/absorb-eligibility-implementation.md) added; full transformation and conditional party checks remain under review
 - <s>Healing</s>
 - <s>Buy deck slots</s>
 - <s>Learn Attacks</s>

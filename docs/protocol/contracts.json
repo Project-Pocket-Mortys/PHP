@@ -481,11 +481,13 @@
       "success_origin": "Existing replacement-server partial counter path retained; native parser consumes actual removed and modified/decks. Full created/evolution result not implemented by this repair.",
       "errors": {
         "200": "legacy error.code INVALID_REQUEST, NOT_AUTHENTICATED, NOT_FOUND, NO_VALID_MORTYS",
-        "409": "FAILED for protected, ambiguous, malformed stored state or unresolved active battle",
+        "409": "ABSORB_INVALID_MORTY for incompatible/malformed species or variants; FAILED for protected/ambiguous records, malformed points/decks/protection flags or unresolved active battle",
         "500": "SERVER_ERROR with rollback"
       },
       "errors_origin": "Existing legacy envelopes retained; new guard failures are explicit replacement policy. Original-server parity unknown.",
       "protection": [
+        "Resolved donors must have the exact same nonempty species ID as target and satisfy the directional Normal/Shiny/Pulsing blend matrix; incompatible batches reject atomically",
+        "Legacy NULL variant means Normal as in player-details; unknown stored variants fail closed without normalization",
         "Ordinary locked recipients may receive points; trade-locked recipients reject",
         "Locked donors reject; donor trade/pit assignments reject under conservative server protection policy",
         "Globally ambiguous IDs reject before ownerless attack deletion; writes use numeric row IDs and owner predicates",
@@ -494,14 +496,16 @@
       ],
       "remaining_gaps": [
         "full species/stat transformation and created response",
-        "same-species/variant server validation",
         "threshold-dependent active party checks",
         "original error/status parity"
       ],
       "evidence": [
         "absorb-protection-contract.md",
         "absorb-protection-implementation.md",
-        "android-absorb-protection.md"
+        "android-absorb-protection.md",
+        "absorb-eligibility-contract.md",
+        "absorb-eligibility-implementation.md",
+        "android-absorb-eligibility.md"
       ]
     },
     "/session/use-shiny-potion": {
