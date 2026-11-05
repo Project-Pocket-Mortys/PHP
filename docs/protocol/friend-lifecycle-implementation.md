@@ -63,8 +63,14 @@ passed in 24.556 seconds: 22 distinct checked cases. PHP 8.3 lint passed for
 all 37 changed/new PHP files including prerequisites.
 
 [Two-client Android checks](android-friend-lifecycle.md) record native search
-and lifecycle observations. The fixture preserves all original friend rows
-and gameplay state; native removal must restore the initial pair state.
+and seven successful native mutations: send, decline, resend, accept, remove,
+send and outgoing cancellation. Both accepted lists rendered the other player
+ONLINE. Fresh app reloads returned both accounts to WORLD. The locked fixture
+and independent save guard confirmed original room/world IDs, saves, HP/AP,
+inventory, decks, progression, NULL potion expiry and all original friend rows.
+The initial pair was absent again through native actions; no cleanup SQL writes
+were needed. A normal peer emulator restart resolved virtual Wi-Fi association
+failure while retaining userdata. Raw captures remain ignored.
 
 Based on main `9ff1a11` with pending prerequisite PR #35 at `6161410` and its
 dependency history. No migration is added. README-completed features and
