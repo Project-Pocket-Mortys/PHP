@@ -7,6 +7,7 @@ header('Vary: Accept-Encoding');
 header('Cache-Control: no-store');
 require __DIR__ . '/../../../pocket_f4894h398r8h9w9er8he98he.php';
 require_once __DIR__ . '/../../../lib/friends.php';
+require_once __DIR__ . '/../../../lib/friend_battle_invites.php';
 try {
     $data = friend_input();
     $session = friend_string($data, 'session_id', 'NOT_AUTHENTICATED');
@@ -15,6 +16,7 @@ try {
     if (!$row) friend_fail(404, 'PLAYER_ID_INVALID');
     $stmt = $pdo->prepare('DELETE FROM friend_list WHERE id = ?');
     $stmt->execute([$row['id']]);
+    friend_battle_invite_remove_pair($pdo, $actor['player_id'], $other['player_id']);
     $pdo->commit();
     echo json_encode(['success' => true, 'message' => 'Friend removed successfully', 'removed_friend_id' => $target], JSON_UNESCAPED_SLASHES);
 } catch (Throwable $error) {
