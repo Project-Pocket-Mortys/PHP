@@ -1485,7 +1485,7 @@
       "implementation_helpers": [
         {
           "file": "lib/friend_battle_invites.php",
-          "sha256": "57e88bc1064342f1477a8bd659af8b80ef5480dd92ba1be03cbd72f81f9d5f96"
+          "sha256": "11f6368518e0a6c948fb3322c23feaa6568759df86fdd61ca6222037099351c2"
         }
       ]
     },
@@ -1532,7 +1532,7 @@
       "implementation_helpers": [
         {
           "file": "lib/friend_battle_invites.php",
-          "sha256": "57e88bc1064342f1477a8bd659af8b80ef5480dd92ba1be03cbd72f81f9d5f96"
+          "sha256": "11f6368518e0a6c948fb3322c23feaa6568759df86fdd61ca6222037099351c2"
         }
       ]
     },
@@ -1578,7 +1578,7 @@
       "implementation_helpers": [
         {
           "file": "lib/friend_battle_invites.php",
-          "sha256": "57e88bc1064342f1477a8bd659af8b80ef5480dd92ba1be03cbd72f81f9d5f96"
+          "sha256": "11f6368518e0a6c948fb3322c23feaa6568759df86fdd61ca6222037099351c2"
         }
       ]
     },
@@ -1609,7 +1609,7 @@
       "server_evidence": {
         "file": "session/battle-wild-morty/index.php",
         "line": 1,
-        "sha256": "eb295b401819b699f84e331e9dc3af5845048a40842fd15cedd24b219c949db8"
+        "sha256": "b15be0c64ba914f7cd08adc2ca39e8ffecc23a52d8718a12fe311ff3c7e1e423"
       },
       "implementation_status": "partial",
       "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete.",
@@ -2843,7 +2843,7 @@
         },
         {
           "file": "lib/friend_battle_invites.php",
-          "sha256": "57e88bc1064342f1477a8bd659af8b80ef5480dd92ba1be03cbd72f81f9d5f96"
+          "sha256": "11f6368518e0a6c948fb3322c23feaa6568759df86fdd61ca6222037099351c2"
         }
       ]
     },
@@ -4770,7 +4770,7 @@
       "implementation_helpers": [
         {
           "file": "lib/friend_invite_stream.php",
-          "sha256": "0296ae96ef1494bda0c390a660de7469135c76f951ddb0ca580f30916e471c86"
+          "sha256": "74b8527d5e7b00924747c4027f73fada342d025d9a34e6d5a4c1a5dc9366a838"
         }
       ]
     },

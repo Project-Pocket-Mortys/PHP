@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Shared battle membership](shared-battle-membership.md) now supplies internal
+two-player reservation/cancellation and both-side world/wild/invitation guards.
+Apply migration 007. No public route invokes this preparation foundation;
+invitation acceptance remains unavailable pending deadlines, snapshots and
+the remaining shared lifecycle.
+
 [Friend battle invitations](friend-battle-invitation-implementation.md) now
 support send, decline, cancel and expiry with role-bound tokens and private
 delivery across rooms. Apply migration 006. Acceptance returns HTTP 501 until

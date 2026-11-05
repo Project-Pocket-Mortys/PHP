@@ -18,7 +18,7 @@ MODULES = [
     'test_sse_rooms', 'test_sse_event_privacy', 'test_sse_rejoin_generation',
     'test_sse_snapshot_boundary', 'test_morty_lock', 'test_morty_absorb_protection', 'test_morty_absorb_eligibility', 'test_use_item',
     'test_full_restore_items', 'test_status_cure_items', 'test_full_recover', 'test_morty_ailment_snapshots',
-    'test_morty_release', 'test_crafting', 'test_friend_lifecycle', 'test_friend_battle_invites', 'test_friend_invite_stream', 'test_shiny_potion', 'test_shiny_potion_battles',
+    'test_morty_release', 'test_crafting', 'test_friend_lifecycle', 'test_friend_battle_invites', 'test_friend_invite_stream', 'test_friend_battle_membership', 'test_shared_battle_guards', 'test_shiny_potion', 'test_shiny_potion_battles',
     'test_battle_lifecycle', 'test_battle_world_guards', 'test_battle_switching', 'test_battle_items', 'test_battle_timeouts',
 ]
 
@@ -41,6 +41,8 @@ def main():
         raise RuntimeError('Apply migration 005-shiny-potion-expiry.sql before running account/battle suites')
     if not sql("SHOW TABLES LIKE 'friend_battle_invites'"):
         raise RuntimeError('Apply migration 006-friend-battle-invitations.sql before running invitation/SSE suites')
+    if not sql("SHOW TABLES LIKE 'friend_battle_memberships'") or not sql("SHOW TABLES LIKE 'friend_battle_sessions'"):
+        raise RuntimeError('Apply migration 007-shared-battle-membership.sql before running world/shared membership suites')
     modules = MODULES + (['test_udp_relay', 'test_udp_endpoint_ownership'] if args.udp else [])
     suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
     result = unittest.TextTestRunner(verbosity=2).run(suite)
