@@ -3,8 +3,8 @@
 // Streams session + room events via SSE.
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 
 set_time_limit(0);
 ignore_user_abort(true);
@@ -18,6 +18,7 @@ require __DIR__ . "/../pocket_f4894h398r8h9w9er8he98he.php";
 require __DIR__ . "/../lib/auth.php";
 require __DIR__ . "/../lib/events.php"; // provides sse_send()
 require_once __DIR__ . '/../lib/battle_timeouts.php';
+require_once __DIR__ . '/../lib/friend_invite_stream.php';
 
 // ---------------- SSE HELPERS ----------------
 function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
@@ -25,6 +26,19 @@ function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
     echo "event: {$event}\n";
     echo "data: {$dataJson}\n\n";
     @ob_flush(); @flush();
+}
+
+function stream_friend_invites(PDO $pdo, string $player, string $session, array &$seen): void {
+    try {
+        foreach (friend_battle_invite_events($pdo, $player, $session, $seen) as $event) {
+            sse_send_id($event['event'], json_encode($event['payload'], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
+        }
+    } catch (Throwable $error) {
+        // Missing migrations and revoked/ambiguous sessions fail closed without
+        // printing SQL details, PHP warnings, or a fabricated protocol event.
+        error_log('SSE friend invitation poll failed: ' . get_class($error));
+        exit;
+    }
 }
 
 function base64url_decode($data) { return base64_decode(strtr($data, '-_', '+/')); }
@@ -84,16 +98,10 @@ if ($session_id === "") {
     exit;
 }
 
-$stmt = $pdo->prepare("
-    SELECT player_id, username, level, tags, room_id, player_avatar_id, state, COALESCE(last_event_id, 0) AS last_event_id
-    FROM users
-    WHERE session_id = ?
-    LIMIT 1
-");
-$stmt->execute([$session_id]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$user) {
+try {
+    $user = friend_auth($pdo, $session_id);
+} catch (Throwable $error) {
+    error_log('SSE authentication failed: ' . get_class($error));
     http_response_code(401);
     sse_send_id("error", json_encode(["error" => "Not authenticated"], JSON_UNESCAPED_SLASHES));
     exit;
@@ -136,6 +144,8 @@ $session = [
 ];
 
 sse_send("session:start", json_encode($session, JSON_UNESCAPED_SLASHES));
+$friend_invite_seen = [];
+stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
 
 // -------------------- WAIT FOR ROOM --------------------
 
@@ -143,6 +153,7 @@ $room_id = "";
 $last_keepalive = time();
 
 while (!connection_aborted()) {
+    stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
     $st = $pdo->prepare("SELECT room_id, room_membership_generation FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
     $st->execute([$player_id, $session_id]);
     $membership = $st->fetch(PDO::FETCH_ASSOC);
@@ -305,6 +316,7 @@ $last_timeout_check = 0;
 
 while (!connection_aborted()) {
 
+    stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
     $membership = require_live_stream_session($pdo, $player_id, $session_id);
     if (time() !== $last_timeout_check) {
         $last_timeout_check = time();
