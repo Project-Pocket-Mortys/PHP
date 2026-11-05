@@ -2687,12 +2687,12 @@
       "server_evidence": {
         "file": "session/friend/list/index.php",
         "line": 1,
-        "sha256": "d23f1219b3a91898dd42ed8b4f8aad281b78671c2d303f79b460c4ea98bbc3ca"
+        "sha256": "35e760e5d6ea40f2b46ca2006e882ab0a0737b3557dd27b15991f7ee89eb8d57"
       },
-      "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "implemented",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "session_id"
       ],
@@ -2722,11 +2722,16 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {
@@ -2756,12 +2761,12 @@
       "server_evidence": {
         "file": "session/friend/remove/index.php",
         "line": 1,
-        "sha256": "3c2bc0a0150a5838ee0fe41fe73f37824cca8e3d11a2890711d6f29f68c40d35"
+        "sha256": "790879b6b351ef15439fc207f8d33cba243d61d9c08a45788f651f5c4308cd21"
       },
-      "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "implemented",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "player_id",
         "session_id"
@@ -2786,11 +2791,16 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {
@@ -2820,12 +2830,12 @@
       "server_evidence": {
         "file": "session/friend/request/index.php",
         "line": 1,
-        "sha256": "e66c72a5bae51cc3054b6b9c1a10572704426097878f5a56d1e97a902ec947b9"
+        "sha256": "8dfdc544766882c2df9e7a28367fa68fc544ecb813f6ed753d469d129f89a626"
       },
-      "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "implemented",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "player_id",
         "session_id"
@@ -2851,11 +2861,16 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {
@@ -2919,12 +2934,12 @@
       "server_evidence": {
         "file": "session/friend/response/index.php",
         "line": 1,
-        "sha256": "31b6c4b3c2a0b20076789a7322d468f31481650bc971908334a15b89e4d33ab2"
+        "sha256": "04ed15c847d96464ce059fa7f4e7d1bfef8817c6787f0b10e0fa52eea2c0b630"
       },
-      "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "implemented",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "approve",
         "player_id",
@@ -2950,11 +2965,16 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {
@@ -2984,12 +3004,12 @@
       "server_evidence": {
         "file": "session/friend/search/index.php",
         "line": 1,
-        "sha256": "7852742b7746b300d7a8b25d5d904521eef1898b9519ddcd57df9f4abe9b7aa5"
+        "sha256": "64f851c4c0dabde183c1acd34607bd7ca7e9aa1742876df4afc12dceb83e2aeb"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "query",
         "session_id"
@@ -3008,11 +3028,17 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation",
+        "legacy empty search result decoding"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {

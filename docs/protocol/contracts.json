@@ -543,6 +543,199 @@
         "android-shiny-potion.md",
         "shiny-potion-datetime.md"
       ]
+    },
+    "/session/friend/list": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$RefreshData",
+      "address": "0x178f68c",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED",
+        "401": "FAILED invalid or ambiguous session/player",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": {
+        "requests_sent": "array of outgoing other-user public dictionaries",
+        "requests_received": "array of incoming other-user public dictionaries",
+        "friends": "array of accepted other-user public dictionaries",
+        "poll_period": 5,
+        "limit_friends": 30,
+        "donation_request": {
+          "morty_id": null,
+          "next_countdown": 0,
+          "donation": null
+        }
+      },
+      "snapshot": "Single repeatable-read snapshot; no friend-request SSE. Native consumes online through Convert.ToBoolean; legacy strings retained."
+    },
+    "/session/friend/search": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$SearchForUser",
+      "address": "0x178fe50",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id",
+          "query"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED or QUERY_INVALID",
+        "401": "FAILED invalid or ambiguous session/player",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": "Exact-name public player_id/username/player_avatar_id and integer level; legacy empty HTTP200 no-result retained.",
+      "limitation": "Nullable DTO callback established; exact empty-string JsonFx behavior remains unproven."
+    },
+    "/session/friend/request": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$SendRequest",
+      "address": "0x1790070",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED, PLAYER_ID_INVALID or FRIEND_DUPLICATE",
+        "401": "FAILED invalid or ambiguous session/player",
+        "409": "FAILED ambiguous pair or inconsistent stored state",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": "Existing pending row object with A sender/B recipient, wins_a/b, pending:true, direction:false, UTC created/modified.",
+      "persistent_effect": "Stable both-user locks then one pair insert; repeat/crossed request cannot create another pair. Success body ignored by native."
+    },
+    "/session/friend/response": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$RespondToRequest",
+      "address": "0x17902f0",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "approve": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id",
+          "approve"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED, PLAYER_ID_INVALID or APPROVE_INVALID",
+        "401": "FAILED invalid or ambiguous session/player",
+        "409": "FAILED ambiguous pair or inconsistent stored state",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": 1,
+      "persistent_effect": "Only recipient of incoming pending pair may respond; approve accepts, decline deletes. Both-user locks, session recheck, transaction and exact row ID write. Native ignores scalar body."
+    },
+    "/session/friend/remove": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$Remove",
+      "address": "0x1790880",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED or PLAYER_ID_INVALID",
+        "401": "FAILED invalid or ambiguous session/player",
+        "409": "FAILED ambiguous pair or inconsistent stored state",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": {
+        "success": true,
+        "message": "Friend removed successfully",
+        "removed_friend_id": "other player ID"
+      },
+      "persistent_effect": "Participant-only outgoing cancellation or accepted symmetric removal by exact relation row ID under pair locks.",
+      "missing_status": 404
     }
   },
   "sse": {

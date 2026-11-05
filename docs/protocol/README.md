@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Friend requests](friend-lifecycle-implementation.md) now enforce recipient-only
+responses, serialize pair changes and preserve the native list/polling contract.
+Outgoing cancellation and symmetric friend removal remain supported; friend
+battles and their invitations are separate work. No new migration is required.
+
 [Shiny Potion](shiny-potion-implementation.md) now activates for two hours with
 atomic consumption, durable UTC expiry and login/app-restart rehydration. Apply
 migration 005. Existing spawn flags/probabilities are retained; newly started
