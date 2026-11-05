@@ -1,0 +1,87 @@
+{
+  "evidence_kind": "Android 2.41.0 replacement-server capture; not original-server traffic",
+  "fixture": {
+    "original_hp": 20,
+    "test_hp": 5,
+    "max_hp": 20,
+    "original_serum_quantity": 1,
+    "method": "Scoped temporary HP damage in isolated research account, followed by normal client reload"
+  },
+  "requests": [
+    {
+      "evidence_kind": "replacement-server runtime; not original-server evidence",
+      "time_utc": "2026-10-18T17:23:47+00:00",
+      "method": "POST",
+      "path": "/session/use-item",
+      "request": {
+        "session_id": "[REDACTED]",
+        "owned_morty_id": "research-morty-1",
+        "item_id": "ItemSerum"
+      },
+      "status": 200,
+      "response": {
+        "owned_morty_id": "research-morty-1",
+        "item_id": "ItemSerum",
+        "is_success": true,
+        "effect_value": 15,
+        "owned_morties": [
+          {
+            "owned_morty_id": "research-morty-1",
+            "morty_id": "MortyDefault",
+            "variant": "Normal",
+            "level": 5,
+            "xp": 125,
+            "hp": 20,
+            "hp_stat": 20,
+            "attack_stat": 11,
+            "defence_stat": 10,
+            "speed_stat": 10,
+            "evolution_points": 0,
+            "xp_lower": 125,
+            "xp_upper": 216,
+            "is_locked": false,
+            "is_trading_locked": false,
+            "fight_pit_id": null,
+            "owned_attacks": [
+              {
+                "attack_id": "AttackOutburst",
+                "position": 0,
+                "pp": 12,
+                "pp_stat": 12
+              }
+            ]
+          }
+        ],
+        "owned_items": [
+          {
+            "item_id": "ItemSerum",
+            "quantity": 0
+          }
+        ],
+        "attacks_to_learn": []
+      }
+    }
+  ],
+  "observed_database": {
+    "hp": 20,
+    "hp_stat": 20,
+    "quantity": 0,
+    "active_deck_id": 0
+  },
+  "screenshots": {
+    "damaged-party": {
+      "path": ".research/emulator/item-use-damaged-party.png",
+      "sha256": "b7f8aacc470b405a42940d22e78881f940a75db21c56d9f057567d62d1146340"
+    },
+    "healed": {
+      "path": ".research/emulator/item-use-healed.png",
+      "sha256": "7c514748aa9d285987d5dcf1ff32af78322997adc2b0a6e6b1755a10dce625af"
+    }
+  },
+  "fixture_restored": {
+    "hp": 20,
+    "serum_quantity": 1,
+    "active_deck_unchanged": true,
+    "note": "Database fixture restored after capture; subsequent player-details refresh reloads inventory"
+  }
+}

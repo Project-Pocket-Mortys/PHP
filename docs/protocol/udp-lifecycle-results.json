@@ -1,0 +1,1041 @@
+{
+  "runtime_adapter_commit": "535a604",
+  "android": {
+    "restart": {
+      "session_changed": {
+        "PMResearch01": true,
+        "PMResearch02": false
+      },
+      "devices": {
+        "primary": {
+          "pid_changed": true,
+          "socket_identity_changed": true
+        },
+        "peer": {
+          "pid_changed": false,
+          "socket_identity_changed": false
+        }
+      },
+      "heartbeats": [
+        {
+          "username": "PMResearch01",
+          "in_world": 1,
+          "heartbeat_age_seconds": 19,
+          "session_matches": 1,
+          "room_matches": 1,
+          "same_room": 1
+        },
+        {
+          "username": "PMResearch02",
+          "in_world": 1,
+          "heartbeat_age_seconds": 27,
+          "session_matches": 1,
+          "room_matches": 1,
+          "same_room": 1
+        }
+      ]
+    },
+    "background": {
+      "home_to_resume_seconds": 78.792,
+      "primary_socket_unchanged": true,
+      "session_changed": {
+        "PMResearch01": false,
+        "PMResearch02": false
+      },
+      "heartbeats": [
+        {
+          "username": "PMResearch01",
+          "in_world": 1,
+          "heartbeat_age_seconds": 0,
+          "session_matches": 1,
+          "room_matches": 1,
+          "same_room": 1
+        },
+        {
+          "username": "PMResearch02",
+          "in_world": 1,
+          "heartbeat_age_seconds": 28,
+          "session_matches": 1,
+          "room_matches": 1,
+          "same_room": 1
+        }
+      ]
+    },
+    "packets": {
+      "primary": {
+        "capture_packet_count": 29,
+        "capture_span_seconds": 213.667617,
+        "directions": {
+          "outbound": {
+            "packet_count": 14,
+            "record_count": 14,
+            "malformed_payload_count": 0,
+            "first_offset_seconds": 0.0,
+            "last_offset_seconds": 213.667617
+          },
+          "inbound": {
+            "packet_count": 15,
+            "record_count": 15,
+            "malformed_payload_count": 0,
+            "first_offset_seconds": 1.057192,
+            "last_offset_seconds": 212.574248
+          },
+          "other": {
+            "packet_count": 0,
+            "record_count": 0,
+            "malformed_payload_count": 0,
+            "first_offset_seconds": null,
+            "last_offset_seconds": null
+          }
+        },
+        "packets": [
+          {
+            "t": 0.0,
+            "direction": "outbound",
+            "sequence": [
+              14
+            ],
+            "xy": [
+              [
+                33,
+                31
+              ]
+            ]
+          },
+          {
+            "t": 0.198944,
+            "direction": "outbound",
+            "sequence": [
+              15
+            ],
+            "xy": [
+              [
+                34,
+                31
+              ]
+            ]
+          },
+          {
+            "t": 0.400769,
+            "direction": "outbound",
+            "sequence": [
+              16
+            ],
+            "xy": [
+              [
+                35,
+                31
+              ]
+            ]
+          },
+          {
+            "t": 1.057192,
+            "direction": "inbound",
+            "sequence": [
+              18
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 1.256795,
+            "direction": "inbound",
+            "sequence": [
+              19
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 1.456039,
+            "direction": "inbound",
+            "sequence": [
+              20
+            ],
+            "xy": [
+              [
+                34,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 42.114897,
+            "direction": "outbound",
+            "sequence": [
+              0
+            ],
+            "xy": [
+              [
+                30,
+                35
+              ]
+            ]
+          },
+          {
+            "t": 85.354834,
+            "direction": "outbound",
+            "sequence": [
+              1
+            ],
+            "xy": [
+              [
+                30,
+                34
+              ]
+            ]
+          },
+          {
+            "t": 85.568227,
+            "direction": "outbound",
+            "sequence": [
+              2
+            ],
+            "xy": [
+              [
+                30,
+                33
+              ]
+            ]
+          },
+          {
+            "t": 85.784762,
+            "direction": "outbound",
+            "sequence": [
+              3
+            ],
+            "xy": [
+              [
+                30,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 86.607272,
+            "direction": "inbound",
+            "sequence": [
+              22
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 86.636305,
+            "direction": "outbound",
+            "sequence": [
+              4
+            ],
+            "xy": [
+              [
+                30,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 86.807453,
+            "direction": "inbound",
+            "sequence": [
+              23
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 87.024801,
+            "direction": "inbound",
+            "sequence": [
+              24
+            ],
+            "xy": [
+              [
+                31,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 87.584063,
+            "direction": "outbound",
+            "sequence": [
+              5
+            ],
+            "xy": [
+              [
+                30,
+                31
+              ]
+            ]
+          },
+          {
+            "t": 87.802211,
+            "direction": "outbound",
+            "sequence": [
+              6
+            ],
+            "xy": [
+              [
+                30,
+                30
+              ]
+            ]
+          },
+          {
+            "t": 88.00352,
+            "direction": "outbound",
+            "sequence": [
+              7
+            ],
+            "xy": [
+              [
+                30,
+                29
+              ]
+            ]
+          },
+          {
+            "t": 88.840961,
+            "direction": "inbound",
+            "sequence": [
+              25
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 89.040074,
+            "direction": "inbound",
+            "sequence": [
+              26
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 89.258459,
+            "direction": "inbound",
+            "sequence": [
+              27
+            ],
+            "xy": [
+              [
+                34,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 146.457783,
+            "direction": "inbound",
+            "sequence": [
+              28
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 146.658352,
+            "direction": "inbound",
+            "sequence": [
+              29
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 146.874866,
+            "direction": "inbound",
+            "sequence": [
+              30
+            ],
+            "xy": [
+              [
+                31,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 212.141195,
+            "direction": "inbound",
+            "sequence": [
+              31
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 212.359901,
+            "direction": "inbound",
+            "sequence": [
+              32
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 212.574248,
+            "direction": "inbound",
+            "sequence": [
+              33
+            ],
+            "xy": [
+              [
+                34,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 213.252426,
+            "direction": "outbound",
+            "sequence": [
+              8
+            ],
+            "xy": [
+              [
+                31,
+                29
+              ]
+            ]
+          },
+          {
+            "t": 213.451901,
+            "direction": "outbound",
+            "sequence": [
+              9
+            ],
+            "xy": [
+              [
+                32,
+                29
+              ]
+            ]
+          },
+          {
+            "t": 213.667617,
+            "direction": "outbound",
+            "sequence": [
+              10
+            ],
+            "xy": [
+              [
+                33,
+                29
+              ]
+            ]
+          }
+        ],
+        "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers."
+      },
+      "peer": {
+        "capture_packet_count": 26,
+        "capture_span_seconds": 212.402892,
+        "directions": {
+          "outbound": {
+            "packet_count": 16,
+            "record_count": 16,
+            "malformed_payload_count": 0,
+            "first_offset_seconds": 0.0,
+            "last_offset_seconds": 211.516947
+          },
+          "inbound": {
+            "packet_count": 10,
+            "record_count": 10,
+            "malformed_payload_count": 0,
+            "first_offset_seconds": 41.066081,
+            "last_offset_seconds": 212.402892
+          },
+          "other": {
+            "packet_count": 0,
+            "record_count": 0,
+            "malformed_payload_count": 0,
+            "first_offset_seconds": null,
+            "last_offset_seconds": null
+          }
+        },
+        "packets": [
+          {
+            "t": 0.0,
+            "direction": "outbound",
+            "sequence": [
+              18
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 0.200649,
+            "direction": "outbound",
+            "sequence": [
+              19
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 0.399842,
+            "direction": "outbound",
+            "sequence": [
+              20
+            ],
+            "xy": [
+              [
+                34,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 39.767773,
+            "direction": "outbound",
+            "sequence": [
+              21
+            ],
+            "xy": [
+              [
+                34,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 41.066081,
+            "direction": "inbound",
+            "sequence": [
+              0
+            ],
+            "xy": [
+              [
+                30,
+                35
+              ]
+            ]
+          },
+          {
+            "t": 84.305538,
+            "direction": "inbound",
+            "sequence": [
+              1
+            ],
+            "xy": [
+              [
+                30,
+                34
+              ]
+            ]
+          },
+          {
+            "t": 84.518541,
+            "direction": "inbound",
+            "sequence": [
+              2
+            ],
+            "xy": [
+              [
+                30,
+                33
+              ]
+            ]
+          },
+          {
+            "t": 84.735257,
+            "direction": "inbound",
+            "sequence": [
+              3
+            ],
+            "xy": [
+              [
+                30,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 85.550258,
+            "direction": "outbound",
+            "sequence": [
+              22
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 85.587033,
+            "direction": "inbound",
+            "sequence": [
+              4
+            ],
+            "xy": [
+              [
+                30,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 85.750699,
+            "direction": "outbound",
+            "sequence": [
+              23
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 85.967751,
+            "direction": "outbound",
+            "sequence": [
+              24
+            ],
+            "xy": [
+              [
+                31,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 86.534301,
+            "direction": "inbound",
+            "sequence": [
+              5
+            ],
+            "xy": [
+              [
+                30,
+                31
+              ]
+            ]
+          },
+          {
+            "t": 86.752538,
+            "direction": "inbound",
+            "sequence": [
+              6
+            ],
+            "xy": [
+              [
+                30,
+                30
+              ]
+            ]
+          },
+          {
+            "t": 86.954083,
+            "direction": "inbound",
+            "sequence": [
+              7
+            ],
+            "xy": [
+              [
+                30,
+                29
+              ]
+            ]
+          },
+          {
+            "t": 87.784152,
+            "direction": "outbound",
+            "sequence": [
+              25
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 87.983117,
+            "direction": "outbound",
+            "sequence": [
+              26
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 88.201661,
+            "direction": "outbound",
+            "sequence": [
+              27
+            ],
+            "xy": [
+              [
+                34,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 145.400807,
+            "direction": "outbound",
+            "sequence": [
+              28
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 145.601158,
+            "direction": "outbound",
+            "sequence": [
+              29
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 145.817805,
+            "direction": "outbound",
+            "sequence": [
+              30
+            ],
+            "xy": [
+              [
+                31,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 211.083916,
+            "direction": "outbound",
+            "sequence": [
+              31
+            ],
+            "xy": [
+              [
+                32,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 211.302267,
+            "direction": "outbound",
+            "sequence": [
+              32
+            ],
+            "xy": [
+              [
+                33,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 211.516947,
+            "direction": "outbound",
+            "sequence": [
+              33
+            ],
+            "xy": [
+              [
+                34,
+                32
+              ]
+            ]
+          },
+          {
+            "t": 212.203155,
+            "direction": "inbound",
+            "sequence": [
+              8
+            ],
+            "xy": [
+              [
+                31,
+                29
+              ]
+            ]
+          },
+          {
+            "t": 212.402892,
+            "direction": "inbound",
+            "sequence": [
+              9
+            ],
+            "xy": [
+              [
+                32,
+                29
+              ]
+            ]
+          }
+        ],
+        "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers."
+      }
+    },
+    "outbound_identity_generations": {
+      "primary": 2,
+      "peer": 1
+    },
+    "background_capture_observations": {
+      "primary_inbound_sequences": [
+        28,
+        29,
+        30
+      ],
+      "primary_outbound_packets": 0,
+      "peer_outbound_sequences": [
+        28,
+        29,
+        30
+      ],
+      "peer_inbound_packets": 0
+    },
+    "capture_statistics": {
+      "primary": {
+        "captured": 29,
+        "received_by_filter": 29,
+        "kernel_dropped": 0
+      },
+      "peer": {
+        "captured": 26,
+        "received_by_filter": 27,
+        "kernel_dropped": 0
+      }
+    },
+    "artifacts": {
+      "after-dialog.png": {
+        "bytes": 848268,
+        "sha256": "5e58cafd28710eb9f1a1414e11360cb2371554b55e5c210288f50ccf7b6aa8e5"
+      },
+      "after-loading.png": {
+        "bytes": 825461,
+        "sha256": "d267a2ccb5d481f2a2589ae2f98f7e238d99abe5147fb3cb88acac067bc2198b"
+      },
+      "after-start.png": {
+        "bytes": 215325,
+        "sha256": "85023e3280814234118067719247f380a30c890da539bf57f711906bc3164bee"
+      },
+      "after-summary.json": {
+        "bytes": 689,
+        "sha256": "c7b5f256e982d5e401c34d0e4d340bdf4b260c1ce001bee8173e7495ebd26d74"
+      },
+      "background-summary.json": {
+        "bytes": 557,
+        "sha256": "bfe32cf44a770698e439f40b280e38c3e691400ebd2160a9df579f11a751b928"
+      },
+      "background.png": {
+        "bytes": 367600,
+        "sha256": "89929661f2c1b844c7ccf450793dd81bf3898cbd232b59a880ed855a224569bf"
+      },
+      "before.png": {
+        "bytes": 690000,
+        "sha256": "8e31e8d4a846ddbd6339f069f15e9ddd6fb042235ac2b9f33c68e883c8a77b7c"
+      },
+      "multiplayer.png": {
+        "bytes": 430025,
+        "sha256": "1f4ceaa1d83137844035ed2261e7de76e4549ffdbd9d8d14c9cdc614f08a1416"
+      },
+      "peer-after-movement.png": {
+        "bytes": 712904,
+        "sha256": "43d6cf0a15eac4199506745dad9f176d6e89d38aaa0dcd6db418f128f48a4f95"
+      },
+      "peer-resumed-movement.png": {
+        "bytes": 712677,
+        "sha256": "331e39ed09ef7ed1f46dee2d0df36320e9740eb9b72c32d1bab917dbcd848855"
+      },
+      "peer.pcap": {
+        "bytes": 2208,
+        "sha256": "432043a65f52c0a790c2c2649e3f2d0db3dd49d21fd2d01a7b5544873162db10"
+      },
+      "primary-after-movement.png": {
+        "bytes": 687935,
+        "sha256": "d5c634f5a0f473524ffc782402f1107da42a5687f1819aa1685b5748915c3e29"
+      },
+      "primary-resumed-movement.png": {
+        "bytes": 690252,
+        "sha256": "e8a3d1f8fcd00a543b4437741dcfcbc5f1c762aac78449fad5ec5218915db294"
+      },
+      "primary.pcap": {
+        "bytes": 2460,
+        "sha256": "5e24816d807ee0d616741493fc7129b5b30f9a43c8042b489fca6c0cf34eb292"
+      },
+      "resumed.png": {
+        "bytes": 314553,
+        "sha256": "8cb11703653160950ee1a5bbe09f26d246db39bad58a9e0ae4c08685c592752c"
+      }
+    },
+    "limitations": "Manual process restart followed by separate Android Home/resume. Host and emulator capture clocks are not aligned; packet times do not establish latency. First new primary identity sequence0 placement body appears in peer capture. Final primary sequence10 has no peer match near capture end; this is not proof of loss. No application syscall trace was collected for these scenarios; background packet capture alone does not prove processing while backgrounded."
+  },
+  "quiet_610": {
+    "started_utc": "2026-10-17T17:53:10.294776+00:00",
+    "finished_utc": "2026-10-17T18:03:24.029064+00:00",
+    "requested_quiet_seconds": 610,
+    "actual_quiet_seconds": 610.371,
+    "receive_timeout_seconds": 0.7,
+    "heartbeat_interval_seconds": 20,
+    "heartbeat_persistence_checks": [
+      {
+        "label": "before_quiet",
+        "role": 0,
+        "elapsed_seconds": 1.081,
+        "age_seconds": 0,
+        "current_and_fresh": true
+      },
+      {
+        "label": "before_quiet",
+        "role": 1,
+        "elapsed_seconds": 1.272,
+        "age_seconds": 0,
+        "current_and_fresh": true
+      },
+      {
+        "label": "after_quiet",
+        "role": 0,
+        "elapsed_seconds": 611.564,
+        "age_seconds": 10,
+        "current_and_fresh": true
+      },
+      {
+        "label": "after_quiet",
+        "role": 1,
+        "elapsed_seconds": 611.749,
+        "age_seconds": 11,
+        "current_and_fresh": true
+      }
+    ],
+    "deliveries": [
+      {
+        "label": "registration_confirmed",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 0,
+        "sent_elapsed_seconds": 1.373,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 1.377
+      },
+      {
+        "label": "peer_to_quiet_recipient",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 1,
+        "sent_elapsed_seconds": 611.749,
+        "received": false,
+        "expected_translation": false,
+        "checked_elapsed_seconds": 612.452
+      },
+      {
+        "label": "recipient_sends_again",
+        "sender_role": 0,
+        "receiver_role": 1,
+        "sequence": 1,
+        "sent_elapsed_seconds": 612.452,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 612.456
+      },
+      {
+        "label": "peer_to_refreshed_recipient",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 2,
+        "sent_elapsed_seconds": 612.456,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 612.458
+      }
+    ],
+    "local_socket_tuple_unchanged": [
+      true,
+      true
+    ],
+    "complete": true,
+    "cleanup_complete": true,
+    "raw_report_sha256": "c9e65d8b764beac82d4a6b7e8d78b8baf2f38d972ab06046215f11491957f239",
+    "heartbeat_count": 62,
+    "all_http_heartbeats_succeeded": true,
+    "maximum_heartbeat_start_gap_seconds": {
+      "0": 20.572,
+      "1": 20.533
+    },
+    "limitations": "Natural elapsed time; no database timestamp aging or shortened idle policy. Independent synthetic accounts shared the running relay with other tests. No relay PCAP or per-connection expiry trace was collected for this run; loss and subsequent exact translated recovery are socket-level observations consistent with the configured 600-second policy."
+  },
+  "validation": {
+    "updated_adapter_commit": "7dde299",
+    "research_tests_passed": 53,
+    "live_tunnel_lifecycle_tests_passed": 2,
+    "live_tunnel_lifecycle_seconds": 16.427,
+    "server_updated_after_long_capture": true,
+    "coordinated_restart_performed": true,
+    "live_relay_tests_passed": 11,
+    "live_relay_seconds": 34.099,
+    "linux_adapter_tests_passed": 13,
+    "linux_adapter_seconds": 0.096
+  }
+}
