@@ -155,6 +155,8 @@ try {
                 "defence_stat" => (int)$row['defence_stat'],
                 "variant" => $row['variant'] ?? "Normal",
                 "speed_stat" => (int)$row['speed_stat'],
+                "is_poisoned" => (bool)$row['is_poisoned'],
+                "is_paralysed" => (bool)$row['is_paralysed'],
                 "is_locked" => (bool)$row['is_locked'],
                 "is_trading_locked" => (bool)$row['is_trading_locked'],
                 "fight_pit_id" => $row['fight_pit_id'] ?: null,

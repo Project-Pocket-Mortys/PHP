@@ -1,8 +1,71 @@
 # Pocket Mortys protocol research handoff
 
-[Two Android clients](android-peer-verification.md) now verify same-room visibility
-and bidirectional movement. Idle delivery still fails in the emulator/host path:
-the relay retains its registration, but an intermediate endpoint mapping changes.
+[Friend battle contracts](friend-battle-handoff.md) now map the missing invite
+routes, four events and human battle-start/readiness handoff. Android's Battle
+button reaches the absent create route and receives Apache 404. The shared
+two-player battle lifecycle remains an implementation task.
+
+[Absorption eligibility](absorb-eligibility-implementation.md) now requires
+same-species donors and the recovered directional Normal/Shiny/Pulsing blend
+matrix. Incompatible batches reject before consumption; existing partial point
+and deck behavior is retained. Full evolution remains separate.
+
+[Friend requests](friend-lifecycle-implementation.md) now enforce recipient-only
+responses, serialize pair changes and preserve the native list/polling contract.
+Outgoing cancellation and symmetric friend removal remain supported; friend
+battles and their invitations are separate work. No new migration is required.
+
+[Shiny Potion](shiny-potion-implementation.md) now activates for two hours with
+atomic consumption, durable UTC expiry and login/app-restart rehydration. Apply
+migration 005. Existing spawn flags/probabilities are retained; newly started
+private wild battles reflect the requesting player's active potion.
+
+[Absorption protection](absorb-protection-implementation.md) now preserves locked
+donors, scopes removals to verified owned rows and counts repeated donor IDs
+once. Ordinary locked recipients remain valid. Existing point/response behavior
+is retained; full evolution contracts remain a separate research obligation.
+
+[Pure Curum](full-recover-implementation.md) now restores full HP and clears
+poison/paralysis together in world and battle. It preserves AP and requires
+a living target with missing HP or an ailment. No new migration is required.
+
+[Battle timeout recovery](battle-timeout-implementation.md) now closes expired
+selection windows with the native ABANDONED result, preserving HP/AP/stock
+and returning Party/Bag screens to the world. Apply additive migration 004.
+Original timeout penalties and complete reconnect replay remain unknown.
+
+[Battle healing items](battle-item-implementation.md) now apply the twelve
+established healing/revival/AP/cure effects to active or bench party members,
+with atomic consumption and ordered native action snapshots. Use the installed
+Python interpreter directly rather than the Windows Store execution aliases.
+
+[Battle party switching](battle-switch-implementation.md) now persists voluntary
+switches and forced replacement after fainting against the initial private
+party snapshot. Native request fields and replacement combat policies are
+explicit in the linked contract.
+
+[Poison and paralysis cures](status-cure-implementation.md) now use durable
+boolean ailments and atomic item consumption. Apply additive migration 003
+before loading the updated owned-Morty snapshot handlers. The accompanying
+[capture audit](capture-data-audit.md) distinguishes MP metadata from unrecovered
+server stat/chance rules and single-player formulas.
+
+[Multiplayer crafting](crafting-implementation.md) supports the 22 recovered recipes.
+The recovered item, lock/release and transport stack is integrated on this branch;
+see [integration provenance](gameplay-integration.md). Research uses [REA 6.8.0](rea-6.8-upgrade.md).
+
+[UDP lifecycle verification](udp-lifecycle.md) covers same-session transport
+reconnects, session rotation, Android process restart and Home/resume observations.
+The optional adapter now survives per-connection accept/setup errors.
+
+[Optional stable UDP transport](udp-stable-transport.md) now passes the reproduced
+125-second synthetic quiet interval and two-emulator idle-delivery scenario. It
+bypasses Docker published UDP forwarding using a bounded local TCP adapter.
+Direct UDP remains affected; lifecycle and longer-idle limits are documented.
+
+[Two Android clients](android-peer-verification.md) verify same-room visibility
+and bidirectional movement. Those earlier captures exposed the mapping failure
+subsequently isolated in the [Windows-only probe](udp-quiet-mapping.md).
 
 [UDP idle heartbeats](udp-heartbeats.md) retain learned stationary-peer endpoints
 using validated HTTP pings in the isolated research profile. This preserves
@@ -10,8 +73,10 @@ server-side registration, not intermediate network mappings. It adds one
 versioned research table and an initialization service.
 
 [SSE room transitions](sse-room-transitions.md) stop old-room delivery and follow
-destination membership on an existing stream. Rapid same-room rejoin and
-snapshot/cursor races remain explicit gaps.
+destination membership on an existing stream. The integrated stack also includes
+[same-room membership generations](sse-rejoin-generation.md) and a
+[bounded fresh snapshot](sse-snapshot-boundary.md); shared cursors, mutable rows
+and out-of-order transaction commits remain explicit gaps.
 
 [Live SSE session revocation](sse-session-revocation.md) closes streams after
 session replacement or account deletion, with additive regression coverage.
@@ -54,7 +119,7 @@ This workspace reconciles Android 2.41.0 against the existing PHP server. The ro
 - [static-content.json](static-content.json) records served data files separately. `Status/rat.json` is empty; its client behavior is unresolved. The manifest's colon-delimited bundle path is now rewritten to the existing underscore-delimited directory and checked by a byte-hash regression test.
 - [external-services.json](external-services.json) separates known backend hostnames from external/SDK/documentation candidates found in string literals. Presence in the binary does not establish traffic or a startup dependency.
 
-There are no original-server captures in this handoff. Automated tests exercise the replacement server. Android emulator startup, local redirection, diagnostic multiplayer entry and one-emulator/synthetic-peer UDP exchange are verified. Full completed-feature smoke coverage, natural onboarding, two-emulator room changes/privacy and iOS compatibility remain unverified. Two-emulator movement is verified above; idle delivery has a confirmed network-mapping gap.
+There are no original-server captures in this handoff. Automated tests exercise the replacement server. Android emulator startup, local redirection, diagnostic multiplayer entry and one-emulator/synthetic-peer UDP exchange are verified. Full completed-feature smoke coverage, natural onboarding, two-emulator room changes/privacy and iOS compatibility remain unverified. Two-emulator movement is verified above; idle delivery passes the bounded adapter scenario above; direct UDP and broader lifecycle coverage remain unresolved.
 
 [Validation results](validation-results.json) record the initial 15-test baseline. Later milestone pages record additional focused checks; these are not one final combined acceptance run. This is a research and repair handoff, not a claim of full restoration or complete runtime compatibility.
 
@@ -77,7 +142,7 @@ py tools/research/contracts.py
 py tools/research/assets.py
 ```
 
-The verifier expects the downloaded Node and Ghidra archives in the WSL tool directory. Compare hashes before executing downloaded binaries; `toolchain.lock.json` records the inspected artifacts. REA is pinned to npm 6.4.0; tool downloads come from the upstream projects. Generated research data is not runnable server code.
+The verifier expects the downloaded Node and Ghidra archives in the WSL tool directory. Compare hashes before executing downloaded binaries; `toolchain.lock.json` records the inspected artifacts. REA is pinned to npm 6.8.0 with private Node 24.22.1; tool downloads come from the upstream projects. Generated research data is not runnable server code.
 
 ```powershell
 wsl -d Ubuntu -- bash tools/research/rea.sh doctor --provider ghidra --format json
@@ -94,14 +159,19 @@ The full REA/Ghidra automatic pass was cancelled after prolonged function-bounda
 
 ```powershell
 docker compose -f compose.research.yaml --profile udp up -d --build
-py -m unittest discover -s tests/protocol -v
+py -3 tools/research/check_gameplay_integration.py
 docker compose -f compose.research.yaml logs web
 docker compose -f compose.research.yaml --profile udp down
 ```
 
-The server binds only `127.0.0.1:8087`. The test suite reseeds the dedicated Compose database; never point it at a shared server. Its named database volume survives `down`. Credentials are synthetic and restricted to this local stack. `PM_DB_HOST`, `PM_DB_NAME`, `PM_DB_USER`, and `PM_DB_PASS` configure the shared PHP connection. Existing manually configured fallback strings can still be used outside Compose.
+The server binds only `127.0.0.1:8087`. The explicit integration runner uses additive synthetic fixtures; never point it at a shared server. Its named database volume survives `down`. Credentials are synthetic and restricted to this local stack. `PM_DB_HOST`, `PM_DB_NAME`, `PM_DB_USER`, and `PM_DB_PASS` configure the shared PHP connection. Existing manually configured fallback strings can still be used outside Compose. See [integration prerequisites and test selection](gameplay-integration.md), including the required additive migrations.
 
-Repairs preserve routes and success envelopes: readiness uses the actual battle ID; ready/move reject another initiator and inactive/missing battles; attacks reject another player's or inactive Morty; capture emits one JSON acknowledgement; SSE deck payloads use the active owned deck; shared bootstrap logs PHP errors without printing them into responses. No schema migration is needed. Error HTTP statuses are tested replacement-server behavior, not a claim of original-server parity.
+When preserving emulator accounts in this stack, run only the additive lifecycle
+suite: `py -m unittest discover -s tests/protocol -p test_battle_lifecycle.py -v`.
+It creates UUID fixtures and removes only those fixtures. Full discovery includes
+the older account and battle global reseeds and must use a disposable database.
+
+Repairs preserve routes and supported success envelopes: readiness uses the actual battle ID; ready/move reject another initiator and inactive/missing battles; attacks reject another player's or inactive Morty; SSE deck payloads use the active owned deck; shared bootstrap logs PHP errors without printing them into responses. The [wild-battle lifecycle](battle-completion-contract.md) now persists supported attack HP/AP and run/win/loss results atomically. Capture returns an explicit unsupported-item error while durable capture remains unimplemented. Battle changes add no migration, but the recovered SSE/join/leave handlers require the additive membership-generation migration. Error HTTP statuses are tested replacement-server behavior, not a claim of original-server parity.
 
 ## Runtime capture and remaining validation
 

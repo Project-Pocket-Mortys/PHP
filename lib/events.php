@@ -1,5 +1,6 @@
 <?php
 // lib/events.php (FIXED SAFE VERSION)
+require_once __DIR__ . '/event_visibility.php';
 
 function publish_event(PDO $pdo, string $room_id, string $event, array $payload, ?string $player_id = null): void {
     $pickup_id = null;
@@ -21,7 +22,7 @@ function publish_event(PDO $pdo, string $room_id, string $event, array $payload,
 	$battle_turn_result = null;
 	$battle_move_timer_started = null;
 	$emote = null;
-	$only_show_to_player_id = null;
+	$only_show_to_player_id = is_private_battle_event($event) ? $player_id : null;
 
     // ---------------- PICKUP ----------------
     if ($event === "room:pickup-added") {
@@ -101,6 +102,10 @@ function publish_event(PDO $pdo, string $room_id, string $event, array $payload,
 		$wild_morty_id = $payload["wild_morty_id"] ?? null;
 		$state = $payload["state"] ?? null;
     }
+
+    if ($event === "room:wild-morty-removed") {
+        $wild_morty_id = $payload["wild_morty_id"] ?? null;
+    }
 	
 	// ---------------- USER ROOM STATE CHANGE ----------------
     if ($event === "room:user-state-changed") {
@@ -112,13 +117,13 @@ function publish_event(PDO $pdo, string $room_id, string $event, array $payload,
     if ($event === "battle:start") {
 		// ALWAYS preserve original payload
     	$battle_start = json_encode($payload, JSON_UNESCAPED_SLASHES);
-		$only_show_to_player_id = $player_id;
 	}
 
 	// ---------------- BATTLE TURN ----------------
     if ($event === "battle:turn-result") {
 		// ALWAYS preserve original payload
     	$battle_turn_result = json_encode($payload, JSON_UNESCAPED_SLASHES);
+        $only_show_to_player_id = $player_id;
     }
 	
 	// ---------------- BATTLE TIMER ----------------

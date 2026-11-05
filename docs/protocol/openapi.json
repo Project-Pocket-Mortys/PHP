@@ -182,19 +182,117 @@
       "x-method-unresolved": true
     },
     "/session/battle-invite/create": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
+      "description": "Recovered client contract; server implementation absent. Original response statuses unknown.",
       "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$SendInviteUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "opponent_player_id": {
+                    "type": "string"
+                  },
+                  "battle_type": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "opponent_player_id",
+                  "battle_type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-invite/response": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
+      "description": "Recovered client contract; server implementation absent. Original response statuses unknown.",
       "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$RespondToReceivedInvite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  },
+                  "accept": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "token",
+                  "accept"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-invite/revoke": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
+      "description": "Recovered client contract; server implementation absent. Original response statuses unknown.",
       "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$CancelPendingSentInvite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-wild-morty": {
       "description": "Unverified contract. See inventory.json for source evidence.",
