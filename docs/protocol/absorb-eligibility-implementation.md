@@ -54,6 +54,16 @@ protocol/source validation, evidence reproduction and shell syntax checks passed
 
 [Android acceptance](android-absorb-eligibility.md) uses guarded synthetic
 storage records to verify the compatible partial-absorption path separately.
+Android 2.41.0 kept the locked donor disabled without sending a request. A
+compatible Normal-to-Normal blend returned HTTP 200, consumed only the selected
+fresh donor and showed the synthetic target at 1/3 EVO. Cleanup matched the
+reconstructed point/deletion effects and removed only the surviving fresh
+clones, restoring both original account snapshots. The full variant matrix
+is established by static/HTTP evidence; it was not exercised through Android.
+After a fresh app restart, multiplayer WORLD loaded normally. The absorption
+fixture guard, independent two-account gameplay guard and complete save/friend
+guard all passed, including an independent integrator check after reload.
+Only documented connection fields are excluded from save comparisons.
 
 Based on main `9ff1a11` with pending prerequisite PR #36 at `757749f` and its
 dependency history. No database migration or deployment is included.
