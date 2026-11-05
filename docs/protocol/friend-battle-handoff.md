@@ -1,5 +1,11 @@
 # Friend battle implementation handoff
 
+The follow-up [invitation implementation](friend-battle-invitation-implementation.md)
+now replaces the missing create/decline/revoke routes and delivers private
+invitation events. Acceptance remains unavailable. The capture and research
+below record the earlier missing-route baseline and the remaining shared
+human battle work.
+
 Android's Friends Battle action reaches a missing backend interface. The
 [native probe](android-friend-battle-probe.md) captured an actual slashless
 `POST /session/battle-invite/create` with `session_id`, `opponent_player_id`

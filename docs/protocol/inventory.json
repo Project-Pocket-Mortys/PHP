@@ -1466,17 +1466,28 @@
           "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "native Android request and missing-route failure observed; producer/callback statically established; original-server behavior unknown",
+      "implementation_status": "implemented",
+      "evidence_confidence": "Recovered native contract, isolated HTTP/SSE regressions and native two-client send/decline/cancel verification; original server policy unknown.",
       "unresolved": [
-        "original server HTTP errors/validation and token authorization/generation",
-        "server TTL, replay and reconnect policy",
-        "human battle implementation and cross-room event delivery"
+        "shared human participation/start/ready/reconnect/terminal lifecycle",
+        "human turn resolution and combat policy",
+        "original server TTL/token/replay/validation parity"
       ],
       "http_method": "POST from reviewed native constructor",
-      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md",
-      "status_basis": "No matching PHP handler. Shared human battle participation, private event delivery and lifecycle must precede playable acceptance.",
-      "observed_replacement_behavior": "Native PvF create returns Apache404 HTML and client send-failed popup; no battle created. See android-friend-battle-probe.md."
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md",
+      "status_basis": "Durable invitation-only lifecycle; send, decline, revoke and expiry work. accept:true returns501FAILED; no human battle is created.",
+      "observed_replacement_behavior": "Historical native missing-route404 is captured in android-friend-battle-probe.md. This branch implements create; current acceptance in android-friend-battle-invitations.md.",
+      "server_evidence": {
+        "file": "session/battle-invite/create/index.php",
+        "line": 1,
+        "sha256": "8c7ebfc2e31b1361f7e91b8653164eda4364b9c93dc3a527c7e185a279fd1726"
+      },
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_invites.php",
+          "sha256": "57e88bc1064342f1477a8bd659af8b80ef5480dd92ba1be03cbd72f81f9d5f96"
+        }
+      ]
     },
     {
       "path": "/session/battle-invite/response",
@@ -1503,16 +1514,27 @@
           "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established native producer/callback; original-server behavior unknown",
+      "implementation_status": "partial",
+      "evidence_confidence": "Recovered native contract, isolated HTTP/SSE regressions and native two-client send/decline/cancel verification; original server policy unknown.",
       "unresolved": [
-        "original server HTTP errors/validation and token authorization/generation",
-        "server TTL, replay and reconnect policy",
-        "human battle implementation and cross-room event delivery"
+        "shared human participation/start/ready/reconnect/terminal lifecycle",
+        "human turn resolution and combat policy",
+        "original server TTL/token/replay/validation parity"
       ],
       "http_method": "POST from reviewed native constructor",
-      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md",
-      "status_basis": "No matching PHP handler. Shared human battle participation, private event delivery and lifecycle must precede playable acceptance."
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md",
+      "status_basis": "Durable invitation-only lifecycle; send, decline, revoke and expiry work. accept:true returns501FAILED; no human battle is created.",
+      "server_evidence": {
+        "file": "session/battle-invite/response/index.php",
+        "line": 1,
+        "sha256": "754a3fb244b1ca299e3a8171c3457e1a78b12843d0a25bfca871df71164f35da"
+      },
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_invites.php",
+          "sha256": "57e88bc1064342f1477a8bd659af8b80ef5480dd92ba1be03cbd72f81f9d5f96"
+        }
+      ]
     },
     {
       "path": "/session/battle-invite/revoke",
@@ -1538,16 +1560,27 @@
           "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established native producer/callback; original-server behavior unknown",
+      "implementation_status": "implemented",
+      "evidence_confidence": "Recovered native contract, isolated HTTP/SSE regressions and native two-client send/decline/cancel verification; original server policy unknown.",
       "unresolved": [
-        "original server HTTP errors/validation and token authorization/generation",
-        "server TTL, replay and reconnect policy",
-        "human battle implementation and cross-room event delivery"
+        "shared human participation/start/ready/reconnect/terminal lifecycle",
+        "human turn resolution and combat policy",
+        "original server TTL/token/replay/validation parity"
       ],
       "http_method": "POST from reviewed native constructor",
-      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md",
-      "status_basis": "No matching PHP handler. Shared human battle participation, private event delivery and lifecycle must precede playable acceptance."
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md",
+      "status_basis": "Durable invitation-only lifecycle; send, decline, revoke and expiry work. accept:true returns501FAILED; no human battle is created.",
+      "server_evidence": {
+        "file": "session/battle-invite/revoke/index.php",
+        "line": 1,
+        "sha256": "447cb203db7303000dfd9c10fef3b29d95143c337a731832e19e6b976e03ab24"
+      },
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_invites.php",
+          "sha256": "57e88bc1064342f1477a8bd659af8b80ef5480dd92ba1be03cbd72f81f9d5f96"
+        }
+      ]
     },
     {
       "path": "/session/battle-wild-morty",
@@ -2768,7 +2801,7 @@
       "server_evidence": {
         "file": "session/friend/remove/index.php",
         "line": 1,
-        "sha256": "790879b6b351ef15439fc207f8d33cba243d61d9c08a45788f651f5c4308cd21"
+        "sha256": "3956e57610bf37cbbb74cfbd9265812b57f9d059715c1a21cc928c34d6159051"
       },
       "implementation_status": "implemented",
       "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
@@ -2807,6 +2840,10 @@
         {
           "file": "lib/friends.php",
           "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        },
+        {
+          "file": "lib/friend_battle_invites.php",
+          "sha256": "57e88bc1064342f1477a8bd659af8b80ef5480dd92ba1be03cbd72f81f9d5f96"
         }
       ]
     },
@@ -4665,7 +4702,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+        "sha256": "a461c10763800fc71b7381f6ea1c05746d55c469401ee90b9891fd37bb6ae48c"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4729,7 +4766,13 @@
         "retry semantics",
         "runtime verification"
       ],
-      "ailment_contract": "docs/protocol/status-cure-implementation.md"
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_invite_stream.php",
+          "sha256": "0296ae96ef1494bda0c390a660de7469135c76f951ddb0ca580f30916e471c86"
+        }
+      ]
     },
     {
       "path": "/support",
@@ -5492,9 +5535,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "statically established native DTO/consumer; missing/null details retained as gaps",
-      "delivery_semantics": "Matching current sent ID clears pending; unmatched/absent sent invite ignored. Original routing/replay unknown; current server lacks dispatch/storage.",
-      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md"
+      "schema_status": "native DTO established; replacement private global invitation polling implemented",
+      "delivery_semantics": "Explicit participant-role table query independent of room cursor; received once per connection, terminal IDs repeat <=1/sec through retention window; fresh session rehydrates unexpired pending.",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md"
     },
     {
       "name": "battle-invite:received",
@@ -5506,9 +5549,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "statically established native DTO/consumer; missing/null details retained as gaps",
-      "delivery_semantics": "Recipient queue append; from_player.player_id directly indexed; no visible deduplication. Original routing/replay unknown; current server lacks dispatch/storage.",
-      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md"
+      "schema_status": "native DTO established; replacement private global invitation polling implemented",
+      "delivery_semantics": "Explicit participant-role table query independent of room cursor; received once per connection, terminal IDs repeat <=1/sec through retention window; fresh session rehydrates unexpired pending.",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md"
     },
     {
       "name": "battle-invite:revoked",
@@ -5520,9 +5563,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "statically established native DTO/consumer; missing/null details retained as gaps",
-      "delivery_semantics": "Removes first incoming ID match; unmatched ignored. Original routing/replay unknown; current server lacks dispatch/storage.",
-      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md"
+      "schema_status": "native DTO established; replacement private global invitation polling implemented",
+      "delivery_semantics": "Explicit participant-role table query independent of room cursor; received once per connection, terminal IDs repeat <=1/sec through retention window; fresh session rehydrates unexpired pending.",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md"
     },
     {
       "name": "battle:abandoned",

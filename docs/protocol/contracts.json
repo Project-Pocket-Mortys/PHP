@@ -765,7 +765,7 @@
         ]
       },
       "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
-      "implementation_status": "absent",
+      "implementation_status": "implemented",
       "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
       "error_enum": "eSendInviteError",
       "error_enum_values": {
@@ -811,7 +811,25 @@
         "requiredness": "Typed nonnull response required; complete per-field missing/null behavior not established."
       },
       "success_origin": "Native typed response parsed on eSendInviteError.NONE=16; does not start battle.",
-      "lifetime": "Server TTL copied into local total/countdown; no fixed TTL recovered; initial zero does not trigger local automatic expiry."
+      "lifetime": "Server TTL copied into local total/countdown; no fixed TTL recovered; initial zero does not trigger local automatic expiry.",
+      "replacement_errors": {
+        "400": "FAILED for malformed body/type; OPPONENT_PLAYER_ID_INVALID for invalid target/missing accepted friendship",
+        "401": "SESSION_ID_INVALID",
+        "409": "FAILED for sender busy/ambiguous state; OPPONENT_STATE_INVALID for target busy; SENT_INVITE_PENDING for another outgoing target",
+        "500": "FAILED with rollback, no internals",
+        "405": "FAILED on non-POST requests"
+      },
+      "replacement_contract": "friend-battle-invitation-implementation.md",
+      "replacement_lifetime": {
+        "default_seconds": 60,
+        "environment": "PM_FRIEND_INVITE_TTL_SECONDS",
+        "range_seconds": [
+          10,
+          300
+        ],
+        "clock": "UTC database timestamp",
+        "origin": "replacement policy; original server TTL unknown"
+      }
     },
     "/session/battle-invite/response": {
       "method": "POST",
@@ -837,7 +855,7 @@
         ]
       },
       "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
-      "implementation_status": "absent",
+      "implementation_status": "partial",
       "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
       "error_enum": "eRespondToReceivedInviteError",
       "error_enum_values": {
@@ -866,7 +884,18 @@
       "success": {
         "body": "ignored by ParseHTTPError; exact original acknowledgement unknown"
       },
-      "success_origin": "Native error-only callback; acceptance HTTP body does not start battle."
+      "success_origin": "Native error-only callback; acceptance HTTP body does not start battle.",
+      "replacement_errors": {
+        "400": "malformed native request, unknown token or missing accepted friendship",
+        "401": "SESSION_ID_INVALID on create; FAILED on response/revoke",
+        "403": "TOKEN_NOTVALID for known token used by wrong role/actor",
+        "409": "pending/state/ambiguous identity failures using native enum names",
+        "410": "TOKEN_EXPIRED for expired pending/already EXPIRED records",
+        "500": "FAILED with rollback, no internals",
+        "501": "FAILED on valid pending acceptance; no battle/state transition",
+        "405": "FAILED on non-POST requests"
+      },
+      "replacement_contract": "friend-battle-invitation-implementation.md"
     },
     "/session/battle-invite/revoke": {
       "method": "POST",
@@ -888,7 +917,7 @@
         ]
       },
       "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
-      "implementation_status": "absent",
+      "implementation_status": "implemented",
       "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
       "error_enum": "eRespondToSentInviteError",
       "error_enum_values": {
@@ -916,7 +945,17 @@
       "success": {
         "body": "ignored by ParseHTTPError; exact original acknowledgement unknown"
       },
-      "success_origin": "Native error-only callback; acceptance HTTP body does not start battle."
+      "success_origin": "Native error-only callback; acceptance HTTP body does not start battle.",
+      "replacement_errors": {
+        "400": "malformed native request, unknown token or missing accepted friendship",
+        "401": "SESSION_ID_INVALID on create; FAILED on response/revoke",
+        "403": "TOKEN_NOTVALID for known token used by wrong role/actor",
+        "409": "pending/state/ambiguous identity failures using native enum names",
+        "410": "TOKEN_EXPIRED for expired pending/already EXPIRED records",
+        "500": "FAILED with rollback, no internals",
+        "405": "FAILED on non-POST requests"
+      },
+      "replacement_contract": "friend-battle-invitation-implementation.md"
     }
   },
   "sse": {
@@ -1186,7 +1225,14 @@
         "friend-battle-start-contract.md",
         "friend-battle-server-gaps.md",
         "android-friend-battle-probe.md"
-      ]
+      ],
+      "replacement_delivery": {
+        "store": "friend_battle_invites; migration006",
+        "scope": "authenticated session player, independent of room",
+        "received": "recipient token and public sender profile only, once per stream; pending reconnect rehydration",
+        "terminal": "recipient revoked; sender declined for terminal/effectively expired; repeat <=1/sec until max(expires_at,updated_at)+5sec",
+        "origin": "Explicit replacement policy, not original server delivery rules."
+      }
     },
     "battle-invite:declined": {
       "client_type": "InviteDeclinedResponse",
@@ -1214,7 +1260,14 @@
         "friend-battle-start-contract.md",
         "friend-battle-server-gaps.md",
         "android-friend-battle-probe.md"
-      ]
+      ],
+      "replacement_delivery": {
+        "store": "friend_battle_invites; migration006",
+        "scope": "authenticated session player, independent of room",
+        "received": "recipient token and public sender profile only, once per stream; pending reconnect rehydration",
+        "terminal": "recipient revoked; sender declined for terminal/effectively expired; repeat <=1/sec until max(expires_at,updated_at)+5sec",
+        "origin": "Explicit replacement policy, not original server delivery rules."
+      }
     },
     "battle-invite:accepted": {
       "client_type": "InviteAcceptedResponse",
@@ -1294,7 +1347,14 @@
         "friend-battle-start-contract.md",
         "friend-battle-server-gaps.md",
         "android-friend-battle-probe.md"
-      ]
+      ],
+      "replacement_delivery": {
+        "store": "friend_battle_invites; migration006",
+        "scope": "authenticated session player, independent of room",
+        "received": "recipient token and public sender profile only, once per stream; pending reconnect rehydration",
+        "terminal": "recipient revoked; sender declined for terminal/effectively expired; repeat <=1/sec until max(expires_at,updated_at)+5sec",
+        "origin": "Explicit replacement policy, not original server delivery rules."
+      }
     }
   },
   "transport": {

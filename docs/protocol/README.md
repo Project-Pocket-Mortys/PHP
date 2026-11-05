@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Friend battle invitations](friend-battle-invitation-implementation.md) now
+support send, decline, cancel and expiry with role-bound tokens and private
+delivery across rooms. Apply migration 006. Acceptance returns HTTP 501 until
+shared human battle participation and lifecycle are implemented.
+
 [Friend battle contracts](friend-battle-handoff.md) now map the missing invite
 routes, four events and human battle-start/readiness handoff. Android's Battle
 button reaches the absent create route and receives Apache 404. The shared

@@ -182,8 +182,8 @@
       "x-method-unresolved": true
     },
     "/session/battle-invite/create": {
-      "description": "Recovered client contract; server implementation absent. Original response statuses unknown.",
-      "x-implementation-status": "absent",
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "implemented",
       "x-reviewed-contract": "contracts.json",
       "post": {
         "summary": "NetworkBattleInviteAPI$$SendInviteUser",
@@ -221,8 +221,8 @@
       }
     },
     "/session/battle-invite/response": {
-      "description": "Recovered client contract; server implementation absent. Original response statuses unknown.",
-      "x-implementation-status": "absent",
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "partial",
       "x-reviewed-contract": "contracts.json",
       "post": {
         "summary": "NetworkBattleInviteAPI$$RespondToReceivedInvite",
@@ -260,8 +260,8 @@
       }
     },
     "/session/battle-invite/revoke": {
-      "description": "Recovered client contract; server implementation absent. Original response statuses unknown.",
-      "x-implementation-status": "absent",
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "implemented",
       "x-reviewed-contract": "contracts.json",
       "post": {
         "summary": "NetworkBattleInviteAPI$$CancelPendingSentInvite",
