@@ -1704,10 +1704,10 @@
       "server_evidence": {
         "file": "session/battle/move/index.php",
         "line": 1,
-        "sha256": "e36af37c09d9b2f3961ac8eb944bde4058c332a53387caf0bfa720f7a8533c6a"
+        "sha256": "493296885920debc1c22561e53e672258febd53ed471924652648080f7bbe3a6"
       },
       "implementation_status": "partial",
-      "status_basis": "Partial PvWM: durable ATTACK/RUN/SWITCH, forced replacement and party exhaustion; native and Android switch contract verified. Damage/initiative/capture/rewards remain incomplete.",
+      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and twelve healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete.",
       "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
       "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -1738,21 +1738,25 @@
         "defender_morty_datas",
         "defender_player_id",
         "effect_datas",
+        "effect_value",
         "element_modifier",
         "error",
         "hp",
         "is_accurate",
         "is_critical",
+        "item_id",
         "last_move_type",
         "move_log",
         "opponent",
         "outcome",
         "owned_attacks",
+        "owned_items",
         "owned_morty_id",
         "player",
         "player_datas",
         "player_id",
         "pp",
+        "quantity",
         "rewards",
         "state",
         "success",
@@ -1776,6 +1780,7 @@
         "battles",
         "event_queue",
         "owned_attacks",
+        "owned_items",
         "owned_morties",
         "users"
       ],
@@ -1795,7 +1800,8 @@
         "interrupted-battle reconnect"
       ],
       "reviewed_contract": "docs/protocol/battle-completion-contract.md",
-      "switch_contract": "docs/protocol/battle-switch-implementation.md"
+      "switch_contract": "docs/protocol/battle-switch-implementation.md",
+      "battle_item_contract": "docs/protocol/battle-item-implementation.md"
     },
     {
       "path": "/session/battle/ready",

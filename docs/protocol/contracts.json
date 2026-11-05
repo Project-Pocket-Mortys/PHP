@@ -54,14 +54,14 @@
           },
           "owned_morty_id": {
             "type": "string",
-            "description": "Current/outgoing active ID for ATTACK and SWITCH."
+            "description": "ATTACK/SWITCH: current/outgoing ID. Supported ITEM: selected active or bench target in initial party."
           },
           "move_id": {
             "type": [
               "string",
               "null"
             ],
-            "description": "ATTACK: attack ID. SWITCH: incoming owned Morty ID. RUN: nullable."
+            "description": "ATTACK: attack ID. SWITCH: incoming owned ID. ITEM: item ID. RUN: nullable."
           }
         },
         "required": [
@@ -101,6 +101,46 @@
                 }
               }
             }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "ITEM"
+                },
+                "move_id": {
+                  "enum": [
+                    "ItemSerum",
+                    "ItemGreatSerum",
+                    "ItemSensationalSerum",
+                    "ItemPureSerum",
+                    "ItemEasterEgg",
+                    "ItemPumpkin",
+                    "ItemSpicyBBQPizza",
+                    "ItemBreakfastMedley",
+                    "ItemPureHalzinger",
+                    "ItemPurePlutonicRock",
+                    "ItemPoisonCure",
+                    "ItemParalysisCure"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "move_id"
+              ]
+            },
+            "then": {
+              "required": [
+                "owned_morty_id"
+              ],
+              "properties": {
+                "owned_morty_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
           }
         ]
       },
@@ -110,19 +150,20 @@
       "event": "battle:turn-result",
       "limitations": [
         "Replacement combat remains placeholder: player damage 20, wild damage 1..3, wild PP 1; formulas/initiative remain unresolved",
-        "ITEM including capture is explicitly unsupported: HTTP 501 ITEM_UNUSABLE, no inventory charge or simulated owned Morty",
+        "Capture and unsupported item effects return 501 ITEM_UNUSABLE with no charge; twelve established healing/revive/AP/cure items now work in battle",
         "WIN returns empty xp_datas/rewards; XP, stat growth and reward formulas unresolved",
         "Repeated active-turn bodies are not idempotent; constructor has no turn identity and cooldown enforcement/reconnect replay remain unresolved",
         "Android research client RUN and ATTACK/WIN verified with synthetic private starts; live LOSE, natural battle initiation and interrupted-battle reconnect remain unverified (android-battle-lifecycle.md)",
-        "Voluntary switch uses the existing AI counterattack; forced replacement is free. These are explicit replacement policies, not recovered original turn costs (battle-switch-contract.md)."
+        "Voluntary switch uses the existing AI counterattack; forced replacement is free. These are explicit replacement policies, not recovered original turn costs (battle-switch-contract.md).",
+        "Supported ITEM uses an action then existing AI1..3 counterattack against current active; original retaliation/cooldowns and expired-timer resolution remain unimplemented or unrecovered."
       ],
       "errors": {
         "400": "FAILED: malformed input, unsupported move type, or unknown attack",
         "401": "FAILED: invalid session",
         "403": "FAILED: foreign battle, Morty, or private spawn",
         "404": "FAILED: missing battle",
-        "409": "FAILED: inactive battle, ambiguous/missing state, exhausted PP, stale HP, or inconsistent room/start/spawn evidence",
-        "501": "ITEM_UNUSABLE: ITEM/capture unsupported; no mutations",
+        "409": "FAILED: inactive battle, ambiguous/missing state, exhausted PP, stale HP, or inconsistent room/start/spawn evidence; ineffective supported item, invalid/insufficient stock/AP or pending replacement",
+        "501": "ITEM_UNUSABLE: capture or unsupported effect; no mutations",
         "500": "FAILED: unexpected storage/runtime failure; transaction rolled back"
       },
       "errors_origin": "Replacement server envelope {success:false,error:{code:...}}; original status/error parity unresolved",
@@ -134,13 +175,17 @@
         "Commit all state and queued events together; failure rolls back and completed-battle retries cannot mutate or enqueue another terminal result",
         "RUN permits verified legacy WORLD user/spawn state and does not change owned HP/PP",
         "SWITCH validates outgoing/current and incoming member of immutable battle:start party; persists active ID/HP and emits SWITCH action with incoming owned ID; no player AP cost",
-        "Fainted active member with another living initial participant produces nonterminal FORCE_SWITCH; pending phase survives ready and rejected selection; LOSE requires party exhaustion"
+        "Fainted active member with another living initial participant produces nonterminal FORCE_SWITCH; pending phase survives ready and rejected selection; LOSE requires party exhaustion",
+        "ITEM targets an initial-party member, applies shared world plan and stock decrement atomically, emits target post-item snapshot then AI active HP snapshot; absolute owned_items includes zero. Revived bench participates in subsequent FORCE_SWITCH/LOSE calculation."
       ],
       "evidence": [
         "battle-completion-contract.md",
         "battle-switch-contract.md",
         "battle-switch-implementation.md",
-        "android-battle-switching.md"
+        "android-battle-switching.md",
+        "battle-item-contract.md",
+        "battle-item-implementation.md",
+        "android-battle-items.md"
       ]
     },
     "/session/leave-room": {
@@ -251,7 +296,7 @@
         "status-cure-implementation.md"
       ],
       "limitations": [
-        "Eight world RestoreHP items, Pure Halzinger, Pure Plutonic Rock and targeted poison/paralysis cures; remaining effects and battle items pending",
+        "Eight world RestoreHP items, Pure Halzinger, Pure Plutonic Rock and targeted poison/paralysis cures; remaining effects pending; these twelve also supported by battle/move",
         "Migration 003 is required before loading persistent ailment DTOs; ailment application/ticks during combat remain unimplemented",
         "No request identity: identical effective requests can each consume an item",
         "Original HTTP validation/consumption parity unknown"
@@ -508,7 +553,20 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation"
+      "audience": "requesting player in current PvWM server implementation",
+      "reviewed_item_contract": "battle-item-contract.md",
+      "item_action_fields": {
+        "type": "ITEM",
+        "attacker_player_id": "owner player ID",
+        "defender_player_id": "opponent player ID",
+        "owned_morty_id": "selected party target ID",
+        "item_id": "supported item ID",
+        "success": "boolean",
+        "effect_value": "integer, shared item convention",
+        "attacker_morty_datas": "array containing target post-item/pre-AI partial snapshot",
+        "defender_morty_datas": "empty array",
+        "inventory_location": "player_datas.player.owned_items: absolute quantities, including zero"
+      }
     }
   },
   "transport": {
