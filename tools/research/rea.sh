@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
+REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 TOOL_ROOT="${POCKET_TOOL_ROOT:-$HOME/.local/share/pocket-research}"
-export PATH="$TOOL_ROOT/node-v24.20.0-linux-x64/bin:$PATH"
+NODE_VERSION="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["node"]["version"])' "$REPO_ROOT/tools/research/toolchain.lock.json")"
+export PATH="$TOOL_ROOT/node-v$NODE_VERSION-linux-x64/bin:$PATH"
 if [ -d "$TOOL_ROOT/jdk" ]; then
   export JAVA_HOME="$TOOL_ROOT/jdk"
   export PATH="$JAVA_HOME/bin:$PATH"

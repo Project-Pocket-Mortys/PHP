@@ -8,8 +8,8 @@
     "sha256": "f5fc60dfc5c034c1ff3fc651514416ebd47658a63493207734537fd25fa2dea2"
   },
   "node": {
-    "version": "24.20.0",
-    "sha256": "2f2c0da162318f0de47665410c7c8c2ed3d36c8f3105de4bbc61176c70a7cbf2"
+    "version": "24.22.1",
+    "sha256": "6c172a9ab6718f7b801fb5a7bd486af2ee5e32758086a04b84fcce2aa77095e6"
   },
   "ghidra": {
     "version": "12.1.4",
@@ -24,7 +24,8 @@
     "sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75"
   },
   "rea": {
-    "version": "6.4.0"
+    "version": "6.8.0",
+    "integrity": "sha512-9QDeRnGqEDzABZyr04eLnBXBv/c6I9/TWu/6M0MD4pEfkySI/BIgwTODIbAReX3C1x6hjw9+Jlx4A2yUSPZ9ww=="
   },
   "UnityPy": {
     "version": "1.25.0"
