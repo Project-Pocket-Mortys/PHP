@@ -71,6 +71,21 @@ all 13 new cases passed in 106.361 seconds. PHP 8.3 lint passed for all 28
 changed/new PHP files including prerequisites; protocol evidence validation
 and bounded research script syntax checks passed.
 
+All 51 existing world healing/revival/AP/status and battle item cases then
+passed in 416.746 seconds, bringing this feature's checked set to 64 distinct
+cases. The reviewed integration runner includes the new suite and continues to
+exclude the older global account/battle reseeding classes.
+
+Android 2.41.0 verified world use and battle bench use through native UI
+requests, both HTTP 200. The selected clone regained HP10 to20, lost both
+ailments and retained Outburst AP1/12; stock became0. Battle snapshots ordered
+that effect before AI damage3 to the separate active clone (HP10 to7). Native
+RUN then closed the battle. One earlier probe expired before sending ITEM and
+is excluded from item acceptance. See the Android record for dialogue, guard
+results and synthetic fixture provenance. Each fixture's locked cleanup and
+the independent two-account baseline comparison confirmed exact restoration
+of original HP/AP, inventory, raw decks and progression.
+
 Percentage revival/AP items, stat/general/damage items, capture, original combat
 and reward formulas, and complete interrupted-battle replay remain separate.
 No public deployment or real purchase is included.
