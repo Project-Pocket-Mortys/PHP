@@ -147,3 +147,9 @@ by ownership without checking `is_locked`, then deletes them. Protecting locked
 Morties from absorption, release, trade, and other destructive actions requires
 separate implementation and tests. Do not claim those paths are protected by
 adding this endpoint alone.
+
+The subsequent [absorption protection repair](absorb-protection-implementation.md)
+now enforces consumed-donor locks while permitting an ordinary locked recipient.
+It also guards protected assignments and scopes destructive writes. The historical
+warning above describes the original unprotected handler; other interfaces still
+need their own checks.

@@ -436,6 +436,72 @@
         "All catalog recipes accepted; no recovered event/unlock gate",
         "No request idempotency key"
       ]
+    },
+    "/session/owned_morties/absorb": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$AbsorbMorties",
+      "address": "0x17a55d0",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owned_morty_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "absorb_owned_morty_ids": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id"
+        ],
+        "description": "Client supplies all three fields; server preserves omitted/null donors as empty list. Duplicate strings are deduplicated in order."
+      },
+      "success": {
+        "removed": "unique consumed owned-instance IDs",
+        "modified": {
+          "owned_morty_id": "recipient ID",
+          "evolution_points": "prior nullable counter plus actual donor count"
+        },
+        "decks": "all actual owner decks with integer deck_id and owned_morty_ids arrays"
+      },
+      "success_origin": "Existing replacement-server partial counter path retained; native parser consumes actual removed and modified/decks. Full created/evolution result not implemented by this repair.",
+      "errors": {
+        "200": "legacy error.code INVALID_REQUEST, NOT_AUTHENTICATED, NOT_FOUND, NO_VALID_MORTYS",
+        "409": "FAILED for protected, ambiguous, malformed stored state or unresolved active battle",
+        "500": "SERVER_ERROR with rollback"
+      },
+      "errors_origin": "Existing legacy envelopes retained; new guard failures are explicit replacement policy. Original-server parity unknown.",
+      "protection": [
+        "Ordinary locked recipients may receive points; trade-locked recipients reject",
+        "Locked donors reject; donor trade/pit assignments reject under conservative server protection policy",
+        "Globally ambiguous IDs reject before ownerless attack deletion; writes use numeric row IDs and owner predicates",
+        "Missing/foreign/self donors retain legacy filtering; repeated donors consume/grant once",
+        "User lock serializes Lock and Absorb; all donor/deck/counter changes commit or roll back together"
+      ],
+      "remaining_gaps": [
+        "full species/stat transformation and created response",
+        "same-species/variant server validation",
+        "threshold-dependent active party checks",
+        "original error/status parity"
+      ],
+      "evidence": [
+        "absorb-protection-contract.md",
+        "absorb-protection-implementation.md",
+        "android-absorb-protection.md"
+      ]
     }
   },
   "sse": {

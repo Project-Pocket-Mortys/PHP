@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Absorption protection](absorb-protection-implementation.md) now preserves locked
+donors, scopes removals to verified owned rows and counts repeated donor IDs
+once. Ordinary locked recipients remain valid. Existing point/response behavior
+is retained; full evolution contracts remain a separate research obligation.
+
 [Pure Curum](full-recover-implementation.md) now restores full HP and clears
 poison/paralysis together in world and battle. It preserves AP and requires
 a living target with missing HP or an ailment. No new migration is required.

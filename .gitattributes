@@ -18,6 +18,8 @@ lib/battle_timeouts.php text eol=lf
 config/attack_max_ap.json text eol=lf
 
 lib/morty_release.php text eol=lf
+lib/morty_absorb.php text eol=lf
+session/owned_morties/absorb/index.php text eol=lf
 session/owned_morties/attempt-release-multiple/index.php text eol=lf
 session/owned_morties/release-multiple/index.php text eol=lf
 

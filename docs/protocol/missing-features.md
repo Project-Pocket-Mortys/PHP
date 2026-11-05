@@ -7,7 +7,7 @@ failure blocks gameplay or exposes another player's data.
 
 | Order | Feature | Next deliverable and acceptance |
 |---|---|---|
-| 1 | Lock/unlock Morties | Implemented and Android-tested in this branch; enforce protection in destructive operations separately. |
+| 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); inspect remaining destructive/trade interfaces separately. |
 | 2 | Use items | Eight HP items, full revival/AP restoration and targeted poison/paralysis cures work in world and battle (`battle-item-implementation.md`); Pure Curum combined HP/ailment recovery is implemented (`full-recover-implementation.md`). Finish percentage variants, stat/damage/general items and authentic timing. |
 | 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
 | 4 | Crafting | 22 multiplayer recipes implemented atomically; Android Serum Quick Craft and inventory verified (`crafting-implementation.md`). |
@@ -51,6 +51,7 @@ returned to the world without a save reset. See the sanitized
 [capture](morty-lock-capture.json); raw screenshots/captures remain ignored.
 
 This delivers the toggle and persistence, not universal server enforcement of
-protection: the existing absorb handler still ignores locks, and release now enforces both lock flags
-(`morty-release-implementation.md`). README retains that outstanding work. No original-server capture,
+protection: [absorption now protects consumed donors](absorb-protection-implementation.md), and
+release enforces both lock flags (`morty-release-implementation.md`). Other destructive
+interfaces remain separate; this is not universal protection. No original-server capture,
 production deployment or client relaunch persistence test is claimed.

@@ -3551,12 +3551,12 @@
       "server_evidence": {
         "file": "session/owned_morties/absorb/index.php",
         "line": 1,
-        "sha256": "73c2a015b37191b5376ecbd51bf76f400b6dd1879d8644d2f86a3b0f1344a594"
+        "sha256": "f5139c7e5acb70e7db9a21ed009b76b1e684285dc91c483440704183c8485e38"
       },
-      "implementation_status": "implemented",
-      "status_basis": "README Completed: Evolve Mortys; runtime compatibility not yet verified",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "partial",
+      "status_basis": "Existing counter path retained; protects consumed donors and trade-locked target, deduplicates donors, rejects global ambiguity and commits owner-scoped removal/decks/points atomically. Full transformation and additional native eligibility remain separate.",
+      "evidence_confidence": "native consumer/lock eligibility plus additive HTTP/database regressions; conservative assignment guards labeled separately",
+      "http_method": "POST from reviewed native constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "absorb_owned_morty_ids",
         "owned_morty_id",
@@ -3575,28 +3575,34 @@
         "removed"
       ],
       "http_status_candidates": [
+        200,
         409,
         500
       ],
       "table_candidates": [
-        "DECKS",
-        "EVOLUTION",
-        "db",
-        "decks",
-        "owned_attacks",
+        "users",
+        "battles",
         "owned_morties",
-        "users"
+        "owned_attacks",
+        "decks",
+        "event_queue"
       ],
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "full created/evolution result and stat transformation",
+        "same-species/variant server validation",
+        "conditional active-party preservation",
+        "original error/status compatibility"
       ],
-      "integration_contract": "docs/protocol/gameplay-integration.md"
+      "integration_contract": "docs/protocol/gameplay-integration.md",
+      "reviewed_contract": "docs/protocol/absorb-protection-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/morty_absorb.php",
+          "sha256": "f0b18fbed1cc31087be928c31839c8cde6e5e387384d862d92dae5566659d8a8"
+        }
+      ]
     },
     {
       "path": "/session/owned_morties/attempt-release-multiple",
