@@ -5,7 +5,7 @@ require_once __DIR__ . '/healing_items.php';
 function battle_supported_item(string $item): bool {
     return array_key_exists($item, morty_healing_items())
         || array_key_exists($item, morty_status_cure_items())
-        || in_array($item, ['ItemPureHalzinger', 'ItemPurePlutonicRock'], true);
+        || in_array($item, ['ItemPureHalzinger', 'ItemPurePlutonicRock', 'ItemFullRecover'], true);
 }
 
 /** Apply one planned effect using only locked rows; the caller owns the turn transaction. */

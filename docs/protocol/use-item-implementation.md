@@ -78,9 +78,11 @@ contract/database tests. Five existing lock tests also pass after integration.
 ## Remaining item features
 
 Full revival and full AP restoration are now implemented in the
-[follow-up](full-restore-items.md). Percentage variants, ailment cures, stat/level
-items, account/general items and in-battle items remain. `ItemFullRecover` must not be
-treated as plain HP healing because its documented effect includes ailments.
+[follow-up](full-restore-items.md). Individual [status cures](status-cure-implementation.md),
+[combined Pure Curum recovery](full-recover-implementation.md) and
+[battle use](battle-item-implementation.md) are also implemented. Percentage
+variants, stat/level items and account/general items remain. Pure Curum restores
+full HP and both ailments together; it leaves AP unchanged.
 The metadata/data notes distinguish known effects from unresolved percentage
 rounding and the single-player arithmetic precedent. The next increment can
 extend this endpoint with separately tested effects.

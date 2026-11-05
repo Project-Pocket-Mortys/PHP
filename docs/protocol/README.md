@@ -1,5 +1,9 @@
 # Pocket Mortys protocol research handoff
 
+[Pure Curum](full-recover-implementation.md) now restores full HP and clears
+poison/paralysis together in world and battle. It preserves AP and requires
+a living target with missing HP or an ailment. No new migration is required.
+
 [Battle timeout recovery](battle-timeout-implementation.md) now closes expired
 selection windows with the native ABANDONED result, preserving HP/AP/stock
 and returning Party/Bag screens to the world. Apply additive migration 004.

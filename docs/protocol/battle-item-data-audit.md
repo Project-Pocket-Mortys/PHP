@@ -2,6 +2,9 @@
 
 Read-only audit of existing handlers and current Android MP metadata, 2026-11-05.
 No upstream requests, purchases, runtime changes, or database changes were used.
+This records the initial twelve-item audit. The subsequent [Pure Curum contract](full-recover-contract.md)
+and [implementation](full-recover-implementation.md) enable ItemFullRecover as a thirteenth item;
+the other six additional battle-enabled items below remain unsupported.
 Wire request fields and animation shape require separate native evidence.
 
 ## Metadata boundary

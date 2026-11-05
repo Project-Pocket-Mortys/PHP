@@ -1707,7 +1707,7 @@
         "sha256": "c5833257807a224a0d151855986dcc69bfb77a6c6633702e0e90f4513e4803e6"
       },
       "implementation_status": "partial",
-      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and twelve healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown.",
+      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP.",
       "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
       "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -1802,7 +1802,8 @@
       "reviewed_contract": "docs/protocol/battle-completion-contract.md",
       "switch_contract": "docs/protocol/battle-switch-implementation.md",
       "battle_item_contract": "docs/protocol/battle-item-implementation.md",
-      "timeout_contract": "docs/protocol/battle-timeout-implementation.md"
+      "timeout_contract": "docs/protocol/battle-timeout-implementation.md",
+      "full_recover_contract": "docs/protocol/full-recover-implementation.md"
     },
     {
       "path": "/session/battle/ready",
@@ -4421,10 +4422,10 @@
       "server_evidence": {
         "file": "session/use-item/index.php",
         "line": 1,
-        "sha256": "d7f4aa6a88e698cce67e557a1871ad5c6f4cf8d63177e8b0fdaf91d1eab346b4"
+        "sha256": "72363bc8b75b0eb96dfc01cce6311eebb4ba03e793160526c03ff731debb5826"
       },
       "implementation_status": "partial",
-      "status_basis": "12 world items: eight HP, full revive/AP, targeted poison/paralysis cures. Native MP eligibility and typed updates, additive regressions and Android cures verified; remaining effects/battle use partial.",
+      "status_basis": "12 world items: eight HP, full revive/AP, targeted poison/paralysis cures. Native MP eligibility and typed updates, additive regressions and Android cures verified; remaining effects/battle use partial. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP.",
       "evidence_confidence": "observed Android 2.41.0 Serum/full-revive/full-AP uses; native contract and static maxima; 22 item regression tests",
       "http_method": "POST",
       "input_field_candidates": [],
@@ -4452,7 +4453,8 @@
         "full-restore-capture.json",
         "ap-maxima-contract.md"
       ],
-      "ailment_contract": "docs/protocol/status-cure-implementation.md"
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "full_recover_contract": "docs/protocol/full-recover-implementation.md"
     },
     {
       "path": "/session/use-shiny-potion",

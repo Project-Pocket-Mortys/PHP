@@ -37,6 +37,14 @@ function morty_item_effect_plan(string $itemId, array $morty, array $attacks): ?
         return $hp === 0 ? ['hp' => $maximum, 'attacks' => [], 'effect_value' => 100] : null;
     }
     if ($hp === 0) return null;
+    if ($itemId === 'ItemFullRecover') {
+        $poisoned = filter_var($morty['is_poisoned'] ?? false, FILTER_VALIDATE_BOOLEAN);
+        $paralysed = filter_var($morty['is_paralysed'] ?? false, FILTER_VALIDATE_BOOLEAN);
+        if ($hp === $maximum && !$poisoned && !$paralysed) return null;
+        // Native Cure/All restores HP and both ailments, without changing AP.
+        return ['hp' => $maximum, 'flags' => ['is_poisoned' => false, 'is_paralysed' => false],
+                'attacks' => [], 'effect_value' => 0];
+    }
     $cures = morty_status_cure_items();
     if (isset($cures[$itemId])) {
         $flag = $cures[$itemId];

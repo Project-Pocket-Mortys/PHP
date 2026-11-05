@@ -17,7 +17,7 @@ foreach (['session_id', 'owned_morty_id', 'item_id'] as $field) {
 $effects = morty_healing_items();
 if (!array_key_exists($body['item_id'], $effects)
     && !array_key_exists($body['item_id'], morty_status_cure_items())
-    && !in_array($body['item_id'], ['ItemPureHalzinger', 'ItemPurePlutonicRock'], true)) {
+    && !in_array($body['item_id'], ['ItemPureHalzinger', 'ItemPurePlutonicRock', 'ItemFullRecover'], true)) {
     respond(400, ['error' => ['code' => 'FAILED']]);
 }
 

@@ -17,7 +17,7 @@ MODULES = [
     'test_join_room_ownership', 'test_sse_sessions', 'test_sse_membership',
     'test_sse_rooms', 'test_sse_event_privacy', 'test_sse_rejoin_generation',
     'test_sse_snapshot_boundary', 'test_morty_lock', 'test_use_item',
-    'test_full_restore_items', 'test_status_cure_items', 'test_morty_ailment_snapshots',
+    'test_full_restore_items', 'test_status_cure_items', 'test_full_recover', 'test_morty_ailment_snapshots',
     'test_morty_release', 'test_crafting',
     'test_battle_lifecycle', 'test_battle_world_guards', 'test_battle_switching', 'test_battle_items', 'test_battle_timeouts',
 ]

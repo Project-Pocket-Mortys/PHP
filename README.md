@@ -30,7 +30,7 @@ See [the Android protocol inventory and developer handoff](docs/protocol/README.
 - Battle Bots
 - Battle friends
 - Raid & other event Battles
-- Use Items: [world healing](docs/protocol/use-item-implementation.md), [full revival/AP restoration](docs/protocol/full-restore-items.md), [poison/paralysis cures](docs/protocol/status-cure-implementation.md), and [battle use of these effects](docs/protocol/battle-item-implementation.md) implemented; other effects remain
+- Use Items: [world healing](docs/protocol/use-item-implementation.md), [full revival/AP restoration](docs/protocol/full-restore-items.md), [poison/paralysis cures](docs/protocol/status-cure-implementation.md), [combined Pure Curum recovery](docs/protocol/full-recover-implementation.md), and [battle use](docs/protocol/battle-item-implementation.md) implemented; other effects remain
 - Lock Morties: [toggle and persistence implemented/tested](docs/protocol/missing-features.md); protection in destructive server actions remains
 - Challenges
 

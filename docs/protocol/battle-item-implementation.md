@@ -3,7 +3,9 @@
 The existing PvWM `/session/battle/move` path now accepts ITEM for the twelve
 effects already supported by the world item route: eight HP items, full revival,
 full AP restoration, and targeted poison/paralysis cures. Current MP metadata
-permits all twelve in battle. [Native evidence](battle-item-contract.md)
+permits all twelve in battle. The [Pure Curum follow-up](full-recover-implementation.md)
+adds a thirteenth item, restoring HP and both ailments together without AP changes.
+[Native evidence](battle-item-contract.md)
 establishes that `owned_morty_id` is the selected target, active or bench,
 while `move_id` is the item ID. This differs from SWITCH's outgoing/incoming IDs.
 
@@ -66,7 +68,7 @@ wsl -- bash tools/research/ghidra-battle-items.sh
 This branch starts at main `9ff1a11` with explicit pending prerequisite
 `8a64835` (PR #30). It adds no migration beyond the prerequisite's ailment
 migration 003. World item behavior is retained. Capture, percentage variants,
-cure-all/stat/damage/general items, battle ailment application/ticks, true combat
+stat/damage/general items, battle ailment application/ticks, true combat
 formulas, original timeout penalties, rewards and reconnect UI restoration remain gaps.
 Selection expiry now recovers safely through [ABANDONED](battle-timeout-implementation.md).
 No public deployment or real purchase is included.
