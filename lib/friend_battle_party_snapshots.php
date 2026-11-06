@@ -78,42 +78,55 @@ function friend_party_capture_locked(PDO $pdo, array $user): array {
     return $party;
 }
 
+/** Lock and revalidate the complete live preparation, without committing. */
+function friend_party_prepare_locked(PDO $pdo, string $session, string $battleId): array {
+    $actor=friend_auth($pdo,$session);
+    $query=$pdo->prepare('SELECT * FROM friend_battle_sessions WHERE battle_id=?'); $query->execute([$battleId]); $hint=$query->fetch(PDO::FETCH_ASSOC);
+    if (!$hint || !in_array($actor['player_id'],[$hint['sender_id'],$hint['recipient_id']],true)) friend_fail(403,'TOKEN_NOTVALID');
+    if ($hint['sender_id']===$hint['recipient_id']) friend_fail(409,'FAILED');
+    $other=$hint[$actor['player_id']===$hint['sender_id']?'recipient_id':'sender_id'];
+    [$self,$peer,$friend]=friend_lock_pair($pdo,$session,$other);
+    if ($self['player_id']!==$actor['player_id'] || !$friend || $friend['pending']!=='false'
+        || $self['state']!=='WORLD' || $peer['state']!=='WORLD') friend_fail(409,'FAILED');
+    $query=$pdo->prepare('SELECT *,prepare_deadline>UTC_TIMESTAMP(6) AS live FROM friend_battle_sessions WHERE battle_id=? FOR UPDATE');
+    $query->execute([$battleId]); $row=$query->fetch(PDO::FETCH_ASSOC);
+    if (!$row || $row['sender_id']!==$hint['sender_id'] || $row['recipient_id']!==$hint['recipient_id'] || $row['state']!=='PREPARING' || !(bool)$row['live']) friend_fail(409,'FAILED');
+    $query=$pdo->prepare('SELECT *,expires_at>UTC_TIMESTAMP(6) AS live FROM friend_battle_invites WHERE invite_id=? FOR UPDATE');
+    $query->execute([$row['invite_id']]); $invite=$query->fetch(PDO::FETCH_ASSOC);
+    if (!$invite || $invite['sender_id']!==$row['sender_id'] || $invite['recipient_id']!==$row['recipient_id'] || $invite['state']!=='PENDING' || !(bool)$invite['live']) friend_fail(409,'FAILED');
+    friend_battle_require_claims($pdo,$row);
+    $query=$pdo->prepare("SELECT 1 FROM battles WHERE state='ACTIVE' AND (player_id IN (?,?) OR opponent_id IN (?,?)) LIMIT 1");
+    $query->execute([$self['player_id'],$peer['player_id'],$self['player_id'],$peer['player_id']]); if ($query->fetchColumn()!==false) friend_fail(409,'FAILED');
+    return [$row,$self,$peer];
+}
+
+/** Read immutable source parties; never recapture missing or malformed rows. */
+function friend_party_load_stored(PDO $pdo, array $row): ?array {
+    $battleId=$row['battle_id'];
+    $query=$pdo->prepare('SELECT * FROM friend_battle_party_snapshots WHERE battle_id=? ORDER BY player_id');
+    $query->execute([$battleId]); $stored=$query->fetchAll(PDO::FETCH_ASSOC); $parties=[];
+    if (!$stored) return null;
+    if (count($stored)!==2) friend_fail(409,'FAILED');
+    foreach ($stored as $snapshot) {
+        $player=$snapshot['player_id'];
+        if (!in_array($player,[$row['sender_id'],$row['recipient_id']],true)
+            || !hash_equals($snapshot['snapshot_sha256'],hash('sha256',$snapshot['snapshot_json']))) friend_fail(409,'FAILED');
+        $party=json_decode($snapshot['snapshot_json'],true,512,JSON_THROW_ON_ERROR);
+        if (!is_array($party)) friend_fail(409,'FAILED');
+        friend_party_validate($party,$player);
+        if ($party['deck_id']!==(int)$snapshot['deck_id'] || $party['active_owned_morty_id']!==$snapshot['active_owned_morty_id']) friend_fail(409,'FAILED');
+        $parties[$player]=$party;
+    }
+    return $parties;
+}
+
 /** Internal capture step; it neither renews a lease nor enables public acceptance. */
 function friend_battle_snapshot_parties(PDO $pdo, string $session, string $battleId): array {
     if ($pdo->inTransaction()) throw new LogicException('Standalone party capture requires no transaction');
     try {
-        $actor=friend_auth($pdo,$session);
-        $query=$pdo->prepare('SELECT * FROM friend_battle_sessions WHERE battle_id=?'); $query->execute([$battleId]); $hint=$query->fetch(PDO::FETCH_ASSOC);
-        if (!$hint || !in_array($actor['player_id'],[$hint['sender_id'],$hint['recipient_id']],true)) friend_fail(403,'TOKEN_NOTVALID');
-        if ($hint['sender_id']===$hint['recipient_id']) friend_fail(409,'FAILED');
-        $other=$hint[$actor['player_id']===$hint['sender_id']?'recipient_id':'sender_id'];
-        [$self,$peer,$friend]=friend_lock_pair($pdo,$session,$other);
-        if ($self['player_id']!==$actor['player_id'] || !$friend || $friend['pending']!=='false'
-            || $self['state']!=='WORLD' || $peer['state']!=='WORLD') friend_fail(409,'FAILED');
-        $query=$pdo->prepare('SELECT *,prepare_deadline>UTC_TIMESTAMP(6) AS live FROM friend_battle_sessions WHERE battle_id=? FOR UPDATE');
-        $query->execute([$battleId]); $row=$query->fetch(PDO::FETCH_ASSOC);
-        if (!$row || $row['sender_id']!==$hint['sender_id'] || $row['recipient_id']!==$hint['recipient_id'] || $row['state']!=='PREPARING' || !(bool)$row['live']) friend_fail(409,'FAILED');
-        $query=$pdo->prepare('SELECT *,expires_at>UTC_TIMESTAMP(6) AS live FROM friend_battle_invites WHERE invite_id=? FOR UPDATE');
-        $query->execute([$row['invite_id']]); $invite=$query->fetch(PDO::FETCH_ASSOC);
-        if (!$invite || $invite['sender_id']!==$row['sender_id'] || $invite['recipient_id']!==$row['recipient_id'] || $invite['state']!=='PENDING' || !(bool)$invite['live']) friend_fail(409,'FAILED');
-        friend_battle_require_claims($pdo,$row);
-        $query=$pdo->prepare("SELECT 1 FROM battles WHERE state='ACTIVE' AND (player_id IN (?,?) OR opponent_id IN (?,?)) LIMIT 1");
-        $query->execute([$self['player_id'],$peer['player_id'],$self['player_id'],$peer['player_id']]); if ($query->fetchColumn()!==false) friend_fail(409,'FAILED');
-        $query=$pdo->prepare('SELECT * FROM friend_battle_party_snapshots WHERE battle_id=? ORDER BY player_id');
-        $query->execute([$battleId]); $stored=$query->fetchAll(PDO::FETCH_ASSOC); $parties=[];
-        if ($stored) {
-            if (count($stored)!==2) friend_fail(409,'FAILED');
-            foreach ($stored as $snapshot) {
-                $player=$snapshot['player_id'];
-                if (!in_array($player,[$row['sender_id'],$row['recipient_id']],true)
-                    || !hash_equals($snapshot['snapshot_sha256'],hash('sha256',$snapshot['snapshot_json']))) friend_fail(409,'FAILED');
-                $party=json_decode($snapshot['snapshot_json'],true,512,JSON_THROW_ON_ERROR);
-                if (!is_array($party)) friend_fail(409,'FAILED');
-                friend_party_validate($party,$player);
-                if ($party['deck_id']!==(int)$snapshot['deck_id'] || $party['active_owned_morty_id']!==$snapshot['active_owned_morty_id']) friend_fail(409,'FAILED');
-                $parties[$player]=$party;
-            }
-        } else {
+        [$row,$self,$peer]=friend_party_prepare_locked($pdo,$session,$battleId);
+        $parties=friend_party_load_stored($pdo,$row);
+        if ($parties===null) {
             $users=[$self['player_id']=>$self,$peer['player_id']=>$peer]; $players=array_keys($users); sort($players,SORT_STRING);
             foreach ($players as $player) $parties[$player]=friend_party_capture_locked($pdo,$users[$player]);
             $insert=$pdo->prepare('INSERT INTO friend_battle_party_snapshots (battle_id,player_id,deck_id,active_owned_morty_id,snapshot_json,snapshot_sha256,created_at) VALUES (?,?,?,?,?,?,UTC_TIMESTAMP(6))');
