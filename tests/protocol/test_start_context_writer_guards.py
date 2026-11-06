@@ -1,6 +1,7 @@
 """Resource/profile preparation guards: additive UUID fixtures, no purchases."""
 from concurrent.futures import ThreadPoolExecutor
 import json
+import time
 import unittest
 import uuid
 
@@ -13,9 +14,35 @@ class StartContextWriterGuardTests(unittest.TestCase):
     participants = party_helpers.PartyWriterGuardTests.participants
     claim = party_helpers.PartyWriterGuardTests.claim
     cancel = party_helpers.PartyWriterGuardTests.cancel
-    lock_user = party_helpers.PartyWriterGuardTests.lock_user
     release_user = party_helpers.PartyWriterGuardTests.release_user
-    wait_for_user_lock = party_helpers.PartyWriterGuardTests.wait_for_user_lock
+
+    def lock_user(self, player):
+        process = party_helpers.PartyWriterGuardTests.lock_user(self, player)
+
+        def close_blocker():
+            if process.poll() is None:
+                process.kill()
+                process.wait(timeout=10)
+            for stream in (process.stdin, process.stdout, process.stderr):
+                if stream and not stream.closed:
+                    stream.close()
+
+        self.addCleanup(close_blocker)
+        return process
+
+    def wait_for_user_lock(self, player, future):
+        # Writers can lock by player or authenticated session. Observe either
+        # fixture identity rather than requiring a particular SQL access path.
+        session = next(session for owner, session, _ in self.participants() if owner == player)
+        deadline = time.monotonic() + 8
+        while time.monotonic() < deadline:
+            self.assertFalse(future.done(), 'Writer returned while the user lock was held')
+            waiting = sql("SELECT ID FROM information_schema.PROCESSLIST WHERE ID<>CONNECTION_ID() "
+                          f"AND INFO LIKE '%FOR UPDATE%' AND (INFO LIKE '%{player}%' OR INFO LIKE '%{session}%')")
+            if waiting:
+                return
+            time.sleep(0.05)
+        self.fail('Writer did not wait for the authenticated user row lock')
 
     def setUp(self):
         self.f = lifecycle.BattleLifecycleTests(methodName='runTest')
@@ -23,11 +50,13 @@ class StartContextWriterGuardTests(unittest.TestCase):
         self.f.setUp()
         self.battle, self.invite, self.avatar, self.active = [str(uuid.uuid4()) for _ in range(4)]
         self.players = f"'{self.f.player}','{self.f.other_player}'"
+        self.trade_spares = {session: str(uuid.uuid4()) for _, session, _ in self.participants()}
         self.addCleanup(self.cleanup_context)
         self.f.execute([
             f"UPDATE users SET decks_owned=0,coupons=100,coins=23,player_avatar_id='initial' WHERE player_id IN ({self.players})",
             f"UPDATE owned_items SET quantity=2 WHERE player_id IN ({self.players}) AND item_id='ItemMortyChip'",
             *[f"INSERT INTO owned_avatars (player_id,player_avatar_id) VALUES ('{player}','[]')" for player, _, _ in self.participants()],
+            *[f"INSERT INTO owned_morties (owned_morty_id,player_id,morty_id,is_locked,is_trading_locked) VALUES ('{self.trade_spares[session]}','{player}','Morty','false','false')" for player, session, _ in self.participants()],
         ])
 
     def cleanup_context(self):
@@ -42,7 +71,7 @@ class StartContextWriterGuardTests(unittest.TestCase):
             ('/session/player-avatar/buy', {'session_id': session, 'player_avatar_id': self.avatar}),
             ('/session/player-avatar/set-active', {'session_id': session, 'player_avatar_id': self.active}),
             ('/session/decks/slots/buy', {'session_id': session}),
-            ('/trading/request-morty', {'session_id': session, 'owned_morty_id': morty, 'is_free_trade': False}),
+            ('/trading/request-morty', {'session_id': session, 'owned_morty_id': self.trade_spares[session], 'is_free_trade': False}),
         ]
 
     def snapshot(self):
@@ -98,7 +127,7 @@ class StartContextWriterGuardTests(unittest.TestCase):
         before = self.snapshot()
         actions = self.actions(self.f.session, self.f.morty)
         self.assertEqual(post(*actions[0]), (409, {'error': {'code': 'ITEM_LIMIT'}}))
-        self.assertEqual(post(*actions[-1]), (409, {'error': {'code': 'NOT_ENOUGH_COUPONS'}}))
+        self.assertEqual(post(*actions[-1]), (409, {'error': {'code': 'FAILED'}}))
         self.assertEqual(self.snapshot(), before)
 
     def test_claim_committed_during_user_lock_wait_is_observed(self):
@@ -144,7 +173,7 @@ class StartContextWriterGuardTests(unittest.TestCase):
             with self.subTest(free=free):
                 before = self.snapshot()
                 route, request = self.actions(self.f.session, self.f.morty)[-1]
-                self.assertEqual(post(route, request | {'is_free_trade': free}), (500, {'error': {'code': 'SERVER_ERROR'}}))
+                self.assertEqual(post(route, request | {'is_free_trade': free}), (500, {'error': {'code': 'FAILED'}}))
                 self.assertEqual(self.snapshot(), before)
 
 

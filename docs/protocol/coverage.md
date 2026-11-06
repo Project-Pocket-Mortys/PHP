@@ -1,5 +1,11 @@
 # Protocol coverage
 
+[Request/offer creation eligibility](trade-listing-protection.md) now enforces
+the recovered native selector at insertion, including active-deck/lock exclusion
+and offer species/variant criteria. Evidence combines bounded REA6.8 traces and
+synthetic HTTP/DB tests; this does not establish later deck transitions or native
+accept/reject behavior.
+
 [Trade offer responses](trade-response-implementation.md) now enforce authenticated
 requester decisions and exact request/offer binding, with native error codes and
 atomic competing-offer cleanup. Evidence is bounded client analysis plus

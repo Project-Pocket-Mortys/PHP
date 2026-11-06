@@ -8,17 +8,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
-require_once __DIR__ . '/../../lib/preparation_writer_guard.php';
-
-$input = file_get_contents('php://input');
-$data = json_decode($input, true);
-
-// ✅ Inputs
-$session_id         = (string)($data['session_id'] ?? '');
-$owned_morty_id     = (string)($data['owned_morty_id'] ?? '');
-$requested_morty_id = (string)($data['requested_morty_id'] ?? 'any');
-$request_variant    = (string)($data['request_variant'] ?? 'Normal');
-$is_free_trade      = filter_var($data['is_free_trade'] ?? false, FILTER_VALIDATE_BOOLEAN);
+require_once __DIR__ . '/../../lib/trade_listing.php';
 
 // 🔒 Cost (adjust if needed)
 $TRADE_COST = 1;
@@ -31,59 +21,21 @@ function uuidv4() {
 }
 
 try {
-
-    $user = preparation_writer_lock($pdo, $session_id);
-
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') throw new TradeListingError(405);
+    $data = trade_listing_body(json_decode(file_get_contents('php://input')), false);
+    $session_id = $data['session_id'];
+    $owned_morty_id = $data['owned_morty_id'];
+    $requested_morty_id = $data['requested_morty_id'];
+    $request_variant = $data['request_variant'];
+    $is_free_trade = $data['is_free_trade'];
+    $user = trade_listing_actor_lock($pdo, $session_id, $data['player_id']);
     $player_id = $user['player_id'];
-    $coupons   = (int)$user['coupons'];
+    $coupons = (int)$user['coupons'];
+    trade_listing_morty_lock($pdo, $user, $owned_morty_id, false);
 
-    // ============================
-    // 🧠 VERIFY MORTY OWNERSHIP
-    // ============================
-    $stmt = $pdo->prepare("
-        SELECT owned_morty_id
-        FROM owned_morties
-        WHERE owned_morty_id = ? AND player_id = ?
-        LIMIT 1 FOR UPDATE
-    ");
-    $stmt->execute([$owned_morty_id, $player_id]);
-
-    if (!$stmt->fetch()) {
-        $pdo->rollBack();
-        http_response_code(403);
-        echo json_encode(["error" => ["code" => "INVALID_MORTY"]]);
-        exit;
-    }
-
-    // ============================
-    // 🚫 PREVENT DUPLICATE TRADES
-    // ============================
-    $stmt = $pdo->prepare("
-        SELECT trade_id
-        FROM trades
-        WHERE morty_trade_id = ?
-        LIMIT 1
-    ");
-    $stmt->execute([$owned_morty_id]);
-
-    if ($stmt->fetch()) {
-        $pdo->rollBack();
-        http_response_code(409);
-        echo json_encode(["error" => ["code" => "ALREADY_TRADING"]]);
-        exit;
-    }
-
-    // ============================
-    // 💰 COUPON CHECK
-    // ============================
     if (!$is_free_trade) {
 
-        if ($coupons < $TRADE_COST) {
-            $pdo->rollBack();
-            http_response_code(409);
-            echo json_encode(["error" => ["code" => "NOT_ENOUGH_COUPONS"]]);
-            exit;
-        }
+        if ($coupons < $TRADE_COST) throw new TradeListingError(409);
 
         // Deduct coupon
         $pdo->prepare("
@@ -143,11 +95,7 @@ try {
     ], JSON_UNESCAPED_SLASHES);
 
 } catch (Throwable $e) {
-    if ($pdo->inTransaction()) $pdo->rollBack();
-    http_response_code($e instanceof FriendError ? $e->status : 500);
-    echo json_encode([
-        "error" => ["code" => $e instanceof FriendError ? $e->getMessage() : "SERVER_ERROR"]
-    ]);
+    trade_listing_error($pdo, $e);
 }
 
 /*

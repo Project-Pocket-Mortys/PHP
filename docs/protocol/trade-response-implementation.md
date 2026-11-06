@@ -1,5 +1,9 @@
 # Authenticated trade offer responses
 
+Follow-up: [protected listing creation](trade-listing-protection.md) now enforces
+lock/active-deck and offer criteria at insertion. The response milestone below
+remains separate from later deck transitions and native acceptance verification.
+
 `/trading/offer-response` previously accepted unauthenticated decisions and did
 not bind the selected offer to the supplied request. A caller could therefore
 reject someone else's offer or combine unrelated listings in an ownership swap.

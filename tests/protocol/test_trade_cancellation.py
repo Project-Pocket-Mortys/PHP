@@ -27,6 +27,7 @@ class TradeCancellationTests(unittest.TestCase):
         self.ids = "','".join(self.players)
         self.trade, self.other_trade = [str(uuid.uuid4()) for _ in range(2)]
         self.offer, self.sibling, self.other_offer = [str(uuid.uuid4()) for _ in range(3)]
+        self.spare = str(uuid.uuid4())
         self.addCleanup(self.cleanup)
         queries = []
         for player in self.players:
@@ -248,9 +249,18 @@ class TradeCancellationTests(unittest.TestCase):
 
     def create_offer(self):
         return post('/trading/offer-morty', {'session_id': self.b, 'player_id': self.b,
-                                          'offered_morty_id': self.b, 'trade_request_id': self.trade})
+                                          'offered_morty_id': self.spare, 'trade_request_id': self.trade})
+
+    def prepare_offer_spare(self):
+        # Cancellation tests retain their historical locked listings. Creation
+        # uses a distinct unlocked spare outside the active deck.
+        self.execute([
+            f"UPDATE users SET active_deck_id=1 WHERE player_id='{self.b}'",
+            f"INSERT INTO owned_morties (owned_morty_id,player_id,morty_id,is_locked,is_trading_locked) VALUES ('{self.spare}','{self.b}','Morty','false','false')",
+        ])
 
     def test_offer_creation_preserves_legacy_success_and_exact_parent(self):
+        self.prepare_offer_spare()
         before = self.snapshot()
         status, body = self.create_offer()
         self.assertEqual(status, 200)
@@ -262,7 +272,7 @@ class TradeCancellationTests(unittest.TestCase):
         self.assertRegex(offer['trade_offer_id'], r'^[0-9a-f]{32}$')
         self.assertRegex(offer['_created'], r'^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$')
         self.assertEqual({k: v for k, v in offer.items() if k not in ('trade_offer_id', '_created')},
-                         {'trade_id': self.trade, 'player_id': self.b, 'morty_offer_id': self.b,
+                         {'trade_id': self.trade, 'player_id': self.b, 'morty_offer_id': self.spare,
                           'request_user_name': 'TradeCancelFixture', 'offering_morty_id': 'Morty', 'request_morty_id': 'Morty'})
         after = self.snapshot()
         added = [row for row in after['offers'] if row['trade_offer_id'] == offer['trade_offer_id']]
@@ -273,6 +283,7 @@ class TradeCancellationTests(unittest.TestCase):
         self.assertTrue(after == before, 'Offer creation must preserve its parent and gameplay rows')
 
     def test_concurrent_offer_creation_and_parent_cancellation_leave_no_orphans(self):
+        self.prepare_offer_spare()
         before = self.snapshot()
         with ThreadPoolExecutor(max_workers=2) as pool:
             creator = pool.submit(self.create_offer)
@@ -283,9 +294,9 @@ class TradeCancellationTests(unittest.TestCase):
             self.assertEqual(created[1]['error'], 'None')
             self.assertEqual(sql(f"SELECT id FROM trade_offers WHERE trade_offer_id='{created[1]['offer']['trade_offer_id']}'"), [])
         else:
-            self.assertEqual(created, (404, {'error': 'TRADE_NOT_FOUND'}))
+            self.assertEqual(created, (404, {'error': {'code': 'TRADE_NO_TRADE_EXISTS'}}))
         self.assert_only_deleted(before, trade=self.trade, offers=(self.offer, self.sibling))
-        self.assertEqual(self.create_offer(), (404, {'error': 'TRADE_NOT_FOUND'}))
+        self.assertEqual(self.create_offer(), (404, {'error': {'code': 'TRADE_NO_TRADE_EXISTS'}}))
         self.assert_only_deleted(before, trade=self.trade, offers=(self.offer, self.sibling))
 
     def test_get_cannot_cancel_either_listing(self):

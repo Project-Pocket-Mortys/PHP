@@ -1079,6 +1079,161 @@
         "Original statuses/economics and completed-list spelling unresolved",
         "Protected listing creation, active-party eligibility and legacy true flags remain separate"
       ]
+    },
+    "/trading/request-morty": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$RequestMortyTrade",
+      "address": "0x1790f04",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "owned_morty_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "requested_morty_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "request_variant": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "enum": [
+              "Normal",
+              "Shiny",
+              "Pulsing"
+            ]
+          },
+          "is_free_trade": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id",
+          "owned_morty_id",
+          "requested_morty_id",
+          "request_variant",
+          "is_free_trade"
+        ]
+      },
+      "authentication": "Body session_id resolves an exact unambiguous actor; provided player_id must equal authenticated player (request legacy omission derives actor)",
+      "server_policy": "Lock actor, parent if offer, unique owned instance, active deck and global durable references; shared membership, manual/trade lock or active membership blocks creation",
+      "response": {
+        "success": "Existing {error:None,trade:{trade_id,player_id,morty_trade_id,morty_request,_created,is_free_trade,request_variant},coupons} retained; native optional cooldown remains separate",
+        "error": {
+          "envelope": {
+            "error": {
+              "code": "<enum name>"
+            }
+          },
+          "replacement_emitted_codes": [
+            "FAILED",
+            "TRADE_MORTY_LOCKED",
+            "TRADE_REQUEST_MORTY_DOES_NOT_BELONG_TO_PLAYER"
+          ],
+          "full_native_enum": "Also UNKNOWN and NONE; see native contract"
+        }
+      },
+      "criteria": "No new desired-species catalog restriction; provided variant must be a canonical enum name",
+      "side_effects": "Insert request, retain existing paid cost1 or free expiry time()+3600; no raw-lock/deck changes",
+      "evidence": [
+        "trade-listing-protection-contract.md",
+        "trade-listing-protection.md",
+        "native-trade-creation-contract.md"
+      ],
+      "limitations": [
+        "Eligibility at creation only; later deck activation and acceptance-time party revalidation remain separate",
+        "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
+        "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
+      ],
+      "replacement_legacy_omissions": {
+        "player_id": "authenticated actor",
+        "requested_morty_id": "any",
+        "request_variant": "Normal",
+        "is_free_trade": false
+      }
+    },
+    "/trading/offer-morty": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$SubmitMortyTradeOffer",
+      "address": "0x1791170",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "offered_morty_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "trade_request_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id",
+          "offered_morty_id",
+          "trade_request_id"
+        ]
+      },
+      "authentication": "Body session_id resolves an exact unambiguous actor; provided player_id must equal authenticated player (request legacy omission derives actor)",
+      "server_policy": "Lock actor, parent if offer, unique owned instance, active deck and global durable references; shared membership, manual/trade lock or active membership blocks creation",
+      "response": {
+        "success": "Existing {error:None,offer:{trade_offer_id,trade_id,player_id,morty_offer_id,_created,...optional display metadata}} retained",
+        "error": {
+          "envelope": {
+            "error": {
+              "code": "<enum name>"
+            }
+          },
+          "replacement_emitted_codes": [
+            "FAILED",
+            "TRADE_NO_TRADE_EXISTS",
+            "TRADE_NO_SUCH_MORTY",
+            "TRADE_MORTY_NOT_MATCH_CRITERIA",
+            "TRADE_OFFER_MORTY_DOES_NOT_BELONG_TO_OFFERING_PLAYER"
+          ],
+          "full_native_enum": "Also UNKNOWN and NONE; see native contract"
+        }
+      },
+      "criteria": "Specific requested species and variant equality; any bypasses both",
+      "side_effects": "Insert offer only; preserve metadata and resources",
+      "evidence": [
+        "trade-listing-protection-contract.md",
+        "trade-listing-protection.md",
+        "native-trade-creation-contract.md"
+      ],
+      "limitations": [
+        "Eligibility at creation only; later deck activation and acceptance-time party revalidation remain separate",
+        "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
+        "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
+      ]
     }
   },
   "sse": {

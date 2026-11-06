@@ -35,10 +35,17 @@ Implementation status and evidence confidence are independent. The root README r
 
 ## Current implementation priority
 
+[Protected listing creation](trade-listing-protection.md) now checks both locks,
+global durable references, current ownership/active deck and specific offer
+criteria. Next guard later deck activation and acceptance-time party eligibility,
+verify native accept/reject presentation and resolve post-cancel refresh. Direct
+legacy ACTIVE-battle eligibility requires terminal reconciliation; it is not
+newly blanket-blocked. Existing price/cooldown calculations remain unchanged.
+
 Trade response authorization and parent/offer binding now have a scoped
 [transactional repair](trade-response-implementation.md), including native
 error envelopes and competing-offer cleanup. Next verify native accept/reject
-presentation, protected listing creation and active-party safety; preserve
+presentation and active-party safety across later transitions; preserve
 the separate immediate offer-cancellation refresh gap. Original transfer
 economics and completed-list wire-name mapping remain unresolved.
 

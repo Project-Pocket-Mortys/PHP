@@ -1085,7 +1085,8 @@
           "trade_request_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "Reviewed constructor/creation response evidence; trade-listing-protection-contract.md",
+      "reviewed_contract": "docs/protocol/trade-listing-protection-contract.md"
     },
     {
       "path": "/trading/offer-response",
@@ -1117,7 +1118,8 @@
           "is_free_trade"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "Reviewed constructor/creation response evidence; trade-listing-protection-contract.md",
+      "reviewed_contract": "docs/protocol/trade-listing-protection-contract.md"
     },
     {
       "path": "/user/login",

@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Protected listing creation](trade-listing-protection.md) now checks owned
+instances, both locks, durable reservations and active-deck membership before
+inserting requests/offers. Specific offers match species and variant. Existing
+success bodies, coupon cost and cooldown calculation remain unchanged; reverse
+deck transitions and native acceptance verification remain separate.
+
 [Trade response authorization](trade-response-implementation.md) now binds each
 decision to the authenticated request owner and exact parent/offer pair, using
 the [recovered native contract](native-trade-response-contract.md). Acceptance

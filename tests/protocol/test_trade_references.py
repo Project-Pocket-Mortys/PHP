@@ -100,6 +100,10 @@ class TradeReferenceTests(unittest.TestCase):
         self.assertEqual(sql(f"SELECT is_trading_locked FROM owned_morties WHERE owned_morty_id='{morty}'"),
                          [{'is_trading_locked': 'false'}])
 
+    def prepare_listing_donor(self):
+        # Keep an unchanged living active party and list a separate spare.
+        sql(f"UPDATE decks SET owned_morty_ids='{json.dumps([self.target, self.living])}' WHERE player_id='{self.a}' AND deck_id=7")
+
     def absorb(self, ids=None):
         return post('/session/owned_morties/absorb', {'session_id': self.a, 'owned_morty_id': self.target,
                                                     'absorb_owned_morty_ids': ids if ids is not None else [self.donor]})
@@ -176,6 +180,7 @@ class TradeReferenceTests(unittest.TestCase):
         self.assertEqual(self.absorb()[1]['removed'], [self.donor])
 
     def test_native_paid_request_refresh_cancel_preserves_cost_and_raw_flags(self):
+        self.prepare_listing_donor()
         status, body = post('/trading/request-morty', {'session_id': self.a, 'owned_morty_id': self.donor,
                                                      'requested_morty_id': 'any', 'is_free_trade': False})
         self.assertEqual(status, 200, body)
@@ -192,6 +197,7 @@ class TradeReferenceTests(unittest.TestCase):
         self.assert_lock(self.donor, False)
 
     def test_native_offer_refresh_and_cancel_preserve_raw_flags(self):
+        self.prepare_listing_donor()
         parent = self.reference(self.foreign, owner=self.b)
         status, body = post('/trading/offer-morty', {'session_id': self.a, 'player_id': self.a,
                                                   'offered_morty_id': self.donor, 'trade_request_id': parent})
@@ -205,6 +211,7 @@ class TradeReferenceTests(unittest.TestCase):
         self.assertEqual(self.absorb()[1]['removed'], [self.donor])
 
     def test_native_free_request_keeps_cooldown_after_cancellation(self):
+        self.prepare_listing_donor()
         status, body = post('/trading/request-morty', {'session_id': self.a, 'owned_morty_id': self.donor, 'is_free_trade': True})
         self.assertEqual(status, 200, body)
         self.assertEqual(body['coupons'], 9)
@@ -216,6 +223,7 @@ class TradeReferenceTests(unittest.TestCase):
         self.assert_lock(self.donor, False)
 
     def test_concurrent_request_creation_and_absorb_serialize(self):
+        self.prepare_listing_donor()
         barrier = threading.Barrier(2)
         def create():
             barrier.wait(timeout=5)
@@ -230,11 +238,12 @@ class TradeReferenceTests(unittest.TestCase):
             self.assertEqual(a, (409, {'error': {'code': 'FAILED'}}))
             self.assert_lock(self.donor, True)
         else:
-            self.assertEqual(c, (403, {'error': {'code': 'INVALID_MORTY'}}))
+            self.assertEqual(c, (403, {'error': {'code': 'TRADE_REQUEST_MORTY_DOES_NOT_BELONG_TO_PLAYER'}}))
             self.assertEqual(a[1]['removed'], [self.donor])
             self.assertEqual(sql(f"SELECT id FROM trades WHERE morty_trade_id='{self.donor}'"), [])
 
     def test_concurrent_offer_creation_and_absorb_serialize(self):
+        self.prepare_listing_donor()
         parent = self.reference(self.foreign, owner=self.b)
         before = self.snapshot()
         barrier = threading.Barrier(2)
@@ -264,7 +273,7 @@ class TradeReferenceTests(unittest.TestCase):
             after['trade_offers'].remove(added[0])
             self.assertEqual(after, before)
         else:
-            self.assertEqual(c, (400, {'error': 'MORTY_NOT_OWNED'}))
+            self.assertEqual(c, (404, {'error': {'code': 'TRADE_NO_SUCH_MORTY'}}))
             self.assertEqual(a[0], 200, a)
             self.assertEqual(a[1]['removed'], [self.donor])
             self.assertEqual(after['trade_offers'], before['trade_offers'])
