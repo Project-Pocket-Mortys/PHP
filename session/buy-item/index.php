@@ -5,6 +5,7 @@ header("Access-Control-Allow-Origin: *");
 header("Vary: Accept-Encoding");
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../lib/preparation_writer_guard.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -22,23 +23,14 @@ if ($session_id === '' || $item_id === '') {
 $MAX_ITEM_LIMIT = 10;
 
 try {
-    // ✅ Validate user
-    $stmt = $pdo->prepare("SELECT player_id FROM users WHERE session_id = ? LIMIT 1");
-    $stmt->execute([$session_id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode(["error" => ["code" => "NOT_AUTHENTICATED"]], JSON_UNESCAPED_SLASHES);
-        exit;
-    }
+    $user = preparation_writer_lock($pdo, $session_id);
 
     $player_id = $user['player_id'];
 
     // ✅ Check if item already exists
     $stmt = $pdo->prepare("
-        SELECT quantity 
-        FROM owned_items 
+        SELECT quantity
+        FROM owned_items
         WHERE player_id = ? AND item_id = ?
         LIMIT 1
     ");
@@ -50,6 +42,7 @@ try {
 
         // ❌ Limit reached
         if ($current_qty >= $MAX_ITEM_LIMIT) {
+            $pdo->rollBack();
             http_response_code(409);
             echo json_encode([
                 "error" => ["code" => "ITEM_LIMIT"]
@@ -61,8 +54,8 @@ try {
         $new_qty = min($current_qty + 1, $MAX_ITEM_LIMIT);
 
         $stmt = $pdo->prepare("
-            UPDATE owned_items 
-            SET quantity = ? 
+            UPDATE owned_items
+            SET quantity = ?
             WHERE player_id = ? AND item_id = ?
         ");
         $stmt->execute([$new_qty, $player_id, $item_id]);
@@ -81,6 +74,7 @@ try {
     }
 
     // ✅ Success response
+    $pdo->commit();
     echo json_encode([
         "coins" => 3205915, // you can replace with real value later
         "coupons" => 1,
@@ -94,8 +88,9 @@ try {
     ], JSON_UNESCAPED_SLASHES);
 
 } catch (Throwable $e) {
-    http_response_code(500);
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    http_response_code($e instanceof FriendError ? $e->status : 500);
     echo json_encode([
-        "error" => ["code" => "SERVER_ERROR"]
+        "error" => ["code" => $e instanceof FriendError ? $e->getMessage() : "SERVER_ERROR"]
     ], JSON_UNESCAPED_SLASHES);
 }
