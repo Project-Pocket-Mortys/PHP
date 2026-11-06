@@ -1,0 +1,88 @@
+{
+  "evidence_kind": "Android 2.41.0 replacement-server Quick Craft capture; not original-server evidence",
+  "request": {
+    "evidence_kind": "replacement-server runtime; not original-server evidence",
+    "time_utc": "2026-11-02T19:33:26+00:00",
+    "method": "POST",
+    "path": "/session/recipe/use",
+    "request": {
+      "session_id": "[REDACTED]",
+      "recipe_id": "RecipeSerum"
+    },
+    "status": 200,
+    "response": {
+      "owned_items": [
+        {
+          "item_id": "ItemBattery",
+          "quantity": 0
+        },
+        {
+          "item_id": "ItemFleeb",
+          "quantity": 0
+        },
+        {
+          "item_id": "ItemSerum",
+          "quantity": 2
+        }
+      ],
+      "result": {
+        "type": 3,
+        "item_id": "ItemSerum",
+        "quantity": 2,
+        "amount": 1,
+        "amount_received": 1
+      }
+    }
+  },
+  "fixture": {
+    "recipe_id": "RecipeSerum",
+    "before": {
+      "ItemBattery": 1,
+      "ItemFleeb": 1,
+      "ItemSerum": 1
+    },
+    "after": [
+      {
+        "item_id": "ItemBattery",
+        "quantity": 0
+      },
+      {
+        "item_id": "ItemFleeb",
+        "quantity": 0
+      },
+      {
+        "item_id": "ItemSerum",
+        "quantity": 2
+      }
+    ]
+  },
+  "observations": {
+    "reward_screen": "You received Serum x1",
+    "client_inventory_serum": "2/10",
+    "after_return": "RecipeSerum disabled; insufficient parts",
+    "currency_xp_level_and_active_deck_unchanged": true
+  },
+  "screenshots": {
+    "selected": {
+      "path": ".research/emulator/crafting-selected.png",
+      "sha256": "7ff7517f31282beed0342d505bc0809feab25b1857c758b8ba9db33cd5a8b57f"
+    },
+    "result": {
+      "path": ".research/emulator/crafting-result.png",
+      "sha256": "98416f60fee7f732836756198ef20a82980613dbf3c31ddfcb0f7c98cce69c6d"
+    },
+    "after-continue": {
+      "path": ".research/emulator/crafting-after-continue.png",
+      "sha256": "bef7c010f673ce16d2820bbf985131f0a8aea16704475b8fedaac984141815fb"
+    },
+    "inventory-result": {
+      "path": ".research/emulator/crafting-inventory-result.png",
+      "sha256": "40c22c93005c65068397afcb8a2116928442cc0b6604e19e6448be0cf5bb2ac6"
+    }
+  },
+  "fixture_restored": {
+    "ingredient_fixture_rows_removed": true,
+    "original_serum_quantity_restored": 1,
+    "client_restarted_after_restore": true
+  }
+}

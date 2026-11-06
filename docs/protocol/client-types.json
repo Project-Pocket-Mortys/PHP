@@ -346,7 +346,7 @@
       {
         "name": "battle_invite_id",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_invite_id",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -358,7 +358,7 @@
       {
         "name": "battle_type",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_type",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -370,7 +370,7 @@
       {
         "name": "battle_invite_ttl",
         "managed_type": "float",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_invite_ttl",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -382,7 +382,7 @@
       {
         "name": "from_player",
         "managed_type": "Dictionary<String, Object>",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "from_player",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -394,7 +394,7 @@
       {
         "name": "token",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "token",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -409,7 +409,7 @@
       "line": 1,
       "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
     },
-    "contract_mapping": "unresolved unless explicitly mapped in reviewed contracts"
+    "contract_mapping": "Reviewed: contracts.json and friend-battle-invite-contract.md"
   },
   {
     "type": "BattleMoveTimeResponse",
@@ -1105,7 +1105,7 @@
       {
         "name": "battle_invite_id",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_invite_id",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -1117,7 +1117,7 @@
       {
         "name": "battle_type",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_type",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -1129,7 +1129,7 @@
       {
         "name": "opponent",
         "managed_type": "Dictionary<String, Object>",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "opponent",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -1144,7 +1144,7 @@
       "line": 1,
       "sha256": "f07cb74d96c1ca52b69d2a87d13a65a247cb8aa1c16038db5ebd5ef245989615"
     },
-    "contract_mapping": "unresolved unless explicitly mapped in reviewed contracts"
+    "contract_mapping": "Reviewed: contracts.json and friend-battle-invite-contract.md"
   },
   {
     "type": "InviteDeclinedResponse",
@@ -1152,7 +1152,7 @@
       {
         "name": "battle_invite_id",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_invite_id",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -1167,7 +1167,7 @@
       "line": 1,
       "sha256": "d00a4899f410c81d9455214f5ba97641aebc069d4767ba2e4f79efdce7806ffe"
     },
-    "contract_mapping": "unresolved unless explicitly mapped in reviewed contracts"
+    "contract_mapping": "Reviewed: contracts.json and friend-battle-invite-contract.md"
   },
   {
     "type": "InviteRevokedResponse",
@@ -1175,7 +1175,7 @@
       {
         "name": "battle_invite_id",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_invite_id",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -1190,7 +1190,7 @@
       "line": 1,
       "sha256": "c13a8691dc98ac8b2d79f998f0989af516dcee9a4aa7548b7d4dc8a36045d079"
     },
-    "contract_mapping": "unresolved unless explicitly mapped in reviewed contracts"
+    "contract_mapping": "Reviewed: contracts.json and friend-battle-invite-contract.md"
   },
   {
     "type": "LoginResponse",
@@ -4769,7 +4769,7 @@
       {
         "name": "battle_invite_id",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_invite_id",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -4781,7 +4781,7 @@
       {
         "name": "battle_type",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_type",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -4793,7 +4793,7 @@
       {
         "name": "battle_invite_ttl",
         "managed_type": "float",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "battle_invite_ttl",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -4805,7 +4805,7 @@
       {
         "name": "token",
         "managed_type": "string",
-        "wire_name": "unknown; confirm serializer attributes/native parser",
+        "wire_name": "token",
         "required": "unknown",
         "nullable": "unknown",
         "evidence": {
@@ -4820,7 +4820,7 @@
       "line": 1,
       "sha256": "fc3233a6306311233e0abc1a21a4f8ba7981884bb74750b4715e04a1487a92f6"
     },
-    "contract_mapping": "unresolved unless explicitly mapped in reviewed contracts"
+    "contract_mapping": "Reviewed: contracts.json and friend-battle-invite-contract.md"
   },
   {
     "type": "ServerMessageResponse",
