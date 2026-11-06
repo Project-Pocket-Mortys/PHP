@@ -3,6 +3,7 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 require __DIR__ . '/../../pocket_f4894h398r8h9w9er8he98he.php';
 require_once __DIR__ . '/../../lib/healing_items.php';
+require_once __DIR__ . '/../../lib/battle_membership_guard.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     header('Allow: POST');
@@ -33,7 +34,7 @@ try {
     // Party item use is separate from battle turns, which hold their own HP.
     $query = $pdo->prepare("SELECT battle_id FROM battles WHERE player_id = ? AND state = 'ACTIVE' LIMIT 1");
     $query->execute([$user['player_id']]);
-    if ($user['state'] !== 'WORLD' || $query->fetchColumn()) {
+    if ($user['state'] !== 'WORLD' || $query->fetchColumn() || battle_has_shared_membership($pdo, (string)$user['player_id'])) {
         $pdo->rollBack();
         respond(409, ['error' => ['code' => 'FAILED']]);
     }

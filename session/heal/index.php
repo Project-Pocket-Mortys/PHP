@@ -125,6 +125,14 @@ try {
     json_out(["error" => ["code" => "DECK_EMPTY"]], 400);
   }
 
+  // Ownerless attack rows must never be reached through a stale foreign deck.
+  $check = $pdo->prepare('SELECT player_id,owned_morty_id FROM owned_morties WHERE owned_morty_id=? ORDER BY id FOR UPDATE');
+  foreach ($ownedIds as $id) {
+    $check->execute([$id]); $matches=$check->fetchAll(PDO::FETCH_ASSOC);
+    if (count($matches)!==1 || $matches[0]['player_id']!==$player_id || $matches[0]['owned_morty_id']!==$id) {
+      json_out(['error'=>['code'=>'FAILED']],409);
+    }
+  }
   // 3) heal HP + PP (transaction)
   $ph = implode(",", array_fill(0, count($ownedIds), "?"));
 

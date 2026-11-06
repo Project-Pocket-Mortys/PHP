@@ -5,6 +5,7 @@ header("Access-Control-Allow-Origin: *");
 header("Vary: Accept-Encoding");
 
 require '../../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../../lib/battle_membership_guard.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -33,6 +34,22 @@ try {
     }
 
     $player_id = $user['player_id'];
+    $pdo->beginTransaction();
+    $lock = $pdo->prepare("SELECT * FROM users WHERE player_id = ? FOR UPDATE");
+    $lock->execute([$player_id]);
+    $lockedUsers = $lock->fetchAll(PDO::FETCH_ASSOC);
+    $sessionCheck = $pdo->prepare("SELECT id FROM users WHERE session_id = ?");
+    $sessionCheck->execute([$session_id]);
+    $sessionUsers = $sessionCheck->fetchAll(PDO::FETCH_ASSOC);
+    if (count($lockedUsers) !== 1 || $lockedUsers[0]['session_id'] !== $session_id || count($sessionUsers) !== 1) {
+        $pdo->rollBack();
+        respond(401, ["error" => ["code" => "NOT_AUTHENTICATED"]]);
+    }
+    $user = $lockedUsers[0];
+    if (battle_has_shared_membership($pdo, $player_id)) {
+        $pdo->rollBack();
+        respond(409, ["error" => ["code" => "FAILED"]]);
+    }
 
     // ============================
     // 🔥 PROCESS + TRACK UPDATED
@@ -51,14 +68,16 @@ try {
 
         // Verify ownership
         $stmt = $pdo->prepare("
-            SELECT owned_morty_id 
-            FROM owned_morties 
-            WHERE owned_morty_id = ? AND player_id = ?
-            LIMIT 1
+            SELECT owned_morty_id, player_id
+            FROM owned_morties
+            WHERE owned_morty_id = ?
+            ORDER BY id
+            FOR UPDATE
         ");
-        $stmt->execute([$owned_morty_id, $player_id]);
-
-        if (!$stmt->fetch()) continue;
+        $stmt->execute([$owned_morty_id]);
+        $owners = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Attack rows are keyed only by logical Morty ID, so duplicates are unsafe.
+        if (count($owners) !== 1 || $owners[0]['player_id'] !== $player_id) continue;
 
         // Delete old attacks
         $pdo->prepare("DELETE FROM owned_attacks WHERE owned_morty_id = ?")
@@ -74,7 +93,7 @@ try {
             $pp = 8;
 
             $pdo->prepare("
-                INSERT INTO owned_attacks 
+                INSERT INTO owned_attacks
                 (owned_morty_id, attack_id, position, pp, pp_stat)
                 VALUES (?, ?, ?, ?, ?)
             ")->execute([
@@ -96,6 +115,7 @@ try {
     // 🔥 FETCH ONLY UPDATED MORTIES
     // ============================
     if (empty($updated_ids)) {
+        $pdo->commit();
         echo json_encode([
             "player_id" => $user['player_id'],
             "username" => $user['username'],
@@ -117,14 +137,14 @@ try {
     $placeholders = implode(',', array_fill(0, count($updated_ids), '?'));
 
     $stmt = $pdo->prepare("
-        SELECT 
+        SELECT
             m.*,
             a.attack_id,
             a.position,
             a.pp,
             a.pp_stat
         FROM owned_morties m
-        LEFT JOIN owned_attacks a 
+        LEFT JOIN owned_attacks a
             ON m.owned_morty_id = a.owned_morty_id
         WHERE m.player_id = ?
           AND m.owned_morty_id IN ($placeholders)
@@ -178,6 +198,7 @@ try {
     }
 
     $owned_morties = array_values($mortyMap);
+    $pdo->commit();
 
     // ============================
     // 🔥 FINAL RESPONSE
@@ -205,6 +226,7 @@ try {
     ], JSON_UNESCAPED_SLASHES);
 
 } catch (Throwable $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
     http_response_code(500);
     echo json_encode([
         "error" => ["code" => "SERVER_ERROR"]

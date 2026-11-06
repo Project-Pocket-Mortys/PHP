@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/battle_membership_guard.php';
 
 final class MortyReleaseError extends RuntimeException {
     public int $status;
@@ -53,6 +54,7 @@ function morty_release_plan(PDO $pdo, string $sessionId, array $ids): array {
     if (!$user) throw new MortyReleaseError(401);
     if ($user['state'] !== 'WORLD') throw new MortyReleaseError(409);
     $playerId = (string)$user['player_id'];
+    if (battle_has_shared_membership($pdo, $playerId)) throw new MortyReleaseError(409);
 
     // IDs are not unique in this schema, and attacks have no owner column.
     // Lock every global match and reject ambiguity before deleting any attacks.

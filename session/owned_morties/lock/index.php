@@ -2,6 +2,7 @@
 declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 require __DIR__ . '/../../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../../lib/battle_membership_guard.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     header('Allow: POST');
@@ -23,6 +24,9 @@ try {
     if (!$user) {
         $pdo->rollBack();
         respond(401, ['error' => ['code' => 'FAILED']]);
+    }
+    if (battle_has_shared_membership($pdo, (string)$user['player_id'])) {
+        $pdo->rollBack(); respond(409, ['error' => ['code' => 'FAILED']]);
     }
     $query = $pdo->prepare('SELECT id FROM owned_morties WHERE player_id = ? AND owned_morty_id = ? FOR UPDATE');
     $query->execute([$user['player_id'], $body['owned_morty_id']]);
