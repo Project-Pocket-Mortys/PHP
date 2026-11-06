@@ -3,10 +3,13 @@ from concurrent.futures import ThreadPoolExecutor
 import subprocess
 import time
 import unittest
+import json
+import urllib.error
+import urllib.request
 import uuid
 
 import test_friend_battle_invites as invitations
-from test_http import COMPOSE, ROOT, post, sql
+from test_http import COMPOSE, ROOT, sql
 
 
 class TradePartyGuardTests(unittest.TestCase):
@@ -31,8 +34,16 @@ class TradePartyGuardTests(unittest.TestCase):
         ])
 
     def call(self, accept=True):
-        return post('/trading/offer-response', dict(trade_request_id=self.trade,
-                    trade_offer_id=self.offer, request_accepted=accept))
+        request = urllib.request.Request('http://127.0.0.1:8087/trading/offer-response/',
+            json.dumps(dict(trade_request_id=self.trade, trade_offer_id=self.offer,
+                            request_accepted=accept)).encode(),
+            {'Content-Type': 'application/json', 'Cookie': 'session_id=' + self.a}, method='POST')
+        try:
+            response = urllib.request.urlopen(request, timeout=10)
+        except urllib.error.HTTPError as error:
+            response = error
+        with response:
+            return response.status, json.loads(response.read())
 
     def snapshot(self):
         return dict(gameplay=self.f.snapshot(),
@@ -43,7 +54,7 @@ class TradePartyGuardTests(unittest.TestCase):
 
     def assert_blocked(self, accept=True):
         before = self.snapshot()
-        self.assertEqual(self.call(accept), (409, {'error': 'FAILED'}))
+        self.assertEqual(self.call(accept), (409, {'error': {'code': 'FAILED'}}))
         self.assertEqual(self.snapshot(), before)
 
     def test_declared_and_actual_owners_all_block_transfer_and_decline(self):
@@ -94,7 +105,7 @@ class TradePartyGuardTests(unittest.TestCase):
         sql(f"CREATE TRIGGER {trigger} BEFORE INSERT ON completed_trades FOR EACH ROW BEGIN IF NEW.trade_request_id='{self.trade}' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='UUID trade completion failure'; END IF; END")
         before = self.snapshot()
         try:
-            self.assertEqual(self.call(), (500, {'error': 'SERVER_ERROR'}))
+            self.assertEqual(self.call(), (500, {'error': {'code': 'FAILED'}}))
             self.assertEqual(self.snapshot(), before)
         finally:
             sql(f'DROP TRIGGER IF EXISTS {trigger}')
@@ -122,7 +133,7 @@ class TradePartyGuardTests(unittest.TestCase):
                 finally:
                     blocker.stdin.write('release\n')
                     blocker.stdin.flush()
-                self.assertEqual(pending.result(timeout=10), (409, {'error': 'FAILED'}))
+                self.assertEqual(pending.result(timeout=10), (409, {'error': {'code': 'FAILED'}}))
             self.assertEqual(blocker.wait(timeout=10), 0, blocker.stderr.read())
             self.assertEqual(len(sql(f"SELECT * FROM trades WHERE trade_id='{self.trade}'")), 1)
             self.assertEqual(len(sql(f"SELECT * FROM trade_offers WHERE trade_offer_id='{self.offer}'")), 1)

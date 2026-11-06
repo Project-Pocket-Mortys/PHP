@@ -1099,7 +1099,8 @@
           "request_accepted"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed constructor and error-only callback; native-trade-response-contract.md",
+      "reviewed_contract": "docs/protocol/native-trade-response-contract.md"
     },
     {
       "path": "/trading/request-morty",

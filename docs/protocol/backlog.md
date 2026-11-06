@@ -13,7 +13,7 @@ Implementation status and evidence confidence are independent. The root README r
 
 | Priority | Work | Evidence and affected interfaces | Acceptance |
 |---|---|---|---|
-| P1 | Complete shared battle startup and acceptance | Membership/deadline cleanup and immutable paired party snapshots now work (`battle-party-snapshots.md`, migration009). Covered party writers serialize against shared claims; trade authorization/offer binding remains a separate known gap. No public activation. | Define inventory/profile startup policy, both-user transitions/two private starts, readiness/reconnect and shared terminal cleanup before enabling acceptance. Validate the native projection, attack eligibility and raw XP/status fields separately. Schedule disconnected cleanup; implement human turns separately. |
+| P1 | Complete shared battle startup and acceptance | Membership/deadline cleanup and immutable paired party snapshots now work (`battle-party-snapshots.md`, migration009). Covered party writers serialize against shared claims; trade response authorization/offer binding is now repaired (`trade-response-implementation.md`), while protected listing creation and native transfer verification remain separate. No public activation. | Define inventory/profile startup policy, both-user transitions/two private starts, readiness/reconnect and shared terminal cleanup before enabling acceptance. Validate the native projection, attack eligibility and raw XP/status fields separately. Schedule disconnected cleanup; implement human turns separately. |
 | P1 | Recover Shiny encounter policy and remaining numeric items | Shiny Potion activation/expiry/startup and conditional private battle variants are implemented (`shiny-potion-implementation.md`). Existing spawn flags retain placeholder probabilities. Fresh seed audit finds no MP magnitudes/caps; SP values are separate (`remaining-item-evidence.md`). | Recover original encounter rates, seed amounts/caps, growth and percentage rounding from independent evidence; preserve durable expiry/stock behavior and do not substitute SP numbers or infer capture rules. |
 | P1 | Reconcile full evolution and conditional absorption party checks | Locked-donor protection, deduplication and owner-scoped counter/deck writes work (`absorb-protection-implementation.md`); same-species/variant eligibility now rejects incompatible donors atomically (`absorb-eligibility-implementation.md`). Point-only absorption now preserves a living active party (`absorb-active-party-implementation.md`), with the native threshold exception kept distinct from replacement policy. Native optional `created` full-evolution data remains separate (`absorb-protection-contract.md`). README-completed evolution status is retained. | Verify full transformation and server-authoritative species/stat/party behavior separately; enforce remaining predicates without inventing formulas or replacing existing progress. Cover threshold and partial cases and retain donor/target protections. |
 | P1 | Verify original timeout policy and interrupted-battle replay | Selection expiry recovery now uses native ABANDONED with atomic claim release and no HP/AP/stock changes (`battle-timeout-implementation.md`). Native countdown and independent 180-second disconnect watchdog are distinct. | Preserve the tested replacement cancellation; recover original grace/penalty rules if evidence appears. Verify replay after shared-cursor advancement and transition races; do not infer turn identity from identical READY bodies. |
@@ -34,6 +34,13 @@ Implementation status and evidence confidence are independent. The root README r
 | P3 | iOS compatibility | IPA unavailable. | Inspect bundle/Mach-O/metadata and compare matching-version contracts; document platform differences. |
 
 ## Current implementation priority
+
+Trade response authorization and parent/offer binding now have a scoped
+[transactional repair](trade-response-implementation.md), including native
+error envelopes and competing-offer cleanup. Next verify native accept/reject
+presentation, protected listing creation and active-party safety; preserve
+the separate immediate offer-cancellation refresh gap. Original transfer
+economics and completed-list wire-name mapping remain unresolved.
 
 Player-visible missing features now take priority over broad transport audits; see
 [the feature delivery order](missing-features.md). Lock/unlock toggle and persistence

@@ -1,5 +1,11 @@
 # Protocol coverage
 
+[Trade offer responses](trade-response-implementation.md) now enforce authenticated
+requester decisions and exact request/offer binding, with native error codes and
+atomic competing-offer cleanup. Evidence is bounded client analysis plus
+synthetic HTTP/database regression tests; native accept/reject presentation,
+protected listing creation and complete party safety remain unverified.
+
 The retained Android client now passes [isolated offline SDK startup](onetrust-startup-recovery.md)
 and [native trading cookie transmission](onetrust-recovery-cookie-handoff.json).
 This closes the prior cookie-transport observation gap. Native own-request

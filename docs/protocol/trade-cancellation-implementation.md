@@ -1,5 +1,10 @@
 # Owner-scoped trade cancellation
 
+Later scoped repair: [trade offer responses](trade-response-implementation.md)
+now authenticate requester decisions and bind the selected offer to its request.
+Native accept/reject and full transfer/party correctness remain separate. The
+earlier cancellation boundaries below describe that milestone's scope.
+
 Native offer validation follow-up: [creation/reload/cancellation](native-trade-offers.md)
 now passes on two disposable trading accounts. Offer cancellation's immediate
 inventory refresh remains unresolved; transfer approval is not claimed.

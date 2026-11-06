@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Trade response authorization](trade-response-implementation.md) now binds each
+decision to the authenticated request owner and exact parent/offer pair, using
+the [recovered native contract](native-trade-response-contract.md). Acceptance
+cleans up competing offers atomically; native accept/reject presentation and
+protected listing creation remain separate verification work.
+
 [Native friend offers and cancellation](native-trade-offers.md) now pass on the
 disposable trading pair, including a repaired metadata reload. Offer display
 names/species now survive GetTrades. Immediate inventory unlock after offer

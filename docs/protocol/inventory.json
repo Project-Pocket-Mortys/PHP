@@ -5455,55 +5455,70 @@
               "request_accepted"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "reviewed metadata-bounded ARM64 and targeted REA6.8/Ghidra; exact three fields and JSON boolean established"
         }
       ],
       "server_evidence": {
         "file": "trading/offer-response/index.php",
         "line": 1,
-        "sha256": "9d1844e86e49ad35da685bcf2cfaf8b305a9e8c103c3a1fd96a93cad9af51bf2"
+        "sha256": "f247719a3b2952175788ddc031e808e9f2506265c88309d6165e0fdeb69836b7"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Authenticated requester decisions, exact binding and native-compatible errors repaired; complete transfer/party/native verification remains separate",
+      "evidence_confidence": "statically established client contract; observed synthetic replacement HTTP/DB regression behavior",
+      "http_method": "POST",
       "input_field_candidates": [
-        "request_accepted",
+        "trade_request_id",
         "trade_offer_id",
-        "trade_request_id"
+        "request_accepted"
       ],
       "query_fields": [],
       "response_key_candidates": [
         "error",
-        "message"
+        "code"
       ],
       "http_status_candidates": [
+        200,
         400,
+        401,
+        403,
         404,
+        405,
+        409,
         500
       ],
       "table_candidates": [
-        "completed_trades",
-        "owned_morties",
+        "users",
+        "trades",
         "trade_offers",
-        "trades"
+        "owned_morties",
+        "completed_trades",
+        "friend_battle_memberships"
       ],
       "events_published": [],
-      "authentication": "requires review",
+      "authentication": "Replacement login-issued /trading/ session_id cookie or Bearer; both must agree; body identity never authorizes",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "Static client contract plus synthetic replacement-server tests; no native accept/reject capture",
+        "Original statuses/economics and completed-list spelling unresolved",
+        "Protected listing creation, active-party eligibility and legacy true flags remain separate"
       ],
       "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
       "implementation_helpers": [
         {
+          "file": "lib/trade_response.php",
+          "sha256": "f2e3a3e3b646cca808ca1bc0ab1e4074bf5c6f78e243f49508d6469cfc4be5db"
+        },
+        {
+          "file": "lib/trade_cancellation.php",
+          "sha256": "5f3509438f86619f10f03dec377b27c469e60770a28d49a88b65d34d9f653465"
+        },
+        {
           "file": "lib/trade_membership_guard.php",
           "sha256": "784d37bda49fd9d5ac577bd787c440f0883c061c803898c2dc35fff72a8f95f8"
         }
-      ]
+      ],
+      "reviewed_contract": "docs/protocol/native-trade-response-contract.md",
+      "repair": "docs/protocol/trade-response-implementation.md"
     },
     {
       "path": "/trading/request-morty",

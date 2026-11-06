@@ -1021,6 +1021,64 @@
         "Original HTTP statuses/refunds unknown",
         "Native cookie transport verified with explicit offline-SDK fixture; cancellation-button capture pending"
       ]
+    },
+    "/trading/offer-response": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$TradeOfferResponse",
+      "address": "0x1791548",
+      "request": {
+        "type": "object",
+        "properties": {
+          "trade_request_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Nonblank logical identifier; replacement server limits UTF-8 byte length to 64"
+          },
+          "trade_offer_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Nonblank logical identifier; replacement server limits UTF-8 byte length to 64"
+          },
+          "request_accepted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "trade_request_id",
+          "trade_offer_id",
+          "request_accepted"
+        ]
+      },
+      "response": {
+        "success": "HTTP success; native ignores body; replacement preserves [null,null]",
+        "error": "Non-success JSON error.code; replacement-emitted codes: FAILED, TRADE_NO_TRADE_EXISTS, TRADE_NO_OFFER_EXISTS. Full recovered enum also defines UNKNOWN and NONE."
+      },
+      "authentication": "Replacement login-issued /trading/ session_id cookie or Bearer; both must agree; body identity never authorizes",
+      "server_policy": "Current unambiguous requester only; exact parent/offer binding; acceptance requires declared ownership; existing both-decision shared battle guard retained",
+      "side_effects": {
+        "accept": "Atomic selected ownership swap and one completion; delete parent and all attached offers",
+        "reject": "Delete only selected attached offer; preserve parent and siblings"
+      },
+      "errors": {
+        "400": "Malformed body",
+        "401": "Invalid authentication",
+        "403": "Not request owner",
+        "404": "Missing listing",
+        "405": "Not POST",
+        "409": "Ambiguous/inconsistent or reserved state",
+        "500": "Unexpected failure; rollback"
+      },
+      "evidence": [
+        "native-trade-response-contract.md",
+        "trade-response-implementation.md"
+      ],
+      "limitations": [
+        "Static client contract plus synthetic replacement-server tests; no native accept/reject capture",
+        "Original statuses/economics and completed-list spelling unresolved",
+        "Protected listing creation, active-party eligibility and legacy true flags remain separate"
+      ]
     }
   },
   "sse": {
