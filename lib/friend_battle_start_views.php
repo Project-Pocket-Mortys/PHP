@@ -83,49 +83,57 @@ function friend_start_trainer(array $context, array $party, bool $owner): array 
     return $trainer;
 }
 
+/** Caller holds both participant locks and the shared session; capture is explicit. */
+function friend_start_views_locked(PDO $pdo, array $row, array $users, bool $capture): array {
+    if (!$pdo->inTransaction()) throw new LogicException('Locked start views require a transaction');
+    $battleId=$row['battle_id'];
+    $parties=friend_party_load_stored($pdo,$row);
+    if ($parties === null) friend_fail(409,'FAILED');
+    $players=array_keys($users); sort($players,SORT_STRING); $contexts=[]; $views=[];
+    foreach ($players as $player) $contexts[$player]=friend_start_context_locked($pdo,$users[$player]);
+    foreach ($players as $player) {
+        $other=$player===$row['sender_id'] ? $row['recipient_id'] : $row['sender_id'];
+        $views[$player]=['battle_id'=>$battleId,'battle_type'=>'PvF',
+            'player'=>friend_start_trainer($contexts[$player],$parties[$player],true),
+            'opponent'=>friend_start_trainer($contexts[$other],$parties[$other],false),'meta'=>(object)[]];
+    }
+    $query=$pdo->prepare('SELECT * FROM friend_battle_start_views WHERE battle_id=? ORDER BY player_id');
+    $query->execute([$battleId]); $stored=$query->fetchAll(PDO::FETCH_ASSOC);
+    if ($stored) {
+        if (count($stored)!==2 || $row['start_views_created_at'] === null) friend_fail(409,'FAILED');
+        $seen=[];
+        foreach ($stored as $snapshot) {
+            $player=$snapshot['player_id'];
+            if (!isset($contexts[$player]) || isset($seen[$player])) friend_fail(409,'FAILED');
+            $seen[$player]=true;
+            foreach (['context'=>$contexts[$player],'view'=>$views[$player]] as $field=>$expected) {
+                $json=$snapshot[$field.'_json'];
+                if (!hash_equals($snapshot[$field.'_sha256'],hash('sha256',$json))
+                    || $json!==friend_start_json($expected)) friend_fail(409,'FAILED');
+            }
+        }
+    } else {
+        if (!$capture) friend_fail(409,'FAILED');
+        if ($row['start_views_created_at'] !== null) friend_fail(409,'FAILED');
+        $insert=$pdo->prepare('INSERT INTO friend_battle_start_views (battle_id,player_id,context_json,context_sha256,view_json,view_sha256,created_at) VALUES (?,?,?,?,?,?,UTC_TIMESTAMP(6))');
+        foreach ($players as $player) {
+            $context=friend_start_json($contexts[$player]); $view=friend_start_json($views[$player]);
+            $insert->execute([$battleId,$player,$context,hash('sha256',$context),$view,hash('sha256',$view)]);
+        }
+        $query=$pdo->prepare('UPDATE friend_battle_sessions SET start_views_created_at=UTC_TIMESTAMP(6) WHERE battle_id=? AND start_views_created_at IS NULL');
+        $query->execute([$battleId]);
+        if ($query->rowCount()!==1) friend_fail(409,'FAILED');
+    }
+    $result=['sender'=>$views[$row['sender_id']],'recipient'=>$views[$row['recipient_id']]];
+    return $result;
+}
+
 /** Trusted internal API returns both perspectives; never expose both over HTTP. */
 function friend_battle_build_start_views(PDO $pdo, string $session, string $battleId): array {
     if ($pdo->inTransaction()) throw new LogicException('Standalone start capture requires no transaction');
     try {
         [$row,$self,$peer]=friend_party_prepare_locked($pdo,$session,$battleId);
-        $parties=friend_party_load_stored($pdo,$row);
-        if ($parties === null) friend_fail(409,'FAILED');
-        $users=[$self['player_id']=>$self,$peer['player_id']=>$peer];
-        $players=array_keys($users); sort($players,SORT_STRING); $contexts=[]; $views=[];
-        foreach ($players as $player) $contexts[$player]=friend_start_context_locked($pdo,$users[$player]);
-        foreach ($players as $player) {
-            $other=$player===$row['sender_id'] ? $row['recipient_id'] : $row['sender_id'];
-            $views[$player]=['battle_id'=>$battleId,'battle_type'=>'PvF',
-                'player'=>friend_start_trainer($contexts[$player],$parties[$player],true),
-                'opponent'=>friend_start_trainer($contexts[$other],$parties[$other],false),'meta'=>(object)[]];
-        }
-        $query=$pdo->prepare('SELECT * FROM friend_battle_start_views WHERE battle_id=? ORDER BY player_id');
-        $query->execute([$battleId]); $stored=$query->fetchAll(PDO::FETCH_ASSOC);
-        if ($stored) {
-            if (count($stored)!==2 || $row['start_views_created_at'] === null) friend_fail(409,'FAILED');
-            $seen=[];
-            foreach ($stored as $snapshot) {
-                $player=$snapshot['player_id'];
-                if (!isset($contexts[$player]) || isset($seen[$player])) friend_fail(409,'FAILED');
-                $seen[$player]=true;
-                foreach (['context'=>$contexts[$player],'view'=>$views[$player]] as $field=>$expected) {
-                    $json=$snapshot[$field.'_json'];
-                    if (!hash_equals($snapshot[$field.'_sha256'],hash('sha256',$json))
-                        || $json!==friend_start_json($expected)) friend_fail(409,'FAILED');
-                }
-            }
-        } else {
-            if ($row['start_views_created_at'] !== null) friend_fail(409,'FAILED');
-            $insert=$pdo->prepare('INSERT INTO friend_battle_start_views (battle_id,player_id,context_json,context_sha256,view_json,view_sha256,created_at) VALUES (?,?,?,?,?,?,UTC_TIMESTAMP(6))');
-            foreach ($players as $player) {
-                $context=friend_start_json($contexts[$player]); $view=friend_start_json($views[$player]);
-                $insert->execute([$battleId,$player,$context,hash('sha256',$context),$view,hash('sha256',$view)]);
-            }
-            $query=$pdo->prepare('UPDATE friend_battle_sessions SET start_views_created_at=UTC_TIMESTAMP(6) WHERE battle_id=? AND start_views_created_at IS NULL');
-            $query->execute([$battleId]);
-            if ($query->rowCount()!==1) friend_fail(409,'FAILED');
-        }
-        $result=['sender'=>$views[$row['sender_id']],'recipient'=>$views[$row['recipient_id']]];
+        $result=friend_start_views_locked($pdo,$row,[$self['player_id']=>$self,$peer['player_id']=>$peer],true);
         $pdo->commit(); return $result;
     } catch (JsonException $error) {
         if ($pdo->inTransaction()) $pdo->rollBack(); friend_fail(409,'FAILED');

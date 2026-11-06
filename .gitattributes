@@ -57,6 +57,7 @@ lib/preparation_writer_guard.php text eol=lf
 session/collect-pickup/index.php text eol=lf
 
 lib/friend_battle_start_views.php text eol=lf
+lib/friend_battle_startup.php text eol=lf
 config/multiplayer_start_ids.json text eol=lf
 tools/research/ghidra-private-start-context.sh text eol=lf
 tools/research/export_start_identity_catalog.py text eol=lf
