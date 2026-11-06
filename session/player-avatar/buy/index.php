@@ -2,12 +2,13 @@
 // player-avatar/buy
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
 
 require '../../../pocket_f4894h398r8h9w9er8he98he.php'; // $pdo
+require_once __DIR__ . '/../../../lib/preparation_writer_guard.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -20,28 +21,14 @@ if (!$session_id || !$player_avatar_id) {
     exit;
 }
 
-/*
-Get player by session_id
-*/
-$stmt = $pdo->prepare("
-    SELECT 
-        u.player_id,
-        u.coins,
-        u.player_avatar_id AS current_avatar,
-        oa.player_avatar_id AS owned_avatars
-    FROM users u
-    JOIN owned_avatars oa ON oa.player_id = u.player_id
-    WHERE u.session_id = ?
-    LIMIT 1
-");
-$stmt->execute([$session_id]);
-$player = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$player) {
-    http_response_code(401);
-    echo json_encode(["error" => "Invalid session"]);
-    exit;
-}
+try {
+$user = preparation_writer_lock($pdo, (string)$session_id);
+$stmt = $pdo->prepare('SELECT player_avatar_id FROM owned_avatars WHERE player_id = ? FOR UPDATE');
+$stmt->execute([$user['player_id']]);
+$owned = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$owned) friend_fail(401, 'NOT_AUTHENTICATED');
+$player = ['player_id' => $user['player_id'], 'coins' => $user['coins'],
+           'current_avatar' => $user['player_avatar_id'], 'owned_avatars' => $owned['player_avatar_id']];
 
 /*
 Decode owned avatars (JSON ARRAY)
@@ -89,6 +76,7 @@ if ($player['current_avatar'] !== $player_avatar_id) {
 /*
 Respond
 */
+$pdo->commit();
 echo json_encode([
     "coins" => (int)$player['coins'],
     "coins_deducted" => 0,
@@ -97,3 +85,10 @@ echo json_encode([
         "player_avatar_id" => $player_avatar_id
     ]
 ], JSON_UNESCAPED_SLASHES);
+
+} catch (Throwable $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    http_response_code($e instanceof FriendError ? $e->status : 500);
+    echo json_encode(['error' => $e instanceof FriendError ?
+        ($e->status === 401 ? 'Invalid session' : $e->getMessage()) : 'SERVER_ERROR']);
+}

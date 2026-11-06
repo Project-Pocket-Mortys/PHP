@@ -362,7 +362,7 @@
           "battle_type"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed bounded native constructor; see friend-battle-invite-contract.md"
     },
     {
       "path": "/session/battle-invite/response",
@@ -376,7 +376,7 @@
           "accept"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed bounded native constructor; see friend-battle-invite-contract.md"
     },
     {
       "path": "/session/battle-invite/revoke",
@@ -389,7 +389,7 @@
           "token"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed bounded native constructor; see friend-battle-invite-contract.md"
     },
     {
       "path": "/session/battle-wild-morty",
@@ -1099,7 +1099,8 @@
           "request_accepted"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed constructor and error-only callback; native-trade-response-contract.md",
+      "reviewed_contract": "docs/protocol/native-trade-response-contract.md"
     },
     {
       "path": "/trading/request-morty",
@@ -1228,7 +1229,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<BattleStartResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle:start",
+      "reviewed_evidence": "docs/protocol/friend-battle-start-contract.md"
     },
     {
       "method": "NetworkBattleAPI$$BattleMoveTimeHandler",
@@ -1263,8 +1265,9 @@
         "pointer": "0x309a710",
         "name": "Method$NetworkDefs.ParseHTTPResponse<eSendInviteError, SendInviteResponse>()"
       },
-      "schema_available": false,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "schema_available": true,
+      "operation_mapping": "/session/battle-invite/create",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI.<>c__DisplayClass41_0$$<SendInviteArenaBot>b__0",
@@ -1288,7 +1291,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<BattleInviteReceivedResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle-invite:received",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI$$InviteDeclinedHandler",
@@ -1300,7 +1304,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<InviteDeclinedResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle-invite:declined",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI$$InviteAcceptedHandler",
@@ -1312,7 +1317,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<InviteAcceptedResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle-invite:accepted",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI$$InviteRevokedHandler",
@@ -1324,7 +1330,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<InviteRevokedResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle-invite:revoked",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkFriendAPI.<>c__DisplayClass78_0$$<RefreshData>b__0",
@@ -2573,6 +2580,26 @@
       },
       "schema_available": false,
       "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+    },
+    {
+      "method": "NetworkBattleInviteAPI.<>c__DisplayClass44_0$$<RespondToReceivedInvite>b__0",
+      "address": "0x178e1c0",
+      "type": "eRespondToReceivedInviteError",
+      "operation_mapping": "/session/battle-invite/response",
+      "schema_available": true,
+      "success_body_ignored": true,
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md",
+      "analysis": "Reviewed ParseHTTPError-only callback; successful body not deserialized."
+    },
+    {
+      "method": "NetworkBattleInviteAPI.<>c__DisplayClass43_0$$<CancelPendingSentInvite>b__0",
+      "address": "0x178e130",
+      "type": "eRespondToSentInviteError",
+      "operation_mapping": "/session/battle-invite/revoke",
+      "schema_available": true,
+      "success_body_ignored": true,
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md",
+      "analysis": "Reviewed ParseHTTPError-only callback; successful body not deserialized."
     }
   ],
   "event_registrations": [
@@ -2718,7 +2745,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "reviewed native association; see friend-battle-invite-contract.md",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleInviteAPI$$InviteAcceptedHandler",
+          "address": "0x178cc6c"
+        }
+      ]
     },
     {
       "event": "battle-invite:declined",
@@ -2786,7 +2819,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "reviewed native association; see friend-battle-invite-contract.md",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleInviteAPI$$InviteDeclinedHandler",
+          "address": "0x178cb98"
+        }
+      ]
     },
     {
       "event": "battle-invite:received",
@@ -2854,7 +2893,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "reviewed native association; see friend-battle-invite-contract.md",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleInviteAPI$$InviteReceivedHandler",
+          "address": "0x178c888"
+        }
+      ]
     },
     {
       "event": "battle-invite:revoked",
@@ -2922,7 +2967,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "reviewed native association; see friend-battle-invite-contract.md",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleInviteAPI$$InviteRevokedHandler",
+          "address": "0x178cd68"
+        }
+      ]
     },
     {
       "event": "battle:abandoned",
@@ -3075,7 +3126,21 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "unresolved association",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleAPI$$BattleStartHandler",
+          "address": "0x1788674"
+        },
+        {
+          "method": "NetworkBattleInviteAPI$$BattleStartHandler",
+          "address": "0x178ced8"
+        }
+      ],
+      "reviewed_evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md"
+      ]
     },
     {
       "event": "battle:turn-result",

@@ -9,6 +9,7 @@ header("Access-Control-Allow-Origin: *");
 header("Vary: Accept-Encoding");
 
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php"; // must set $pdo (PDO)
+require_once __DIR__ . "/../../lib/battle_membership_guard.php";
 
 // ---------------- CONFIG ----------------
 const MAX_DECK_SIZE     = 5;
@@ -327,8 +328,22 @@ if (!$promo) {
 $itemResults  = [];
 $mortyResults = [];
 
-$pdo->beginTransaction();
 try {
+  $pdo->beginTransaction();
+  $lock = $pdo->prepare("SELECT * FROM users WHERE player_id = ? FOR UPDATE");
+  $lock->execute([$player_id]);
+  $lockedUsers = $lock->fetchAll(PDO::FETCH_ASSOC);
+  $sessionCheck = $pdo->prepare("SELECT id FROM users WHERE session_id = ?");
+  $sessionCheck->execute([$session_id]);
+  $sessionUsers = $sessionCheck->fetchAll(PDO::FETCH_ASSOC);
+  if (count($lockedUsers) !== 1 || $lockedUsers[0]['session_id'] !== $session_id || count($sessionUsers) !== 1) {
+    $pdo->rollBack();
+    jsonOut(401, ["error" => "Invalid session_id"]);
+  }
+  if (battle_has_shared_membership($pdo, $player_id)) {
+    $pdo->rollBack();
+    jsonOut(409, ["error" => "FAILED"]);
+  }
   // 0) charge coupons based on gachas.cost
   $cost = (int)$gacha["cost"]; // set cost in DB (e.g., 2)
   $newCoupons = chargeCouponsOrFail($pdo, $player_id, $cost);
@@ -398,7 +413,7 @@ try {
   $pdo->commit();
   echo json_encode($response, JSON_UNESCAPED_SLASHES);
 } catch (Throwable $e) {
-  $pdo->rollBack();
+  if ($pdo->inTransaction()) $pdo->rollBack();
 
   if ($e->getMessage() === "NOT_ENOUGH_COUPONS") {
     jsonOut(403, ["error" => "NOT_ENOUGH_COUPONS"]);

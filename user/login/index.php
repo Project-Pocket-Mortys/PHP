@@ -116,4 +116,9 @@ $response = json_encode([
 $etag = 'W/"' . md5($response) . '"';
 
 header("ETag: $etag");
+// Replacement authentication for native single-ID trading requests.
+setcookie('session_id', $session_id, [
+    'path' => '/trading/', 'httponly' => true, 'samesite' => 'Lax',
+    'secure' => parse_url($public_origin, PHP_URL_SCHEME) === 'https',
+]);
 echo $response;

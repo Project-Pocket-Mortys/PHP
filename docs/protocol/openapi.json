@@ -182,19 +182,117 @@
       "x-method-unresolved": true
     },
     "/session/battle-invite/create": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
-      "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "implemented",
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$SendInviteUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "opponent_player_id": {
+                    "type": "string"
+                  },
+                  "battle_type": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "opponent_player_id",
+                  "battle_type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-invite/response": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
-      "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "partial",
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$RespondToReceivedInvite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  },
+                  "accept": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "token",
+                  "accept"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-invite/revoke": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
-      "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "implemented",
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$CancelPendingSentInvite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-wild-morty": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -599,9 +697,142 @@
       "x-method-unresolved": true
     },
     "/trading/offer-response": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "post": {
+        "description": "Reviewed Android three-field request and body-agnostic success. Replacement authorization/transaction policy documented in trade-response-implementation.md; native accept/reject not captured. When cookie and Bearer are both supplied they must agree.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "trade_request_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "description": "Nonblank logical identifier; replacement server limits UTF-8 byte length to 64"
+                  },
+                  "trade_offer_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "description": "Nonblank logical identifier; replacement server limits UTF-8 byte length to 64"
+                  },
+                  "request_accepted": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "trade_request_id",
+                  "trade_offer_id",
+                  "request_accepted"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TradingSessionCookie": []
+          },
+          {
+            "TradingSessionBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Replacement success [null,null]; client does not inspect body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not request owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing listing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Not POST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Ambiguous/inconsistent or reserved state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure; rollback",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          }
+        },
+        "x-credential-consistency": "If both credentials are present they must match; malformed explicit credentials fail closed",
+        "x-evidence": [
+          "native-trade-response-contract.md",
+          "trade-response-implementation.md"
+        ]
+      }
     },
     "/trading/request-morty": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -617,6 +848,45 @@
       "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
       "x-method-unresolved": true
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "TradingSessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "session_id"
+      },
+      "TradingSessionBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "TradeResponseError": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "FAILED",
+                  "TRADE_NO_TRADE_EXISTS",
+                  "TRADE_NO_OFFER_EXISTS"
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

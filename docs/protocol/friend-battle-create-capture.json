@@ -1,0 +1,26 @@
+{
+  "evidence_kind": "Observed Android request to isolated replacement server; not original-server evidence",
+  "request": {
+    "method": "POST",
+    "path": "/session/battle-invite/create",
+    "headers": {
+      "x-pmclient": "Android/2.41.0",
+      "user-agent": "UnityApp/2.41.0 (Android)",
+      "content-type": "application/json",
+      "host": "localhost:8087"
+    },
+    "original_wire_body_size_bytes": 133,
+    "body": {
+      "session_id": "<redacted-session-id>",
+      "opponent_player_id": "<redacted-opponent-player-id>",
+      "battle_type": "PvF"
+    }
+  },
+  "response": {
+    "status": 404,
+    "status_line": "HTTP/1.1 404 Not Found",
+    "content_type": "text/html; charset=iso-8859-1",
+    "body_size_bytes": 313
+  },
+  "pcap_sha256": "4e8e43a5d1dbbee201596fc0a1a152e192d00117a59395634de7384dbf01e61e"
+}

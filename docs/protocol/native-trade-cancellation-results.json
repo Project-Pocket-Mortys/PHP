@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "prerequisite_commit": "f9eea0167d258b3ecab872be58167b050b1cea22",
+  "repair_commit": "3402ba2",
+  "research_tools_commit": "9031d2f",
+  "client": {
+    "version": "2.41.0",
+    "role": "trade-primary",
+    "serial": "emulator-5564",
+    "avd": "PocketMortys_API30_Trading",
+    "fresh_userdata": true,
+    "native_registration": true,
+    "synthetic_account_name": "PMTrade01",
+    "diagnostic_apks_unchanged_after_initial_install": true,
+    "build_limit": "Existing signed ARM32 diagnostic build with prior local transport/multiplayer-unlock probes; no trading-method patch",
+    "native_registration_capture_sha256": "52b5ee6b41464b0037a7b58461d97a64d1be208c26c6785218976182557112bc"
+  },
+  "fixture": {
+    "synthetic_spare_copied_from_own_registration_starter": true,
+    "only_added_instance_uuid_and_autoincrement_ids_differ": true,
+    "native_selector_displayed_one_spare": true,
+    "starter_party_resources_and_raw_flags_preserved": true,
+    "final_fixture_sha256": "69d2c66d9417235cb188c7430ee702a1e6b2fec70d440cf36e6d0cc59e59950f"
+  },
+  "native_wire_proof": {
+    "schema_version": 1,
+    "evidence_kind": "Observed native Android create/cancel on isolated replacement server; not original-service evidence",
+    "pcap_sha256": "c550dae100cf7809d087c90dbbed2b55d3400b52866319af19d2a4dd56957137",
+    "fixture_sha256": {
+      "prepared": "f125e0055de81d0b3f35423ece936f3621b4cafb4ec899dd8b9cfbc328c51a63",
+      "observe-before-create": "35eff31ff8b7ffffe553c683225947051d06cd674656580ff7bf45be41b81da4",
+      "observe-request-created": "fd96010cd549e4cd4a957d7ed1dee330995397ca26978a858adddc9e591d54b4",
+      "observe-before-cancel": "6beb0cde792d95080179d2d1d8d3c362620303c29a28a575415adeb15ca5358c",
+      "observe-request-cancelled": "8045d70c7950e56817a1593ec5fcf5f41628a56750a760dc0d86549c47b0f28c",
+      "verified-cancelled": "8434bf00d0a9a6f3278b5038378a5402d7a5bc818714f9e5a38c3a9a72bfbac6"
+    },
+    "exchanges": [
+      {
+        "path": "/trading/request-morty",
+        "status": 200,
+        "request_packet_index": 0,
+        "response_packet_index": 1,
+        "native_headers_present": true,
+        "exact_tcp_ack_pair": true,
+        "request_body_keys": [
+          "is_free_trade",
+          "owned_morty_id",
+          "player_id",
+          "request_variant",
+          "requested_morty_id",
+          "session_id"
+        ]
+      },
+      {
+        "path": "/session/player-details",
+        "status": 200,
+        "request_packet_index": 2,
+        "response_packet_index": 3,
+        "native_headers_present": true,
+        "exact_tcp_ack_pair": true,
+        "request_body_keys": [
+          "include",
+          "session_id"
+        ]
+      },
+      {
+        "path": "/trading/cancel-trade",
+        "status": 200,
+        "request_packet_index": 19,
+        "response_packet_index": 20,
+        "native_headers_present": true,
+        "exact_tcp_ack_pair": true,
+        "request_body_keys": [
+          "trade_id"
+        ]
+      },
+      {
+        "path": "/trading/get-trades",
+        "status": 200,
+        "request_packet_index": 21,
+        "response_packet_index": 23,
+        "native_headers_present": true,
+        "exact_tcp_ack_pair": true,
+        "request_body_keys": [
+          "player_id",
+          "session_id"
+        ]
+      },
+      {
+        "path": "/session/player-details",
+        "status": 200,
+        "request_packet_index": 22,
+        "response_packet_index": 24,
+        "native_headers_present": true,
+        "exact_tcp_ack_pair": true,
+        "request_body_keys": [
+          "include",
+          "session_id"
+        ]
+      }
+    ],
+    "proof": {
+      "authenticated_creation_matches_fixture": true,
+      "creation_return_identity_and_selection_match_db": true,
+      "id_only_cancel_matches_created_trade": true,
+      "cancellation_cookie_matches_creation_session": true,
+      "spare_outside_active_deck": true,
+      "trading_lock_details_response_sequence": [
+        true,
+        false
+      ],
+      "known_spare_details_occurrences": 2,
+      "inventory_count": 2,
+      "decks_resources_coupons_ownership_attacks_raw_flags_unchanged": true,
+      "no_offers_or_completed_transfer": true,
+      "db_trade_counts": [
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "db_expiry_created_nonempty_and_retained_on_cancel": true
+    },
+    "confirmed_pre_fix_gap": {
+      "native_get_trades_expiry_is_null": true,
+      "native_get_trades_cooldown_count_is_zero": true,
+      "db_expiry_retained": true,
+      "captured_response_proves_fixed_query": false
+    },
+    "redaction": "Only allowlisted shapes, booleans, counts, packet indices and whole-input hashes; no IDs, credentials, header values or nested payloads",
+    "post_fix_read": {
+      "pcap_sha256": "5851bee36cd0d74d384021ce79b02e272d8a73fa5c9fce095d3677eaeae25846",
+      "fixture_sha256": {
+        "prepared": "f125e0055de81d0b3f35423ece936f3621b4cafb4ec899dd8b9cfbc328c51a63",
+        "observe-before-create": "35eff31ff8b7ffffe553c683225947051d06cd674656580ff7bf45be41b81da4",
+        "observe-request-created": "fd96010cd549e4cd4a957d7ed1dee330995397ca26978a858adddc9e591d54b4",
+        "observe-before-cancel": "6beb0cde792d95080179d2d1d8d3c362620303c29a28a575415adeb15ca5358c",
+        "observe-request-cancelled": "8045d70c7950e56817a1593ec5fcf5f41628a56750a760dc0d86549c47b0f28c",
+        "verified-cancelled": "8434bf00d0a9a6f3278b5038378a5402d7a5bc818714f9e5a38c3a9a72bfbac6"
+      },
+      "native_get_trades_count": 1,
+      "status": 200,
+      "request_packet_index": 0,
+      "response_packet_index": 1,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true,
+      "authenticated_body_and_cookie_match_before_create": true,
+      "lists_remain_empty": true,
+      "cooldown_expiry_equals_retained_db_expiry": true,
+      "cooldown_count_is_integer_one": true,
+      "gui_behavior_proved": false
+    }
+  },
+  "manual_ui_review": {
+    "own_request_displayed": true,
+    "own_cancel_button_exercised": true,
+    "listing_disappeared": true,
+    "post_fix_free_slot_disabled_with_countdown": true,
+    "screenshots": {
+      "images/native-trade-spare-selector.png": "a6456d28fbf9f1692501cf4561950d05e7e42d429350d3dd0c1d512011b5a2a8",
+      "images/native-trade-request-created.png": "da937c2cb72dbb4f666e850fc61f3555232ca1c2a0d99115949cb941cc1b36da",
+      "images/native-trade-cancel-button.png": "afcc3965393be872f704246d7f3ba590e4b75322416dee65c76fab5754c1e7b7",
+      "images/native-trade-cooldown-fixed.png": "0a92b205ee0832c973a2e07cb86b1a339eb035c1c7797b7c343839705f379264"
+    },
+    "limit": "UI observations are manual screenshot reviews, separate from the strict packet proof"
+  },
+  "preservation": {
+    "original_two_account_guards_passed": true,
+    "retained_startup_history_guard_passed": true,
+    "final_disposable_fixture_guard_passed": true,
+    "retained_client_data_or_listings_injected": false,
+    "only_trading_avd_5564_and_optional_sdk_sidecar_stopped": true,
+    "userdata_and_raw_evidence_retained": true
+  },
+  "validation": {
+    "backend_cases_passed": 40,
+    "pure_cases_passed": 7,
+    "pre_fix_regression_assertions_failed": 3,
+    "php_handler_and_embedded_fixture_lint_passed": true,
+    "independent_review_followup": "Earlier-request/later-response inventory ambiguity now rejects; actual capture satisfies stronger request ordering. Returned timestamp is not claimed as DB-equal."
+  },
+  "remaining": [
+    "Native offer creation and cancellation with two disposable accounts",
+    "Acceptance authorization and request/offer binding",
+    "Creation response cooldown field and server-side free-slot policy",
+    "Other full-Morty serializers and unknown legacy true flags",
+    "Original premium price/cooldown/refund policy"
+  ],
+  "redaction": "No credential, cookie, user/room/trade/instance ID values or raw payloads. PMTrade01 is a synthetic diagnostic name.",
+  "proof_ordering_commit": "6fed4048b19ea707f6528a0cef48f4d8abfe93ca"
+}
