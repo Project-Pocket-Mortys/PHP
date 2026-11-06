@@ -192,6 +192,7 @@ def inspect(pcap, fixture_dir):
         require(all(type(m['is_locked']) is bool and type(m['is_trading_locked']) is bool for m in morties))
     require(create['response_packet_index'] < details[0]['request_packet_index'])
     require(details[0]['response_packet_index'] < cancel['request_packet_index'])
+    require(cancel['response_packet_index'] < details[1]['request_packet_index'])
     require(cancel['response_packet_index'] < details[1]['response_packet_index'])
     safe_exchanges = [dict(path=row['path'], status=200,
         request_packet_index=row['request_packet_index'], response_packet_index=row['response_packet_index'],
@@ -200,7 +201,7 @@ def inspect(pcap, fixture_dir):
     return dict(schema_version=1,
         evidence_kind='Observed native Android create/cancel on isolated replacement server; not original-service evidence',
         pcap_sha256=digest(pcap), fixture_sha256=hashes, exchanges=safe_exchanges,
-        proof=dict(authenticated_creation_matches_fixture=True, creation_return_matches_db=True,
+        proof=dict(authenticated_creation_matches_fixture=True, creation_return_identity_and_selection_match_db=True,
             id_only_cancel_matches_created_trade=True, cancellation_cookie_matches_creation_session=True,
             spare_outside_active_deck=True, trading_lock_details_response_sequence=[True, False],
             known_spare_details_occurrences=len(details), inventory_count=len(inventory_ids),

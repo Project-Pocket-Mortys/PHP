@@ -64,6 +64,7 @@ class NativeTradeProofTests(unittest.TestCase):
             lambda r: r[4]['response']['owned_morties'][0].update(is_trading_locked='false'),
             lambda r: r[4]['response']['owned_morties'][0].update(owned_morty_id='foreign'),
             lambda r: r[1].update(response_packet_index=10),
+            lambda r: r[4].update(request_packet_index=3),
             lambda r: r[3]['response']['trade_offers'].append({}),
             lambda r: r[3]['response']['player_cooldown_data'].update(expiry='now-fixed'),
         ]
