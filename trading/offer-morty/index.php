@@ -4,6 +4,7 @@ header("X-Powered-By: Express");
 header("Access-Control-Allow-Origin: *");
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../lib/trade_offer_metadata.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -14,31 +15,37 @@ $offered_morty_id = (string)($data['offered_morty_id'] ?? '');
 $trade_request_id = (string)($data['trade_request_id'] ?? '');
 
 try {
+    // Parent cancellation takes the same parent lock before deleting offers.
+    // Hold it through insertion so a cancelled request cannot gain an orphan.
+    $pdo->beginTransaction();
     // AUTH: validate session
-    $stmt = $pdo->prepare("SELECT player_id, username FROM users WHERE session_id = ? LIMIT 1");
+    $stmt = $pdo->prepare("SELECT player_id, username FROM users WHERE session_id = ? LIMIT 1 FOR UPDATE");
     $stmt->execute([$session_id]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$user || $user['player_id'] !== $player_id) {
+        $pdo->rollBack();
         http_response_code(401);
         echo json_encode(["error"=>"NOT_AUTHENTICATED"]);
         exit;
     }
 
     // CHECK trade request exists
-    $stmt = $pdo->prepare("SELECT * FROM trades WHERE trade_id = ? LIMIT 1");
+    $stmt = $pdo->prepare("SELECT * FROM trades WHERE trade_id = ? LIMIT 1 FOR UPDATE");
     $stmt->execute([$trade_request_id]);
     $trade = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$trade) {
+        $pdo->rollBack();
         http_response_code(404);
         echo json_encode(["error"=>"TRADE_NOT_FOUND"]);
         exit;
     }
 
     // CHECK player owns the offered Morty
-    $stmt = $pdo->prepare("SELECT * FROM owned_morties WHERE owned_morty_id = ? AND player_id = ? LIMIT 1");
+    $stmt = $pdo->prepare("SELECT * FROM owned_morties WHERE owned_morty_id = ? AND player_id = ? LIMIT 1 FOR UPDATE");
     $stmt->execute([$offered_morty_id, $player_id]);
     $morty = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$morty) {
+        $pdo->rollBack();
         http_response_code(400);
         echo json_encode(["error"=>"MORTY_NOT_OWNED"]);
         exit;
@@ -47,29 +54,29 @@ try {
     // INSERT trade offer
     $offer_id = bin2hex(random_bytes(16)); // unique ID
     $stmt = $pdo->prepare("
-        INSERT INTO trade_offers (trade_offer_id, trade_id, player_id, morty_offer_id, created_at) 
+        INSERT INTO trade_offers (trade_offer_id, trade_id, player_id, morty_offer_id, created_at)
         VALUES (?, ?, ?, ?, NOW())
     ");
     $stmt->execute([$offer_id, $trade_request_id, $player_id, $offered_morty_id]);
+    $metadata = trade_offer_metadata($pdo, $trade_request_id, $player_id, $offered_morty_id);
+    $pdo->commit();
 
     // RETURN official-style JSON
     $response = [
         "error" => "None",
-        "offer" => [
+        "offer" => array_merge([
             "trade_offer_id" => $offer_id,
             "trade_id" => $trade_request_id,
             "player_id" => $player_id,
             "morty_offer_id" => $offered_morty_id,
             "_created" => gmdate("Y-m-d\TH:i:s.v\Z"),
-            "request_user_name" => $trade['player_id'], // optional: map to username if available
-            "offering_morty_id" => $morty['morty_id'],
-            "request_morty_id" => $trade['morty_trade_id'] // requested Morty in the trade
-        ]
+        ], $metadata)
     ];
 
     echo json_encode($response, JSON_UNESCAPED_SLASHES);
 
 } catch(Throwable $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
     http_response_code(500);
     echo json_encode(["error"=>"SERVER_ERROR","message"=>$e->getMessage()]);
 }
