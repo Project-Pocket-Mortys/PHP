@@ -135,4 +135,3 @@ class FriendBattlePreparationIntegrationTests(unittest.TestCase):
             response = error
         with response:
             self.assertIn(response.status, (403, 404))
-
