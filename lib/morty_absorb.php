@@ -47,16 +47,36 @@ function morty_absorb_compatible(array $target, array $donor): bool {
 
 /** Caller owns the transaction; the user lock serializes Lock and Absorb. */
 function morty_absorb_apply(PDO $pdo, string $sessionId, string $targetId, array $ids): array {
-    $query = $pdo->prepare('SELECT player_id FROM users WHERE session_id = ? LIMIT 1 FOR UPDATE');
+    $query = $pdo->prepare('SELECT player_id, active_deck_id FROM users WHERE session_id = ? LIMIT 1 FOR UPDATE');
     $query->execute([$sessionId]);
     $user = $query->fetch();
     if (!$user) throw new MortyAbsorbError('NOT_AUTHENTICATED');
     $playerId = (string)$user['player_id'];
     if (world_action_has_active_battle($pdo, $playerId)) throw new MortyAbsorbError('FAILED', 409);
 
+    // Establish the active membership before locking all affected instance IDs.
+    // Keep inactive duplicate logical decks as individual rows, as before.
+    $activeDeckId = filter_var($user['active_deck_id'], FILTER_VALIDATE_INT,
+        ['options' => ['min_range' => 0]]);
+    if ($activeDeckId === false) throw new MortyAbsorbError('FAILED', 409);
+    $query = $pdo->prepare('SELECT id, deck_id, owned_morty_ids FROM decks WHERE player_id = ? ORDER BY deck_id, id FOR UPDATE');
+    $query->execute([$playerId]);
+    $decks = [];
+    $activeIds = null;
+    foreach ($query->fetchAll() as $deck) {
+        $before = morty_release_deck_ids((string)$deck['owned_morty_ids']);
+        $deckId = filter_var($deck['deck_id'], FILTER_VALIDATE_INT);
+        if ($deckId !== false && $deckId === $activeDeckId) {
+            if ($activeIds !== null) throw new MortyAbsorbError('FAILED', 409);
+            $activeIds = $before;
+        }
+        $decks[] = ['id' => $deck['id'], 'deck_id' => (int)$deck['deck_id'], 'owned_morty_ids' => $before];
+    }
+    if ($activeIds === null) throw new MortyAbsorbError('FAILED', 409);
+
     // Logical IDs are not unique, while attacks carry no owner. Lock all global
     // matches in a stable order and reject ambiguity before any mutation.
-    $ordered = array_values(array_unique(array_merge([$targetId], $ids), SORT_STRING));
+    $ordered = array_values(array_unique(array_merge([$targetId], $ids, $activeIds), SORT_STRING));
     sort($ordered, SORT_STRING);
     $rows = [];
     $query = $pdo->prepare('SELECT * FROM owned_morties WHERE owned_morty_id = ? ORDER BY id FOR UPDATE');
@@ -93,15 +113,20 @@ function morty_absorb_apply(PDO $pdo, string $sessionId, string $targetId, array
         : filter_var($target['evolution_points'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
     if ($points === false || $points > PHP_INT_MAX - count($donors)) throw new MortyAbsorbError('FAILED', 409);
 
-    $query = $pdo->prepare('SELECT id, deck_id, owned_morty_ids FROM decks WHERE player_id = ? ORDER BY deck_id, id FOR UPDATE');
-    $query->execute([$playerId]);
-    $decks = [];
-    foreach ($query->fetchAll() as $deck) {
-        // Fail closed on malformed storage rather than erasing a party as [].
-        $before = morty_release_deck_ids((string)$deck['owned_morty_ids']);
-        $after = array_values(array_filter($before, static fn(string $id): bool => !in_array($id, $removed, true)));
-        $decks[] = ['id' => $deck['id'], 'deck_id' => (int)$deck['deck_id'], 'owned_morty_ids' => $after];
+    // This endpoint only adds points, including at a native evolution threshold.
+    // No created/evolved Morty may be assumed to replace consumed party members.
+    $living = false;
+    foreach ($activeIds as $id) {
+        if (in_array($id, $removed, true) || !isset($rows[$id])) continue;
+        $hp = filter_var($rows[$id]['hp'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($hp !== false) $living = true;
     }
+    if (!$living) throw new MortyAbsorbError('FAILED', 409);
+    foreach ($decks as &$deck) {
+        $deck['owned_morty_ids'] = array_values(array_filter($deck['owned_morty_ids'],
+            static fn(string $id): bool => !in_array($id, $removed, true)));
+    }
+    unset($deck);
 
     $attacks = $pdo->prepare('DELETE FROM owned_attacks WHERE owned_morty_id = ?');
     $delete = $pdo->prepare('DELETE FROM owned_morties WHERE id = ? AND player_id = ? AND owned_morty_id = ?');
