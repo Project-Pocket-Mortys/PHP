@@ -3,10 +3,26 @@ header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 require __DIR__ . '/../../../pocket_f4894h398r8h9w9er8he98he.php';
 require_once __DIR__ . '/../../../lib/battle_timeouts.php';
+require_once __DIR__ . '/../../../lib/friend_battle_startup.php';
 
 $body = json_input();
 foreach (['session_id', 'battle_id'] as $key) {
     if (!is_string($body[$key] ?? null) || $body[$key] === '') respond(400, ['success' => false, 'error' => 'Error']);
+}
+// Research-only shared startup has no combat timer or public acceptance path.
+if (friend_battle_transport_enabled()) {
+    try {
+    $query=$pdo->prepare('SELECT 1 FROM friend_battle_sessions WHERE battle_id=?');
+    $query->execute([$body['battle_id']]);
+    if ($query->fetchColumn()!==false) {
+            friend_battle_startup_ready($pdo,$body['session_id'],$body['battle_id']);
+            respond(200,['success'=>true]);
+    }
+    } catch (Throwable $error) {
+            if ($pdo->inTransaction()) $pdo->rollBack();
+            if (!$error instanceof FriendError) error_log('Shared readiness failed: '.get_class($error));
+            respond($error instanceof FriendError ? $error->status : 500,['error'=>['code'=>'FAILED']]);
+    }
 }
 $error_body = null;
 try {

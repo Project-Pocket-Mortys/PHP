@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/friend_battle_start_views.php';
+require_once __DIR__ . '/friend_battle_transport.php';
 
 /** Replacement-server startup lease; never interpreted as a combat timer. */
 function friend_battle_startup_seconds(): int {
@@ -120,6 +121,7 @@ function friend_battle_startup_activate(PDO $pdo, string $session, string $battl
                 $query=$pdo->prepare("SELECT 1 FROM $table WHERE battle_id=? LIMIT 1"); $query->execute([$battleId]);
                 if ($query->fetchColumn()!==false) friend_fail(409,'FAILED');
             }
+            friend_battle_transport_bind_locked($pdo,$row,$users);
             $query=$pdo->prepare('INSERT INTO friend_battle_startups (battle_id,started_at,ready_deadline) VALUES (?,UTC_TIMESTAMP(6),UTC_TIMESTAMP(6)+INTERVAL ? SECOND)');
             $query->execute([$battleId,friend_battle_startup_seconds()]);
             $insert=$pdo->prepare('INSERT INTO friend_battle_start_intents (battle_id,player_id,delivery_id,payload_json,payload_sha256,created_at) VALUES (?,?,?,?,?,UTC_TIMESTAMP(6))');
@@ -139,6 +141,7 @@ function friend_battle_startup_activate(PDO $pdo, string $session, string $battl
             $row['state']='STARTING'; $startup=friend_startup_record_locked($pdo,$row,true);
         }
         $startup=friend_startup_record_locked($pdo,$row,true);
+        if (friend_battle_transport_enabled() && !friend_transport_bindings_live($pdo,$row,$users)) friend_fail(409,'FAILED');
         $result=['battle_id'=>$battleId,'state'=>$row['state'],'ready_deadline'=>$startup['ready_deadline']];
         $pdo->commit(); return $result;
     } catch (MortyReleaseError|JsonException $error) {
@@ -152,6 +155,7 @@ function friend_battle_startup_ready(PDO $pdo, string $session, string $battleId
     try {
         [$row,$self,$peer]=friend_startup_lock($pdo,$session,$battleId);
         $startup=friend_startup_validate_active($pdo,$row,[$self['player_id']=>$self,$peer['player_id']=>$peer],true);
+        friend_battle_transport_ready_locked($pdo,$row,$self);
         $column=$self['player_id']===$row['sender_id']?'sender_ready_at':'recipient_ready_at';
         if ($startup[$column]===null) {
             $query=$pdo->prepare("UPDATE friend_battle_startups SET $column=UTC_TIMESTAMP(6) WHERE battle_id=? AND $column IS NULL");
@@ -164,6 +168,7 @@ function friend_battle_startup_ready(PDO $pdo, string $session, string $battleId
             }
         }
         friend_startup_record_locked($pdo,$row,true);
+        friend_battle_transport_ready_locked($pdo,$row,$self);
         $pdo->commit(); return ['battle_id'=>$battleId,'state'=>$row['state'],'ready'=>$row['state']==='READY'];
     } catch (JsonException $error) {
         if ($pdo->inTransaction()) $pdo->rollBack(); friend_fail(409,'FAILED');

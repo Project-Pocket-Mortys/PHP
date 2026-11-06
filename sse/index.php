@@ -20,6 +20,7 @@ require __DIR__ . "/../lib/events.php"; // provides sse_send()
 require_once __DIR__ . '/../lib/battle_timeouts.php';
 require_once __DIR__ . '/../lib/friend_invite_stream.php';
 require_once __DIR__ . '/../lib/friend_battle_preparations.php';
+require_once __DIR__ . '/../lib/friend_battle_startup.php';
 
 // ---------------- SSE HELPERS ----------------
 function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
@@ -27,6 +28,23 @@ function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
     echo "event: {$event}\n";
     echo "data: {$dataJson}\n\n";
     @ob_flush(); @flush();
+}
+
+/** Opt-in global delivery is independent of the room cursor and snapshots. */
+function stream_shared_battle(PDO $pdo, string $player, string $session, string $stream): void {
+    if ($stream==='') return;
+    try {
+        $batch=friend_battle_transport_poll($pdo,$session,$player,$stream);
+        foreach ($batch['events'] as $event) {
+            if (!in_array($event['event'],['battle:start','session:end'],true)) throw new LogicException('Unsupported shared stream event');
+            sse_send_id($event['event'],json_encode($event['payload'],JSON_THROW_ON_ERROR|JSON_UNESCAPED_SLASHES));
+        }
+        if ($batch['close']) exit;
+    } catch (Throwable $error) {
+        // Superseded/revoked connections close without restarting old clients.
+        error_log('Shared battle stream closed: '.get_class($error));
+        exit;
+    }
 }
 
 function stream_friend_invites(PDO $pdo, string $player, string $session, array &$seen): void {
@@ -123,6 +141,11 @@ try {
 }
 
 $player_id = (string)$user["player_id"];
+$friend_battle_stream_id='';
+if (friend_battle_transport_enabled()) {
+    try { $friend_battle_stream_id=friend_battle_transport_open($pdo,$session_id,$player_id); }
+    catch (Throwable $error) { error_log('Shared stream registration failed: '.get_class($error)); exit; }
+}
 
 $tags = $user["tags"] ?? [];
 if (is_string($tags)) {
@@ -161,6 +184,7 @@ $session = [
 sse_send("session:start", json_encode($session, JSON_UNESCAPED_SLASHES));
 $friend_invite_seen = [];
 stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
+stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
 
 // -------------------- WAIT FOR ROOM --------------------
 
@@ -168,6 +192,7 @@ $room_id = "";
 $last_keepalive = time();
 
 while (!connection_aborted()) {
+    stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
     stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
     $st = $pdo->prepare("SELECT room_id, room_membership_generation FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
     $st->execute([$player_id, $session_id]);
@@ -331,6 +356,7 @@ $last_timeout_check = 0;
 
 while (!connection_aborted()) {
 
+    stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
     stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
     $membership = require_live_stream_session($pdo, $player_id, $session_id);
     if (time() !== $last_timeout_check) {

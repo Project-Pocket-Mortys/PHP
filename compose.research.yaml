@@ -47,6 +47,27 @@ services:
         condition: service_healthy
       research-init:
         condition: service_completed_successfully
+  stream-web:
+    profiles: [shared-battle-stream]
+    build: ./tools/research/server
+    ports:
+      - "127.0.0.1:8089:80"
+    environment:
+      PM_DB_HOST: db
+      PM_DB_NAME: pocket_mortys
+      PM_DB_USER: pocket
+      PM_DB_PASS: research-only
+      PM_LOGIN_MAINTENANCE: "0"
+      PM_PUBLIC_ORIGIN: http://localhost:8089
+      PM_RESEARCH_HEARTBEATS: "1"
+      PM_RESEARCH_SHARED_BATTLE_STREAM: "1"
+    volumes:
+      - .:/var/www/html:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      research-init:
+        condition: service_completed_successfully
   battle-timeouts:
     profiles: [battle-timeouts]
     build: ./tools/research/server
