@@ -53,3 +53,10 @@ The durable battle foundation additionally persists supported ATTACK HP/PP, clos
 ## Private start-view preparation
 
 [Recipient-specific start views](private-battle-start-views.md) now freeze owner inventory/resources and public trainer profiles from existing immutable parties. Migration 010 stores both projections plus a capture marker; seven additional resource/profile writers serialize with shared participant claims. This is an internal preparation step: acceptance remains 501, with publication, readiness/reconnect, human turns and terminal cleanup still pending. Native evidence supports wire fields; no live client start or original combat formula is claimed.
+
+Migration 011 now supplies [internal shared startup](shared-battle-startup.md):
+atomic paired state/recipient intents, caller-only retrieval, initial ready barrier,
+fixed lease and paired cancellation/expiry. Next, verify and implement safe native
+delivery across rooms/fresh connections, duplicate-start handling and transport
+loss/abort presentation. Keep public acceptance disabled until the client lifecycle
+is safe. Later-phase readiness identity, paired moves and combat remain separate.

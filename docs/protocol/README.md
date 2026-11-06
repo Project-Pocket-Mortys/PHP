@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Shared startup bookkeeping](shared-battle-startup.md) now atomically records
+both player transitions and private delivery intents, initial readiness and
+bounded two-player cancellation/expiry. Apply migration 011. Nothing dispatches
+these intents; public acceptance remains 501 pending safe native delivery,
+reconnect/abort behavior and the remaining human battle lifecycle.
+
 [Private start views](private-battle-start-views.md) now freeze owner-only
 inventory/resources and public trainer profiles into separate recipient bodies.
 Apply migration 010. Seven additional resource/profile writers now serialize

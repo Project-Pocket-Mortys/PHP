@@ -49,7 +49,9 @@ def main():
         raise RuntimeError('Apply migration 009-friend-battle-party-snapshots.sql before running party snapshot suites')
     if not sql("SHOW TABLES LIKE 'friend_battle_start_views'") or not sql("SHOW COLUMNS FROM friend_battle_sessions LIKE 'start_views_created_at'"):
         raise RuntimeError('Apply migration 010-friend-battle-start-views.sql before running private start suites')
-    modules = MODULES + ['test_friend_battle_start_views', 'test_start_context_writer_guards', 'test_crafting_pickup_preparation_guards'] + (['test_udp_relay', 'test_udp_endpoint_ownership'] if args.udp else [])
+    if not sql("SHOW TABLES LIKE 'friend_battle_startups'") or not sql("SHOW TABLES LIKE 'friend_battle_start_intents'"):
+        raise RuntimeError('Apply migration 011-friend-battle-startup.sql before running shared startup suites')
+    modules = MODULES + ['test_friend_battle_start_views', 'test_start_context_writer_guards', 'test_crafting_pickup_preparation_guards', 'test_friend_battle_startup'] + (['test_udp_relay', 'test_udp_endpoint_ownership'] if args.udp else [])
     suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     return 0 if result.wasSuccessful() else 1

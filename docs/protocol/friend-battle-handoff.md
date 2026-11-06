@@ -75,3 +75,9 @@ migration or changes to README-completed feature status.
 ## Private start-view preparation
 
 [Recipient-specific start views](private-battle-start-views.md) now freeze owner inventory/resources and public trainer profiles from existing immutable parties. Migration 010 stores both projections plus a capture marker; seven additional resource/profile writers serialize with shared participant claims. This is an internal preparation step: acceptance remains 501, with publication, readiness/reconnect, human turns and terminal cleanup still pending. Native evidence supports wire fields; no live client start or original combat formula is claimed.
+
+[Shared startup](shared-battle-startup.md) adds atomic two-user activation,
+recipient-only intent retrieval, initial readiness and paired cancellation/expiry
+with migration 011. These are internal records without an SSE publisher or new
+HTTP route. Public acceptance remains 501; native delivery/reconnect/abort
+presentation, later readiness phases and human turns remain required.
