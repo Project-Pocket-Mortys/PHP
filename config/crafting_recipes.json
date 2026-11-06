@@ -1,0 +1,234 @@
+{
+  "RecipeMortyChip": {
+    "ingredients": {
+      "ItemSuperchargedBattery": 1,
+      "ItemCircuitBoard": 1,
+      "ItemTinCan": 1
+    },
+    "result": {
+      "item_id": "ItemMortyChip",
+      "quantity": 1
+    }
+  },
+  "RecipeSerum": {
+    "ingredients": {
+      "ItemBattery": 1,
+      "ItemFleeb": 1
+    },
+    "result": {
+      "item_id": "ItemSerum",
+      "quantity": 1
+    }
+  },
+  "RecipeGreatSerum": {
+    "ingredients": {
+      "ItemBattery": 1,
+      "ItemPureFleeb": 1
+    },
+    "result": {
+      "item_id": "ItemGreatSerum",
+      "quantity": 1
+    }
+  },
+  "RecipeSensationalSerum": {
+    "ingredients": {
+      "ItemSuperchargedBattery": 1,
+      "ItemSerum": 1
+    },
+    "result": {
+      "item_id": "ItemSensationalSerum",
+      "quantity": 1
+    }
+  },
+  "RecipePureSerum": {
+    "ingredients": {
+      "ItemSuperchargedBattery": 1,
+      "ItemGreatSerum": 1
+    },
+    "result": {
+      "item_id": "ItemPureSerum",
+      "quantity": 1
+    }
+  },
+  "RecipeHalzinger": {
+    "ingredients": {
+      "ItemBattery": 1,
+      "ItemFleeb": 1,
+      "ItemBacteriaCell": 1
+    },
+    "result": {
+      "item_id": "ItemHalzinger",
+      "quantity": 1
+    }
+  },
+  "RecipePureHalzinger": {
+    "ingredients": {
+      "ItemBattery": 1,
+      "ItemPureFleeb": 1,
+      "ItemMutantBacteriaCell": 1
+    },
+    "result": {
+      "item_id": "ItemPureHalzinger",
+      "quantity": 1
+    }
+  },
+  "RecipePoisonCure": {
+    "ingredients": {
+      "ItemTinCan": 1,
+      "ItemBacteriaCell": 1,
+      "ItemDarkEnergyBall": 1
+    },
+    "result": {
+      "item_id": "ItemPoisonCure",
+      "quantity": 1
+    }
+  },
+  "RecipeParalysisCure": {
+    "ingredients": {
+      "ItemTinCan": 1,
+      "ItemTurbulentJuiceTube": 1,
+      "ItemDarkEnergyBall": 1
+    },
+    "result": {
+      "item_id": "ItemParalysisCure",
+      "quantity": 1
+    }
+  },
+  "RecipeFullRecover": {
+    "ingredients": {
+      "ItemPureFleeb": 1,
+      "ItemMutantBacteriaCell": 1,
+      "ItemSuperchargedBattery": 1
+    },
+    "result": {
+      "item_id": "ItemFullRecover",
+      "quantity": 1
+    }
+  },
+  "RecipePlutonicRock": {
+    "ingredients": {
+      "ItemBattery": 1,
+      "ItemBacteriaCell": 1
+    },
+    "result": {
+      "item_id": "ItemPlutonicRock",
+      "quantity": 1
+    }
+  },
+  "RecipePurePlutonicRock": {
+    "ingredients": {
+      "ItemBattery": 1,
+      "ItemMutantBacteriaCell": 1
+    },
+    "result": {
+      "item_id": "ItemPurePlutonicRock",
+      "quantity": 1
+    }
+  },
+  "RecipeMegaSeedLevelUp": {
+    "ingredients": {
+      "ItemMegaSeedAttack": 1,
+      "ItemMegaSeedDefence": 1,
+      "ItemMegaSeedSpeed": 1
+    },
+    "result": {
+      "item_id": "ItemMegaSeedLevelUp",
+      "quantity": 1
+    }
+  },
+  "RecipeBattery": {
+    "ingredients": {
+      "ItemTinCan": 1,
+      "ItemCable": 1,
+      "ItemFleeb": 1
+    },
+    "result": {
+      "item_id": "ItemBattery",
+      "quantity": 1
+    }
+  },
+  "RecipeSuperchargedBattery": {
+    "ingredients": {
+      "ItemBattery": 1,
+      "ItemTurbulentJuiceTube": 1
+    },
+    "result": {
+      "item_id": "ItemSuperchargedBattery",
+      "quantity": 1
+    }
+  },
+  "RecipePureSqueezedFleeb": {
+    "ingredients": {
+      "ItemFleeb": 1,
+      "ItemTurbulentJuiceTube": 1
+    },
+    "result": {
+      "item_id": "ItemPureFleeb",
+      "quantity": 1
+    }
+  },
+  "RecipeMutantBacteriaCell": {
+    "ingredients": {
+      "ItemBacteriaCell": 1,
+      "ItemTurbulentJuiceTube": 1
+    },
+    "result": {
+      "item_id": "ItemMutantBacteriaCell",
+      "quantity": 1
+    }
+  },
+  "RecipeDarkEnergyBall": {
+    "ingredients": {
+      "ItemFleeb": 1,
+      "ItemBacteriaCell": 1
+    },
+    "result": {
+      "item_id": "ItemDarkEnergyBall",
+      "quantity": 1
+    }
+  },
+  "RecipeBreakfastMedley": {
+    "ingredients": {
+      "ItemChickenBiscuit": 1,
+      "ItemIcedCoffee": 1,
+      "ItemBreakfastBurger": 1
+    },
+    "result": {
+      "item_id": "ItemBreakfastMedley",
+      "quantity": 1
+    }
+  },
+  "RecipeSpicyBBQPizza": {
+    "ingredients": {
+      "ItemPizzaSlice": 1,
+      "ItemBBQSauce": 1,
+      "ItemJalapeno": 1
+    },
+    "result": {
+      "item_id": "ItemSpicyBBQPizza",
+      "quantity": 1
+    }
+  },
+  "RecipeToxicBundle": {
+    "ingredients": {
+      "ItemBenzene": 1,
+      "ItemAcetaldehyde": 1,
+      "ItemFormaldehyde": 1
+    },
+    "result": {
+      "item_id": "ItemToxicBundle",
+      "quantity": 1
+    }
+  },
+  "RecipeVapeIncineratingRocket": {
+    "ingredients": {
+      "ItemBigTube": 1,
+      "ItemTrafficCone": 1,
+      "ItemRocketFuel": 1
+    },
+    "result": {
+      "item_id": "ItemVapeIncineratingRocket",
+      "quantity": 1
+    }
+  }
+}

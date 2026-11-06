@@ -111,12 +111,14 @@ class BattleContractTests(unittest.TestCase):
                 self.assertIn('room:user-state-changed', events)
                 self.assertEqual('battle:move-timer-started' in events, account == 'a')
 
-    def test_capture_returns_exactly_one_json_document(self):
-        # Both random outcomes must produce one parseable HTTP document.
-        for _ in range(20):
-            status, body = post('/session/battle/move', {'session_id': 'test-session-a',
-                'battle_id': 'test-battle', 'type': 'ITEM', 'move_id': 'ItemMortyChip'})
-            self.assertEqual((status, body), (200, {'success': True}))
+    def test_unsupported_capture_returns_exactly_one_json_document(self):
+        # Acknowledge the missing durable capture instead of a client-only catch.
+        before = sql('SELECT * FROM battles')
+        status, body = post('/session/battle/move', {'session_id': 'test-session-a',
+            'battle_id': 'test-battle', 'type': 'ITEM', 'move_id': 'ItemMortyChip'})
+        self.assertEqual((status, body), (501, {'success': False, 'error': {'code': 'ITEM_UNUSABLE'}}))
+        self.assertEqual(sql('SELECT * FROM battles'), before)
+        self.assertEqual(sql('SELECT id FROM event_queue'), [])
 
 class AssetServingTests(unittest.TestCase):
     def test_manifest_asset_path_serves_existing_bundle(self):
