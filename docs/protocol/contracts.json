@@ -961,6 +961,66 @@
         "405": "FAILED on non-POST requests"
       },
       "replacement_contract": "friend-battle-invitation-implementation.md"
+    },
+    "/trading/cancel-trade": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$CancelTrade",
+      "address": "0x1791708",
+      "request": {
+        "type": "object",
+        "properties": {
+          "trade_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "trade_id"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "success": "HTTP success; native ignores body; replacement preserves {error:None}",
+        "error": "Non-success JSON error.code enum: FAILED"
+      },
+      "authentication": "Replacement cookie/Bearer policy; not a body field; original provisioning unknown",
+      "evidence": [
+        "trade-cancellation-contract.md",
+        "trade-cancellation-implementation.md"
+      ],
+      "limitations": [
+        "Original HTTP statuses/refunds unknown",
+        "Native cookie/cancellation runtime capture pending"
+      ]
+    },
+    "/trading/cancel-trade-offer": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$CancelTradeOffer",
+      "address": "0x17918a0",
+      "request": {
+        "type": "object",
+        "properties": {
+          "trade_offer_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "trade_offer_id"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "success": "HTTP success; native ignores body; replacement preserves {error:None}",
+        "error": "Non-success JSON error.code enum: FAILED or TRADE_NO_SUCH_OFFER"
+      },
+      "authentication": "Replacement cookie/Bearer policy; not a body field; original provisioning unknown",
+      "evidence": [
+        "trade-cancellation-contract.md",
+        "trade-cancellation-implementation.md"
+      ],
+      "limitations": [
+        "Original HTTP statuses/refunds unknown",
+        "Native cookie/cancellation runtime capture pending"
+      ]
     }
   },
   "sse": {

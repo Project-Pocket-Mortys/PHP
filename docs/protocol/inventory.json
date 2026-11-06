@@ -5071,12 +5071,12 @@
       "server_evidence": {
         "file": "trading/cancel-trade/index.php",
         "line": 1,
-        "sha256": "1d965d2de6ea76e0fc80f133fc342cc6c143c4c2c3b3ee695e7de8f5edee3c90"
+        "sha256": "0eb9f43899b31c6572edbc3bfbafd30e4bd985cf9fab0798bae4d686b7a2f850"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native UI acceptance and full trade system remain separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation.",
+      "evidence_confidence": "Statically established native constructor/error callback/cookie transport; additive HTTP and database-side-effect tests; native outgoing-cookie and cancellation UI capture remain unverified.",
+      "http_method": "POST",
       "input_field_candidates": [
         "trade_id"
       ],
@@ -5092,13 +5092,19 @@
         "users"
       ],
       "events_published": [],
-      "authentication": "session lookup present",
+      "authentication": "Current users.session_id via scoped login session cookie or Bearer; both must agree; actor owns exact listing",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "Original authentication provisioning and HTTP status parity",
+        "Native outgoing cookie handoff and cancellation-button runtime acceptance",
+        "Original refund/cooldown policy",
+        "Persistent trading-lock lifecycle and remaining active-reference reconciliation"
+      ],
+      "reviewed_contract": "docs/protocol/trade-cancellation-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/trade_cancellation.php",
+          "sha256": "0c43180de4cd2e798e216738e332e4daa63330e856c8913937e2204c8eabba04"
+        }
       ]
     },
     {
@@ -5124,13 +5130,28 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "partial",
+      "evidence_confidence": "Statically established native constructor/error callback/cookie transport; additive HTTP and database-side-effect tests; native outgoing-cookie and cancellation UI capture remain unverified.",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original authentication provisioning and HTTP status parity",
+        "Native outgoing cookie handoff and cancellation-button runtime acceptance",
+        "Original refund/cooldown policy",
+        "Persistent trading-lock lifecycle and remaining active-reference reconciliation"
+      ],
+      "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native UI acceptance and full trade system remain separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation.",
+      "server_evidence": {
+        "file": "trading/cancel-trade-offer/index.php",
+        "line": 1,
+        "sha256": "4e5662bf947afae51045ab7b843554b218f7db883d23c37e8fa6698e889d477b"
+      },
+      "http_method": "POST",
+      "authentication": "Current users.session_id via scoped login session cookie or Bearer; both must agree; actor owns exact listing",
+      "reviewed_contract": "docs/protocol/trade-cancellation-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/trade_cancellation.php",
+          "sha256": "0c43180de4cd2e798e216738e332e4daa63330e856c8913937e2204c8eabba04"
+        }
       ]
     },
     {
@@ -5316,7 +5337,7 @@
       "server_evidence": {
         "file": "trading/offer-morty/index.php",
         "line": 1,
-        "sha256": "74d45705509e8c664e3900eef5b9539a750b15c9a754b9bb91a9872f22aa9308"
+        "sha256": "09d79c97a45103e6b4ad1dc6d64b512e33fd065a887f272561c550515e5c8ca9"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -5362,7 +5383,8 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
-      ]
+      ],
+      "cancellation_interlock": "Parent request locked through offer insertion to prevent post-cancellation orphans; other creation policy gaps remain."
     },
     {
       "path": "/trading/offer-response",
@@ -5549,7 +5571,7 @@
       "server_evidence": {
         "file": "user/login/index.php",
         "line": 1,
-        "sha256": "f081b53f848b1d121041d6ce40de14ae28eb56b991554cd6eebbf68340c77dfa"
+        "sha256": "dae478d73a1d81640a040f5afb3ce6b38956d98eedf12c71388b9dfe09f421c2"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",

@@ -122,3 +122,7 @@ Absorption now preserves a living owner-resolved active party before point-only
 donor deletion; see [native evidence](absorb-active-party-contract.md) and the
 [repair boundary](absorb-active-party-implementation.md). Full transformation
 remains separate, and README-completed feature status is retained.
+
+Owner-scoped trade and offer cancellation now preserve native one-ID bodies and
+use current cookie/Bearer sessions; see [contracts and limits](trade-cancellation-implementation.md).
+Native outgoing-cookie and cancellation UI acceptance remain unverified.

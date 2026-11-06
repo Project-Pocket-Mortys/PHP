@@ -92,3 +92,16 @@ are verified on dedicated registration parties. The earlier partial one-input
 round retired correctly and is separate from the complete pair receipt. Human resolution, later phases, full invite
 approval and broader interruption coverage remain acceptance obligations. No
 combat formula or playable human battle is claimed.
+
+## Trade cancellation and remaining acceptance
+
+[Trade/offer cancellation](trade-cancellation-implementation.md) now authenticates
+the exact listing owner, retires only that listing and dependent offers, and
+serializes parent cancellation with offer creation. Login provisions a scoped
+replacement session cookie; static native Best.HTTP support and real HTTP
+CookieJar flow are verified. Native outgoing-cookie and cancellation-button
+capture remain pending. Initial native smoke stalled before login with OneTrust
+initialization exceptions; no handoff was inferred from that failed capture.
+Acceptance/offer binding, protected donor creation, full transfer/party effects
+and original refunds/cooldowns remain separate; existing trade completion claims
+in the README are retained as baseline behavior.
