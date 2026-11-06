@@ -6,8 +6,12 @@ test scope and remaining broader delivery scenarios below are retained.
 
 This connects [internal shared startup](shared-battle-startup.md) to an opt-in
 SSE transport. Public invitation acceptance remains 501 on both servers. The
-gate supports startup/initial readiness and safe interruption testing; it does
-not implement human moves, combat timers, rewards or native battle resume.
+gate supports startup/initial readiness, [first ATTACK storage and pairing](paired-selection-contract.md)
+and safe interruption testing. It does not resolve human moves, start combat
+timers, award rewards or implement native battle resume.
+[Two native inputs, waiting and fixed-expiry automatic recovery](android-paired-selection-results.json)
+are verified on the dedicated registration parties; the earlier captures cover
+startup without moves.
 
 ## Native boundary
 
@@ -121,5 +125,8 @@ production deployment or emulator redirection is included.
 The linked dedicated Android run now captures intro, initial ready, `session:end`
 and fresh join for the registration party. Extend that coverage to other parties.
 Validate packet loss, slow startup/snapshots and missing-event behavior against
-the client UI. Keep public approval disabled while human selections, later-phase
-ready identity, resolution, forced switches and terminal behavior are incomplete.
+the client UI. First ATTACK storage/pairing now passes scoped backend tests;
+[two native inputs, waiting and fixed-expiry recovery](android-paired-selection-results.json)
+are verified on the registration parties. Keep public approval
+disabled while later-phase ready/replay identity, resolution, forced switches
+and terminal behavior are incomplete.

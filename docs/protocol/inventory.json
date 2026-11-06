@@ -1745,10 +1745,10 @@
       "server_evidence": {
         "file": "session/battle/move/index.php",
         "line": 1,
-        "sha256": "c5833257807a224a0d151855986dcc69bfb77a6c6633702e0e90f4513e4803e6"
+        "sha256": "73b5bea4979e997aff5ba249f45f600e58b2687c95d7fca61def760d4d6bc6bc"
       },
       "implementation_status": "partial",
-      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP.",
+      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP. Research-only PvF first ATTACK selection storage and immutable pairing now run under PM_RESEARCH_SHARED_BATTLE_STREAM=1 (migration013), after caller initial ready; no combat resolution, resource spend, timer/result publication, later phase or public acceptance.",
       "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
       "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -1823,7 +1823,11 @@
         "owned_attacks",
         "owned_items",
         "owned_morties",
-        "users"
+        "users",
+        "friend_battle_sessions",
+        "friend_battle_startups",
+        "friend_battle_selections",
+        "friend_battle_selection_pairs"
       ],
       "events_published": [
         "battle:turn-result",
@@ -1838,13 +1842,41 @@
         "active-turn retry/cooldown semantics",
         "original combat/stat/reward formulas",
         "durable capture",
-        "interrupted-battle reconnect"
+        "interrupted-battle reconnect",
+        "later human selection phase/replay identity",
+        "human action ordering, resolution and terminal policy"
       ],
       "reviewed_contract": "docs/protocol/battle-completion-contract.md",
       "switch_contract": "docs/protocol/battle-switch-implementation.md",
       "battle_item_contract": "docs/protocol/battle-item-implementation.md",
       "timeout_contract": "docs/protocol/battle-timeout-implementation.md",
-      "full_recover_contract": "docs/protocol/full-recover-implementation.md"
+      "full_recover_contract": "docs/protocol/full-recover-implementation.md",
+      "research_first_shared_selection": {
+        "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
+        "default_enabled": false,
+        "contract": "docs/protocol/paired-selection-contract.md",
+        "migration": "tools/research/server/migrations/013-friend-battle-selections.sql",
+        "test_suite": "tests/protocol/test_friend_battle_selections.py",
+        "backend_cases_validated": 18,
+        "native_two_input_acceptance": "verified first pair, waiting and fixed-expiry automatic recovery on dedicated Android registration parties",
+        "resolution_enabled": false,
+        "public_acceptance_enabled": false,
+        "android_capture": "docs/protocol/android-paired-selection-results.json"
+      },
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_selections.php",
+          "sha256": "9ea4c6b1c602d46fc5193fc3113fbc2604d93dc01334c5ab2dbbf6ea32127524"
+        },
+        {
+          "file": "lib/friend_battle_startup.php",
+          "sha256": "3bc0022c4daf7603381e4ae5cbdb9178589a4b743d3c3b20983609ec7de3722e"
+        },
+        {
+          "file": "lib/friend_battle_transport.php",
+          "sha256": "2fe1b6fb387f6527876ad262631db053cf1e91aa8bd2d99350301bc866d6334a"
+        }
+      ]
     },
     {
       "path": "/session/battle/ready",
@@ -1935,7 +1967,7 @@
         },
         {
           "file": "lib/friend_battle_startup.php",
-          "sha256": "fbd01abd91e7fe575596b2232c77c44c5d67c235c0517565cd0093cde8635ac3"
+          "sha256": "3bc0022c4daf7603381e4ae5cbdb9178589a4b743d3c3b20983609ec7de3722e"
         }
       ]
     },
@@ -4908,7 +4940,7 @@
         },
         {
           "file": "lib/friend_battle_startup.php",
-          "sha256": "fbd01abd91e7fe575596b2232c77c44c5d67c235c0517565cd0093cde8635ac3"
+          "sha256": "3bc0022c4daf7603381e4ae5cbdb9178589a4b743d3c3b20983609ec7de3722e"
         }
       ],
       "research_shared_battle_transport": {

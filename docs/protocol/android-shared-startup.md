@@ -120,7 +120,9 @@ screenshots and credential snapshots stay ignored.
 & $researchPython -X utf8 tools/research/android_startup_fixture.py reserve-activate --startup-seconds 45 --output .research/emulator/shared-startup-20261106/fixture
 ```
 
-Do not select Attack, Item, Switch or Run; human actions remain unimplemented.
+For this zero-move startup baseline, do not select Attack, Item, Switch or Run.
+The separate [paired-selection reproduction](paired-selection-contract.md#native-paired-reproduction)
+now covers the first native ATTACK from each participant without resolution.
 Use fixture `status`/`verify` during READY and after expiry. They compare all owned
 rows and persistent trainer fields while allowing native authentication/cursor
 rotation. If necessary, its `cancel` command calls the existing paired cleanup
@@ -149,6 +151,10 @@ claims remain. The original two emulators and normal backend were retained.
 
 This branch starts from main `9ff1a11`, explicitly fast-forwarding prerequisite
 PR #45 `446a1e7` and its dependency history. It changes research tooling/evidence,
-not backend gameplay or public acceptance. The next work is paired human
-selection/phase identity and the remaining combat/terminal contracts; full native
+not backend gameplay or public acceptance. Follow-up research-gated
+[first ATTACK storage/pairing](paired-selection-contract.md) now passes backend
+tests, and [two native inputs, waiting and fixed-expiry recovery](android-paired-selection-results.json)
+are verified on these dedicated registration parties. This earlier receipt remains
+the zero-move baseline. Later
+selection phase/replay identity and the remaining combat/terminal contracts, full native
 send/approval, packet loss and broader parties still need separate validation.

@@ -1,5 +1,11 @@
 # Internal shared battle startup
 
+Follow-up: [research delivery](shared-battle-stream-delivery.md) and
+[Android startup captures](android-shared-startup.md) extend the original internal
+scope below. Migration 013 now adds [first ATTACK storage/pairing](paired-selection-contract.md);
+[two native inputs, waiting and expiry recovery](android-paired-selection-results.json)
+are verified on the dedicated registration parties.
+
 This adds atomic startup bookkeeping after the [private start views](private-battle-start-views.md).
 It does not enable public acceptance or publish native events. The
 [bounded Android review](shared-battle-startup-contract.md) establishes native
@@ -38,7 +44,12 @@ false until both are recorded, then true with session state READY. Duplicates an
 concurrent readies preserve the first timestamps and fixed deadline. The final
 lease check occurs after writes, preventing a slow request from committing
 readiness after expiry. No timer event or human turn is started. The public
-legacy ready endpoint remains separate and rejects these shared battle IDs.
+legacy ready endpoint remains separate by default and rejects these shared
+battle IDs. The opt-in research transport connects native initial ready handling.
+After its own initial ready signal, each participant may submit one immutable
+[first ATTACK selection](paired-selection-contract.md), including while the peer
+intro is still running. A complete pair requires READY and both ready signals;
+it leaves this fixed startup lifecycle in place without resolving a turn.
 
 `PM_FRIEND_BATTLE_STARTUP_SECONDS` defaults to 30 and accepts only integers in
 10..120. The database clock sets the lease. It remains bounded through READY
@@ -61,7 +72,9 @@ unchanged. There is no invented native terminal outcome or reward.
 A terminal retry authenticates the old participant but does not release newer
 claims or rewrite current users. Corrupt/partial active claims or intents fail
 closed. Cleanup failures roll back both state changes, both claim deletions and
-intent retirement together.
+intent retirement together. Migration 013 extends this same transaction to retire
+any first selections and their pair, retaining their history. Selection retirement
+also runs from the ordinary gate-off worker and fails atomically with cleanup.
 
 The bounded keyset sweep covers STARTING and READY. Candidate IDs are hints;
 ordered user/session locks and current identity/deadline checks decide expiry.
@@ -132,6 +145,7 @@ establish a human resume/cancellation protocol. Resolve safe transport-loss
 presentation and abort delivery before publishing these intents. A private
 startup ledger and ready barrier alone do not provide that client lifecycle.
 
-Later-phase ready retry identity, paired human selections, turn resolution,
+First human selections now have an immutable research ledger. Later-phase ready
+retry identity, turn resolution,
 forced switches, surrender and rewards remain separate. Keep the existing
 owner/spawn-specific wild handlers intact rather than relaxing their checks.

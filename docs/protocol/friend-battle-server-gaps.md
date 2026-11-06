@@ -1,5 +1,13 @@
 # Friend battle server gaps
 
+This historical source review predates the additive shared startup and research
+transport. Current [first ATTACK storage/pairing](paired-selection-contract.md)
+passes scoped backend tests under the opt-in gate;
+[two native inputs, waiting and fixed-expiry recovery](android-paired-selection-results.json)
+are verified on dedicated registration parties. Its immutable first pair does not
+resolve human actions or supply later-phase replay identity. The legacy-source
+conflicts below still explain why shared battles must use their separate path.
+
 This is a source review of the research branch based on main `9ff1a11` with
 pending prerequisite changes, including the friend lifecycle work. It is not
 evidence of a deployed database or successful two-client friend battle. No live

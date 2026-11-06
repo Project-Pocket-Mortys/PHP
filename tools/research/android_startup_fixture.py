@@ -4,9 +4,14 @@ Create PMStartup01 and PMStartup02 in fresh Android AVDs first. Snapshot before
 prepare; prepare adds only the social pair/invitation through HTTP. Activation is
 an explicit research CLI operation, never a native acceptance claim. This helper
 does not open SSE, send readiness, modify owned rows, or delete evidence/accounts.
+For a later round, snapshot into a fresh output with --previous pointing to the
+prior cancelled manifest. Its save baseline and accepted friendship are checked
+and retained; the prior artifact and history are never rewritten. Use verify
+--expect-paired to require the first selection pair before or after retirement.
 """
 import argparse
 import base64
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -88,6 +93,7 @@ def snapshot(accounts=None):
     $result['invites']=fixture_rows($pdo,'SELECT * FROM friend_battle_invites WHERE sender_id IN (?,?) OR recipient_id IN (?,?) ORDER BY invite_id',[...$players,...$players]);
     $result['battles']=fixture_rows($pdo,'SELECT * FROM battles WHERE player_id IN (?,?) OR opponent_id IN (?,?) ORDER BY battle_id',[...$players,...$players]);
     $result['sessions']=fixture_rows($pdo,'SELECT * FROM friend_battle_sessions WHERE sender_id IN (?,?) OR recipient_id IN (?,?) ORDER BY battle_id',[...$players,...$players]);
+    $result['memberships']=fixture_rows($pdo,'SELECT * FROM friend_battle_memberships WHERE player_id IN (?,?) ORDER BY player_id',$players);
     $result['streams']=fixture_rows($pdo,'SELECT * FROM friend_battle_streams WHERE player_id IN (?,?) ORDER BY player_id',$players);
     $pdo->commit(); echo json_encode($result,JSON_THROW_ON_ERROR);
     ''', {'accounts': accounts})
@@ -102,7 +108,32 @@ def guard(f):
     for before, after in zip(f['before']['accounts'], current['accounts']):
         assert {k: v for k, v in before.items() if k not in VOLATILE} == {
             k: v for k, v in after.items() if k not in VOLATILE}, 'Persistent trainer data changed'
+    if f.get('reuse_social'):
+        previous = research_path(Path(f['previous_artifact']['path']))
+        assert hashlib.sha256(previous.read_bytes()).hexdigest() == f['previous_artifact']['sha256'], 'Previous artifact changed'
+        assert current['friends'] == [f['accepted_friend']], 'Accepted social pair changed'
+        for table, key in [('invites', 'invite_id'), ('sessions', 'battle_id')]:
+            by_id = {row[key]: row for row in current[table]}
+            assert all(by_id.get(row[key]) == row for row in f['before'][table]), 'Previous social/startup history changed'
+    invite_by_id = {row['invite_id']: row for row in current['invites']}
+    for refresh in f.get('invite_refreshes', []):
+        retired = refresh.get('after_previous_invite')
+        if retired is not None:
+            assert invite_by_id.get(retired['invite_id']) == retired, 'Refreshed invitation history changed'
     return current
+
+
+def research_path(path):
+    path = path.resolve()
+    assert path.is_relative_to((ROOT / '.research').resolve()), 'Ignored .research path required'
+    return path
+
+
+def accepted_pair(f, current):
+    row = f['accepted_friend']
+    players = {u['player_id'] for u in current['accounts']}
+    assert row['pending'] == 'false' and {row['player_id_a'], row['player_id_b']} == players
+    assert current['friends'] == [row], 'Exactly the saved accepted pair required'
 
 
 def post(f, path, role, **body):
@@ -142,6 +173,11 @@ def status(f):
         $result['startup']=$rows[0];
         $counts=fixture_rows($pdo,'SELECT (SELECT COUNT(*) FROM friend_battle_memberships WHERE battle_id=?) AS claims_for_battle,(SELECT COUNT(*) FROM friend_battle_start_intents WHERE battle_id=?) AS intent_count,(SELECT COUNT(*) FROM friend_battle_start_intents WHERE battle_id=? AND retired_at IS NOT NULL) AS retired_intent_count',[$id,$id,$id])[0];
         foreach($counts as $key=>$value) $result['startup'][$key]=(int)$value;
+        $selection_tables=fixture_rows($pdo,"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('friend_battle_selections','friend_battle_selection_pairs')");
+        if(count($selection_tables)===2) {
+            $counts=fixture_rows($pdo,'SELECT (SELECT COUNT(*) FROM friend_battle_selections WHERE battle_id=?) AS selection_count,(SELECT COUNT(*) FROM friend_battle_selections WHERE battle_id=? AND retired_at IS NOT NULL) AS retired_selection_count,(SELECT COUNT(*) FROM friend_battle_selection_pairs WHERE battle_id=?) AS pair_count,(SELECT COUNT(*) FROM friend_battle_selection_pairs WHERE battle_id=? AND retired_at IS NOT NULL) AS retired_pair_count',[$id,$id,$id,$id])[0];
+            foreach($counts as $key=>$value) $result['startup'][$key]=(int)$value;
+        }
         $result['attempts']=[];
         foreach($users as $i=>$u) $result['attempts'][$i===0?'sender':'recipient']=fixture_rows($pdo,'SELECT TIMESTAMPDIFF(MICROSECOND,attempted_at,UTC_TIMESTAMP(6))/1000000 AS age_seconds FROM friend_battle_start_attempts WHERE battle_id=? AND player_id=?',[$id,$u['player_id']]);
     }
@@ -151,23 +187,45 @@ def status(f):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('action', choices=['snapshot', 'prepare', 'reserve-activate', 'status', 'verify', 'cancel'])
+    p.add_argument('action', choices=['snapshot', 'prepare', 'refresh-invite', 'reserve-activate', 'status', 'verify', 'cancel'])
     p.add_argument('--output', required=True, type=Path)
     p.add_argument('--origin', default='http://127.0.0.1:8089', choices=['http://127.0.0.1:8089'])
     p.add_argument('--startup-seconds', type=int, default=120, choices=range(30, 121))
+    p.add_argument('--previous', type=Path, help='Prior terminal fixture manifest; snapshot only')
+    p.add_argument('--expect-paired', action='store_true', help='Require two selections and one pair; verify only')
     args = p.parse_args()
-    out = args.output.resolve()
-    assert out.is_relative_to((ROOT / '.research').resolve()), 'Ignored .research output required'
+    assert args.previous is None or args.action == 'snapshot', '--previous is snapshot-only'
+    assert not args.expect_paired or args.action == 'verify', '--expect-paired is verify-only'
+    out = research_path(args.output)
     manifest = out / 'startup-fixture.json'
     if args.action == 'snapshot':
         assert not manifest.exists(), 'Fresh manifest required'
-        before = snapshot()
+        reuse = {}
+        if args.previous is not None:
+            previous_path = research_path(args.previous)
+            assert previous_path != manifest, 'Previous manifest must remain separate'
+            previous_bytes = previous_path.read_bytes()
+            previous = json.loads(previous_bytes.decode('utf-8'))
+            assert previous['names'] == NAMES and previous.get('battle'), 'Prior dedicated fixture required'
+            before = guard(previous)
+            prior_status = status(previous)['startup']
+            assert prior_status['state'] == 'CANCELLED' and prior_status['claims_for_battle'] == 0
+            assert prior_status['intent_count'] == 2 and prior_status['retired_intent_count'] == 2
+            assert all(key in prior_status for key in ('selection_count', 'retired_selection_count', 'pair_count', 'retired_pair_count')), 'Selection migration required for a new round'
+            accepted_pair(previous, before)
+            assert not before['memberships'], 'No retained claims allowed'
+            assert all(s['state'] == 'CANCELLED' for s in before['sessions']), 'Only cancelled shared history allowed'
+            assert hashlib.sha256(previous_path.read_bytes()).digest() == hashlib.sha256(previous_bytes).digest(), 'Previous manifest changed during validation'
+            reuse = {'reuse_social': True, 'accepted_friend': previous['accepted_friend'],
+                     'previous_artifact': {'path': str(previous_path), 'sha256': hashlib.sha256(previous_bytes).hexdigest()}}
+        else:
+            before = snapshot()
+            assert not before['friends'] and not before['invites'] and not before['sessions']
         assert all(u['state'] == 'WORLD' for u in before['accounts'])
-        assert not before['friends'] and not before['invites'] and not before['sessions']
         assert not any(b['state'] == 'ACTIVE' for b in before['battles'])
         out.mkdir(parents=True, exist_ok=True)
         save(manifest, {'names': NAMES, 'before': before, 'origin': args.origin,
-                        'owned_additions': [], 'policy': 'Preserve native registration party; fail closed if invalid'})
+                        'owned_additions': [], 'policy': 'Preserve native registration party; fail closed if invalid', **reuse})
         print('Dedicated native accounts snapshotted; private credentials retained only in ignored manifest.')
         return
     f = json.loads(manifest.read_text(encoding='utf-8'))
@@ -176,25 +234,75 @@ def main():
     current = guard(f)
     accounts = f['before']['accounts']
     if args.action == 'prepare':
-        assert not f.get('prepared') and not current['friends'] and not current['invites'] and not current['sessions']
+        assert not f.get('prepared')
+        if f.get('reuse_social'):
+            accepted_pair(f, current)
+            assert current['invites'] == f['before']['invites'] and current['sessions'] == f['before']['sessions']
+            assert not current['memberships'] and all(s['state'] == 'CANCELLED' for s in current['sessions'])
+        else:
+            assert not current['friends'] and not current['invites'] and not current['sessions']
         assert all(u['state'] == 'WORLD' for u in current['accounts'])
         php('''$pdo->beginTransaction(); $ids=array_column($users,'player_id'); sort($ids,SORT_STRING); foreach($ids as $id) fixture_rows($pdo,'SELECT player_id FROM users WHERE player_id=? FOR UPDATE',[$id]); $users=fixture_accounts($pdo,$x['accounts']); foreach($users as $u) { friend_party_capture_locked($pdo,$u); friend_start_context_locked($pdo,$u); } $pdo->rollBack(); echo '{}';''', {'accounts': accounts})
-        post(f, '/session/friend/request', 0, player_id=accounts[1]['player_id'])
-        current = guard(f)
-        assert len(current['friends']) == 1
-        f['created_friend'] = current['friends'][0]
-        save(manifest, {k: v for k, v in f.items() if k != '_manifest'})
-        post(f, '/session/friend/response', 1, player_id=accounts[0]['player_id'], approve=True)
-        current = guard(f)
-        assert len(current['friends']) == 1 and current['friends'][0]['id'] == f['created_friend']['id'] and current['friends'][0]['pending'] == 'false'
-        f['accepted_friend'] = current['friends'][0]
+        if not f.get('reuse_social'):
+            post(f, '/session/friend/request', 0, player_id=accounts[1]['player_id'])
+            current = guard(f)
+            assert len(current['friends']) == 1
+            f['created_friend'] = current['friends'][0]
+            save(manifest, {k: v for k, v in f.items() if k != '_manifest'})
+            post(f, '/session/friend/response', 1, player_id=accounts[0]['player_id'], approve=True)
+            current = guard(f)
+            assert len(current['friends']) == 1 and current['friends'][0]['id'] == f['created_friend']['id'] and current['friends'][0]['pending'] == 'false'
+            f['accepted_friend'] = current['friends'][0]
         reply = post(f, '/session/battle-invite/create', 0, opponent_player_id=accounts[1]['player_id'], battle_type='PvF')
         current = guard(f)
-        invites = current['invites']
+        assert reply['battle_invite_id'] not in {row['invite_id'] for row in f['before']['invites']}, 'Fresh invitation ID required'
+        invites = [row for row in current['invites'] if row['invite_id'] == reply['battle_invite_id']]
+        assert len(current['invites']) == len(f['before']['invites']) + 1
         assert len(invites) == 1 and invites[0]['invite_id'] == reply['battle_invite_id']
         assert invites[0]['sender_id'] == accounts[0]['player_id'] and invites[0]['recipient_id'] == accounts[1]['player_id']
         f['invite'] = invites[0]
         f['prepared'] = True
+    elif args.action == 'refresh-invite':
+        assert f.get('prepared') and not f.get('battle'), 'Only an unreserved prepared fixture may refresh'
+        accepted_pair(f, current)
+        assert all(u['state'] == 'WORLD' for u in current['accounts'])
+        assert not current['memberships'] and all(s['state'] == 'CANCELLED' for s in current['sessions'])
+        assert not any(b['state'] == 'ACTIVE' for b in current['battles'])
+        old_id = f['invite']['invite_id']
+        old_rows = [row for row in current['invites'] if row['invite_id'] == old_id]
+        assert len(old_rows) == 1, 'Exact prior invitation required'
+        old = old_rows[0]
+        assert old['sender_id'] == accounts[0]['player_id'] and old['recipient_id'] == accounts[1]['player_id']
+        eligibility = php(r'''
+        $rows=fixture_rows($pdo,"SELECT (state IN ('EXPIRED','DECLINED','REVOKED') OR (state='PENDING' AND expires_at<=UTC_TIMESTAMP(6))) AS eligible FROM friend_battle_invites WHERE invite_id=? AND sender_id=? AND recipient_id=?",[$x['invite'],$users[0]['player_id'],$users[1]['player_id']]);
+        if(count($rows)!==1) throw new RuntimeException('Exact prior invitation required');
+        echo json_encode(['eligible'=>(bool)$rows[0]['eligible']]);
+        ''', {'accounts': accounts, 'invite': old_id})
+        assert eligibility['eligible'], 'A live or accepted invitation cannot be refreshed'
+        refresh = {'previous_manifest_invite': f['invite'], 'before_invites': current['invites']}
+        f.setdefault('invite_refreshes', []).append(refresh)
+        save(manifest, {k: v for k, v in f.items() if k != '_manifest'})
+        reply = post(f, '/session/battle-invite/create', 0, opponent_player_id=accounts[1]['player_id'], battle_type='PvF')
+        after = guard(f)
+        new_id = reply['battle_invite_id']
+        prior_ids = {row['invite_id'] for row in current['invites']}
+        assert new_id not in prior_ids, 'Refresh must create a new invitation'
+        by_id = {row['invite_id']: row for row in after['invites']}
+        assert set(by_id) == prior_ids | {new_id}, 'Unexpected invitation history change'
+        for row in current['invites']:
+            saved = by_id[row['invite_id']]
+            if row['invite_id'] == old_id and row['state'] == 'PENDING':
+                assert saved['state'] == 'EXPIRED', 'Normal API expiry required'
+                assert {k: v for k, v in saved.items() if k not in ('state', 'updated_at')} == {
+                    k: v for k, v in row.items() if k not in ('state', 'updated_at')}, 'Expired invitation identity changed'
+            else:
+                assert saved == row, 'Prior invitation history changed'
+        fresh = by_id[new_id]
+        assert fresh['sender_id'] == accounts[0]['player_id'] and fresh['recipient_id'] == accounts[1]['player_id']
+        assert fresh['state'] == 'PENDING' and after['sessions'] == current['sessions']
+        refresh['after_previous_invite'] = by_id[old_id]
+        refresh['new_invite_id'] = new_id
+        f['invite'] = fresh
     elif args.action == 'reserve-activate':
         assert f.get('prepared') and not f.get('battle')
         assert current['friends'] == [f['accepted_friend']]
@@ -230,6 +338,12 @@ def main():
             assert result['startup']['claims_for_battle'] == 0
             assert result['startup']['intent_count'] == 2
             assert result['startup']['retired_intent_count'] == 2
+        if args.expect_paired:
+            startup = result['startup']
+            assert startup['selection_count'] == 2 and startup['pair_count'] == 1
+            retired = startup['state'] == 'CANCELLED'
+            assert startup['retired_selection_count'] == (2 if retired else 0)
+            assert startup['retired_pair_count'] == (1 if retired else 0)
         guard(f)
         result['persistent_data_unchanged'] = True
     f.setdefault('observations', []).append({'action': args.action, 'status': result})

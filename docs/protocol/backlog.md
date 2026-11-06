@@ -71,8 +71,24 @@ separately when exercising clients that may both disappear.
 
 [Two dedicated Android captures](android-shared-startup.md) now verify native
 private startup, initial ready, server-ended/EOF and fresh login/join for the
-registration party. Next implement paired human selections and phase identity;
-recover or explicitly specify resolution/terminal policy before enabling public
-approval. Full native invite send/approval and packet-loss/slow/broader-party
+registration party. Research-gated first ATTACK storage and immutable pairing now pass 18 backend
+cases (migration 013, [contract and implementation](paired-selection-contract.md)).
+[Two native inputs, waiting and fixed-expiry automatic recovery](android-paired-selection-results.json)
+are verified on dedicated registration parties. Next establish
+later-phase readiness/replay identity and recover or explicitly specify
+resolution/terminal policy before enabling public approval. Full native invite send/approval and packet-loss/slow/broader-party
 coverage remain. The peer's observed `accept:false`/409 near start is an open
 compatibility question, not a confirmed defect or permission to invent success.
+
+## First human selection boundary
+
+Migration 013 stores one immutable ATTACK per participant after its own initial
+ready signal; a pair requires both ready signals. Matching retries retain IDs,
+conflicts fail 409, and corrupt/partial ledgers fail without recapture. Cancellation
+and fixed-deadline expiry retire selections/pair with both users and claims,
+including the gate-off worker. Eighteen scoped backend cases cover this boundary.
+[Native two-input waiting and fixed-expiry recovery](android-paired-selection-results.json)
+are verified on dedicated registration parties. The earlier partial one-input
+round retired correctly and is separate from the complete pair receipt. Human resolution, later phases, full invite
+approval and broader interruption coverage remain acceptance obligations. No
+combat formula or playable human battle is claimed.
