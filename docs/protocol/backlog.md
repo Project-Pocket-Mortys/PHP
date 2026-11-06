@@ -68,3 +68,11 @@ server-ended/fresh-connect/join behavior on dedicated accounts; verify loss,
 duplicate-start and slow-client cases. The default service and public approval
 remain disabled for shared starts. Run the existing startup-expiry scheduler
 separately when exercising clients that may both disappear.
+
+[Two dedicated Android captures](android-shared-startup.md) now verify native
+private startup, initial ready, server-ended/EOF and fresh login/join for the
+registration party. Next implement paired human selections and phase identity;
+recover or explicitly specify resolution/terminal policy before enabling public
+approval. Full native invite send/approval and packet-loss/slow/broader-party
+coverage remain. The peer's observed `accept:false`/409 near start is an open
+compatibility question, not a confirmed defect or permission to invent success.

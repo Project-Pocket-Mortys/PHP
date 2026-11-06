@@ -1,5 +1,9 @@
 # Shared battle stream and native abort boundary
 
+The [dedicated Android follow-up](android-shared-startup.md) now verifies this
+startup/ready/end/fresh-login/join path on two diagnostic clients. The bounded
+native analysis below remains the static evidence for the control flow.
+
 This bounded Android 2.41.0 ARM64 review supplements the [startup contract](shared-battle-startup-contract.md). It establishes a native session termination and fresh sign-in path. It does not establish playable human battles, reliable SSE delivery, or a battle resume protocol. Server policy recommendations below are replacement-server choices.
 
 ## Reproduction

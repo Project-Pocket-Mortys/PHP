@@ -1,10 +1,15 @@
 # Pocket Mortys protocol research handoff
 
+[Two Android startup/recovery captures](android-shared-startup.md) now verify
+private human start rendering, native readiness, server-ended EOF and automatic
+login/room rejoin on fresh dedicated accounts. No moves were selected; public
+approval remains unavailable pending the remaining human battle implementation.
+
 [Research stream delivery](shared-battle-stream-delivery.md) adds an opt-in
 localhost:8089 bridge for private startup attempts, initial ready and
 generation-bound interruption cleanup. Apply migration 012. The normal service
-keeps the gate off; public acceptance remains 501. Native UI recovery still
-needs a dedicated Android capture.
+keeps the gate off; public acceptance remains 501. Dedicated Android startup and
+recovery are verified in the follow-up above.
 
 [Shared startup bookkeeping](shared-battle-startup.md) now atomically records
 both player transitions and private delivery intents, initial readiness and

@@ -1925,7 +1925,8 @@
         "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
         "default_enabled": false,
         "contract": "docs/protocol/shared-battle-stream-delivery.md",
-        "acceptance_enabled": false
+        "acceptance_enabled": false,
+        "android_capture": "docs/protocol/android-shared-startup.md"
       },
       "implementation_helpers": [
         {
@@ -4914,7 +4915,8 @@
         "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
         "default_enabled": false,
         "contract": "docs/protocol/shared-battle-stream-delivery.md",
-        "acceptance_enabled": false
+        "acceptance_enabled": false,
+        "android_capture": "docs/protocol/android-shared-startup.md"
       }
     },
     {

@@ -48,6 +48,11 @@
           "battle-timeout-implementation.md",
           "android-battle-timeouts.md"
         ]
+      },
+      "android_shared_startup_capture": {
+        "reference": "docs/protocol/android-shared-startup.md",
+        "receipt": "docs/protocol/android-shared-startup-results.json",
+        "scope": "Two diagnostic Android clients, native startup/initial ready only; scripted social setup/internal activation; no human move or native approval success"
       }
     },
     "/session/battle/move": {
@@ -1047,6 +1052,11 @@
           "friend-battle-start-contract.md",
           "friend-battle-invite-contract.md"
         ]
+      },
+      "android_shared_startup_capture": {
+        "reference": "docs/protocol/android-shared-startup.md",
+        "receipt": "docs/protocol/android-shared-startup-results.json",
+        "scope": "Two diagnostic Android clients, native startup/initial ready only; scripted social setup/internal activation; no human move or native approval success"
       }
     },
     "battle:move-timer-started": {
@@ -1361,7 +1371,7 @@
       "handler_address": "0x17b6b48",
       "managed_fields": [],
       "implementation_status": "partial",
-      "evidence_confidence": "statically established",
+      "evidence_confidence": "observed",
       "reviewed_protocol": {
         "reference": "docs/protocol/shared-battle-stream-contract.md",
         "payload": {},
@@ -1372,8 +1382,9 @@
           "clean EOF"
         ],
         "client_control_flow": "SERVER_ENDED -> disconnect -> server-message/sign-in -> fresh connect -> world after successful room join",
-        "runtime_coverage": "isolated SSE framing/EOF observed; Android UI recovery not exercised",
-        "scope": "research gate only; not a human terminal result or transparent battle resume"
+        "runtime_coverage": "Observed on two dedicated Android 2.41.0 ARM32 diagnostic clients: end/EOF, automatic login, fresh SSE and successful room join; see docs/protocol/android-shared-startup-results.json",
+        "scope": "research gate only; not a human terminal result or transparent battle resume",
+        "android_capture": "docs/protocol/android-shared-startup.md"
       }
     }
   },

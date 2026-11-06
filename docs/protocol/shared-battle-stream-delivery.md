@@ -1,5 +1,9 @@
 # Research-gated shared startup delivery
 
+Follow-up: [two dedicated Android captures](android-shared-startup.md) now
+verify startup, initial ready and automatic recovery. The original transport
+test scope and remaining broader delivery scenarios below are retained.
+
 This connects [internal shared startup](shared-battle-startup.md) to an opt-in
 SSE transport. Public invitation acceptance remains 501 on both servers. The
 gate supports startup/initial readiness and safe interruption testing; it does
@@ -16,9 +20,9 @@ uses its server-message/sign-in flow, starts a fresh connection, then returns to
 the world after successful room join. Bare EOF uses a different reason and does
 not itself select that automatic sign-in path.
 
-These are statically established control paths. Real HTTP/SSE tests verify
-framing, privacy and EOF; they are not an Android UI recovery capture. Neither
-this path nor the new database records establish transparent human battle resume.
+These control paths were established statically in this pass. The linked Android
+follow-up verifies them on the diagnostic clients; the HTTP tests here separately
+verify framing, privacy and EOF. Neither establishes transparent human battle resume.
 
 ## Connection identity and attempts
 
@@ -114,8 +118,8 @@ production deployment or emulator redirection is included.
 
 ## Remaining acceptance work
 
-Capture the actual Android intro, initial ready, `session:end` and fresh join on
-dedicated test accounts before claiming native recovery works end to end.
+The linked dedicated Android run now captures intro, initial ready, `session:end`
+and fresh join for the registration party. Extend that coverage to other parties.
 Validate packet loss, slow startup/snapshots and missing-event behavior against
 the client UI. Keep public approval disabled while human selections, later-phase
 ready identity, resolution, forced switches and terminal behavior are incomplete.

@@ -87,3 +87,9 @@ opt-in SSE/ready bridge, current-generation fencing and server-ended/EOF cleanup
 Its HTTP tests pass; the native client control path is statically established.
 Actual Android startup/recovery capture and the remaining human battle lifecycle
 still block public approval.
+
+The [dedicated Android follow-up](android-shared-startup.md) now verifies
+startup, initial ready and automatic fresh login/join on both clients. Native
+approval was not successful or enabled, and no human moves were selected. The
+remaining human selection/phase/combat/terminal implementation still blocks
+public approval; broader delivery scenarios remain separate.
