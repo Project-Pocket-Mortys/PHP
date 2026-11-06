@@ -12,6 +12,7 @@ header("Vary: Accept-Encoding");
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
 require_once __DIR__ . '/../../lib/shiny_potion.php';
+require_once __DIR__ . '/../../lib/trade_references.php';
 
 function toBool($v) {
     if ($v === null) return false;
@@ -80,6 +81,7 @@ $deckOwnedIds = decode_owned_ids((string)($deckRow['owned_morty_ids'] ?? ''));
 
 // ---------------- OWNED MORTIES (ALL) + ATTACKS ----------------
 $owned_morties = [];
+$tradeReference = trade_reference_projection('m.owned_morty_id');
 
 $sql = "
     SELECT
@@ -97,6 +99,7 @@ $sql = "
         m.is_paralysed,
         m.is_locked,
         m.is_trading_locked,
+        $tradeReference AS has_trade_reference,
         m.fight_pit_id,
         m.evolution_points,
         m.xp_lower,
@@ -140,7 +143,7 @@ foreach ($rows as $row) {
             "is_poisoned"        => toBool($row['is_poisoned']),
             "is_paralysed"       => toBool($row['is_paralysed']),
             "is_locked"          => toBool($row['is_locked']),
-            "is_trading_locked"  => toBool($row['is_trading_locked']),
+            "is_trading_locked"  => toBool($row['is_trading_locked']) || (int)$row['has_trade_reference'] === 1,
             "fight_pit_id"       => toNull($row['fight_pit_id']),
             "evolution_points"   => (int)$row['evolution_points'],
             "owned_attacks"      => [],

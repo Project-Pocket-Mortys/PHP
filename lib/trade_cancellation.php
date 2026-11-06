@@ -54,9 +54,9 @@ function trade_cancellation_apply(PDO $pdo, string $session, string $id, bool $o
             $tradeId = $offers[0]['trade_id'];
         }
         $trades = trade_cancellation_rows($pdo, 'SELECT * FROM trades WHERE trade_id=? ORDER BY id FOR UPDATE', [$tradeId]);
-        if (!$trades) throw new TradeCancellationError(404, $offer ? 'TRADE_NO_SUCH_OFFER' : 'FAILED');
-        if (count($trades) !== 1 || $trades[0]['trade_id'] !== $tradeId) throw new TradeCancellationError(409);
-        $trade = $trades[0];
+        if (!$trades && !$offer) throw new TradeCancellationError(404);
+        if ($trades && (count($trades) !== 1 || $trades[0]['trade_id'] !== $tradeId)) throw new TradeCancellationError(409);
+        $trade = $trades[0] ?? null;
         if ($offer) {
             $current = trade_cancellation_rows($pdo, 'SELECT * FROM trade_offers WHERE trade_offer_id=? ORDER BY id FOR UPDATE', [$id]);
             if (!$current) throw new TradeCancellationError(404, 'TRADE_NO_SUCH_OFFER');

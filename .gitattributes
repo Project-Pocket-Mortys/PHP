@@ -1,4 +1,6 @@
 .gitattributes text eol=lf
+lib/trade_references.php text eol=lf
+session/player-details/index.php text eol=lf
 tests/research/test_offline_sdk_probe.py text eol=lf
 tools/research/** text eol=lf
 tests/protocol/** text eol=lf

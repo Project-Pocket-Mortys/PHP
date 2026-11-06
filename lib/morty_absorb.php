@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/world_action_guard.php';
 require_once __DIR__ . '/morty_release.php';
+require_once __DIR__ . '/trade_references.php';
 
 final class MortyAbsorbError extends RuntimeException {
     public int $status;
@@ -109,6 +110,9 @@ function morty_absorb_apply(PDO $pdo, string $sessionId, string $targetId, array
     }
     if (!$donors) throw new MortyAbsorbError('NO_VALID_MORTYS');
     $removed = array_column($donors, 'owned_morty_id');
+    if (trade_reference_any_locked($pdo, array_merge([$targetId], $removed))) {
+        throw new MortyAbsorbError('FAILED', 409);
+    }
     $points = $target['evolution_points'] === null ? 0
         : filter_var($target['evolution_points'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
     if ($points === false || $points > PHP_INT_MAX - count($donors)) throw new MortyAbsorbError('FAILED', 409);
