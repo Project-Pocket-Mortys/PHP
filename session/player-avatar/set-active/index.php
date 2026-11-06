@@ -2,12 +2,13 @@
 // player-avatar/set-active
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
 
 require '../../../pocket_f4894h398r8h9w9er8he98he.php'; // provides $pdo
+require_once __DIR__ . '/../../../lib/preparation_writer_guard.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -20,29 +21,17 @@ if (!$session_id || !$player_avatar_id) {
     exit;
 }
 
-/*
-Update active avatar by session_id
-*/
-$stmt = $pdo->prepare("
-    UPDATE users
-    SET player_avatar_id = ?
-    WHERE session_id = ?
-    LIMIT 1
-");
-$stmt->execute([
-    $player_avatar_id,
-    $session_id
-]);
-
-if ($stmt->rowCount() === 0) {
-    http_response_code(401);
-    echo json_encode(["success" => false, "error" => "Invalid session"]);
-    exit;
+try {
+    $user = preparation_writer_lock($pdo, (string)$session_id);
+    $stmt = $pdo->prepare('UPDATE users SET player_avatar_id = ? WHERE id = ?');
+    $stmt->execute([$player_avatar_id, $user['id']]);
+    // Preserve the legacy unchanged-avatar response.
+    if ($stmt->rowCount() === 0) friend_fail(401, 'NOT_AUTHENTICATED');
+    $pdo->commit();
+    echo json_encode(['success' => true], JSON_UNESCAPED_SLASHES);
+} catch (Throwable $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    http_response_code($e instanceof FriendError ? $e->status : 500);
+    echo json_encode(['success' => false, 'error' => $e instanceof FriendError ?
+        ($e->status === 401 ? 'Invalid session' : $e->getMessage()) : 'SERVER_ERROR']);
 }
-
-/*
-Respond
-*/
-echo json_encode([
-    "success" => true
-], JSON_UNESCAPED_SLASHES);

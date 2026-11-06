@@ -14,14 +14,16 @@ if hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest() != expected:
     raise SystemExit('Tool hash mismatch: ' + name)
 PY
 }
-if [ ! -f node.tar.xz ]; then
-  curl -fL --retry 2 https://nodejs.org/dist/v24.20.0/node-v24.20.0-linux-x64.tar.xz -o node.tar.xz
+NODE_VERSION="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["node"]["version"])' "$REPO_ROOT/tools/research/toolchain.lock.json")"
+NODE_ARCHIVE="node-v$NODE_VERSION-linux-x64.tar.xz"
+if [ ! -f "$NODE_ARCHIVE" ]; then
+  curl -fL --retry 2 "https://nodejs.org/dist/v$NODE_VERSION/$NODE_ARCHIVE" -o "$NODE_ARCHIVE"
 fi
-verify node node.tar.xz
-if [ ! -x node-v24.20.0-linux-x64/bin/node ]; then
-  tar xf node.tar.xz
+verify node "$NODE_ARCHIVE"
+if [ ! -x "node-v$NODE_VERSION-linux-x64/bin/node" ]; then
+  tar xf "$NODE_ARCHIVE"
 fi
-export PATH="$TOOL_ROOT/node-v24.20.0-linux-x64/bin:$PATH"
+export PATH="$TOOL_ROOT/node-v$NODE_VERSION-linux-x64/bin:$PATH"
 if [ ! -f ghidra.zip ]; then
   curl -fL --retry 2 https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.1.4_build/ghidra_12.1.4_PUBLIC_20260921.zip -o ghidra.zip
 fi
@@ -42,4 +44,5 @@ if [ ! -f jadx-headless-mcp-0.7.1-all.jar ]; then
   curl -fL --retry 2 https://github.com/1013503897/jadx-headless-mcp/releases/download/v0.7.1/jadx-headless-mcp-0.7.1-all.jar -o jadx-headless-mcp-0.7.1-all.jar
 fi
 verify jadx-headless-mcp jadx-headless-mcp-0.7.1-all.jar
-npm install --prefix rea --save-exact rea-agents@6.4.0
+REA_VERSION="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["rea"]["version"])' "$REPO_ROOT/tools/research/toolchain.lock.json")"
+npm install --prefix rea --save-exact "rea-agents@$REA_VERSION"

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "branch": "hayward/trade-response-authorization",
+  "base_main_commit": "9ff1a116e41e809172e63d983558cee9c662dc75",
+  "prerequisite_commit": "31d4e75ef5a12d290046ce87d98e60fa81dcecd5",
+  "scope": "Native static contract plus synthetic replacement-server authorization/binding repair; no native accept/reject or original-service capture",
+  "native": {
+    "rea": "6.8.0",
+    "ghidra": "12.1.4",
+    "elf_sha256": "ff773be7d3718ee307f6342358268748e8fa2487460e7b3857715478cb8e4326",
+    "metadata_version": 31,
+    "constructor": "0x1791548",
+    "callback": "0x17953b0",
+    "parser": "0x1b569d8",
+    "contract": "native-trade-response-contract.md"
+  },
+  "baseline": {
+    "source_commit": "31d4e75ef5a12d290046ce87d98e60fa81dcecd5",
+    "tests": 16,
+    "failing_assertions_including_subtests": 47,
+    "seconds": 32.673,
+    "private_receipt": ".research/trade-response-baseline-tests.txt"
+  },
+  "verification": {
+    "total_unique_tests": 51,
+    "all_passed": true,
+    "runs": [
+      {
+        "suite": "test_trade_response_authorization.py",
+        "cases": 19,
+        "seconds": 53.662
+      },
+      {
+        "suite": "test_trade_response_authorization.py focused additional cases",
+        "cases": 3,
+        "seconds": 4.507,
+        "methods": [
+          "test_sibling_parent_case_alias_blocks_acceptance_without_mutation",
+          "test_stale_actual_owner_on_either_side_blocks_acceptance",
+          "test_parent_delete_fault_rolls_back_transfer_completion_and_child_deletions"
+        ]
+      },
+      {
+        "suite": "test_trade_party_guard.py",
+        "cases": 6,
+        "seconds": 37.23
+      },
+      {
+        "suite": "test_trade_cancellation.py",
+        "cases": 19,
+        "seconds": 39.896
+      },
+      {
+        "suite": "test_trade_offer_metadata.py",
+        "cases": 4,
+        "seconds": 5.333
+      }
+    ],
+    "execution": "Serial/exclusive DB tests; additive UUID fixtures and scoped cleanup; no global reseed",
+    "php_lint": "Both changed PHP files passed",
+    "source_validation": "JSON/source hashes/reviewed request fields/bounded native mappings/Python syntax passed",
+    "guards": [
+      "Original friend/battle/invitation account history",
+      "Retained battle-item resources/party/membership",
+      "Native trading pair collections/resources/parties/expiry/friendship; last_seen excluded",
+      "Retained paired startup save/history"
+    ]
+  },
+  "unchanged": [
+    "root README attribution/completion claims",
+    "main/master branches",
+    "retained emulators/saves and APK installations",
+    "database schema"
+  ],
+  "remaining": [
+    "Native accept/reject presentation and authoritative inventory refresh",
+    "Protected request/offer creation and active-party eligibility",
+    "Offer-cancel immediate inventory refresh",
+    "Completed-list wire-name mapping and original cooldown/economics",
+    "Legacy true lock flags and other Morty serializers",
+    "Mixed legacy user lock order can deadlock and return rolled-back 500 FAILED; no automatic retry"
+  ]
+}
