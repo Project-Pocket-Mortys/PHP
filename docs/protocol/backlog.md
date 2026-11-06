@@ -1,5 +1,12 @@
 # Evidence gaps and repair backlog
 
+Latest SDK prerequisite: [isolated native offline-path recovery](onetrust-startup-recovery.md)
+now passes retained-client startup, login, world entry and actual trading cookie
+transmission, with unchanged SDK files and guarded saves. Exact Android online
+SDK-fetch failure attribution, independent paired-client fixtures, cancellation
+buttons and persistent trading-lock reconciliation remain. This does not grant
+consent or establish universal optional-SDK denial; keep external isolation.
+
 Implementation status and evidence confidence are independent. The root README remains authoritative for claimed completed features. Native constants establish interface names, not successful runtime behavior. Every unmapped parser in `parser-mapping.json` is an explicit research obligation; no fallback schema is silently assigned to it.
 
 | Priority | Work | Evidence and affected interfaces | Acceptance |

@@ -1,4 +1,5 @@
 .gitattributes text eol=lf
+tests/research/test_offline_sdk_probe.py text eol=lf
 tools/research/** text eol=lf
 tests/protocol/** text eol=lf
 docs/protocol/** text eol=lf

@@ -16,11 +16,25 @@ from urllib.parse import parse_qs, urlsplit
 from capture_friend_battle_http import ROOT, message, packets, runs
 
 
-def inspect(pcap, fixture):
+def primary_account(fixture):
     account_rows = json.loads(fixture.read_text(encoding='utf-8'))['before']['accounts']
     account = [row for row in account_rows if row['username'] == 'PMStartup01']
     assert len(account) == 1, 'Require one immutable primary fixture identity'
-    account = account[0]
+    return account[0]
+
+
+def returned_session(payload):
+    query = parse_qs(urlsplit(payload['session_url']).query)
+    assert len(query.get('token', [])) == 1, 'Require one returned session token'
+    token = query['token'][0]
+    pieces = token.split('.')
+    assert len(pieces) == 3, 'Require returned JWT-shaped session token'
+    claims = json.loads(base64.urlsafe_b64decode(pieces[1] + '=' * (-len(pieces[1]) % 4)))
+    return token, claims
+
+
+def inspect(pcap, fixture):
+    account = primary_account(fixture)
     flows, packet_order = {}, {}
     for ordinal, (key, seq, ack, payload) in enumerate(packets(pcap)):
         flows.setdefault(key, []).append((seq, ack, payload))
@@ -73,11 +87,7 @@ def inspect(pcap, fixture):
         morsel = cookie['session_id']
         assert morsel.value and morsel['path'] == '/trading/' and morsel['httponly'] and morsel['samesite'].lower() == 'lax', 'Require scoped HttpOnly SameSite=Lax session cookie'
         payload = json.loads(response_body)
-        query = parse_qs(urlsplit(payload['session_url']).query)
-        assert len(query.get('token', [])) == 1, 'Require one returned session token'
-        pieces = query['token'][0].split('.')
-        assert len(pieces) == 3, 'Require returned JWT-shaped session token'
-        claims = json.loads(base64.urlsafe_b64decode(pieces[1] + '=' * (-len(pieces[1]) % 4)))
+        _, claims = returned_session(payload)
         assert claims.get('player_id') == account['player_id'] and claims.get('username') == account['username'], 'Login response identity must match immutable fixture'
         assert claims.get('session_id') == morsel.value, 'Cookie must match the login-returned session'
         logins.append((morsel.value, response_ordinal, bool(morsel['secure'])))

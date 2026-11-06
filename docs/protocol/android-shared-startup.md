@@ -1,5 +1,11 @@
 # Android shared-startup and recovery capture
 
+Later cold-start recovery: the [offline SDK research fixture](onetrust-startup-recovery.md)
+now restores one retained client and verifies native trading cookie delivery.
+This does not change the paired-startup evidence below. Do not share one
+one-shot fixture between simultaneous client startups; paired offline fixtures
+remain separate work.
+
 Two fresh Android 2.41.0 diagnostic clients rendered a `PvF` startup, each sent
 its own successful ready request, and both automatically signed in and rejoined
 the world after startup expiry. Neither client selected a move. The

@@ -989,7 +989,7 @@
       ],
       "limitations": [
         "Original HTTP statuses/refunds unknown",
-        "Native cookie/cancellation runtime capture pending"
+        "Native cookie transport verified with explicit offline-SDK fixture; cancellation-button capture pending"
       ]
     },
     "/trading/cancel-trade-offer": {
@@ -1019,7 +1019,7 @@
       ],
       "limitations": [
         "Original HTTP statuses/refunds unknown",
-        "Native cookie/cancellation runtime capture pending"
+        "Native cookie transport verified with explicit offline-SDK fixture; cancellation-button capture pending"
       ]
     }
   },

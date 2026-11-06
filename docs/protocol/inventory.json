@@ -5075,7 +5075,7 @@
       },
       "implementation_status": "partial",
       "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native UI acceptance and full trade system remain separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation.",
-      "evidence_confidence": "Statically established native constructor/error callback/cookie transport; additive HTTP and database-side-effect tests; native outgoing-cookie and cancellation UI capture remain unverified.",
+      "evidence_confidence": "Native constructor/error callback established; additive HTTP/database tests; native login cookie receipt/transmission observed with explicit offline SDK fixture. Cancellation UI and persistent lock lifecycle remain separate.",
       "http_method": "POST",
       "input_field_candidates": [
         "trade_id"
@@ -5095,7 +5095,7 @@
       "authentication": "Current users.session_id via scoped login session cookie or Bearer; both must agree; actor owns exact listing",
       "unresolved": [
         "Original authentication provisioning and HTTP status parity",
-        "Native outgoing cookie handoff and cancellation-button runtime acceptance",
+        "Native cancellation-button runtime acceptance; cookie transport now observed in onetrust-recovery-cookie-handoff.json",
         "Original refund/cooldown policy",
         "Persistent trading-lock lifecycle and remaining active-reference reconciliation"
       ],
@@ -5131,10 +5131,10 @@
         }
       ],
       "implementation_status": "partial",
-      "evidence_confidence": "Statically established native constructor/error callback/cookie transport; additive HTTP and database-side-effect tests; native outgoing-cookie and cancellation UI capture remain unverified.",
+      "evidence_confidence": "Native constructor/error callback established; additive HTTP/database tests; native login cookie receipt/transmission observed with explicit offline SDK fixture. Cancellation UI and persistent lock lifecycle remain separate.",
       "unresolved": [
         "Original authentication provisioning and HTTP status parity",
-        "Native outgoing cookie handoff and cancellation-button runtime acceptance",
+        "Native cancellation-button runtime acceptance; cookie transport now observed in onetrust-recovery-cookie-handoff.json",
         "Original refund/cooldown policy",
         "Persistent trading-lock lifecycle and remaining active-reference reconciliation"
       ],

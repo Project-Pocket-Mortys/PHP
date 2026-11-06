@@ -1,5 +1,10 @@
 # Owner-scoped trade cancellation
 
+Later verification: [isolated startup recovery](onetrust-startup-recovery.md)
+now passes native login and [actual trading cookie transmission](onetrust-recovery-cookie-handoff.json).
+The earlier failed captures below remain historical evidence. Cancellation
+buttons, persisted trading locks and wider trade authorization remain separate.
+
 `/trading/cancel-trade` previously deleted a request and its offers without
 requiring a valid session. `/trading/cancel-trade-offer` was missing. Both now
 require a current, unambiguous session and the listing owner's identity before
