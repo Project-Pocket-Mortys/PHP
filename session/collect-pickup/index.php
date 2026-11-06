@@ -2,13 +2,14 @@
 // collect-pickup.php
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
 
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php";
 require __DIR__ . "/../../lib/events.php";
+require_once __DIR__ . "/../../lib/preparation_writer_guard.php";
 
 
 /* ---------------- UUID ---------------- */
@@ -310,23 +311,7 @@ if (!$session_id || !$pickup_id) {
 
 
 try {
-    $pdo->beginTransaction();
-
-    /* PLAYER */
-    $stmt = $pdo->prepare("
-        SELECT player_id, room_id
-        FROM users
-        WHERE session_id = ?
-        LIMIT 1
-        FOR UPDATE
-    ");
-    $stmt->execute([$session_id]);
-
-    $player = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$player) {
-        throw new Exception("Invalid session");
-    }
+    $player = preparation_writer_lock($pdo, $session_id);
 
     $player_id = $player["player_id"];
     $room_id = $player["room_id"];
@@ -469,10 +454,19 @@ if (!is_array($contents)) {
         $pdo->rollBack();
     }
 
-    http_response_code(500);
-
-    echo json_encode([
-        "error"=>"Server error",
-        "detail"=>$e->getMessage()
-    ]);
+    if ($e instanceof FriendError && $e->status === 409) {
+        http_response_code(409);
+        echo json_encode(['error' => 'FAILED']);
+    } else {
+        http_response_code($e instanceof FriendError ? $e->status : 500);
+        $response = ['error' => 'Server error'];
+        // Preserve intentional legacy errors without exposing SQL diagnostics.
+        if ($e instanceof FriendError && $e->status === 401) {
+            $response['detail'] = 'Invalid session';
+        } elseif (in_array($e->getMessage(), ['Pickup already collected or missing',
+                   'Invalid pickup contents format', 'Malformed pickup contents'], true)) {
+            $response['detail'] = $e->getMessage();
+        }
+        echo json_encode($response);
+    }
 }

@@ -1,0 +1,1923 @@
+{
+  "schema_version": 1,
+  "unitypy": "1.25.0",
+  "apk_sha256": "b44f255bdd58b3196d73ff811c3e645d68edcbd76366a39f5c4489bc538ebf74",
+  "evidence_kind": "Original APK serialized prefab placement; runtime activation unverified",
+  "scan": "All assets/bin/Data entries searched for ASCII MPTradeKiosk; matching carriers decoded",
+  "carriers": [
+    {
+      "entry": "assets/bin/Data/09090185f9294494db8fed68cd00257b",
+      "size": 266916,
+      "sha256": "e7dad565314446df1b8cd3debb6575f63aaf026e75e0c147ff8b797d64f1413e",
+      "kiosks": [
+        {
+          "hierarchy": [
+            {
+              "game_object_id": 623,
+              "transform_id": 1235,
+              "name": "MPTradeKiosk",
+              "active_self": true,
+              "local_position": [
+                14.90999984741211,
+                -4.599999904632568,
+                5.130000114440918
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 423,
+              "transform_id": 1129,
+              "name": "Buildings",
+              "active_self": true,
+              "local_position": [
+                38.123046875,
+                8.15234375,
+                39.269527435302734
+              ],
+              "local_rotation": {
+                "x": -0.0,
+                "y": -0.0,
+                "z": -0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 342,
+              "transform_id": 947,
+              "name": "Nodes",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 412,
+              "transform_id": 1076,
+              "name": "MPDimension2",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ],
+          "all_serialized_ancestors_active": true,
+          "prefab_position": [
+            53.03304672241211,
+            3.5523438453674316,
+            44.39952754974365
+          ],
+          "position_limit": null,
+          "interaction_points": [
+            {
+              "hierarchy": [
+                {
+                  "game_object_id": 625,
+                  "transform_id": 1255,
+                  "name": "InteractionPoint",
+                  "active_self": true,
+                  "local_position": [
+                    -3.549999952316284,
+                    0.0,
+                    0.07999999821186066
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 623,
+                  "transform_id": 1235,
+                  "name": "MPTradeKiosk",
+                  "active_self": true,
+                  "local_position": [
+                    14.90999984741211,
+                    -4.599999904632568,
+                    5.130000114440918
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 423,
+                  "transform_id": 1129,
+                  "name": "Buildings",
+                  "active_self": true,
+                  "local_position": [
+                    38.123046875,
+                    8.15234375,
+                    39.269527435302734
+                  ],
+                  "local_rotation": {
+                    "x": -0.0,
+                    "y": -0.0,
+                    "z": -0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 342,
+                  "transform_id": 947,
+                  "name": "Nodes",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 412,
+                  "transform_id": 1076,
+                  "name": "MPDimension2",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "all_serialized_ancestors_active": true,
+              "prefab_position": [
+                49.483046770095825,
+                3.5523438453674316,
+                44.47952754795551
+              ],
+              "position_limit": null,
+              "layer": 8,
+              "colliders": [
+                {
+                  "path_id": 2339,
+                  "type": "BoxCollider",
+                  "enabled": true,
+                  "is_trigger": false,
+                  "center": {
+                    "x": 0.0,
+                    "y": 1.5,
+                    "z": 0.0
+                  },
+                  "size": {
+                    "x": 0.8999999761581421,
+                    "y": 3.0,
+                    "z": 0.8999999761581421
+                  }
+                }
+              ]
+            }
+          ],
+          "serialized_file": "44704151295626119"
+        }
+      ]
+    },
+    {
+      "entry": "assets/bin/Data/120f1c5230e5b4547b983e2b0d1e4a2e",
+      "size": 417568,
+      "sha256": "f481b2682874a164ad6874521eefd0b95cb60c40325b3b94e438a422c4fa7abc",
+      "kiosks": [
+        {
+          "hierarchy": [
+            {
+              "game_object_id": 165,
+              "transform_id": 1471,
+              "name": "MPTradeKiosk",
+              "active_self": true,
+              "local_position": [
+                18.079999923706055,
+                1.0299999713897705,
+                10.470000267028809
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 9,
+              "transform_id": 1013,
+              "name": "Buildings",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 3,
+              "transform_id": 1009,
+              "name": "Nodes",
+              "active_self": true,
+              "local_position": [
+                36.0,
+                0.0,
+                16.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 29,
+              "transform_id": 1042,
+              "name": "MPDimension5",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ],
+          "all_serialized_ancestors_active": true,
+          "prefab_position": [
+            54.079999923706055,
+            1.0299999713897705,
+            26.47000026702881
+          ],
+          "position_limit": null,
+          "interaction_points": [
+            {
+              "hierarchy": [
+                {
+                  "game_object_id": 145,
+                  "transform_id": 1171,
+                  "name": "InteractionPoint",
+                  "active_self": true,
+                  "local_position": [
+                    -3.5,
+                    0.0,
+                    0.07999999821186066
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 165,
+                  "transform_id": 1471,
+                  "name": "MPTradeKiosk",
+                  "active_self": true,
+                  "local_position": [
+                    18.079999923706055,
+                    1.0299999713897705,
+                    10.470000267028809
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 9,
+                  "transform_id": 1013,
+                  "name": "Buildings",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 3,
+                  "transform_id": 1009,
+                  "name": "Nodes",
+                  "active_self": true,
+                  "local_position": [
+                    36.0,
+                    0.0,
+                    16.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 29,
+                  "transform_id": 1042,
+                  "name": "MPDimension5",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "all_serialized_ancestors_active": true,
+              "prefab_position": [
+                50.579999923706055,
+                1.0299999713897705,
+                26.55000026524067
+              ],
+              "position_limit": null,
+              "layer": 8,
+              "colliders": [
+                {
+                  "path_id": 3369,
+                  "type": "BoxCollider",
+                  "enabled": true,
+                  "is_trigger": false,
+                  "center": {
+                    "x": 0.0,
+                    "y": 1.5,
+                    "z": 0.0
+                  },
+                  "size": {
+                    "x": 0.8999999761581421,
+                    "y": 3.0,
+                    "z": 0.8999999761581421
+                  }
+                }
+              ]
+            }
+          ],
+          "serialized_file": "-9151778702470301145"
+        }
+      ]
+    },
+    {
+      "entry": "assets/bin/Data/615433420563f4ef7954358c71141522",
+      "size": 1570632,
+      "sha256": "c2e9c50bda3b331a3f1be16a78dc824d774b318cbb6d931e93bb036628842500",
+      "kiosks": [
+        {
+          "hierarchy": [
+            {
+              "game_object_id": 502,
+              "transform_id": 5428,
+              "name": "MPTradeKiosk",
+              "active_self": true,
+              "local_position": [
+                -1.1239999532699585,
+                1.0299999713897705,
+                11.854000091552734
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 10,
+              "transform_id": 3694,
+              "name": "Buildings",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 4,
+              "transform_id": 3689,
+              "name": "Nodes",
+              "active_self": true,
+              "local_position": [
+                60.0,
+                0.0,
+                40.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 30,
+              "transform_id": 3718,
+              "name": "MPDimension6",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ],
+          "all_serialized_ancestors_active": true,
+          "prefab_position": [
+            58.87600004673004,
+            1.0299999713897705,
+            51.854000091552734
+          ],
+          "position_limit": null,
+          "interaction_points": [
+            {
+              "hierarchy": [
+                {
+                  "game_object_id": 406,
+                  "transform_id": 4192,
+                  "name": "InteractionPoint",
+                  "active_self": true,
+                  "local_position": [
+                    -3.377000093460083,
+                    0.0,
+                    0.07999999821186066
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 502,
+                  "transform_id": 5428,
+                  "name": "MPTradeKiosk",
+                  "active_self": true,
+                  "local_position": [
+                    -1.1239999532699585,
+                    1.0299999713897705,
+                    11.854000091552734
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 10,
+                  "transform_id": 3694,
+                  "name": "Buildings",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 4,
+                  "transform_id": 3689,
+                  "name": "Nodes",
+                  "active_self": true,
+                  "local_position": [
+                    60.0,
+                    0.0,
+                    40.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 30,
+                  "transform_id": 3718,
+                  "name": "MPDimension6",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "all_serialized_ancestors_active": true,
+              "prefab_position": [
+                55.49899995326996,
+                1.0299999713897705,
+                51.934000089764595
+              ],
+              "position_limit": null,
+              "layer": 8,
+              "colliders": [
+                {
+                  "path_id": 13541,
+                  "type": "BoxCollider",
+                  "enabled": true,
+                  "is_trigger": false,
+                  "center": {
+                    "x": 0.0,
+                    "y": 1.5,
+                    "z": 0.0
+                  },
+                  "size": {
+                    "x": 0.8999999761581421,
+                    "y": 3.0,
+                    "z": 0.8999999761581421
+                  }
+                }
+              ]
+            }
+          ],
+          "serialized_file": "-6498644681087432784"
+        }
+      ]
+    },
+    {
+      "entry": "assets/bin/Data/7773ac3df6e1548dba412a19b8065da7",
+      "size": 7120,
+      "sha256": "164d7e300c242370d2987f9110ee1c0b747ce6096fe8f0db04349d1cbcbb337a",
+      "kiosks": [
+        {
+          "hierarchy": [
+            {
+              "game_object_id": 4,
+              "transform_id": 22,
+              "name": "MPTradeKiosk",
+              "active_self": true,
+              "local_position": [
+                -0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ],
+          "all_serialized_ancestors_active": true,
+          "prefab_position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "position_limit": null,
+          "interaction_points": [
+            {
+              "hierarchy": [
+                {
+                  "game_object_id": 5,
+                  "transform_id": 20,
+                  "name": "InteractionPoint",
+                  "active_self": true,
+                  "local_position": [
+                    -3.390000104904175,
+                    0.0,
+                    0.07999999821186066
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 4,
+                  "transform_id": 22,
+                  "name": "MPTradeKiosk",
+                  "active_self": true,
+                  "local_position": [
+                    -0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "all_serialized_ancestors_active": true,
+              "prefab_position": [
+                -3.390000104904175,
+                0.0,
+                0.07999999821186066
+              ],
+              "position_limit": null,
+              "layer": 8,
+              "colliders": [
+                {
+                  "path_id": 40,
+                  "type": "BoxCollider",
+                  "enabled": true,
+                  "is_trigger": false,
+                  "center": {
+                    "x": 0.0,
+                    "y": 1.5,
+                    "z": 0.0
+                  },
+                  "size": {
+                    "x": 0.8999999761581421,
+                    "y": 3.0,
+                    "z": 0.8999999761581421
+                  }
+                }
+              ]
+            }
+          ],
+          "serialized_file": "7139120626949436910"
+        }
+      ]
+    },
+    {
+      "entry": "assets/bin/Data/7bbb3ff46d8da41bb82c76c6b6f465b3",
+      "size": 515892,
+      "sha256": "40fa6c724349ee8b5b7e3ca82b6f3eb159b26caf37a953a6f90cf2dae9b0f19c",
+      "kiosks": [
+        {
+          "hierarchy": [
+            {
+              "game_object_id": 1198,
+              "transform_id": 2410,
+              "name": "MPTradeKiosk",
+              "active_self": true,
+              "local_position": [
+                15.829999923706055,
+                1.0299999713897705,
+                62.439998626708984
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 572,
+              "transform_id": 1794,
+              "name": "Buildings",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 536,
+              "transform_id": 1777,
+              "name": "Nodes",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 801,
+              "transform_id": 1223,
+              "name": "MPDimension1",
+              "active_self": true,
+              "local_position": [
+                0.0010000000474974513,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ],
+          "all_serialized_ancestors_active": true,
+          "prefab_position": [
+            15.830999923753552,
+            1.0299999713897705,
+            62.439998626708984
+          ],
+          "position_limit": null,
+          "interaction_points": [
+            {
+              "hierarchy": [
+                {
+                  "game_object_id": 1200,
+                  "transform_id": 2414,
+                  "name": "InteractionPoint",
+                  "active_self": true,
+                  "local_position": [
+                    -3.390000104904175,
+                    0.0,
+                    0.07999999821186066
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 1198,
+                  "transform_id": 2410,
+                  "name": "MPTradeKiosk",
+                  "active_self": true,
+                  "local_position": [
+                    15.829999923706055,
+                    1.0299999713897705,
+                    62.439998626708984
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 572,
+                  "transform_id": 1794,
+                  "name": "Buildings",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 536,
+                  "transform_id": 1777,
+                  "name": "Nodes",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 801,
+                  "transform_id": 1223,
+                  "name": "MPDimension1",
+                  "active_self": true,
+                  "local_position": [
+                    0.0010000000474974513,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "all_serialized_ancestors_active": true,
+              "prefab_position": [
+                12.440999818849377,
+                1.0299999713897705,
+                62.519998624920845
+              ],
+              "position_limit": null,
+              "layer": 8,
+              "colliders": [
+                {
+                  "path_id": 4610,
+                  "type": "BoxCollider",
+                  "enabled": true,
+                  "is_trigger": false,
+                  "center": {
+                    "x": 0.0,
+                    "y": 1.5,
+                    "z": 0.0
+                  },
+                  "size": {
+                    "x": 0.8999999761581421,
+                    "y": 3.0,
+                    "z": 0.8999999761581421
+                  }
+                }
+              ]
+            }
+          ],
+          "serialized_file": "3689679025444388570"
+        }
+      ]
+    },
+    {
+      "entry": "assets/bin/Data/927071a84be39458392052555eee6270",
+      "size": 589764,
+      "sha256": "bb1c884f00284812c00aca7bdd1c5e2d04abd2334a8bcf228aef2f9343aacfed",
+      "kiosks": [
+        {
+          "hierarchy": [
+            {
+              "game_object_id": 1551,
+              "transform_id": 3109,
+              "name": "MPTradeKiosk",
+              "active_self": true,
+              "local_position": [
+                58.5,
+                1.0099999904632568,
+                54.43000030517578
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 3,
+              "transform_id": 1565,
+              "name": "Buildings",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 2,
+              "transform_id": 1563,
+              "name": "Nodes",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 11,
+              "transform_id": 1577,
+              "name": "MPDimension3",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ],
+          "all_serialized_ancestors_active": true,
+          "prefab_position": [
+            58.5,
+            1.0099999904632568,
+            54.43000030517578
+          ],
+          "position_limit": null,
+          "interaction_points": [
+            {
+              "hierarchy": [
+                {
+                  "game_object_id": 1552,
+                  "transform_id": 3115,
+                  "name": "InteractionPoint",
+                  "active_self": true,
+                  "local_position": [
+                    -2.9830000400543213,
+                    0.0,
+                    0.07999999821186066
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 1551,
+                  "transform_id": 3109,
+                  "name": "MPTradeKiosk",
+                  "active_self": true,
+                  "local_position": [
+                    58.5,
+                    1.0099999904632568,
+                    54.43000030517578
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 3,
+                  "transform_id": 1565,
+                  "name": "Buildings",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 2,
+                  "transform_id": 1563,
+                  "name": "Nodes",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 11,
+                  "transform_id": 1577,
+                  "name": "MPDimension3",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "all_serialized_ancestors_active": true,
+              "prefab_position": [
+                55.51699995994568,
+                1.0099999904632568,
+                54.51000030338764
+              ],
+              "position_limit": null,
+              "layer": 8,
+              "colliders": [
+                {
+                  "path_id": 5444,
+                  "type": "BoxCollider",
+                  "enabled": true,
+                  "is_trigger": false,
+                  "center": {
+                    "x": 0.0,
+                    "y": 1.5,
+                    "z": 0.0
+                  },
+                  "size": {
+                    "x": 0.8999999761581421,
+                    "y": 3.0,
+                    "z": 0.8999999761581421
+                  }
+                }
+              ]
+            }
+          ],
+          "serialized_file": "-8432892052335054168"
+        }
+      ]
+    },
+    {
+      "entry": "assets/bin/Data/Managed/Metadata/global-metadata.dat",
+      "size": 10570520,
+      "sha256": "b7f21def19043ce7698f520668611ab75882cc836de3f9bb05ea6964641b4a10",
+      "kiosks": []
+    },
+    {
+      "entry": "assets/bin/Data/e14b96176590d49eabca6e65eb0611ef",
+      "size": 1688876,
+      "sha256": "bbc0ff103b40df1797bc693c4df39c2de99ad62b8fd1b151b4c0ff00cfd7e6a9",
+      "kiosks": [
+        {
+          "hierarchy": [
+            {
+              "game_object_id": 405,
+              "transform_id": 4667,
+              "name": "MPTradeKiosk",
+              "active_self": true,
+              "local_position": [
+                60.222999572753906,
+                -12.979999542236328,
+                26.402000427246094
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 14,
+              "transform_id": 3228,
+              "name": "Buildings",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 5,
+              "transform_id": 3224,
+              "name": "Nodes",
+              "active_self": true,
+              "local_position": [
+                10.0,
+                0.0,
+                10.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 37,
+              "transform_id": 3261,
+              "name": "MPDimension7",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                5.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ],
+          "all_serialized_ancestors_active": true,
+          "prefab_position": [
+            70.2229995727539,
+            -7.979999542236328,
+            36.402000427246094
+          ],
+          "position_limit": null,
+          "interaction_points": [
+            {
+              "hierarchy": [
+                {
+                  "game_object_id": 331,
+                  "transform_id": 3650,
+                  "name": "InteractionPoint",
+                  "active_self": true,
+                  "local_position": [
+                    -2.7360000610351562,
+                    0.0,
+                    0.07999999821186066
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 405,
+                  "transform_id": 4667,
+                  "name": "MPTradeKiosk",
+                  "active_self": true,
+                  "local_position": [
+                    60.222999572753906,
+                    -12.979999542236328,
+                    26.402000427246094
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 14,
+                  "transform_id": 3228,
+                  "name": "Buildings",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 5,
+                  "transform_id": 3224,
+                  "name": "Nodes",
+                  "active_self": true,
+                  "local_position": [
+                    10.0,
+                    0.0,
+                    10.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 37,
+                  "transform_id": 3261,
+                  "name": "MPDimension7",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    5.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "all_serialized_ancestors_active": true,
+              "prefab_position": [
+                67.48699951171875,
+                -7.979999542236328,
+                36.482000425457954
+              ],
+              "position_limit": null,
+              "layer": 8,
+              "colliders": [
+                {
+                  "path_id": 11198,
+                  "type": "BoxCollider",
+                  "enabled": true,
+                  "is_trigger": false,
+                  "center": {
+                    "x": 0.0,
+                    "y": 1.5,
+                    "z": 0.0
+                  },
+                  "size": {
+                    "x": 0.8999999761581421,
+                    "y": 3.0,
+                    "z": 0.8999999761581421
+                  }
+                }
+              ]
+            }
+          ],
+          "serialized_file": "8183417976495867362"
+        }
+      ]
+    },
+    {
+      "entry": "assets/bin/Data/ffc85a8759ac34687a8ad8eb707720aa",
+      "size": 189960,
+      "sha256": "d341a37dd1a92f5587368dae19929d01f8d468bf4bc83d978eeea6e726bc11b9",
+      "kiosks": [
+        {
+          "hierarchy": [
+            {
+              "game_object_id": 409,
+              "transform_id": 900,
+              "name": "MPTradeKiosk",
+              "active_self": true,
+              "local_position": [
+                9.210000038146973,
+                0.009999999776482582,
+                26.43000030517578
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 34,
+              "transform_id": 523,
+              "name": "Buildings",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 11,
+              "transform_id": 510,
+              "name": "Nodes",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "game_object_id": 94,
+              "transform_id": 611,
+              "name": "MPDimension4",
+              "active_self": true,
+              "local_position": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              },
+              "local_scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ],
+          "all_serialized_ancestors_active": true,
+          "prefab_position": [
+            9.210000038146973,
+            0.009999999776482582,
+            26.43000030517578
+          ],
+          "position_limit": null,
+          "interaction_points": [
+            {
+              "hierarchy": [
+                {
+                  "game_object_id": 406,
+                  "transform_id": 877,
+                  "name": "InteractionPoint",
+                  "active_self": true,
+                  "local_position": [
+                    -2.7360000610351562,
+                    0.0,
+                    0.07999999821186066
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 409,
+                  "transform_id": 900,
+                  "name": "MPTradeKiosk",
+                  "active_self": true,
+                  "local_position": [
+                    9.210000038146973,
+                    0.009999999776482582,
+                    26.43000030517578
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 34,
+                  "transform_id": 523,
+                  "name": "Buildings",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 11,
+                  "transform_id": 510,
+                  "name": "Nodes",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "game_object_id": 94,
+                  "transform_id": 611,
+                  "name": "MPDimension4",
+                  "active_self": true,
+                  "local_position": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "local_rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  },
+                  "local_scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "all_serialized_ancestors_active": true,
+              "prefab_position": [
+                6.473999977111816,
+                0.009999999776482582,
+                26.510000303387642
+              ],
+              "position_limit": null,
+              "layer": 8,
+              "colliders": [
+                {
+                  "path_id": 1632,
+                  "type": "BoxCollider",
+                  "enabled": true,
+                  "is_trigger": false,
+                  "center": {
+                    "x": 0.0,
+                    "y": 1.5,
+                    "z": 0.0
+                  },
+                  "size": {
+                    "x": 0.8999999761581421,
+                    "y": 3.0,
+                    "z": 0.8999999761581421
+                  }
+                }
+              ]
+            }
+          ],
+          "serialized_file": "-2624221025424969236"
+        }
+      ]
+    },
+    {
+      "entry": "assets/bin/Data/globalgamemanagers.assets.split0",
+      "size": 1048576,
+      "sha256": "f60eb0f80bbc118ca2efedcc6a683e707eb07c32f0032dbd99b6272e856f4bf4",
+      "kiosks": []
+    }
+  ],
+  "limitations": [],
+  "resource_mapping": {
+    "entry": "assets/bin/Data/globalgamemanagers",
+    "sha256": "fcc8db5017b103ed7b93c50327aa77695164bd00a4a9b0ea8bf160831f978dd2",
+    "dimensions": [
+      {
+        "resource_path": "world/multiplayer/dimensions/mpdimension1",
+        "external_file": "7bbb3ff46d8da41bb82c76c6b6f465b3",
+        "game_object_id": 801
+      },
+      {
+        "resource_path": "world/multiplayer/dimensions/mpdimension2",
+        "external_file": "09090185f9294494db8fed68cd00257b",
+        "game_object_id": 412
+      },
+      {
+        "resource_path": "world/multiplayer/dimensions/mpdimension3",
+        "external_file": "927071a84be39458392052555eee6270",
+        "game_object_id": 11
+      },
+      {
+        "resource_path": "world/multiplayer/dimensions/mpdimension4",
+        "external_file": "ffc85a8759ac34687a8ad8eb707720aa",
+        "game_object_id": 94
+      },
+      {
+        "resource_path": "world/multiplayer/dimensions/mpdimension5",
+        "external_file": "120f1c5230e5b4547b983e2b0d1e4a2e",
+        "game_object_id": 29
+      },
+      {
+        "resource_path": "world/multiplayer/dimensions/mpdimension6",
+        "external_file": "615433420563f4ef7954358c71141522",
+        "game_object_id": 30
+      },
+      {
+        "resource_path": "world/multiplayer/dimensions/mpdimension7",
+        "external_file": "e14b96176590d49eabca6e65eb0611ef",
+        "game_object_id": 37
+      }
+    ]
+  }
+}

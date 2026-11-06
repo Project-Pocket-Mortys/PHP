@@ -39,6 +39,8 @@ function get_active_deck_morties(PDO $pdo, string $player_id): array {
             morty_id,
             hp,
             variant,
+            is_poisoned,
+            is_paralysed,
             is_locked,
             is_trading_locked,
             fight_pit_id
@@ -52,6 +54,8 @@ function get_active_deck_morties(PDO $pdo, string $player_id): array {
     /* ---------------- 4. NORMALIZE TYPES ---------------- */
     foreach ($morties as &$m) {
         $m["hp"] = (int)$m["hp"];
+        $m["is_poisoned"] = (bool)$m["is_poisoned"];
+        $m["is_paralysed"] = (bool)$m["is_paralysed"];
 
         $m["is_locked"] = filter_var(
             $m["is_locked"],

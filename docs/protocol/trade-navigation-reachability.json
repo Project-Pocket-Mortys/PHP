@@ -1,0 +1,40 @@
+{
+  "evidence_kind": "Bounded diagnostic Android navigation; not original-service or cancellation acceptance evidence",
+  "device": "dedicated primary emulator-5560",
+  "client_version": "2.41.0",
+  "fixture_sha256": "6be827198365f02b9f6ff2abeb1d6dced4749b191c0bcf1d68a8e99f0c0f44ad",
+  "scope": "World navigation pass after separate Phone/Friends inspection",
+  "ui_actions": 13,
+  "interaction_a_presses": 0,
+  "trade_mutations": 0,
+  "immutable_guard_before": true,
+  "immutable_guard_after": true,
+  "same_hub_inspection_only": true,
+  "native_cancellation_acceptance_proven": false,
+  "result": "No visually verified Swap Shop kiosk within bounded inspection; not proof of universal absence or feature removal",
+  "static_entry": {
+    "interaction_type": 18,
+    "interaction_handler_rva": "0x1647298",
+    "entry_call_rva": "0x164773c",
+    "entry_rva": "0x163f96c",
+    "state": "MPTradingState"
+  },
+  "screenshots": {
+    "agent-nav-01-before.png": "1f36139b782291f180655f12d54cf09db94b34fc8233204d99fdfdd120437f37",
+    "agent-nav-02-world.png": "2259cf96660ec1653b866b98cd95a0088b5a39bf0c7025dcbf3a3fcd026ae6f4",
+    "agent-nav-03-world-settled.png": "6b256b2f35b147a84c78e3c5812308ec39aa64e818291abb54916b02d04c171e",
+    "agent-nav-04-map.png": "527f19e0c37f93a2060574f4162d7eafc016fafb91db4b3b7a1fbbf8fa6669a6",
+    "agent-nav-05-map-settled.png": "71ff311f2b6ec26425b5b9ddd2429a589cc2fafc090e98a1a64ff527f4db680e",
+    "agent-nav-06-south.png": "438937cdf266a85f487db16b915e7ac46e64c5a4078a5b6331b0d0b97e8da019",
+    "agent-nav-07-south-step.png": "184a3163314c0e88529273e73589f4b1c451c38b74fa8eba746cbbf52738db99",
+    "agent-nav-08-south-held.png": "34c3a3ad434b9343db9d282b8be3d19e1851b3c1e113940f434fc9ec548f0e2d",
+    "agent-nav-09-south-plaza.png": "2e15b23c3816bf1d0005e99d230828d806544cd19c0be7a467791dad39002719",
+    "agent-nav-10-west-plaza.png": "cdaf0f92bff00262afed7ffe38455cc16dd0ce8b0c8389e9dc2d7e8cce74ba8b",
+    "agent-nav-11-daycare-front.png": "e3f691a8d118e89aed925386dd6d516db89ba92402b47dc51de08fbbb8d3a500",
+    "agent-nav-12-east-plaza.png": "0ac4d01b58f8b1c34e47ccdb25d0baa69e0cf9686a0bb292e6874e8ddc613a02",
+    "agent-nav-13-east-storefront.png": "7664565d41415eba88c0de98bf76c8dedb9d1c43a8fc54c37604be57d61b2580",
+    "agent-nav-14-east-shop.png": "f585572733e503e8e9f9d35cbd7adfdf45527ebbab2ae59f0ae10cfb19d386fd",
+    "agent-nav-15-east-boundary.png": "d4562d317aecef8293a3f2c4938cb425c3172078ad108fed0adf0a6b461c1139"
+  },
+  "redaction": "No player/room/trade IDs, session credentials or raw logs included"
+}
