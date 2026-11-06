@@ -1,5 +1,9 @@
 # Owner-scoped trade cancellation
 
+Native offer validation follow-up: [creation/reload/cancellation](native-trade-offers.md)
+now passes on two disposable trading accounts. Offer cancellation's immediate
+inventory refresh remains unresolved; transfer approval is not claimed.
+
 Later native acceptance: a [separate disposable client](native-trade-cancellation.md)
 created and cancelled its own free request with the ID-only cookie-authenticated
 body and lock refresh. Offer cancellation remains unverified. Its captured

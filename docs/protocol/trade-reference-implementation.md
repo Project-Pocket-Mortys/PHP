@@ -74,6 +74,11 @@ $researchPython = Join-Path $env:LOCALAPPDATA 'Python\pythoncore-3.14-64\python.
 
 ## Native reachability and remaining work
 
+Latest: [native offer creation/cancellation](native-trade-offers.md) is observed,
+including lock true after creation. The immediate post-cancel selector stayed
+empty until ordinary cold login; this is a remaining refresh gap, not a repaired
+unlock path.
+
 Subsequent [native own-request acceptance](native-trade-cancellation.md) now proves
 creation/cancellation and spare lock true/false refreshes on a separate disposable
 account. Offer cancellation and broader lock reconciliation remain open.

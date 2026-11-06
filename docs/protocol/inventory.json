@@ -5172,7 +5172,9 @@
           "sha256": "5f3509438f86619f10f03dec377b27c469e60770a28d49a88b65d34d9f653465"
         }
       ],
-      "orphan_withdrawal_contract": "docs/protocol/trade-reference-implementation.md"
+      "orphan_withdrawal_contract": "docs/protocol/trade-reference-implementation.md",
+      "native_offer_observation": "docs/protocol/native-trade-offer-results.json",
+      "native_offer_limit": "Observed native offer create/reload/cancel with disposable accepted friends; immediate post-cancel owned refresh, acceptance and transfer remain separate."
     },
     {
       "path": "/trading/config",
@@ -5250,10 +5252,10 @@
       "server_evidence": {
         "file": "trading/get-trades/index.php",
         "line": 1,
-        "sha256": "a9c701e5ba0cea980a6bfda057921b1e95579fa707a64ecbe354c33655cbb24e"
+        "sha256": "405eabb9217eaef21e99adaf77de86b258ead4aec35bf3d0cf51673c88fd59a8"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate Authenticated-session lookup now selects existing expiry_trade for its unchanged cooldown projection; no duration or economic-policy change.",
+      "status_basis": "provisional source triage; small static responses may be legitimate Authenticated-session lookup now selects existing expiry_trade for its unchanged cooldown projection; no duration or economic-policy change. Offer display metadata now resolves the request owner name and both owner-scoped species; reload preserves known values, missing/ambiguous sources are omitted.",
       "evidence_confidence": "statically established (server behavior only)",
       "http_method": "unknown; PHP route does not necessarily enforce method",
       "input_field_candidates": [
@@ -5333,7 +5335,16 @@
       "native_read_observation_limit": "Observed HTTP 200 on retained Android 2.41.0; empty listing data. Original service, nonempty trading flows and mutation acceptance remain unverified.",
       "native_request_cancellation_observation": "docs/protocol/native-trade-cancellation-results.json",
       "native_request_cancellation_limit": "Observed disposable own-request/free creation and cancellation, Boolean lock true/false refresh, and post-fix stored cooldown projection; offers, transfer and original-service policy remain separate.",
-      "cooldown_contract": "docs/protocol/native-trade-cancellation.md"
+      "cooldown_contract": "docs/protocol/native-trade-cancellation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/trade_offer_metadata.php",
+          "sha256": "d17aaa9ebb5b0608e6a4905be6995966ee1daa1cf6531a2094ed7552663bdb8e"
+        }
+      ],
+      "offer_metadata_contract": "docs/protocol/native-trade-offers.md",
+      "native_offer_observation": "docs/protocol/native-trade-offer-results.json",
+      "native_offer_limit": "Observed native offer create/reload/cancel with disposable accepted friends; immediate post-cancel owned refresh, acceptance and transfer remain separate."
     },
     {
       "path": "/trading/offer-morty",
@@ -5364,10 +5375,10 @@
       "server_evidence": {
         "file": "trading/offer-morty/index.php",
         "line": 1,
-        "sha256": "09d79c97a45103e6b4ad1dc6d64b512e33fd065a887f272561c550515e5c8ca9"
+        "sha256": "560fa4c23a8cdbb808d0776603f268d50b8773c79dd59f3d6c0806892464bb53"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
+      "status_basis": "provisional source triage; small static responses may be legitimate Offer display metadata now resolves the request owner name and both owner-scoped species; reload preserves known values, missing/ambiguous sources are omitted.",
       "evidence_confidence": "statically established (server behavior only)",
       "http_method": "unknown; PHP route does not necessarily enforce method",
       "input_field_candidates": [
@@ -5411,7 +5422,16 @@
         "retry semantics",
         "runtime verification"
       ],
-      "cancellation_interlock": "Parent request locked through offer insertion to prevent post-cancellation orphans; other creation policy gaps remain."
+      "cancellation_interlock": "Parent request locked through offer insertion to prevent post-cancellation orphans; other creation policy gaps remain.",
+      "implementation_helpers": [
+        {
+          "file": "lib/trade_offer_metadata.php",
+          "sha256": "d17aaa9ebb5b0608e6a4905be6995966ee1daa1cf6531a2094ed7552663bdb8e"
+        }
+      ],
+      "offer_metadata_contract": "docs/protocol/native-trade-offers.md",
+      "native_offer_observation": "docs/protocol/native-trade-offer-results.json",
+      "native_offer_limit": "Observed native offer create/reload/cancel with disposable accepted friends; immediate post-cancel owned refresh, acceptance and transfer remain separate."
     },
     {
       "path": "/trading/offer-response",

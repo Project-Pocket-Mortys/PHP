@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Native friend offers and cancellation](native-trade-offers.md) now pass on the
+disposable trading pair, including a repaired metadata reload. Offer display
+names/species now survive GetTrades. Immediate inventory unlock after offer
+cancellation remains a recorded client-refresh gap; acceptance is separate.
+
 [Native own-request creation/cancellation](native-trade-cancellation.md) now passes
 on a separate disposable Android account, including trading-lock true/false
 refreshes. Its capture exposed a missing stored-cooldown projection; the repaired
