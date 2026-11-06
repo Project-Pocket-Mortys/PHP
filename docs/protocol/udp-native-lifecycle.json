@@ -1,0 +1,492 @@
+{
+  "binary": "Android 2.41.0 ARM64 libil2cpp.so",
+  "binary_path": ".research/android/split_config.arm64_v8a/lib/arm64-v8a/libil2cpp.so",
+  "sha256": "ff773be7d3718ee307f6342358268748e8fa2487460e7b3857715478cb8e4326",
+  "reproduce": "wsl -d Ubuntu -- bash tools/research/ghidra-udp-lifecycle.sh",
+  "analysis": {
+    "engine": "Ghidra 12.1.4 targeted import with -noanalysis",
+    "selected_methods": 20,
+    "completed_methods": 20,
+    "raw_output": ".research/ghidra-udp-lifecycle.json",
+    "raw_output_sha256": "8bb03cf144a43e529caabcd9052c575d0812937c326747b7109feb4b2d4e2710",
+    "run_succeeded": true,
+    "independent_instruction_check": "Existing ARM64 instruction dumps checked at recorded RVAs, independently of Ghidra pseudocode.",
+    "caveat": "Build-specific null-throw and tail-call annotations; exception-edge pseudocode is not used as independent behavior evidence."
+  },
+  "conclusion": "Inspected room leave/join and UDP socket close/open paths preserve sender and sequence. Same-session fresh-sender sequence zero remains a synthetic edge case, not a demonstrated client path.",
+  "confidence": {
+    "scope": "Bounded to twenty selected functions in this binary; not a whole-program write-reference proof.",
+    "direct_observation": "No explicit sequence-reset method or constructor zero-store; ordinary sequence wrap is observed. Room communications lifecycle uses existing sender/channel references.",
+    "managed_initialization_inference": "New sender sequence zero is inferred from managed default field initialization, not an explicit assignment observed in the constructor.",
+    "remaining_unknowns": [
+      "Arbitrary Unity scene or controller destruction/recreation retaining or restoring the same session identifier.",
+      "Serialized restoration, reflection, or native writes outside the selected functions.",
+      "Runtime occurrence of same-session sender recreation; no client runtime experiment was performed for this artifact."
+    ],
+    "policy_limit": "No backend expiry interval, acceptance window, origin policy, or gameplay contract is derived from these findings."
+  },
+  "field_identity": {
+    "UdpNodeSender._seqNum": {
+      "offset": "0x28",
+      "type": "ushort"
+    },
+    "NetworkRoomAPI.nodeSender": {
+      "offset": "0x140",
+      "type": "UdpNodeSender"
+    },
+    "NetworkRoomAPI.nodeReceiver": {
+      "offset": "0x148",
+      "type": "UdpRoomReceiver"
+    },
+    "NetworkRoomAPI._udpChannel": {
+      "offset": "0x150",
+      "type": "UdpChannel"
+    },
+    "UdpChannel.state": {
+      "offset": "0x28",
+      "type": "eUdpChannelState",
+      "warning": "Different object from UdpNodeSender; zero stores here are channel state changes."
+    },
+    "evidence": ".research/dumper/dump.cs"
+  },
+  "methods": [
+    {
+      "method": "NetworkRoomAPI$$Awake",
+      "native_rva": "0x17ad314",
+      "address": "018ad314",
+      "image_base": "00100000",
+      "body_bytes": 728,
+      "finding": "Creates channel, sender and receiver; sender stored in typed nodeSender backing field at +0x140.",
+      "disassembly": ".research/disassembly/0x17ad314.txt"
+    },
+    {
+      "method": "NetworkRoomAPI$$Disconnected",
+      "native_rva": "0x17ad5ec",
+      "address": "018ad5ec",
+      "image_base": "00100000",
+      "body_bytes": 96,
+      "finding": "Tails to Leave; no sender reset.",
+      "disassembly": ".research/disassembly/0x17ad5ec.txt"
+    },
+    {
+      "method": "NetworkRoomAPI$$Join",
+      "native_rva": "0x17ad988",
+      "address": "018ad988",
+      "image_base": "00100000",
+      "body_bytes": 632,
+      "finding": "Requests room join; no sender replacement or sequence store in inspected body.",
+      "disassembly": ".research/disassembly/0x17ad988.txt"
+    },
+    {
+      "method": "NetworkRoomAPI$$SetUpRoom",
+      "native_rva": "0x17adc00",
+      "address": "018adc00",
+      "image_base": "00100000",
+      "body_bytes": 1120,
+      "finding": "Populates room response data, then calls OpenComs.",
+      "disassembly": ".research/disassembly/0x17adc00.txt"
+    },
+    {
+      "method": "NetworkRoomAPI$$ClearRoom",
+      "native_rva": "0x17af7a8",
+      "address": "018af7a8",
+      "image_base": "00100000",
+      "body_bytes": 344,
+      "finding": "Clears room collections; preserves sender reference.",
+      "disassembly": ".research/disassembly/0x17af7a8.txt"
+    },
+    {
+      "method": "NetworkRoomAPI$$Leave",
+      "native_rva": "0x17ad678",
+      "address": "018ad678",
+      "image_base": "00100000",
+      "body_bytes": 784,
+      "finding": "Calls CloseComs and ClearRoom; preserves sender reference.",
+      "disassembly": ".research/disassembly/0x17ad678.txt"
+    },
+    {
+      "method": "NetworkRoomAPI$$OpenComs",
+      "native_rva": "0x17aee64",
+      "address": "018aee64",
+      "image_base": "00100000",
+      "body_bytes": 2372,
+      "finding": "Clears receiver last-sequence dictionary, then opens existing channel.",
+      "disassembly": ".research/disassembly/0x17aee64.txt"
+    },
+    {
+      "method": "NetworkRoomAPI$$CloseComs",
+      "native_rva": "0x17af900",
+      "address": "018af900",
+      "image_base": "00100000",
+      "body_bytes": 2348,
+      "finding": "Unsubscribes room events and closes existing channel.",
+      "disassembly": ".research/disassembly/0x17af900.txt"
+    },
+    {
+      "method": "NetworkController$$Awake",
+      "native_rva": "0x17bfb2c",
+      "address": "018bfb2c",
+      "image_base": "00100000",
+      "body_bytes": 660,
+      "finding": "Creates both session and room components during controller initialization.",
+      "disassembly": ".research/disassembly/0x17bfb2c.txt"
+    },
+    {
+      "method": "NetworkController$$OnDestroy",
+      "native_rva": "0x17bfef0",
+      "address": "018bfef0",
+      "image_base": "00100000",
+      "body_bytes": 8,
+      "finding": "Calls AddEvents(false); does not itself recreate sender.",
+      "disassembly": ".research/disassembly/0x17bfef0.txt"
+    },
+    {
+      "method": "NetworkController$$NetSessionDisconnectedHandler",
+      "native_rva": "0x17bfffc",
+      "address": "018bfffc",
+      "image_base": "00100000",
+      "body_bytes": 260,
+      "finding": "Dispatches INetworkDisconnected to components.",
+      "disassembly": ".research/disassembly/0x17bfffc.txt"
+    },
+    {
+      "method": "UdpNodeSender$$SendPosition",
+      "native_rva": "0x17c04c4",
+      "address": "018c04c4",
+      "image_base": "00100000",
+      "body_bytes": 700,
+      "finding": "Serializes current sequence byte; increments ushort and wraps 255 to zero. Snap branch clears history only.",
+      "disassembly": ".research/disassembly/0x17c04c4.txt"
+    },
+    {
+      "method": "UdpNodeSender$$UpdatePositionHistory",
+      "native_rva": "0x17c07ac",
+      "address": "018c07ac",
+      "image_base": "00100000",
+      "body_bytes": 660,
+      "finding": "Updates coordinate history; no sender sequence assignment observed.",
+      "disassembly": ".research/disassembly/0x17c07ac.txt"
+    },
+    {
+      "method": "UdpNodeSender$$DebugPositionHistory",
+      "native_rva": "0x17c0b8c",
+      "address": "018c0b8c",
+      "image_base": "00100000",
+      "body_bytes": 824,
+      "finding": "Formats history diagnostics; no sender sequence assignment observed.",
+      "disassembly": ".research/disassembly/0x17c0b8c.txt"
+    },
+    {
+      "method": "UdpNodeSender$$DebugLog",
+      "native_rva": "0x17c0780",
+      "address": "018c0780",
+      "image_base": "00100000",
+      "body_bytes": 44,
+      "finding": "Returns after metadata initialization; no sender sequence assignment.",
+      "disassembly": ".research/disassembly/0x17c0780.txt"
+    },
+    {
+      "method": "UdpNodeSender$$.ctor",
+      "native_rva": "0x17c0ec4",
+      "address": "018c0ec4",
+      "image_base": "00100000",
+      "body_bytes": 88,
+      "finding": "Allocates two history bytes and invokes MonoBehaviour constructor; no explicit sequence store.",
+      "disassembly": ".research/disassembly/0x17c0ec4.txt"
+    },
+    {
+      "method": "UdpRoomReceiver$$ClearLastSeqNumDict",
+      "native_rva": "0x17c20b4",
+      "address": "018c20b4",
+      "image_base": "00100000",
+      "body_bytes": 80,
+      "finding": "Clears receiver dictionary at +0x30; not a sender reset.",
+      "disassembly": ".research/disassembly/0x17c20b4.txt"
+    },
+    {
+      "method": "UdpChannel$$Open",
+      "native_rva": "0x17c234c",
+      "address": "018c234c",
+      "image_base": "00100000",
+      "body_bytes": 748,
+      "finding": "May close existing channel, then creates socket/read thread; no sender sequence access.",
+      "disassembly": ".research/disassembly/0x17c234c.txt"
+    },
+    {
+      "method": "UdpChannel$$Close",
+      "native_rva": "0x17c2664",
+      "address": "018c2664",
+      "image_base": "00100000",
+      "body_bytes": 160,
+      "finding": "Aborts thread, closes socket, clears queue and sets channel state closed.",
+      "disassembly": ".research/disassembly/0x17c2664.txt"
+    },
+    {
+      "method": "UdpChannel$$OnDestroy",
+      "native_rva": "0x17c2708",
+      "address": "018c2708",
+      "image_base": "00100000",
+      "body_bytes": 4,
+      "finding": "Tails to Close.",
+      "disassembly": ".research/disassembly/0x17c2708.txt"
+    }
+  ],
+  "instruction_proof": [
+    {
+      "native_rva": "0x17c0684",
+      "instruction": "ldrb w2, [x19, #0x28]",
+      "interpretation": "Reads sender sequence low byte for packet serialization.",
+      "evidence": ".research/disassembly/0x17c04c4.txt"
+    },
+    {
+      "native_rva": "0x17c05dc",
+      "instruction": "str x0, [x19, #0x38]",
+      "interpretation": "Snap replaces position history array.",
+      "evidence": ".research/disassembly/0x17c04c4.txt"
+    },
+    {
+      "native_rva": "0x17c05e0",
+      "instruction": "str wzr, [x19, #0x40]",
+      "interpretation": "Snap clears history count, not sequence.",
+      "evidence": ".research/disassembly/0x17c04c4.txt"
+    },
+    {
+      "native_rva": "0x17c0750",
+      "instruction": "ldrh w8, [x19, #0x28]",
+      "interpretation": "Reads sender sequence for increment/wrap.",
+      "evidence": ".research/disassembly/0x17c04c4.txt"
+    },
+    {
+      "native_rva": "0x17c0760",
+      "instruction": "cmp w8, #0xfe",
+      "interpretation": "Compares sender sequence with 254.",
+      "evidence": ".research/disassembly/0x17c04c4.txt"
+    },
+    {
+      "native_rva": "0x17c0764",
+      "instruction": "csinc w8, wzr, w8, hi",
+      "interpretation": "Selects zero above 254, otherwise old sequence plus one.",
+      "evidence": ".research/disassembly/0x17c04c4.txt"
+    },
+    {
+      "native_rva": "0x17c0768",
+      "instruction": "strh w8, [x19, #0x28]",
+      "interpretation": "Stores increment or ordinary 255-to-zero wrap.",
+      "evidence": ".research/disassembly/0x17c04c4.txt"
+    },
+    {
+      "native_rva": "0x17c0f04",
+      "instruction": "str x0, [x19, #0x38]",
+      "interpretation": "Constructor stores allocated history array.",
+      "evidence": ".research/disassembly/0x17c0ec4.txt"
+    },
+    {
+      "native_rva": "0x17c0f18",
+      "instruction": "b #0x2c03d58",
+      "interpretation": "Constructor tails to MonoBehaviour constructor. No sequence store in bounded body.",
+      "evidence": ".research/disassembly/0x17c0ec4.txt"
+    },
+    {
+      "native_rva": "0x17ad588",
+      "instruction": "bl #0x1b35f44",
+      "interpretation": "Generic AddComponent call whose result is stored in typed sender field.",
+      "evidence": ".research/disassembly/0x17ad314.txt"
+    },
+    {
+      "native_rva": "0x17ad58c",
+      "instruction": "str x0, [x19, #0x140]",
+      "interpretation": "Stores nodeSender reference, identified by dump.cs field type.",
+      "evidence": ".research/disassembly/0x17ad314.txt"
+    },
+    {
+      "native_rva": "0x17ad59c",
+      "instruction": "str x8, [x0, #0x20]",
+      "interpretation": "Wires sender.udpChannel from room channel.",
+      "evidence": ".research/disassembly/0x17ad314.txt"
+    },
+    {
+      "native_rva": "0x17bfc1c",
+      "instruction": "bl #0x1b35f44",
+      "interpretation": "Creates component stored in typed controller.session field at next instruction.",
+      "evidence": ".research/disassembly/0x17bfb2c.txt"
+    },
+    {
+      "native_rva": "0x17bfc20",
+      "instruction": "str x0, [x19, #0x28]",
+      "interpretation": "Stores controller session reference; not sender sequence.",
+      "evidence": ".research/disassembly/0x17bfb2c.txt"
+    },
+    {
+      "native_rva": "0x17bfc88",
+      "instruction": "bl #0x1b35f44",
+      "interpretation": "Creates component stored in typed controller.room field at next instruction.",
+      "evidence": ".research/disassembly/0x17bfb2c.txt"
+    },
+    {
+      "native_rva": "0x17bfc8c",
+      "instruction": "str x0, [x19, #0x40]",
+      "interpretation": "Stores controller room reference.",
+      "evidence": ".research/disassembly/0x17bfb2c.txt"
+    },
+    {
+      "native_rva": "0x17ad648",
+      "instruction": "b #0x17ad678",
+      "interpretation": "Room disconnected handler tails to Leave.",
+      "evidence": ".research/disassembly/0x17ad5ec.txt"
+    },
+    {
+      "native_rva": "0x17ad7dc",
+      "instruction": "bl #0x17af900",
+      "interpretation": "Leave closes communications.",
+      "evidence": ".research/disassembly/0x17ad678.txt"
+    },
+    {
+      "native_rva": "0x17ad800",
+      "instruction": "bl #0x17af7a8",
+      "interpretation": "Leave clears room collections.",
+      "evidence": ".research/disassembly/0x17ad678.txt"
+    },
+    {
+      "native_rva": "0x17c26f0",
+      "instruction": "str wzr, [x19, #0x28]",
+      "interpretation": "Clears channel state, not sender sequence: x19 is UdpChannel here.",
+      "evidence": ".research/disassembly/0x17c2664.txt"
+    },
+    {
+      "native_rva": "0x17c2708",
+      "instruction": "b #0x17c2664",
+      "interpretation": "Channel OnDestroy tails to Close.",
+      "evidence": ".research/disassembly/0x17c2708.txt"
+    },
+    {
+      "native_rva": "0x17af778",
+      "instruction": "bl #0x17c20b4",
+      "interpretation": "OpenComs clears receiver sequence dictionary.",
+      "evidence": ".research/disassembly/0x17aee64.txt"
+    },
+    {
+      "native_rva": "0x17af7a0",
+      "instruction": "b #0x17c234c",
+      "interpretation": "OpenComs tails to existing channel Open.",
+      "evidence": ".research/disassembly/0x17aee64.txt"
+    },
+    {
+      "native_rva": "0x17b0224",
+      "instruction": "b #0x17c2664",
+      "interpretation": "CloseComs tails to existing channel Close.",
+      "evidence": ".research/disassembly/0x17af900.txt"
+    },
+    {
+      "native_rva": "0x17c2468",
+      "instruction": "bl #0x17c2664",
+      "interpretation": "Open closes existing channel when its state requires it.",
+      "evidence": ".research/disassembly/0x17c234c.txt"
+    }
+  ],
+  "evidence_files": [
+    {
+      "path": ".research/ghidra-udp-lifecycle.json",
+      "sha256": "8bb03cf144a43e529caabcd9052c575d0812937c326747b7109feb4b2d4e2710"
+    },
+    {
+      "path": ".research/dumper/dump.cs",
+      "sha256": "8b659049aada5d5037f0c4d108d81e8ab9ff5e8127a11dd78f0a3954aeced27e"
+    },
+    {
+      "path": ".research/dumper/script.json",
+      "sha256": "a3b7736ec67f28448818bf3de5295e405bcede5f1fc27fefdaa5c209d9d15ffb"
+    },
+    {
+      "path": "tools/research/ghidra-udp-lifecycle.sh",
+      "sha256": "11fb5f8cd0bb2076c6804cfc4d8bc97510571907ce26a26ab1e25cdcb16aa694"
+    },
+    {
+      "path": "tools/research/ghidra-targeted.sh",
+      "sha256": "afae68123a2f53fb73b120b20fbf37414aa27044ebbd092dde0592afc8dcb475"
+    },
+    {
+      "path": "tools/research/ghidra/PocketProtocols.java",
+      "sha256": "c1b107ece0827e9d73768c93c9cd7a115b38bd48cb63f47aa13bfd41e553f7a0"
+    },
+    {
+      "path": ".research/disassembly/0x17ad314.txt",
+      "sha256": "b3e702b071298d6c5f1fbc6110a0fe6dd03c807e6103287ed9c8d5d144d232b5"
+    },
+    {
+      "path": ".research/disassembly/0x17ad5ec.txt",
+      "sha256": "3a7c2b651f64f5d2e63cdc075f77a2df7fb4a897f950bc9b2126233415101901"
+    },
+    {
+      "path": ".research/disassembly/0x17ad988.txt",
+      "sha256": "cd3c1b4da58a8c3a5d06ad8e5915ed69436991fafbc19a4f1e216c79056f5a89"
+    },
+    {
+      "path": ".research/disassembly/0x17adc00.txt",
+      "sha256": "bb9ec23a52c4160c8c92868d7a136e752a3353415c8cbd8399aa52affbf7017d"
+    },
+    {
+      "path": ".research/disassembly/0x17af7a8.txt",
+      "sha256": "1ea7714e82f0297f980438fd04538452fc403c4c44d2196ddf8b00158722fec2"
+    },
+    {
+      "path": ".research/disassembly/0x17ad678.txt",
+      "sha256": "7039c978f156b7993a8468a8aba38d97377e5873f10d681259d8518e1d16befa"
+    },
+    {
+      "path": ".research/disassembly/0x17aee64.txt",
+      "sha256": "c9659aa9cf43781ae904d6f616f663c0f10e57a97d03b001e290ba435bf52a78"
+    },
+    {
+      "path": ".research/disassembly/0x17af900.txt",
+      "sha256": "a73453dd7122957a50925dc91d8e4d2c7251bd58bd1a1037c807974a2133ba60"
+    },
+    {
+      "path": ".research/disassembly/0x17bfb2c.txt",
+      "sha256": "ff8c9adafddf9b0e2787e583dbb9d7d28f181da0cf7cf9d0981a98385b2c123c"
+    },
+    {
+      "path": ".research/disassembly/0x17bfef0.txt",
+      "sha256": "de663c63ad3ccf5e95251af63cc53196944ce847c408448fd753e6b55ee78867"
+    },
+    {
+      "path": ".research/disassembly/0x17bfffc.txt",
+      "sha256": "0c3a5e4dfd1df31c6645107a9c2df952cea986791274d774c693f7955dde9520"
+    },
+    {
+      "path": ".research/disassembly/0x17c04c4.txt",
+      "sha256": "b4354509b428e1e4f5927f7ae43fe48efbb92062666d361ad2d06ec41239b5b9"
+    },
+    {
+      "path": ".research/disassembly/0x17c07ac.txt",
+      "sha256": "0745142bf954ac4553cc85ca5ee64f29a5575b75c72a58cf3ccfc4e82b8a9fa6"
+    },
+    {
+      "path": ".research/disassembly/0x17c0b8c.txt",
+      "sha256": "c86c4bc3f60a8abdf4748b3a5bebf90479745ca27b65cac89904007b38de6a3c"
+    },
+    {
+      "path": ".research/disassembly/0x17c0780.txt",
+      "sha256": "da47ca77f28649fe46c2880c16febd1a6a38dd371a786b17ddf25817b0d88204"
+    },
+    {
+      "path": ".research/disassembly/0x17c0ec4.txt",
+      "sha256": "119ccad41bd332b4ca7b14b6b83e49633413fb32e3f95e912c68347e4ccd690f"
+    },
+    {
+      "path": ".research/disassembly/0x17c20b4.txt",
+      "sha256": "bffbdc6f21612744f362fa29e27fd0d06987e64eb785052e80a8a565d0a80da0"
+    },
+    {
+      "path": ".research/disassembly/0x17c234c.txt",
+      "sha256": "832c77e1c9ca25d280e291d31c971c71c6597cc5da5f1dfb724e0602208465fe"
+    },
+    {
+      "path": ".research/disassembly/0x17c2664.txt",
+      "sha256": "bb206ceece98ea7c08d6b61f8055f9c3a97fdf2debd8358bbd0e78d45c10ac16"
+    },
+    {
+      "path": ".research/disassembly/0x17c2708.txt",
+      "sha256": "8b193a53382e49bf91e374662f5f0fea3d0e5e881db2def7a4cb856d35e41321"
+    }
+  ]
+}
