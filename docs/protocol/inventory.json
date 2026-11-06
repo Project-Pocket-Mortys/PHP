@@ -9,7 +9,9 @@
     "Buy deck slots",
     "Learn Attacks",
     "Swap Stop",
-    "Salesman Rick's"
+    "Salesman Rick's",
+    "Release Morties",
+    "Crafting"
   ],
   "limitations": [
     "heuristic PHP extraction includes comment/string candidates",
@@ -1461,16 +1463,30 @@
               "battle_type"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "Recovered native contract, isolated HTTP/SSE regressions and native two-client send/decline/cancel verification; original server policy unknown.",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "shared human participation/start/ready/reconnect/terminal lifecycle",
+        "human turn resolution and combat policy",
+        "original server TTL/token/replay/validation parity"
+      ],
+      "http_method": "POST from reviewed native constructor",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md",
+      "status_basis": "Durable invitation-only lifecycle; send, decline, revoke and expiry work. accept:true returns501FAILED; no human battle is created.",
+      "observed_replacement_behavior": "Historical native missing-route404 is captured in android-friend-battle-probe.md. This branch implements create; current acceptance in android-friend-battle-invitations.md.",
+      "server_evidence": {
+        "file": "session/battle-invite/create/index.php",
+        "line": 1,
+        "sha256": "8c7ebfc2e31b1361f7e91b8653164eda4364b9c93dc3a527c7e185a279fd1726"
+      },
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_invites.php",
+          "sha256": "11f6368518e0a6c948fb3322c23feaa6568759df86fdd61ca6222037099351c2"
+        }
       ]
     },
     {
@@ -1495,16 +1511,29 @@
               "accept"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "partial",
+      "evidence_confidence": "Recovered native contract, isolated HTTP/SSE regressions and native two-client send/decline/cancel verification; original server policy unknown.",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "shared human participation/start/ready/reconnect/terminal lifecycle",
+        "human turn resolution and combat policy",
+        "original server TTL/token/replay/validation parity"
+      ],
+      "http_method": "POST from reviewed native constructor",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md",
+      "status_basis": "Durable invitation-only lifecycle; send, decline, revoke and expiry work. accept:true returns501FAILED; no human battle is created.",
+      "server_evidence": {
+        "file": "session/battle-invite/response/index.php",
+        "line": 1,
+        "sha256": "754a3fb244b1ca299e3a8171c3457e1a78b12843d0a25bfca871df71164f35da"
+      },
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_invites.php",
+          "sha256": "11f6368518e0a6c948fb3322c23feaa6568759df86fdd61ca6222037099351c2"
+        }
       ]
     },
     {
@@ -1528,16 +1557,29 @@
               "token"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "reviewed native producer, actual anonymous constructor and callback; see friend-battle-invite-contract.md"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "Recovered native contract, isolated HTTP/SSE regressions and native two-client send/decline/cancel verification; original server policy unknown.",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "shared human participation/start/ready/reconnect/terminal lifecycle",
+        "human turn resolution and combat policy",
+        "original server TTL/token/replay/validation parity"
+      ],
+      "http_method": "POST from reviewed native constructor",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md",
+      "status_basis": "Durable invitation-only lifecycle; send, decline, revoke and expiry work. accept:true returns501FAILED; no human battle is created.",
+      "server_evidence": {
+        "file": "session/battle-invite/revoke/index.php",
+        "line": 1,
+        "sha256": "447cb203db7303000dfd9c10fef3b29d95143c337a731832e19e6b976e03ab24"
+      },
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_invites.php",
+          "sha256": "11f6368518e0a6c948fb3322c23feaa6568759df86fdd61ca6222037099351c2"
+        }
       ]
     },
     {
@@ -1567,12 +1609,12 @@
       "server_evidence": {
         "file": "session/battle-wild-morty/index.php",
         "line": 1,
-        "sha256": "432579285788c1acdb782dc3e434d273a7ca1683aa2f58ecaa5b1a6efc9ad30d"
+        "sha256": "b15be0c64ba914f7cd08adc2ca39e8ffecc23a52d8718a12fe311ff3c7e1e423"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete.",
+      "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
+      "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "session_id",
         "wild_morty_id"
@@ -1597,6 +1639,8 @@
         "isPlayerInDB",
         "isRaidBoss",
         "is_locked",
+        "is_paralysed",
+        "is_poisoned",
         "is_trading_locked",
         "item_id",
         "last_move_type",
@@ -1632,10 +1676,12 @@
         "xp_upper"
       ],
       "http_status_candidates": [
+        200,
         400,
         401,
-        404,
-        409
+        403,
+        409,
+        500
       ],
       "table_candidates": [
         "BATTLES",
@@ -1657,12 +1703,17 @@
       ],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
         "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
-      ]
+        "original error compatibility",
+        "active-turn retry/cooldown semantics",
+        "original combat/stat/reward formulas",
+        "durable capture",
+        "interrupted-battle reconnect"
+      ],
+      "reviewed_contract": "docs/protocol/battle-completion-contract.md",
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "switch_contract": "docs/protocol/battle-switch-implementation.md",
+      "shiny_potion_contract": "docs/protocol/shiny-potion-implementation.md"
     },
     {
       "path": "/session/battle/move",
@@ -1694,12 +1745,12 @@
       "server_evidence": {
         "file": "session/battle/move/index.php",
         "line": 1,
-        "sha256": "bcf45ed013096449e1521e1e0507ba4d0bc5d2eab3b9861ddd35624ceffbca7f"
+        "sha256": "c5833257807a224a0d151855986dcc69bfb77a6c6633702e0e90f4513e4803e6"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP.",
+      "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
+      "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "battle_id",
         "move_id",
@@ -1712,79 +1763,69 @@
         "ATTACK",
         "ITEM",
         "RUN",
-        "added_to_active_deck",
-        "amount",
-        "amount_received",
+        "SWITCH",
         "attack_id",
-        "attack_stat",
         "attacker_morty_datas",
         "attacker_player_id",
         "attacks_to_learn",
         "battle_abandoned",
         "battle_id",
+        "code",
         "continue_on_miss",
         "cooldown",
         "cooldown_next",
         "count",
         "damage",
-        "defence_stat",
         "defender_morty_datas",
         "defender_player_id",
         "effect_datas",
+        "effect_value",
         "element_modifier",
+        "error",
         "hp",
-        "hp_stat",
         "is_accurate",
         "is_critical",
-        "is_poisoned",
         "item_id",
         "last_move_type",
-        "level",
-        "morty_id",
         "move_log",
         "opponent",
         "outcome",
         "owned_attacks",
         "owned_items",
-        "owned_morty",
-        "owned_morty_datas",
         "owned_morty_id",
-        "owned_morty_limit_reached",
         "player",
         "player_datas",
         "player_id",
-        "position",
         "pp",
         "quantity",
         "rewards",
-        "speed_stat",
         "state",
         "success",
-        "timeout",
         "to_self",
         "turn_datas",
         "type",
-        "variant",
         "wild_morty_id",
-        "xp",
-        "xp_datas",
-        "xp_earned",
-        "xp_lower",
-        "xp_upper"
+        "xp_datas"
       ],
       "http_status_candidates": [
+        200,
         400,
-        401
+        401,
+        403,
+        404,
+        409,
+        500,
+        501
       ],
       "table_candidates": [
-        "DB",
         "battles",
+        "event_queue",
+        "owned_attacks",
         "owned_items",
         "owned_morties",
         "users"
       ],
       "events_published": [
-        "battle:move-timer-started",
         "battle:turn-result",
         "room:user-state-changed",
         "room:wild-morty-removed",
@@ -1792,12 +1833,18 @@
       ],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
         "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
-      ]
+        "original error compatibility",
+        "active-turn retry/cooldown semantics",
+        "original combat/stat/reward formulas",
+        "durable capture",
+        "interrupted-battle reconnect"
+      ],
+      "reviewed_contract": "docs/protocol/battle-completion-contract.md",
+      "switch_contract": "docs/protocol/battle-switch-implementation.md",
+      "battle_item_contract": "docs/protocol/battle-item-implementation.md",
+      "timeout_contract": "docs/protocol/battle-timeout-implementation.md",
+      "full_recover_contract": "docs/protocol/full-recover-implementation.md"
     },
     {
       "path": "/session/battle/ready",
@@ -1826,12 +1873,12 @@
       "server_evidence": {
         "file": "session/battle/ready/index.php",
         "line": 1,
-        "sha256": "35551a60045e6e75073f1fe9e2d467608ba9b4434a2718cae445198707c73761"
+        "sha256": "5a60a8af501008ca1c96610d22da9fc1b3ea70e589e83e962158d9dfc4fd9e01"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Reviewed PvWM READY arms one persisted 30-second deadline/private timer; duplicate READY does not extend; expired windows cancel atomically through ABANDONED. Original timing/penalty rules unknown.",
+      "evidence_confidence": "native timer/terminal contract plus additive HTTP/DB/SSE tests; replacement cancellation policy explicitly labeled",
+      "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "battle_id",
         "session_id"
@@ -1845,26 +1892,35 @@
         "timeout"
       ],
       "http_status_candidates": [
+        200,
         400,
         401,
-        409
+        403,
+        404,
+        409,
+        500
       ],
       "table_candidates": [
-        "JSON",
+        "battles",
+        "event_queue",
         "room_ids",
         "users"
       ],
       "events_published": [
-        "battle:move-timer-started"
+        "battle:move-timer-started",
+        "battle:turn-result",
+        "room:user-state-changed",
+        "room:wild-morty-state-changed"
       ],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
-      ]
+        "original error compatibility",
+        "original grace periods/penalties",
+        "late READY identity",
+        "interrupted-battle reconnect/replay"
+      ],
+      "timeout_contract": "docs/protocol/battle-timeout-implementation.md",
+      "reviewed_contract": "docs/protocol/battle-timeout-implementation.md"
     },
     {
       "path": "/session/buy-item",
@@ -1893,7 +1949,7 @@
       "server_evidence": {
         "file": "session/buy-item/index.php",
         "line": 1,
-        "sha256": "ce78262359f2949eef4d46be0f558fffe031876027b5901ee86433756f788e3d"
+        "sha256": "c00faf2ff79651bda7f47bcbf7a6f8dabe07acd2209f931c0aceef842d256373"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Salesman Rick's; runtime compatibility not yet verified",
@@ -1935,6 +1991,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -2044,7 +2107,7 @@
       "server_evidence": {
         "file": "session/collect-pickup/index.php",
         "line": 1,
-        "sha256": "b80427beaeca9f9840624746f50b1b46088f19941a32815f08c3fae081486dad"
+        "sha256": "5e7a3b15ef2592f0072ed1e068b3c5c4ea216aaf2b467c86b195e99a1a7ddf96"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Fix item spawning; runtime compatibility not yet verified",
@@ -2091,6 +2154,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -2121,7 +2191,7 @@
       "server_evidence": {
         "file": "session/deck/edit/index.php",
         "line": 1,
-        "sha256": "9d1b8220de09ddf126e3dd792fba6589fa79465fa9eba259fffa8c0a2bdc2790"
+        "sha256": "d7e234c58de3290f2e95230e2e4f2bc80221d435926df7e0fe0e54d2a2075690"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -2172,6 +2242,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -2201,7 +2278,7 @@
       "server_evidence": {
         "file": "session/deck/set-active/index.php",
         "line": 1,
-        "sha256": "055e557eac3088a2fa4110fda397316a2c7277eefed32b3a30fcdbe5d1500183"
+        "sha256": "eeaeeffbec7a6b68e736a30171288a696ec5ba6cfcffd479340de16655f4d859"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -2244,6 +2321,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -2272,7 +2356,7 @@
       "server_evidence": {
         "file": "session/decks/slots/buy/index.php",
         "line": 1,
-        "sha256": "b12a20a6860f94b9efa882f9abc5c7a277bc81a8e4a9d9864b9e5ba8bff0cee9"
+        "sha256": "1de2beb8295815081c239cf3393c6c27cf01aaad857c3cb531f180c458d9effe"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Buy deck slots; runtime compatibility not yet verified",
@@ -2305,6 +2389,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -2671,12 +2762,12 @@
       "server_evidence": {
         "file": "session/friend/list/index.php",
         "line": 1,
-        "sha256": "d23f1219b3a91898dd42ed8b4f8aad281b78671c2d303f79b460c4ea98bbc3ca"
+        "sha256": "35e760e5d6ea40f2b46ca2006e882ab0a0737b3557dd27b15991f7ee89eb8d57"
       },
-      "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "implemented",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "session_id"
       ],
@@ -2706,11 +2797,16 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {
@@ -2740,12 +2836,12 @@
       "server_evidence": {
         "file": "session/friend/remove/index.php",
         "line": 1,
-        "sha256": "3c2bc0a0150a5838ee0fe41fe73f37824cca8e3d11a2890711d6f29f68c40d35"
+        "sha256": "3956e57610bf37cbbb74cfbd9265812b57f9d059715c1a21cc928c34d6159051"
       },
-      "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "implemented",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "player_id",
         "session_id"
@@ -2770,11 +2866,20 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        },
+        {
+          "file": "lib/friend_battle_invites.php",
+          "sha256": "11f6368518e0a6c948fb3322c23feaa6568759df86fdd61ca6222037099351c2"
+        }
       ]
     },
     {
@@ -2804,12 +2909,12 @@
       "server_evidence": {
         "file": "session/friend/request/index.php",
         "line": 1,
-        "sha256": "e66c72a5bae51cc3054b6b9c1a10572704426097878f5a56d1e97a902ec947b9"
+        "sha256": "8dfdc544766882c2df9e7a28367fa68fc544ecb813f6ed753d469d129f89a626"
       },
-      "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "implemented",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "player_id",
         "session_id"
@@ -2835,11 +2940,16 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {
@@ -2903,12 +3013,12 @@
       "server_evidence": {
         "file": "session/friend/response/index.php",
         "line": 1,
-        "sha256": "31b6c4b3c2a0b20076789a7322d468f31481650bc971908334a15b89e4d33ab2"
+        "sha256": "04ed15c847d96464ce059fa7f4e7d1bfef8817c6787f0b10e0fa52eea2c0b630"
       },
-      "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "implemented",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "approve",
         "player_id",
@@ -2934,11 +3044,16 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {
@@ -2968,12 +3083,12 @@
       "server_evidence": {
         "file": "session/friend/search/index.php",
         "line": 1,
-        "sha256": "7852742b7746b300d7a8b25d5d904521eef1898b9519ddcd57df9f4abe9b7aa5"
+        "sha256": "64f851c4c0dabde183c1acd34607bd7ca7e9aa1742876df4afc12dceb83e2aeb"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Reviewed lifecycle: recipient-only response, stable pair locks, exact row writes, public list projections and native errors; existing success formats preserved. Quotas/battles/donations remain separate.",
+      "evidence_confidence": "Native constructors/parsers and additive HTTP/database regression tests; original-server policy not observed",
+      "http_method": "POST from native constructor; PHP endpoint does not enforce method",
       "input_field_candidates": [
         "query",
         "session_id"
@@ -2992,11 +3107,17 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original HTTP status parity",
+        "server friend quota semantics",
+        "ambiguous historical orientation",
+        "legacy empty search result decoding"
+      ],
+      "reviewed_contract": "docs/protocol/friend-lifecycle-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friends.php",
+          "sha256": "fd3ebe760dd5b6c443582188738fa78545360704f26aad8df8f4e435e0a41f3e"
+        }
       ]
     },
     {
@@ -3026,7 +3147,7 @@
       "server_evidence": {
         "file": "session/gacha/index.php",
         "line": 1,
-        "sha256": "6966a2f0de3a9565e822809cd43af6d31103137f8bbb6dcdf90564b736876108"
+        "sha256": "81ed739cc84199242c24f595f81b41e4312a37a2a5c05289a496f1832f2a62f9"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3096,6 +3217,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3171,7 +3299,7 @@
       "server_evidence": {
         "file": "session/heal/index.php",
         "line": 1,
-        "sha256": "983a84eaed186802e5859ad539dbb31f14cd2633e6df2b89e3ec58172ce10fe5"
+        "sha256": "48babf0947bf98d2bd65935c733dfc78c6f5ff343fab6d3804efba4b2ea14388"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Healing; runtime compatibility not yet verified",
@@ -3192,6 +3320,8 @@
         "hp",
         "hp_stat",
         "is_locked",
+        "is_paralysed",
+        "is_poisoned",
         "is_trading_locked",
         "level",
         "message",
@@ -3214,7 +3344,8 @@
         "xp_upper"
       ],
       "http_status_candidates": [
-        204
+        204,
+        409
       ],
       "table_candidates": [
         "deck",
@@ -3231,6 +3362,15 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "integration_contract": "docs/protocol/gameplay-integration.md",
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3293,7 +3433,7 @@
       "server_evidence": {
         "file": "session/join-room/index.php",
         "line": 1,
-        "sha256": "d72de20b57fe31858dab2bee154f31eec691c88fa30f62267dd12df037b35649"
+        "sha256": "7d23b83ef9de2e280628e00672469e3b584c05055002343d9cd0a31dad5f8525"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3319,6 +3459,8 @@
         "incentive",
         "incentive_id",
         "is_locked",
+        "is_paralysed",
+        "is_poisoned",
         "is_trading_locked",
         "item_id",
         "level",
@@ -3350,7 +3492,8 @@
       ],
       "http_status_candidates": [
         400,
-        401
+        401,
+        409
       ],
       "table_candidates": [
         "PLAYER",
@@ -3370,7 +3513,9 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
-      ]
+      ],
+      "integration_contract": "docs/protocol/gameplay-integration.md",
+      "ailment_contract": "docs/protocol/status-cure-implementation.md"
     },
     {
       "path": "/session/leave-room",
@@ -3398,7 +3543,7 @@
       "server_evidence": {
         "file": "session/leave-room/index.php",
         "line": 1,
-        "sha256": "f6159428ad2ec64e2b51b4c7946af0348691d0132ce10222d8f5a96b0aafa141"
+        "sha256": "9fd38968854bf82fc4dc3bb30d49523cff42cd19413778bd892ce4c728f7a6fc"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3415,7 +3560,8 @@
       ],
       "http_status_candidates": [
         400,
-        404
+        404,
+        409
       ],
       "table_candidates": [
         "users"
@@ -3430,7 +3576,8 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
-      ]
+      ],
+      "integration_contract": "docs/protocol/gameplay-integration.md"
     },
     {
       "path": "/session/morty/slots/buy",
@@ -3524,12 +3671,12 @@
       "server_evidence": {
         "file": "session/owned_morties/absorb/index.php",
         "line": 1,
-        "sha256": "a6bb5c66cea35550d8edd698fd37d053b8b6a2e4fed0a12edefb9286f8b42715"
+        "sha256": "f5139c7e5acb70e7db9a21ed009b76b1e684285dc91c483440704183c8485e38"
       },
-      "implementation_status": "implemented",
-      "status_basis": "README Completed: Evolve Mortys; runtime compatibility not yet verified",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "partial",
+      "status_basis": "Existing counter path retained; same-species and directional variant eligibility, donor protections, deduplication and owner-scoped removal/decks/points commit atomically. Full transformation and conditional active-party handling remain separate.",
+      "evidence_confidence": "Statically established native species/variant predicates and consumer; additive HTTP/database regressions; conservative malformed/assignment guards labeled separately",
+      "http_method": "POST from reviewed native constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "absorb_owned_morty_ids",
         "owned_morty_id",
@@ -3548,25 +3695,32 @@
         "removed"
       ],
       "http_status_candidates": [
+        200,
+        409,
         500
       ],
       "table_candidates": [
-        "DECKS",
-        "EVOLUTION",
-        "db",
-        "decks",
-        "owned_attacks",
+        "users",
+        "battles",
         "owned_morties",
-        "users"
+        "owned_attacks",
+        "decks",
+        "event_queue"
       ],
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "full created/evolution result and stat transformation",
+        "conditional active-party preservation",
+        "original error/status compatibility"
+      ],
+      "integration_contract": "docs/protocol/gameplay-integration.md",
+      "reviewed_contract": "docs/protocol/absorb-eligibility-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/morty_absorb.php",
+          "sha256": "87f99404514ec6922a7760b410c4049717e40a4dcf42f6456372b63899e40996"
+        }
       ]
     },
     {
@@ -3593,13 +3747,31 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "statically established native constructors/callbacks; 15 integration tests; Android Stats confirmation and synthetic preview capture",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original HTTP validation/status parity",
+        "Storage multi-select Android UI acceptance",
+        "Cross-endpoint writers do not share one locking protocol"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/attempt-release-multiple/index.php",
+        "line": 1,
+        "sha256": "66114ae6ef8d9ff2161f8ffef68be70dc429373edf63a104ecb988a4045e2937"
+      },
+      "status_basis": "Atomic world release with read-only preview, ownership and protection checks",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-release-contract.md",
+        "morty-release-implementation.md",
+        "morty-release-capture.json"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3630,7 +3802,7 @@
       "server_evidence": {
         "file": "session/owned_morties/learn-attacks/index.php",
         "line": 1,
-        "sha256": "62758616546294f694baa25010522be22bf1847a57257252104037c2dedd1747"
+        "sha256": "756a114f675716452330cabf4713ecce941d58e484907f1eb05ae2ca0cfa530b"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Learn Attacks; runtime compatibility not yet verified",
@@ -3654,6 +3826,8 @@
         "hp",
         "hp_stat",
         "is_locked",
+        "is_paralysed",
+        "is_poisoned",
         "is_trading_locked",
         "level",
         "morty_id",
@@ -3693,6 +3867,14 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3720,13 +3902,29 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "observed Android 2.41.0 replacement-server lock/unlock; statically established native callback",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "original HTTP error status parity",
+        "lock enforcement in destructive operations"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/lock/index.php",
+        "line": 1,
+        "sha256": "8aca6511fcdccb6125c5a9207a12151720d5d47806029596ce044c3a1db6b8d5"
+      },
+      "status_basis": "Owner-scoped toggle and persistence; destructive action protection remains separate",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-lock-contract.md",
+        "morty-lock-capture.json"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3753,13 +3951,31 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "statically established native constructors/callbacks; 15 integration tests; Android Stats confirmation and synthetic preview capture",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original HTTP validation/status parity",
+        "Storage multi-select Android UI acceptance",
+        "Cross-endpoint writers do not share one locking protocol"
+      ],
+      "server_evidence": {
+        "file": "session/owned_morties/release-multiple/index.php",
+        "line": 1,
+        "sha256": "989d10db22ee33eda1df1e6a05c2e355f93146cbb34a6d832ef8f5a4cce6516a"
+      },
+      "status_basis": "Atomic world release with read-only preview, ownership and protection checks",
+      "http_method": "POST",
+      "contract_evidence": [
+        "morty-release-contract.md",
+        "morty-release-implementation.md",
+        "morty-release-capture.json"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3816,7 +4032,7 @@
       "server_evidence": {
         "file": "session/player-avatar/buy/index.php",
         "line": 1,
-        "sha256": "3c864f72341f22901d1156c0674b96fe92bf8ceb2f305a0532be378902fe11f3"
+        "sha256": "0be109de684826145754a5e4034701fced443d2dc31fc6587e6fe7a164d51fcf"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3851,6 +4067,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -3933,7 +4156,7 @@
       "server_evidence": {
         "file": "session/player-avatar/set-active/index.php",
         "line": 1,
-        "sha256": "faa183d085005229768353e968854eb615677af9242849e2fb0a90f4dbd1debc"
+        "sha256": "3257b26761dacaf8ca9980fd7890b6292c5a31e7576413a5e3df082e6c8d3145"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3964,6 +4187,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -3993,7 +4223,7 @@
       "server_evidence": {
         "file": "session/player-details/index.php",
         "line": 1,
-        "sha256": "3853c4b86f5afb4dedf461a2d3e7dc60f8371f10630b4a3223c943bd8ddebd9b"
+        "sha256": "337a1d51b175259b9af250fef5192691b5fab4471fe3e060768a7cca14805f80"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4022,6 +4252,8 @@
         "hp",
         "hp_stat",
         "is_locked",
+        "is_paralysed",
+        "is_poisoned",
         "is_trading_locked",
         "level",
         "morty_id",
@@ -4068,7 +4300,9 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
-      ]
+      ],
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "shiny_potion_contract": "docs/protocol/shiny-potion-implementation.md"
     },
     {
       "path": "/session/player-flag",
@@ -4127,13 +4361,32 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "observed Android 2.41.0 Quick Craft; recovered native contract and MP assets; 12 integration tests",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
+        "Original-server validation/reward parity",
+        "Cross-route inventory concurrency",
+        "Android UI acceptance for other catalog recipes"
+      ],
+      "server_evidence": {
+        "file": "session/recipe/use/index.php",
+        "line": 1,
+        "sha256": "b1ad1e1d6f6a58ba036b76c4b05b6b0bad854185235b863f55cc2c88f9afe27c"
+      },
+      "status_basis": "All 22 catalog recipes; atomic ingredients/output, owner scoping and client cap; Android Serum Quick Craft verified",
+      "http_method": "POST",
+      "contract_evidence": [
+        "crafting-contract.md",
+        "crafting-data.md",
+        "crafting-implementation.md",
+        "crafting-capture.json"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -4162,7 +4415,7 @@
       "server_evidence": {
         "file": "session/room-details/index.php",
         "line": 1,
-        "sha256": "ef7e1c795d0dc49bcb2ca8e8ecc4e353b5a2a55de7e5f16fd33a8a948440ce07"
+        "sha256": "49c4890956a781b1c1f9abc085681c3724a8ac9513cd879594e6ba3d58e82094"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4184,6 +4437,8 @@
         "fight_pit_id",
         "hp",
         "is_locked",
+        "is_paralysed",
+        "is_poisoned",
         "is_trading_locked",
         "level",
         "morty_id",
@@ -4224,7 +4479,8 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
-      ]
+      ],
+      "ailment_contract": "docs/protocol/status-cure-implementation.md"
     },
     {
       "path": "/session/state",
@@ -4341,25 +4597,45 @@
       "server_evidence": {
         "file": "session/use-item/index.php",
         "line": 1,
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        "sha256": "6a2146d158aa991bbb5fd6a8566b39f06d0422707fb149adb2c4f0658c2cc860"
       },
-      "implementation_status": "stub",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "implementation_status": "partial",
+      "status_basis": "12 world items: eight HP, full revive/AP, targeted poison/paralysis cures. Native MP eligibility and typed updates, additive regressions and Android cures verified; remaining effects/battle use partial. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP.",
+      "evidence_confidence": "observed Android 2.41.0 Serum/full-revive/full-AP uses; native contract and static maxima; 22 item regression tests",
+      "http_method": "POST",
       "input_field_candidates": [],
       "query_fields": [],
-      "response_key_candidates": [],
+      "response_key_candidates": [
+        "is_paralysed",
+        "is_poisoned"
+      ],
       "http_status_candidates": [],
       "table_candidates": [],
       "events_published": [],
       "authentication": "requires review",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "50% revive/AP rounding and minimum HP",
+        "cure/stat/general effects",
+        "battle item synchronization",
+        "original retry/consumption policy"
+      ],
+      "contract_evidence": [
+        "use-item-contract.md",
+        "use-item-data.md",
+        "use-item-capture.json",
+        "use-item-implementation.md",
+        "full-restore-items.md",
+        "full-restore-capture.json",
+        "ap-maxima-contract.md"
+      ],
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "full_recover_contract": "docs/protocol/full-recover-implementation.md",
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -4385,14 +4661,49 @@
           "confidence": "derived by linear disassembly; review before treating as wire contract"
         }
       ],
-      "implementation_status": "absent",
-      "evidence_confidence": "statically established constant; reachability unverified",
+      "implementation_status": "implemented",
+      "evidence_confidence": "native constructor/parser/expiry consumers plus additive HTTP/database regressions; original encounter rates unknown",
       "unresolved": [
-        "request constructor",
-        "response parser",
-        "runtime reachability",
-        "server behavior"
-      ]
+        "original encounter probabilities",
+        "original HTTP status parity",
+        "capture interaction"
+      ],
+      "server_evidence": {
+        "file": "session/use-shiny-potion/index.php",
+        "line": 1,
+        "sha256": "07342045ad9c9cd9ac3e32d7acf398848a600ed088d34865d24a15f84a641ee4"
+      },
+      "status_basis": "Dedicated account activation with one stock charge, two-hour UTC expiry, native typed response/errors and startup rehydration. Existing spawn flags/probabilities unchanged.",
+      "http_method": "POST",
+      "input_field_candidates": [
+        "session_id"
+      ],
+      "query_fields": [],
+      "response_key_candidates": [
+        "quantity",
+        "shiny_potion_active",
+        "end_usage_time",
+        "shiny_potion_item_id",
+        "error",
+        "code"
+      ],
+      "http_status_candidates": [
+        200,
+        400,
+        401,
+        405,
+        409,
+        500
+      ],
+      "table_candidates": [
+        "users",
+        "owned_items",
+        "battles",
+        "event_queue"
+      ],
+      "events_published": [],
+      "authentication": "unambiguous session and player row required",
+      "reviewed_contract": "docs/protocol/shiny-potion-implementation.md"
     },
     {
       "path": "/shard/health",
@@ -4496,7 +4807,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "d78f6bf3f10c32a16f23151b371612f1839798fed3ba3e48bde4be6d3157b03c"
+        "sha256": "a72d502d2e6a4387556cf509823951912dd6ac6a5c96b5fa99431b43f4378645"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4515,6 +4826,8 @@
         "division",
         "emote",
         "error",
+        "is_paralysed",
+        "is_poisoned",
         "keep_alive",
         "level",
         "max",
@@ -4557,6 +4870,21 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_invite_stream.php",
+          "sha256": "74b8527d5e7b00924747c4027f73fada342d025d9a34e6d5a4c1a5dc9366a838"
+        },
+        {
+          "file": "lib/friend_battle_preparations.php",
+          "sha256": "abb240d1726cb8891668cfed965212b38d998510d877901b43c1cd696244f353"
+        },
+        {
+          "file": "lib/friend_battle_membership.php",
+          "sha256": "5a682cbb5de0fe0eb48524b2aded618e376acfb40b56be818d7f3f358821f11e"
+        }
       ]
     },
     {
@@ -5001,7 +5329,7 @@
       "server_evidence": {
         "file": "trading/offer-response/index.php",
         "line": 1,
-        "sha256": "0f76195375f6f0beb1f47345b15a44861c1fa41648116da90c82f9422d88648e"
+        "sha256": "9d1844e86e49ad35da685bcf2cfaf8b305a9e8c103c3a1fd96a93cad9af51bf2"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -5036,6 +5364,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/trade_membership_guard.php",
+          "sha256": "784d37bda49fd9d5ac577bd787c440f0883c061c803898c2dc35fff72a8f95f8"
+        }
       ]
     },
     {
@@ -5069,7 +5404,7 @@
       "server_evidence": {
         "file": "trading/request-morty/index.php",
         "line": 1,
-        "sha256": "fcd959032fff48628d5dfad9beb25d706137dd021d11a0b75fa8b744157957fd"
+        "sha256": "7746ce8497e92e77a6758d74b18564bd9c8bf155241bffc22fe5d2abb91f5f06"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -5115,6 +5450,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -5306,8 +5648,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "schema_status": "statically established native DTO/consumer; missing/null details retained as gaps",
+      "delivery_semantics": "Constructs temporary invite; no pending clear, callback or battle start in bounded body. Original routing/replay unknown; current server lacks dispatch/storage.",
+      "reviewed_contract": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "name": "battle-invite:declined",
@@ -5319,8 +5662,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "schema_status": "native DTO established; replacement private global invitation polling implemented",
+      "delivery_semantics": "Explicit participant-role table query independent of room cursor; received once per connection, terminal IDs repeat <=1/sec through retention window; fresh session rehydrates unexpired pending.",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md"
     },
     {
       "name": "battle-invite:received",
@@ -5332,8 +5676,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "schema_status": "native DTO established; replacement private global invitation polling implemented",
+      "delivery_semantics": "Explicit participant-role table query independent of room cursor; received once per connection, terminal IDs repeat <=1/sec through retention window; fresh session rehydrates unexpired pending.",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md"
     },
     {
       "name": "battle-invite:revoked",
@@ -5345,8 +5690,9 @@
           "sha256": "ae2eadb9ff67e1354b7d2ef07568476c8ca5efdd69ffda8d491cd6e88f71e2bd"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "schema_status": "native DTO established; replacement private global invitation polling implemented",
+      "delivery_semantics": "Explicit participant-role table query independent of room cursor; received once per connection, terminal IDs repeat <=1/sec through retention window; fresh session rehydrates unexpired pending.",
+      "reviewed_contract": "docs/protocol/friend-battle-invitation-implementation.md"
     },
     {
       "name": "battle:abandoned",
@@ -5374,18 +5720,18 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 125,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 130,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
+        },
+        {
+          "file": "session/battle/ready/index.php",
+          "line": 43,
+          "sha256": "5a60a8af501008ca1c96610d22da9fc1b3ea70e589e83e962158d9dfc4fd9e01"
         },
         {
           "file": "sse/index.php",
-          "line": 304,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
-        },
-        {
-          "file": "sse/index.php",
-          "line": 498,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 515,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5404,18 +5750,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 112,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 117,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 303,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
-        },
-        {
-          "file": "sse/index.php",
-          "line": 488,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 505,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5433,19 +5774,19 @@
       ],
       "server_evidence": [
         {
+          "file": "lib/battle_timeouts.php",
+          "line": 49,
+          "sha256": "dc58902dbd92f85e682048cf82d84fa404c7f9c067f07e4988257c1dd6544aae"
+        },
+        {
           "file": "lib/events.php",
-          "line": 119,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 123,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 305,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
-        },
-        {
-          "file": "sse/index.php",
-          "line": 493,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 510,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5490,13 +5831,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 131,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 136,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 515,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 532,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5710,23 +6051,23 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 64,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 65,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 258,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 259,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         },
         {
           "file": "sse/index.php",
-          "line": 282,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 285,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         },
         {
           "file": "sse/index.php",
-          "line": 429,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 443,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5771,23 +6112,23 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 27,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 28,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 191,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 188,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         },
         {
           "file": "sse/index.php",
-          "line": 211,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 210,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         },
         {
           "file": "sse/index.php",
-          "line": 380,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 394,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5806,13 +6147,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 44,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 45,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 503,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 520,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5831,13 +6172,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 86,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 87,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 528,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 545,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5869,13 +6210,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 94,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 95,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 544,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 569,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5894,13 +6235,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 106,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 111,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 475,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 492,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5919,23 +6260,23 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 49,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 50,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 222,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 221,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         },
         {
           "file": "sse/index.php",
-          "line": 247,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 248,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         },
         {
           "file": "sse/index.php",
-          "line": 403,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 417,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5952,7 +6293,19 @@
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "delivery_semantics": "unknown until handler trace and runtime capture",
+      "server_evidence": [
+        {
+          "file": "lib/events.php",
+          "line": 106,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
+        },
+        {
+          "file": "sse/index.php",
+          "line": 476,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+        }
+      ]
     },
     {
       "name": "room:wild-morty-state-changed",
@@ -5967,13 +6320,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 100,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 101,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 462,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 479,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -5998,13 +6351,18 @@
       "server_evidence": [
         {
           "file": "sse/index.php",
-          "line": 163,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 156,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         },
         {
           "file": "sse/index.php",
-          "line": 568,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 327,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+        },
+        {
+          "file": "sse/index.php",
+          "line": 593,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6023,8 +6381,8 @@
       "server_evidence": [
         {
           "file": "sse/index.php",
-          "line": 148,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 138,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6069,13 +6427,13 @@
       "server_evidence": [
         {
           "file": "lib/events.php",
-          "line": 80,
-          "sha256": "21bea4cdf9bb76cf2b3e3b33525135c58335892a70adb89aa970afc5e93b9524"
+          "line": 81,
+          "sha256": "63540ae4bf8857911af39fabda1308650bde8a740bc239b3262bbbff18724ef7"
         },
         {
           "file": "sse/index.php",
-          "line": 457,
-          "sha256": "6e4af175159f95a869ea94385ad296064a66f70ca213be7b4a3ee890b3772b61"
+          "line": 471,
+          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
