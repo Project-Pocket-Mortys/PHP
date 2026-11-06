@@ -117,3 +117,8 @@ are verified on the dedicated registration parties. See
 | `/trading/request-morty` | partial | yes | trading/request-morty/index.php |
 | `/user/login` | partial | yes | user/login/index.php |
 | `/user/register` | partial | yes | user/register/index.php |
+
+Absorption now preserves a living owner-resolved active party before point-only
+donor deletion; see [native evidence](absorb-active-party-contract.md) and the
+[repair boundary](absorb-active-party-implementation.md). Full transformation
+remains separate, and README-completed feature status is retained.

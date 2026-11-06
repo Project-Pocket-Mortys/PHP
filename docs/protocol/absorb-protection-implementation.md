@@ -93,8 +93,8 @@ screens, requests and synthetic-stat provenance.
 
 The follow-up [donor eligibility repair](absorb-eligibility-implementation.md)
 now enforces the recovered same-species/variant checks. The scope below records
-the original protection milestone; conditional party checks and full evolution
-remain separate.
+the original protection milestone. A later [active-party repair](absorb-active-party-implementation.md)
+protects the point-only path; full evolution remains separate.
 
 This branch starts from main `9ff1a11` with pending prerequisite PR #33 at
 `b0bac01`, including its dependency history. No new database migration is

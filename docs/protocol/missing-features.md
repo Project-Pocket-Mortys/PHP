@@ -7,7 +7,7 @@ failure blocks gameplay or exposes another player's data.
 
 | Order | Feature | Next deliverable and acceptance |
 |---|---|---|
-| 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); same-species/variant absorption checks now reject incompatible batches (`absorb-eligibility-implementation.md`). Inspect remaining destructive/trade interfaces separately. |
+| 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); same-species/variant absorption checks now reject incompatible batches (`absorb-eligibility-implementation.md`). Point-only absorption now preserves a living active party (`absorb-active-party-implementation.md`). Inspect remaining destructive/trade interfaces separately. |
 | 2 | Use items | Eight HP items, full revival/AP restoration and targeted poison/paralysis cures work in world and battle (`battle-item-implementation.md`); Pure Curum combined HP/ailment recovery is implemented (`full-recover-implementation.md`). Account Shiny Potion activation/expiry is implemented (`shiny-potion-implementation.md`). Finish percentage variants, stat/damage/general items and authentic timing; remaining numeric evidence gaps are in `remaining-item-evidence.md`. |
 | 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
 | 4 | Crafting | 22 multiplayer recipes implemented atomically; Android Serum Quick Craft and inventory verified (`crafting-implementation.md`). |

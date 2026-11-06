@@ -26,8 +26,8 @@ remain in effect. Missing/foreign/self donor IDs retain existing filtering.
 The accepted path still adds one point per actual consumed donor and returns
 the existing `removed`, `modified` and complete `decks` response. No species
 catalog, evolution requirement, stat formula or new `created` object is inferred
-by this change. Conditional active-party checks and full evolution remain
-separate work. README-completed evolution and attribution remain the baseline.
+by this change. The [point-only active-party guard](absorb-active-party-implementation.md) now
+preserves a living active party; full evolution remains separate work. README-completed evolution and attribution remain the baseline.
 
 ## Reproduction
 

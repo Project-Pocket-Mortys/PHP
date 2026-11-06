@@ -3723,8 +3723,8 @@
         "sha256": "f5139c7e5acb70e7db9a21ed009b76b1e684285dc91c483440704183c8485e38"
       },
       "implementation_status": "partial",
-      "status_basis": "Existing counter path retained; same-species and directional variant eligibility, donor protections, deduplication and owner-scoped removal/decks/points commit atomically. Full transformation and conditional active-party handling remain separate.",
-      "evidence_confidence": "Statically established native species/variant predicates and consumer; additive HTTP/database regressions; conservative malformed/assignment guards labeled separately",
+      "status_basis": "Existing counter path retained; species/variant eligibility, donor protections, deduplication and owner-scoped writes commit atomically. Point-only absorption now requires a uniquely resolved living active-party survivor before mutation, including threshold-reaching batches as explicit replacement-server policy. Full transformation remains separate.",
+      "evidence_confidence": "Statically established native species/variant and conditional active-party predicates; additive HTTP/database regressions; unconditional point-only party protection and malformed-state guards are replacement policy.",
       "http_method": "POST from reviewed native constructor; PHP route does not enforce method",
       "input_field_candidates": [
         "absorb_owned_morty_ids",
@@ -3760,15 +3760,14 @@
       "authentication": "session lookup present",
       "unresolved": [
         "full created/evolution result and stat transformation",
-        "conditional active-party preservation",
         "original error/status compatibility"
       ],
       "integration_contract": "docs/protocol/gameplay-integration.md",
-      "reviewed_contract": "docs/protocol/absorb-eligibility-implementation.md",
+      "reviewed_contract": "docs/protocol/absorb-active-party-implementation.md",
       "implementation_helpers": [
         {
           "file": "lib/morty_absorb.php",
-          "sha256": "87f99404514ec6922a7760b410c4049717e40a4dcf42f6456372b63899e40996"
+          "sha256": "8618f871dc98768813f294c39e24854f88891bb798bcdd4a604f9c263541e8aa"
         }
       ]
     },
