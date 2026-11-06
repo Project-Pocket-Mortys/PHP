@@ -19,6 +19,7 @@ require __DIR__ . "/../lib/auth.php";
 require __DIR__ . "/../lib/events.php"; // provides sse_send()
 require_once __DIR__ . '/../lib/battle_timeouts.php';
 require_once __DIR__ . '/../lib/friend_invite_stream.php';
+require_once __DIR__ . '/../lib/friend_battle_preparations.php';
 
 // ---------------- SSE HELPERS ----------------
 function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
@@ -29,6 +30,20 @@ function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
 }
 
 function stream_friend_invites(PDO $pdo, string $player, string $session, array &$seen): void {
+    // This runs outside the room/world transaction: preparation cleanup locks
+    // both participants in sorted order before touching shared reservations.
+    static $lastPreparationCheck = [];
+    $key = $player . ':' . $session;
+    $now = microtime(true);
+    if (!isset($lastPreparationCheck[$key]) || $now - $lastPreparationCheck[$key] >= 1.0) {
+        $lastPreparationCheck[$key] = $now;
+        try {
+            friend_battle_prepare_expire_player($pdo, $player, 8, $session);
+        } catch (Throwable $error) {
+            // Keep incomplete/invalid claims fail-closed; the next poll retries.
+            error_log('SSE friend preparation cleanup failed: ' . get_class($error));
+        }
+    }
     try {
         foreach (friend_battle_invite_events($pdo, $player, $session, $seen) as $event) {
             sse_send_id($event['event'], json_encode($event['payload'], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
