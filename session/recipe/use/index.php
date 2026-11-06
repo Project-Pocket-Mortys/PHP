@@ -2,6 +2,7 @@
 declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 require __DIR__ . '/../../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../../lib/preparation_writer_guard.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     header('Allow: POST');
@@ -15,14 +16,7 @@ foreach (['session_id', 'recipe_id'] as $field) {
 }
 
 try {
-    $pdo->beginTransaction();
-    $query = $pdo->prepare('SELECT player_id, state FROM users WHERE session_id = ? LIMIT 1 FOR UPDATE');
-    $query->execute([$body['session_id']]);
-    $user = $query->fetch();
-    if (!$user) {
-        $pdo->rollBack();
-        respond(401, ['error' => ['code' => 'FAILED']]);
-    }
+    $user = preparation_writer_lock($pdo, $body['session_id']);
     if ($user['state'] !== 'WORLD') {
         $pdo->rollBack();
         respond(409, ['error' => ['code' => 'FAILED']]);
@@ -108,6 +102,6 @@ try {
     ]);
 } catch (Throwable $error) {
     if ($pdo->inTransaction()) $pdo->rollBack();
-    error_log('Recipe crafting failed: ' . get_class($error));
-    respond(500, ['error' => ['code' => 'FAILED']]);
+    if (!$error instanceof FriendError) error_log('Recipe crafting failed: ' . get_class($error));
+    respond($error instanceof FriendError ? $error->status : 500, ['error' => ['code' => 'FAILED']]);
 }

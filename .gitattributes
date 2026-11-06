@@ -1,3 +1,4 @@
+.gitattributes text eol=lf
 tools/research/** text eol=lf
 tests/protocol/** text eol=lf
 docs/protocol/** text eol=lf
@@ -46,3 +47,22 @@ session/owned_morties/release-multiple/index.php text eol=lf
 
 session/recipe/use/index.php text eol=lf
 config/crafting_recipes.json text eol=lf
+
+session/buy-item/index.php text eol=lf
+session/player-avatar/buy/index.php text eol=lf
+session/player-avatar/set-active/index.php text eol=lf
+session/decks/slots/buy/index.php text eol=lf
+trading/request-morty/index.php text eol=lf
+lib/preparation_writer_guard.php text eol=lf
+session/collect-pickup/index.php text eol=lf
+
+lib/friend_battle_start_views.php text eol=lf
+config/multiplayer_start_ids.json text eol=lf
+tools/research/ghidra-private-start-context.sh text eol=lf
+tools/research/export_start_identity_catalog.py text eol=lf
+tools/research/server/migrations/010-friend-battle-start-views.sql text eol=lf
+tools/research/check_gameplay_integration.py text eol=lf
+tests/protocol/test_friend_battle_start_views.py text eol=lf
+tests/protocol/test_start_context_writer_guards.py text eol=lf
+tests/protocol/test_crafting_pickup_preparation_guards.py text eol=lf
+docs/protocol/private-battle-start-views.md text eol=lf
