@@ -5,6 +5,13 @@ baseline. An unverified feature is not automatically broken. Work now prioritize
 missing player actions; broad transport research is deferred unless a reproduced
 failure blocks gameplay or exposes another player's data.
 
+Latest trade repair: [durable reference protection](trade-reference-implementation.md)
+keeps player-details locks visible and protects absorption; owners can withdraw
+exact orphan offers. Native cookie transport is now observed. Trading-kiosk
+reachability, actual cancellation buttons, acceptance authorization/offer binding
+and other full-Morty serializers remain open; the baseline claims below are
+preserved.
+
 | Order | Feature | Next deliverable and acceptance |
 |---|---|---|
 | 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); same-species/variant absorption checks now reject incompatible batches (`absorb-eligibility-implementation.md`). Point-only absorption now preserves a living active party (`absorb-active-party-implementation.md`). Owner-scoped trade/offer cancellation is implemented (`trade-cancellation-implementation.md`); native cookie/button acceptance, offer acceptance authorization and protected donor creation remain separate. |

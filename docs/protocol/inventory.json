@@ -3723,7 +3723,7 @@
         "sha256": "f5139c7e5acb70e7db9a21ed009b76b1e684285dc91c483440704183c8485e38"
       },
       "implementation_status": "partial",
-      "status_basis": "Existing counter path retained; species/variant eligibility, donor protections, deduplication and owner-scoped writes commit atomically. Point-only absorption now requires a uniquely resolved living active-party survivor before mutation, including threshold-reaching batches as explicit replacement-server policy. Full transformation remains separate.",
+      "status_basis": "Existing counter path retained; species/variant eligibility, donor protections, deduplication and owner-scoped writes commit atomically. Point-only absorption now requires a uniquely resolved living active-party survivor before mutation, including threshold-reaching batches as explicit replacement-server policy. Full transformation remains separate. Recipient and actual eligible donors now reject durable request/offer references, including orphan/stale-owner rows, before mutation.",
       "evidence_confidence": "Statically established native species/variant and conditional active-party predicates; additive HTTP/database regressions; unconditional point-only party protection and malformed-state guards are replacement policy.",
       "http_method": "POST from reviewed native constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -3754,7 +3754,9 @@
         "owned_morties",
         "owned_attacks",
         "decks",
-        "event_queue"
+        "event_queue",
+        "trades",
+        "trade_offers"
       ],
       "events_published": [],
       "authentication": "session lookup present",
@@ -3767,9 +3769,14 @@
       "implementation_helpers": [
         {
           "file": "lib/morty_absorb.php",
-          "sha256": "8618f871dc98768813f294c39e24854f88891bb798bcdd4a604f9c263541e8aa"
+          "sha256": "d685889e9d05519ce9603c6ca00ce1eefc7eb1b3e6ac70d5c71891751a5e6e7e"
+        },
+        {
+          "file": "lib/trade_references.php",
+          "sha256": "dd92829e31b38d70b6cbcb765fff2bec5dab82b9361c16a9826fc99b91eadbd6"
         }
-      ]
+      ],
+      "trade_reference_contract": "docs/protocol/trade-reference-implementation.md"
     },
     {
       "path": "/session/owned_morties/attempt-release-multiple",
@@ -4271,7 +4278,7 @@
       "server_evidence": {
         "file": "session/player-details/index.php",
         "line": 1,
-        "sha256": "337a1d51b175259b9af250fef5192691b5fab4471fe3e060768a7cca14805f80"
+        "sha256": "7712d022b9c193813cf63693975a18f9b21659bbc7f25c051795cb29c4e223f1"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4350,7 +4357,15 @@
         "runtime verification"
       ],
       "ailment_contract": "docs/protocol/status-cure-implementation.md",
-      "shiny_potion_contract": "docs/protocol/shiny-potion-implementation.md"
+      "shiny_potion_contract": "docs/protocol/shiny-potion-implementation.md",
+      "implementation_helpers": [
+        {
+          "file": "lib/trade_references.php",
+          "sha256": "dd92829e31b38d70b6cbcb765fff2bec5dab82b9361c16a9826fc99b91eadbd6"
+        }
+      ],
+      "trade_reference_contract": "docs/protocol/trade-reference-implementation.md",
+      "trade_lock_projection": "Existing legacy flag conversion OR any durable request/offer reference; no raw flag writes. Other serializers remain separate."
     },
     {
       "path": "/session/player-flag",
@@ -5103,7 +5118,7 @@
       "implementation_helpers": [
         {
           "file": "lib/trade_cancellation.php",
-          "sha256": "0c43180de4cd2e798e216738e332e4daa63330e856c8913937e2204c8eabba04"
+          "sha256": "5f3509438f86619f10f03dec377b27c469e60770a28d49a88b65d34d9f653465"
         }
       ]
     },
@@ -5138,7 +5153,7 @@
         "Original refund/cooldown policy",
         "Persistent trading-lock lifecycle and remaining active-reference reconciliation"
       ],
-      "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native UI acceptance and full trade system remain separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation.",
+      "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native UI acceptance and full trade system remain separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation. Authenticated exact-owner orphan-offer withdrawal now works even when parent is absent; no transfer or raw flag changes.",
       "server_evidence": {
         "file": "trading/cancel-trade-offer/index.php",
         "line": 1,
@@ -5150,9 +5165,10 @@
       "implementation_helpers": [
         {
           "file": "lib/trade_cancellation.php",
-          "sha256": "0c43180de4cd2e798e216738e332e4daa63330e856c8913937e2204c8eabba04"
+          "sha256": "5f3509438f86619f10f03dec377b27c469e60770a28d49a88b65d34d9f653465"
         }
-      ]
+      ],
+      "orphan_withdrawal_contract": "docs/protocol/trade-reference-implementation.md"
     },
     {
       "path": "/trading/config",

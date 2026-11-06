@@ -3,7 +3,11 @@
 Later verification: [isolated startup recovery](onetrust-startup-recovery.md)
 now passes native login and [actual trading cookie transmission](onetrust-recovery-cookie-handoff.json).
 The earlier failed captures below remain historical evidence. Cancellation
-buttons, persisted trading locks and wider trade authorization remain separate.
+buttons and wider trade authorization remain separate. Subsequent
+[durable-reference protection](trade-reference-implementation.md) derives the
+player-details trading flag, guards absorption and permits exact owner withdrawal
+of orphan offers. It preserves raw flags; other serializers and unknown legacy
+true flags remain unresolved. This page records the earlier cancellation scope.
 
 `/trading/cancel-trade` previously deleted a request and its offers without
 requiring a valid session. `/trading/cancel-trade-offer` was missing. Both now

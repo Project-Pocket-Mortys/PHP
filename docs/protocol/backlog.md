@@ -4,7 +4,9 @@ Latest SDK prerequisite: [isolated native offline-path recovery](onetrust-startu
 now passes retained-client startup, login, world entry and actual trading cookie
 transmission, with unchanged SDK files and guarded saves. Exact Android online
 SDK-fetch failure attribution, independent paired-client fixtures, cancellation
-buttons and persistent trading-lock reconciliation remain. This does not grant
+buttons and wider trading-lock reconciliation remain. Player details and
+absorption now honor [durable trade references](trade-reference-implementation.md);
+other Morty serializers and legacy true flags remain explicit gaps. This does not grant
 consent or establish universal optional-SDK denial; keep external isolation.
 
 Implementation status and evidence confidence are independent. The root README remains authoritative for claimed completed features. Native constants establish interface names, not successful runtime behavior. Every unmapped parser in `parser-mapping.json` is an explicit research obligation; no fallback schema is silently assigned to it.
@@ -106,9 +108,17 @@ combat formula or playable human battle is claimed.
 the exact listing owner, retires only that listing and dependent offers, and
 serializes parent cancellation with offer creation. Login provisions a scoped
 replacement session cookie; static native Best.HTTP support and real HTTP
-CookieJar flow are verified. Native outgoing-cookie and cancellation-button
-capture remain pending. Initial native smoke stalled before login with OneTrust
-initialization exceptions; no handoff was inferred from that failed capture.
+CookieJar flow are verified. The later SDK recovery proves native outgoing-cookie
+transport; cancellation-button capture remains pending. The initial OneTrust
+startup failure is retained as historical evidence, superseded for startup by
+the isolated recovery. Bounded same-hub navigation did not locate a verified
+trading kiosk; inspect scene/prefab/config placement for interaction type 18
+before further UI acceptance. This is not evidence of feature removal.
 Acceptance/offer binding, protected donor creation, full transfer/party effects
 and original refunds/cooldowns remain separate; existing trade completion claims
-in the README are retained as baseline behavior.
+in the README are retained as baseline behavior. Player-details lock projection,
+recipient/donor absorption protection and exact owner withdrawal of orphan offers
+are now covered by [57 regression cases](trade-reference-implementation.md).
+Before broadening lock reconciliation, map every full-Morty serializer and native
+refresh after cancellation; preserve unknown legacy flags and prove two-account
+privacy, ownership and request/offer binding separately.

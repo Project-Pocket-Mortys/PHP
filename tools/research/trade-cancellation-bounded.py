@@ -1,6 +1,7 @@
 """Bound each selected Android 2.41 ARM64 method by the next metadata entry."""
 import hashlib
 import json
+import re
 import struct
 import sys
 from pathlib import Path
@@ -26,6 +27,8 @@ segments = [struct.unpack_from('<IIQQQQQQ', binary, phoff+i*stride) for i in ran
 records, lines = [], []
 selected_addresses = {int(m['native_rva'], 16) for m in json.loads((out/'ghidra.json').read_text())}
 selected_addresses.update(a for a,m in methods.items() if m['Name'] == 'Best.HTTP.HTTPResponse$$get_IsSuccess')
+if len(sys.argv) > 2:
+    selected_addresses.update(a for a,m in methods.items() if re.fullmatch(sys.argv[2], m['Name']))
 for address in sorted(selected_addresses):
     end = next(a for a in boundaries if a > address)
     method = methods[address]
