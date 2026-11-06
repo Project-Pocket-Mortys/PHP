@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/friend_battle_start_views.php';
 require_once __DIR__ . '/friend_battle_transport.php';
+require_once __DIR__ . '/friend_battle_selections.php';
 
 /** Replacement-server startup lease; never interpreted as a combat timer. */
 function friend_battle_startup_seconds(): int {
@@ -195,7 +196,8 @@ function friend_battle_startup_intent(PDO $pdo, string $session, string $battleI
 
 /** Internal terminal cleanup, intentionally without a fabricated client outcome. */
 function friend_startup_cancel_locked(PDO $pdo, array $row, array $users, string $reason): void {
-    friend_startup_validate_active($pdo,$row,$users,false);
+    $startup=friend_startup_validate_active($pdo,$row,$users,false);
+    friend_battle_selections_retire_locked($pdo,$row,$users,$startup);
     $players=array_keys($users); sort($players,SORT_STRING);
     $update=$pdo->prepare("UPDATE users SET state='WORLD',last_seen=last_seen WHERE id=? AND player_id=? AND state='BATTLE'");
     $delete=$pdo->prepare('DELETE FROM friend_battle_memberships WHERE player_id=? AND battle_id=?');

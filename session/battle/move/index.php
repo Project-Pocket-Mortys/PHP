@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../../lib/events.php';
 require_once __DIR__ . '/../../../lib/battle_turn.php';
 require_once __DIR__ . '/../../../lib/battle_items.php';
 require_once __DIR__ . '/../../../lib/battle_timeouts.php';
+require_once __DIR__ . '/../../../lib/friend_battle_startup.php';
 
 $body = json_input();
 foreach (['session_id', 'battle_id', 'type'] as $key) {
@@ -22,6 +23,22 @@ $type = $body['type'];
 $owned_morty_id = $body['owned_morty_id'] ?? '';
 $move_id = $body['move_id'] ?? '';
 if (in_array($type, ['ATTACK', 'SWITCH'], true) && ($owned_morty_id === '' || $move_id === '')) respond(400, ['success' => false, 'error' => ['code' => 'FAILED']]);
+
+// Research-only first human selection; success acknowledges storage, not resolution.
+if (friend_battle_transport_enabled()) {
+    try {
+        $query=$pdo->prepare('SELECT 1 FROM friend_battle_sessions WHERE battle_id=?');
+        $query->execute([$battle_id]);
+        if ($query->fetchColumn()!==false) {
+            friend_battle_selection_submit($pdo,$body,$session_id);
+            respond(200,['success'=>true]);
+        }
+    } catch (Throwable $error) {
+        if ($pdo->inTransaction()) $pdo->rollBack();
+        if (!$error instanceof FriendError) error_log('Shared selection failed: '.get_class($error));
+        respond($error instanceof FriendError ? $error->status : 500,['success'=>false,'error'=>['code'=>'FAILED']]);
+    }
+}
 
 try {
     $pdo->beginTransaction();
