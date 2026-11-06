@@ -26,6 +26,7 @@ MODULES = [
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--udp', action='store_true', help='also exercise localhost UDP relay and endpoint ownership')
+    parser.add_argument('--shared-battle-stream', action='store_true', help='also exercise opt-in stream-web on localhost:8089 (start shared-battle-stream profile first)')
     args = parser.parse_args()
     sys.path.insert(0, str(ROOT / 'tests/protocol'))
     from test_http import php, sql
@@ -52,6 +53,11 @@ def main():
     if not sql("SHOW TABLES LIKE 'friend_battle_startups'") or not sql("SHOW TABLES LIKE 'friend_battle_start_intents'"):
         raise RuntimeError('Apply migration 011-friend-battle-startup.sql before running shared startup suites')
     modules = MODULES + ['test_friend_battle_start_views', 'test_start_context_writer_guards', 'test_crafting_pickup_preparation_guards', 'test_friend_battle_startup'] + (['test_udp_relay', 'test_udp_endpoint_ownership'] if args.udp else [])
+    if args.shared_battle_stream:
+        for table in ['friend_battle_streams','friend_battle_stream_bindings','friend_battle_start_attempts']:
+            if not sql("SHOW TABLES LIKE '"+table+"'"):
+                raise RuntimeError('Apply migration 012-friend-battle-transport.sql before running transport suites')
+        modules.append('test_friend_battle_transport')
     suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     return 0 if result.wasSuccessful() else 1

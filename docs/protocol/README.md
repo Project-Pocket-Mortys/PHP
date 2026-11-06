@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Research stream delivery](shared-battle-stream-delivery.md) adds an opt-in
+localhost:8089 bridge for private startup attempts, initial ready and
+generation-bound interruption cleanup. Apply migration 012. The normal service
+keeps the gate off; public acceptance remains 501. Native UI recovery still
+needs a dedicated Android capture.
+
 [Shared startup bookkeeping](shared-battle-startup.md) now atomically records
 both player transitions and private delivery intents, initial readiness and
 bounded two-player cancellation/expiry. Apply migration 011. Nothing dispatches

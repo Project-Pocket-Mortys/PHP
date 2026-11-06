@@ -81,3 +81,9 @@ recipient-only intent retrieval, initial readiness and paired cancellation/expir
 with migration 011. These are internal records without an SSE publisher or new
 HTTP route. Public acceptance remains 501; native delivery/reconnect/abort
 presentation, later readiness phases and human turns remain required.
+
+[Research stream delivery](shared-battle-stream-delivery.md) supplies a separate
+opt-in SSE/ready bridge, current-generation fencing and server-ended/EOF cleanup.
+Its HTTP tests pass; the native client control path is statically established.
+Actual Android startup/recovery capture and the remaining human battle lifecycle
+still block public approval.

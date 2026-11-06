@@ -1873,7 +1873,7 @@
       "server_evidence": {
         "file": "session/battle/ready/index.php",
         "line": 1,
-        "sha256": "5a60a8af501008ca1c96610d22da9fc1b3ea70e589e83e962158d9dfc4fd9e01"
+        "sha256": "0cd298252c0fd8b1d0e9a7147111d79e9d44c93d7b342ff8513c3216465cc9ee"
       },
       "implementation_status": "partial",
       "status_basis": "Reviewed PvWM READY arms one persisted 30-second deadline/private timer; duplicate READY does not extend; expired windows cancel atomically through ABANDONED. Original timing/penalty rules unknown.",
@@ -1920,7 +1920,23 @@
         "interrupted-battle reconnect/replay"
       ],
       "timeout_contract": "docs/protocol/battle-timeout-implementation.md",
-      "reviewed_contract": "docs/protocol/battle-timeout-implementation.md"
+      "reviewed_contract": "docs/protocol/battle-timeout-implementation.md",
+      "research_shared_battle_transport": {
+        "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
+        "default_enabled": false,
+        "contract": "docs/protocol/shared-battle-stream-delivery.md",
+        "acceptance_enabled": false
+      },
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_transport.php",
+          "sha256": "2fe1b6fb387f6527876ad262631db053cf1e91aa8bd2d99350301bc866d6334a"
+        },
+        {
+          "file": "lib/friend_battle_startup.php",
+          "sha256": "fbd01abd91e7fe575596b2232c77c44c5d67c235c0517565cd0093cde8635ac3"
+        }
+      ]
     },
     {
       "path": "/session/buy-item",
@@ -4807,7 +4823,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "a72d502d2e6a4387556cf509823951912dd6ac6a5c96b5fa99431b43f4378645"
+        "sha256": "9326933c8fae7f2138e8b1369a80d0b25dba44df17de4656b39a49f0df59c38a"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4884,8 +4900,22 @@
         {
           "file": "lib/friend_battle_membership.php",
           "sha256": "5a682cbb5de0fe0eb48524b2aded618e376acfb40b56be818d7f3f358821f11e"
+        },
+        {
+          "file": "lib/friend_battle_transport.php",
+          "sha256": "2fe1b6fb387f6527876ad262631db053cf1e91aa8bd2d99350301bc866d6334a"
+        },
+        {
+          "file": "lib/friend_battle_startup.php",
+          "sha256": "fbd01abd91e7fe575596b2232c77c44c5d67c235c0517565cd0093cde8635ac3"
         }
-      ]
+      ],
+      "research_shared_battle_transport": {
+        "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
+        "default_enabled": false,
+        "contract": "docs/protocol/shared-battle-stream-delivery.md",
+        "acceptance_enabled": false
+      }
     },
     {
       "path": "/support",

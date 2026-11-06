@@ -60,3 +60,11 @@ fixed lease and paired cancellation/expiry. Next, verify and implement safe nati
 delivery across rooms/fresh connections, duplicate-start handling and transport
 loss/abort presentation. Keep public acceptance disabled until the client lifecycle
 is safe. Later-phase readiness identity, paired moves and combat remain separate.
+
+[Research-gated startup delivery](shared-battle-stream-delivery.md) now passes
+cross-room/private SSE, at-most-once attempts, initial ready and interruption
+tests (migration 012). Before enabling approval, capture the Android intro and
+server-ended/fresh-connect/join behavior on dedicated accounts; verify loss,
+duplicate-start and slow-client cases. The default service and public approval
+remain disabled for shared starts. Run the existing startup-expiry scheduler
+separately when exercising clients that may both disappear.

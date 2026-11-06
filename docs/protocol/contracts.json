@@ -1355,6 +1355,26 @@
         "terminal": "recipient revoked; sender declined for terminal/effectively expired; repeat <=1/sec until max(expires_at,updated_at)+5sec",
         "origin": "Explicit replacement policy, not original server delivery rules."
       }
+    },
+    "session:end": {
+      "client_type": "NetworkSessionAPI.ESEndedHandler",
+      "handler_address": "0x17b6b48",
+      "managed_fields": [],
+      "implementation_status": "partial",
+      "evidence_confidence": "statically established",
+      "reviewed_protocol": {
+        "reference": "docs/protocol/shared-battle-stream-contract.md",
+        "payload": {},
+        "payload_fields": "none consumed; nonempty data required by transport wrapper",
+        "server_sequence": [
+          "session:end with data:{}",
+          "flush",
+          "clean EOF"
+        ],
+        "client_control_flow": "SERVER_ENDED -> disconnect -> server-message/sign-in -> fresh connect -> world after successful room join",
+        "runtime_coverage": "isolated SSE framing/EOF observed; Android UI recovery not exercised",
+        "scope": "research gate only; not a human terminal result or transparent battle resume"
+      }
     }
   },
   "transport": {
