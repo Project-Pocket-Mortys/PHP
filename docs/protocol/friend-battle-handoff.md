@@ -71,3 +71,7 @@ either account. Shell syntax, Python syntax and protocol/source checks passed.
 This branch starts from current main `9ff1a11`, with pending prerequisite PR #37
 at `0512681` and its dependency history. It targets main without deployment,
 migration or changes to README-completed feature status.
+
+## Private start-view preparation
+
+[Recipient-specific start views](private-battle-start-views.md) now freeze owner inventory/resources and public trainer profiles from existing immutable parties. Migration 010 stores both projections plus a capture marker; seven additional resource/profile writers serialize with shared participant claims. This is an internal preparation step: acceptance remains 501, with publication, readiness/reconnect, human turns and terminal cleanup still pending. Native evidence supports wire fields; no live client start or original combat formula is claimed.

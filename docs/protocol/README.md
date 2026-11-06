@@ -1,9 +1,15 @@
 # Pocket Mortys protocol research handoff
 
+[Private start views](private-battle-start-views.md) now freeze owner-only
+inventory/resources and public trainer profiles into separate recipient bodies.
+Apply migration 010. Seven additional resource/profile writers now serialize
+with shared claims. Publication, readiness/reconnect and human terminal cleanup
+still block public acceptance; no playable human battle is claimed.
+
 [Immutable party snapshots](battle-party-snapshots.md) now freeze both reserved
 parties from actual stored Morty/attack rows. Apply migration 009. Party writers
-use reservation guards and user locks; inventory/profile policy, private starts,
-readiness and reconnect still block public acceptance.
+use reservation guards and user locks. Private start-view capture builds on
+these snapshots without changing their raw stored facts.
 
 [Preparation deadlines](battle-preparation-deadlines.md) now bound new internal
 reservations and release coherent claims after expiry, invitation closure or
@@ -13,8 +19,7 @@ CLI worker handles disconnected participants. Acceptance remains unavailable.
 [Shared battle membership](shared-battle-membership.md) now supplies internal
 two-player reservation/cancellation and both-side world/wild/invitation guards.
 Apply migration 007. No public route invokes this preparation foundation;
-invitation acceptance remains unavailable pending deadlines, snapshots and
-the remaining shared lifecycle.
+invitation acceptance remains unavailable pending the remaining shared lifecycle.
 
 [Friend battle invitations](friend-battle-invitation-implementation.md) now
 support send, decline, cancel and expiry with role-bound tokens and private
@@ -23,8 +28,9 @@ shared human battle participation and lifecycle are implemented.
 
 [Friend battle contracts](friend-battle-handoff.md) now map the missing invite
 routes, four events and human battle-start/readiness handoff. Android's Battle
-button reaches the absent create route and receives Apache 404. The shared
-two-player battle lifecycle remains an implementation task.
+button originally reached an absent create route and received Apache 404;
+the invitation implementation above now handles that route. The remaining
+shared two-player battle lifecycle is still an implementation task.
 
 [Absorption eligibility](absorb-eligibility-implementation.md) now requires
 same-species donors and the recovered directional Normal/Shiny/Pulsing blend

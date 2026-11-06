@@ -12,7 +12,7 @@ failure blocks gameplay or exposes another player's data.
 | 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
 | 4 | Crafting | 22 multiplayer recipes implemented atomically; Android Serum Quick Craft and inventory verified (`crafting-implementation.md`). |
 | 5 | Wild battles and catching | Durable attack/run/victory/defeat, party switching/forced replacement and safe selection expiry implemented (`battle-timeout-implementation.md`). Recover trustworthy stats/attacks, capture consumption/owned records and rewards; original combat rules and reconnect remain. |
-| 6 | Bot/friend battles | Invitations, internal membership/deadlines and immutable parties/writer guards now work (`battle-party-snapshots.md`, migration009). Acceptance remains unavailable; inventory/profile policy, private starts/readiness/reconnect and terminal cleanup remain. Human combat and bot modes are separate. |
+| 6 | Bot/friend battles | Invitations, internal membership/deadlines and immutable parties/writer guards now work (`battle-party-snapshots.md`, migration009). Private recipient start views and frozen profile/inventory policy are implemented internally (`private-battle-start-views.md`, migration010). Acceptance remains unavailable; private publication/readiness/reconnect and terminal cleanup remain. Human combat and bot modes are separate. |
 | 7 | Challenges, raids and events | Implement claims and event battles after their underlying battle/reward flows work; no invented success responses. |
 
 This order favors independently usable additions and their dependencies; it is

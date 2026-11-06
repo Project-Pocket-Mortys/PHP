@@ -1949,7 +1949,7 @@
       "server_evidence": {
         "file": "session/buy-item/index.php",
         "line": 1,
-        "sha256": "ce78262359f2949eef4d46be0f558fffe031876027b5901ee86433756f788e3d"
+        "sha256": "c00faf2ff79651bda7f47bcbf7a6f8dabe07acd2209f931c0aceef842d256373"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Salesman Rick's; runtime compatibility not yet verified",
@@ -1991,6 +1991,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -2100,7 +2107,7 @@
       "server_evidence": {
         "file": "session/collect-pickup/index.php",
         "line": 1,
-        "sha256": "b80427beaeca9f9840624746f50b1b46088f19941a32815f08c3fae081486dad"
+        "sha256": "5e7a3b15ef2592f0072ed1e068b3c5c4ea216aaf2b467c86b195e99a1a7ddf96"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Fix item spawning; runtime compatibility not yet verified",
@@ -2147,6 +2154,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -2342,7 +2356,7 @@
       "server_evidence": {
         "file": "session/decks/slots/buy/index.php",
         "line": 1,
-        "sha256": "b12a20a6860f94b9efa882f9abc5c7a277bc81a8e4a9d9864b9e5ba8bff0cee9"
+        "sha256": "1de2beb8295815081c239cf3393c6c27cf01aaad857c3cb531f180c458d9effe"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Buy deck slots; runtime compatibility not yet verified",
@@ -2375,6 +2389,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -4011,7 +4032,7 @@
       "server_evidence": {
         "file": "session/player-avatar/buy/index.php",
         "line": 1,
-        "sha256": "3c864f72341f22901d1156c0674b96fe92bf8ceb2f305a0532be378902fe11f3"
+        "sha256": "0be109de684826145754a5e4034701fced443d2dc31fc6587e6fe7a164d51fcf"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4046,6 +4067,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -4128,7 +4156,7 @@
       "server_evidence": {
         "file": "session/player-avatar/set-active/index.php",
         "line": 1,
-        "sha256": "faa183d085005229768353e968854eb615677af9242849e2fb0a90f4dbd1debc"
+        "sha256": "3257b26761dacaf8ca9980fd7890b6292c5a31e7576413a5e3df082e6c8d3145"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4159,6 +4187,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -4336,7 +4371,7 @@
       "server_evidence": {
         "file": "session/recipe/use/index.php",
         "line": 1,
-        "sha256": "583f749cf7125dff6cd6f75ac3bd2c2a80cdd74664e0e40d021c306751499479"
+        "sha256": "b1ad1e1d6f6a58ba036b76c4b05b6b0bad854185235b863f55cc2c88f9afe27c"
       },
       "status_basis": "All 22 catalog recipes; atomic ingredients/output, owner scoping and client cap; Android Serum Quick Craft verified",
       "http_method": "POST",
@@ -4345,6 +4380,13 @@
         "crafting-data.md",
         "crafting-implementation.md",
         "crafting-capture.json"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
@@ -5362,7 +5404,7 @@
       "server_evidence": {
         "file": "trading/request-morty/index.php",
         "line": 1,
-        "sha256": "fcd959032fff48628d5dfad9beb25d706137dd021d11a0b75fa8b744157957fd"
+        "sha256": "7746ce8497e92e77a6758d74b18564bd9c8bf155241bffc22fe5d2abb91f5f06"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -5408,6 +5450,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "start_context_preparation_guard": "docs/protocol/private-battle-start-views.md (guard only; existing operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/preparation_writer_guard.php",
+          "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
+        }
       ]
     },
     {
