@@ -111,9 +111,12 @@ replacement session cookie; static native Best.HTTP support and real HTTP
 CookieJar flow are verified. The later SDK recovery proves native outgoing-cookie
 transport; cancellation-button capture remains pending. The initial OneTrust
 startup failure is retained as historical evidence, superseded for startup by
-the isolated recovery. Bounded same-hub navigation did not locate a verified
-trading kiosk; inspect scene/prefab/config placement for interaction type 18
-before further UI acceptance. This is not evidence of feature removal.
+the isolated recovery. [Kiosk placement and native entry](trading-kiosk-reachability.md)
+are now verified in the first dimension: the retained client opened Barter Rick,
+Trade slots and Browse's empty state. Original APK resources place kiosks in all
+seven dimension prefabs; runtime reachability in the others remains unverified.
+Use separate disposable listings/accounts for actual cancellation and refresh
+acceptance; preserve the retained startup collections and history.
 Acceptance/offer binding, protected donor creation, full transfer/party effects
 and original refunds/cooldowns remain separate; existing trade completion claims
 in the README are retained as baseline behavior. Player-details lock projection,

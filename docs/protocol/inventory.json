@@ -5215,7 +5215,9 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
-      ]
+      ],
+      "native_read_observation": "docs/protocol/trading-kiosk-results.json",
+      "native_read_observation_limit": "Observed HTTP 200 on retained Android 2.41.0; empty listing data. Original service, nonempty trading flows and mutation acceptance remain unverified."
     },
     {
       "path": "/trading/get-trades",
@@ -5322,7 +5324,9 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
-      ]
+      ],
+      "native_read_observation": "docs/protocol/trading-kiosk-results.json",
+      "native_read_observation_limit": "Observed HTTP 200 on retained Android 2.41.0; empty listing data. Original service, nonempty trading flows and mutation acceptance remain unverified."
     },
     {
       "path": "/trading/offer-morty",

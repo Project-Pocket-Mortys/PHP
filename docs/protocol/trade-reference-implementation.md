@@ -74,6 +74,10 @@ $researchPython = Join-Path $env:LOCALAPPDATA 'Python\pythoncore-3.14-64\python.
 
 ## Native reachability and remaining work
 
+Later verification: [native kiosk entry](trading-kiosk-reachability.md) now reaches
+Barter Rick, Trade slots and Browse's empty state. The earlier bounded failure
+below remains historical evidence; cancellation and refresh are still unverified.
+
 Static navigation identifies world interaction `TRADE_KIOSK=18`, then
 `MPWorldState.AttemptToOpenTrade` and `MPTradingState`; the root UI has Browse
 and Trades actions. It is not the Phone Friends menu. A guarded same-hub Android

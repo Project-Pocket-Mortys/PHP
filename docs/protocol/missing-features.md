@@ -8,9 +8,9 @@ failure blocks gameplay or exposes another player's data.
 Latest trade repair: [durable reference protection](trade-reference-implementation.md)
 keeps player-details locks visible and protects absorption; owners can withdraw
 exact orphan offers. Native cookie transport is now observed. Trading-kiosk
-reachability, actual cancellation buttons, acceptance authorization/offer binding
-and other full-Morty serializers remain open; the baseline claims below are
-preserved.
+entry is now [observed in the first dimension](trading-kiosk-reachability.md).
+Actual cancellation buttons, acceptance authorization/offer binding and other
+full-Morty serializers remain open; the baseline claims below are preserved.
 
 | Order | Feature | Next deliverable and acceptance |
 |---|---|---|
