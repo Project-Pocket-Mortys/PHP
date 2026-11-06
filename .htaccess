@@ -6,6 +6,7 @@ RewriteRule ^AssetBundles/AssetBundle-android:1011-ios:1011__7b175320/(.*)$ Asse
 
 # Disable Apache's automatic slash redirect for this path
 DirectorySlash Off
+RewriteRule ^trading/(cancel-trade|cancel-trade-offer)$ /trading/$1/ [L]
 RewriteRule ^session/battle-invite/(create|response|revoke)$ /session/battle-invite/$1/ [L]
 
 #when behind proxy
