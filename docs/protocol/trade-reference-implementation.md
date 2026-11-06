@@ -74,6 +74,10 @@ $researchPython = Join-Path $env:LOCALAPPDATA 'Python\pythoncore-3.14-64\python.
 
 ## Native reachability and remaining work
 
+Subsequent [native own-request acceptance](native-trade-cancellation.md) now proves
+creation/cancellation and spare lock true/false refreshes on a separate disposable
+account. Offer cancellation and broader lock reconciliation remain open.
+
 Later verification: [native kiosk entry](trading-kiosk-reachability.md) now reaches
 Barter Rick, Trade slots and Browse's empty state. The earlier bounded failure
 below remains historical evidence; cancellation and refresh are still unverified.

@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Native own-request creation/cancellation](native-trade-cancellation.md) now passes
+on a separate disposable Android account, including trading-lock true/false
+refreshes. Its capture exposed a missing stored-cooldown projection; the repaired
+read now matches the database and disables the native free slot with a countdown.
+Offer cancellation and transfer authorization remain separate acceptance work.
+
 [Two Android startup/recovery captures](android-shared-startup.md) now verify
 private human start rendering, native readiness, server-ended EOF and automatic
 login/room rejoin on fresh dedicated accounts. No moves were selected; public

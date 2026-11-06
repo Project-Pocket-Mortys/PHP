@@ -1,5 +1,10 @@
 # Owner-scoped trade cancellation
 
+Later native acceptance: a [separate disposable client](native-trade-cancellation.md)
+created and cancelled its own free request with the ID-only cookie-authenticated
+body and lock refresh. Offer cancellation remains unverified. Its captured
+cooldown projection defect is repaired in that follow-up.
+
 Later verification: [isolated startup recovery](onetrust-startup-recovery.md)
 now passes native login and [actual trading cookie transmission](onetrust-recovery-cookie-handoff.json).
 The earlier failed captures below remain historical evidence. Cancellation

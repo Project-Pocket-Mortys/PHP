@@ -3,8 +3,8 @@
 Latest SDK prerequisite: [isolated native offline-path recovery](onetrust-startup-recovery.md)
 now passes retained-client startup, login, world entry and actual trading cookie
 transmission, with unchanged SDK files and guarded saves. Exact Android online
-SDK-fetch failure attribution, independent paired-client fixtures, cancellation
-buttons and wider trading-lock reconciliation remain. Player details and
+SDK-fetch failure attribution, independent paired-client fixtures, offer
+cancellation buttons and wider trading-lock reconciliation remain. Player details and
 absorption now honor [durable trade references](trade-reference-implementation.md);
 other Morty serializers and legacy true flags remain explicit gaps. This does not grant
 consent or establish universal optional-SDK denial; keep external isolation.
@@ -109,14 +109,19 @@ the exact listing owner, retires only that listing and dependent offers, and
 serializes parent cancellation with offer creation. Login provisions a scoped
 replacement session cookie; static native Best.HTTP support and real HTTP
 CookieJar flow are verified. The later SDK recovery proves native outgoing-cookie
-transport; cancellation-button capture remains pending. The initial OneTrust
+transport; own-request cancellation is now observed on a separate disposable
+client. Offer-cancellation capture remains pending. The initial OneTrust
 startup failure is retained as historical evidence, superseded for startup by
 the isolated recovery. [Kiosk placement and native entry](trading-kiosk-reachability.md)
 are now verified in the first dimension: the retained client opened Barter Rick,
 Trade slots and Browse's empty state. Original APK resources place kiosks in all
 seven dimension prefabs; runtime reachability in the others remains unverified.
-Use separate disposable listings/accounts for actual cancellation and refresh
-acceptance; preserve the retained startup collections and history.
+[Native free request creation/cancellation and lock refresh](native-trade-cancellation.md)
+now pass on PMTrade01/5564 with an explicitly synthetic non-party spare. GetTrades
+now returns the authenticated account's existing stored cooldown; native reload
+shows the disabled free slot/countdown. Preserve its snapshots and prepared data.
+Next use a second disposable account for native offer creation/cancellation and
+refresh acceptance; preserve the retained startup collections and history.
 Acceptance/offer binding, protected donor creation, full transfer/party effects
 and original refunds/cooldowns remain separate; existing trade completion claims
 in the README are retained as baseline behavior. Player-details lock projection,

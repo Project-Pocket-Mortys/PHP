@@ -9,12 +9,15 @@ Latest trade repair: [durable reference protection](trade-reference-implementati
 keeps player-details locks visible and protects absorption; owners can withdraw
 exact orphan offers. Native cookie transport is now observed. Trading-kiosk
 entry is now [observed in the first dimension](trading-kiosk-reachability.md).
-Actual cancellation buttons, acceptance authorization/offer binding and other
-full-Morty serializers remain open; the baseline claims below are preserved.
+Native own-request creation/cancellation and lock refresh now
+[pass on a disposable client](native-trade-cancellation.md), and GetTrades now
+projects its stored cooldown correctly. Offer cancellation, acceptance
+authorization/offer binding and other full-Morty serializers remain open; the
+baseline claims below are preserved.
 
 | Order | Feature | Next deliverable and acceptance |
 |---|---|---|
-| 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); same-species/variant absorption checks now reject incompatible batches (`absorb-eligibility-implementation.md`). Point-only absorption now preserves a living active party (`absorb-active-party-implementation.md`). Owner-scoped trade/offer cancellation is implemented (`trade-cancellation-implementation.md`); native cookie/button acceptance, offer acceptance authorization and protected donor creation remain separate. |
+| 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); same-species/variant absorption checks reject incompatible batches (`absorb-eligibility-implementation.md`). Point-only absorption preserves a living active party (`absorb-active-party-implementation.md`). Owner-scoped trade/offer cancellation is implemented; native own-request creation/cancellation and lock refresh pass (`native-trade-cancellation.md`). Native offer cancellation, acceptance authorization and protected donor creation remain separate. |
 | 2 | Use items | Eight HP items, full revival/AP restoration and targeted poison/paralysis cures work in world and battle (`battle-item-implementation.md`); Pure Curum combined HP/ailment recovery is implemented (`full-recover-implementation.md`). Account Shiny Potion activation/expiry is implemented (`shiny-potion-implementation.md`). Finish percentage variants, stat/damage/general items and authentic timing; remaining numeric evidence gaps are in `remaining-item-evidence.md`. |
 | 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
 | 4 | Crafting | 22 multiplayer recipes implemented atomically; Android Serum Quick Craft and inventory verified (`crafting-implementation.md`). |

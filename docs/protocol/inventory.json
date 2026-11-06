@@ -4365,7 +4365,9 @@
         }
       ],
       "trade_reference_contract": "docs/protocol/trade-reference-implementation.md",
-      "trade_lock_projection": "Existing legacy flag conversion OR any durable request/offer reference; no raw flag writes. Other serializers remain separate."
+      "trade_lock_projection": "Existing legacy flag conversion OR any durable request/offer reference; no raw flag writes. Other serializers remain separate.",
+      "native_request_cancellation_observation": "docs/protocol/native-trade-cancellation-results.json",
+      "native_request_cancellation_limit": "Observed disposable own-request/free creation and cancellation, Boolean lock true/false refresh, and post-fix stored cooldown projection; offers, transfer and original-service policy remain separate."
     },
     {
       "path": "/session/player-flag",
@@ -5120,7 +5122,9 @@
           "file": "lib/trade_cancellation.php",
           "sha256": "5f3509438f86619f10f03dec377b27c469e60770a28d49a88b65d34d9f653465"
         }
-      ]
+      ],
+      "native_request_cancellation_observation": "docs/protocol/native-trade-cancellation-results.json",
+      "native_request_cancellation_limit": "Observed disposable own-request/free creation and cancellation, Boolean lock true/false refresh, and post-fix stored cooldown projection; offers, transfer and original-service policy remain separate."
     },
     {
       "path": "/trading/cancel-trade-offer",
@@ -5246,10 +5250,10 @@
       "server_evidence": {
         "file": "trading/get-trades/index.php",
         "line": 1,
-        "sha256": "1a92a39f425967e7ba84e66c98e065be4a59f1b818f492388827c6dac02d3ef0"
+        "sha256": "a9c701e5ba0cea980a6bfda057921b1e95579fa707a64ecbe354c33655cbb24e"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
+      "status_basis": "provisional source triage; small static responses may be legitimate Authenticated-session lookup now selects existing expiry_trade for its unchanged cooldown projection; no duration or economic-policy change.",
       "evidence_confidence": "statically established (server behavior only)",
       "http_method": "unknown; PHP route does not necessarily enforce method",
       "input_field_candidates": [
@@ -5326,7 +5330,10 @@
         "runtime verification"
       ],
       "native_read_observation": "docs/protocol/trading-kiosk-results.json",
-      "native_read_observation_limit": "Observed HTTP 200 on retained Android 2.41.0; empty listing data. Original service, nonempty trading flows and mutation acceptance remain unverified."
+      "native_read_observation_limit": "Observed HTTP 200 on retained Android 2.41.0; empty listing data. Original service, nonempty trading flows and mutation acceptance remain unverified.",
+      "native_request_cancellation_observation": "docs/protocol/native-trade-cancellation-results.json",
+      "native_request_cancellation_limit": "Observed disposable own-request/free creation and cancellation, Boolean lock true/false refresh, and post-fix stored cooldown projection; offers, transfer and original-service policy remain separate.",
+      "cooldown_contract": "docs/protocol/native-trade-cancellation.md"
     },
     {
       "path": "/trading/offer-morty",
@@ -5562,7 +5569,9 @@
           "file": "lib/preparation_writer_guard.php",
           "sha256": "ded47a58df603cdf26b6516e701ed04f5b16fa5451bd81c7e02c6dcf3b5b465c"
         }
-      ]
+      ],
+      "native_request_cancellation_observation": "docs/protocol/native-trade-cancellation-results.json",
+      "native_request_cancellation_limit": "Observed disposable own-request/free creation and cancellation, Boolean lock true/false refresh, and post-fix stored cooldown projection; offers, transfer and original-service policy remain separate."
     },
     {
       "path": "/user/login",
