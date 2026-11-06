@@ -1,4 +1,4 @@
-"""Prepare isolated startup-capture AVDs; never reuse original research userdata."""
+"""Prepare isolated startup/trading AVDs; never reuse original research userdata."""
 import argparse
 import hashlib
 import json
@@ -14,7 +14,9 @@ WORK = ROOT / '.research/emulator'
 SDK = WORK / 'sdk'
 AVDS = WORK / 'avd'
 DEVICES = {'primary': ('PocketMortys_API30_Startup', 5560),
-           'peer': ('PocketMortys_API30_Startup_Peer', 5562)}
+           'peer': ('PocketMortys_API30_Startup_Peer', 5562),
+           'trade-primary': ('PocketMortys_API30_Trading', 5564),
+           'trade-peer': ('PocketMortys_API30_Trading_Peer', 5566)}
 PACKAGE = 'com.turner.pocketmorties'
 
 

@@ -9,7 +9,7 @@ import threading
 import time
 import uuid
 
-from startup_capture_device import Device, ROOT, SDK
+from startup_capture_device import Device, ROOT, SDK, DEVICES
 
 
 def utc():
@@ -117,7 +117,7 @@ def capture(role, duration, output, screens=None):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--role', choices=('primary', 'peer'), required=True)
+    parser.add_argument('--role', choices=DEVICES, required=True)
     parser.add_argument('--duration', type=int, default=60)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--screens', type=int, help='Screenshot interval, 3..10 seconds')
