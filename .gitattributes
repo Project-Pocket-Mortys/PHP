@@ -1,3 +1,4 @@
+.gitattributes text eol=lf
 tools/research/** text eol=lf
 tests/protocol/** text eol=lf
 docs/protocol/** text eol=lf
@@ -7,3 +8,64 @@ sse/index.php text eol=lf
 session/leave-room/index.php text eol=lf
 session/join-room/index.php text eol=lf
 session/ping-dynamic/index.php text eol=lf
+compose.research-udp-tunnel.yaml text eol=lf
+
+session/owned_morties/lock/index.php text eol=lf
+
+session/use-item/index.php text eol=lf
+lib/healing_items.php text eol=lf
+lib/battle_timeouts.php text eol=lf
+lib/shiny_potion.php text eol=lf
+session/use-shiny-potion/index.php text eol=lf
+
+config/attack_max_ap.json text eol=lf
+
+lib/morty_release.php text eol=lf
+lib/morty_absorb.php text eol=lf
+lib/friends.php text eol=lf
+lib/friend_battle_invites.php text eol=lf
+lib/friend_invite_stream.php text eol=lf
+lib/friend_battle_membership.php text eol=lf
+lib/friend_battle_preparations.php text eol=lf
+lib/friend_battle_party_snapshots.php text eol=lf
+lib/trade_membership_guard.php text eol=lf
+session/deck/edit/index.php text eol=lf
+session/deck/set-active/index.php text eol=lf
+session/gacha/index.php text eol=lf
+session/owned_morties/learn-attacks/index.php text eol=lf
+session/heal/index.php text eol=lf
+trading/offer-response/index.php text eol=lf
+config/multiplayer_morty_ids.json text eol=lf
+lib/battle_membership_guard.php text eol=lf
+lib/world_action_guard.php text eol=lf
+session/battle-wild-morty/index.php text eol=lf
+session/battle-invite/** text eol=lf
+session/friend/** text eol=lf
+session/owned_morties/absorb/index.php text eol=lf
+session/owned_morties/attempt-release-multiple/index.php text eol=lf
+session/owned_morties/release-multiple/index.php text eol=lf
+
+session/recipe/use/index.php text eol=lf
+config/crafting_recipes.json text eol=lf
+
+session/buy-item/index.php text eol=lf
+session/player-avatar/buy/index.php text eol=lf
+session/player-avatar/set-active/index.php text eol=lf
+session/decks/slots/buy/index.php text eol=lf
+trading/request-morty/index.php text eol=lf
+lib/preparation_writer_guard.php text eol=lf
+session/collect-pickup/index.php text eol=lf
+
+lib/friend_battle_start_views.php text eol=lf
+lib/friend_battle_startup.php text eol=lf
+lib/friend_battle_transport.php text eol=lf
+session/battle/ready/index.php text eol=lf
+config/multiplayer_start_ids.json text eol=lf
+tools/research/ghidra-private-start-context.sh text eol=lf
+tools/research/export_start_identity_catalog.py text eol=lf
+tools/research/server/migrations/010-friend-battle-start-views.sql text eol=lf
+tools/research/check_gameplay_integration.py text eol=lf
+tests/protocol/test_friend_battle_start_views.py text eol=lf
+tests/protocol/test_start_context_writer_guards.py text eol=lf
+tests/protocol/test_crafting_pickup_preparation_guards.py text eol=lf
+docs/protocol/private-battle-start-views.md text eol=lf

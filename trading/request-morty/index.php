@@ -5,9 +5,10 @@ header("Access-Control-Allow-Origin: *");
 header("Vary: Accept-Encoding");
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../lib/preparation_writer_guard.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -31,18 +32,7 @@ function uuidv4() {
 
 try {
 
-    // ============================
-    // 🔐 AUTH
-    // ============================
-    $stmt = $pdo->prepare("SELECT player_id, coupons FROM users WHERE session_id = ? LIMIT 1");
-    $stmt->execute([$session_id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode(["error" => ["code" => "NOT_AUTHENTICATED"]]);
-        exit;
-    }
+    $user = preparation_writer_lock($pdo, $session_id);
 
     $player_id = $user['player_id'];
     $coupons   = (int)$user['coupons'];
@@ -51,14 +41,15 @@ try {
     // 🧠 VERIFY MORTY OWNERSHIP
     // ============================
     $stmt = $pdo->prepare("
-        SELECT owned_morty_id 
-        FROM owned_morties 
+        SELECT owned_morty_id
+        FROM owned_morties
         WHERE owned_morty_id = ? AND player_id = ?
-        LIMIT 1
+        LIMIT 1 FOR UPDATE
     ");
     $stmt->execute([$owned_morty_id, $player_id]);
 
     if (!$stmt->fetch()) {
+        $pdo->rollBack();
         http_response_code(403);
         echo json_encode(["error" => ["code" => "INVALID_MORTY"]]);
         exit;
@@ -68,14 +59,15 @@ try {
     // 🚫 PREVENT DUPLICATE TRADES
     // ============================
     $stmt = $pdo->prepare("
-        SELECT trade_id 
-        FROM trades 
+        SELECT trade_id
+        FROM trades
         WHERE morty_trade_id = ?
         LIMIT 1
     ");
     $stmt->execute([$owned_morty_id]);
 
     if ($stmt->fetch()) {
+        $pdo->rollBack();
         http_response_code(409);
         echo json_encode(["error" => ["code" => "ALREADY_TRADING"]]);
         exit;
@@ -87,15 +79,16 @@ try {
     if (!$is_free_trade) {
 
         if ($coupons < $TRADE_COST) {
+            $pdo->rollBack();
             http_response_code(409);
             echo json_encode(["error" => ["code" => "NOT_ENOUGH_COUPONS"]]);
             exit;
         }
-		
+
         // Deduct coupon
         $pdo->prepare("
-            UPDATE users 
-            SET coupons = coupons - ? 
+            UPDATE users
+            SET coupons = coupons - ?
             WHERE player_id = ?
         ")->execute([$TRADE_COST, $player_id]);
 
@@ -107,19 +100,19 @@ try {
     // ============================
     $trade_id = uuidv4();
     $created  = gmdate("Y-m-d\TH:i:s.v\Z");
-    
+
 	if ($is_free_trade) {
 	// PLAYER COOLDOWN DATA
 	$expiry = gmdate("Y-m-d\TH:i:s.v\Z", time()+3600);
     $pdo->prepare("
-        UPDATE users 
-        SET expiry_trade = ? 
+        UPDATE users
+        SET expiry_trade = ?
         WHERE player_id = ?
     ")->execute([$expiry, $player_id]);
 	}
-	
+
     $pdo->prepare("
-        INSERT INTO trades 
+        INSERT INTO trades
         (trade_id, player_id, morty_trade_id, requested_morty_id, request_variant, is_free_trade, created_at)
         VALUES (?, ?, ?, ?, ?, ?, NOW())
     ")->execute([
@@ -134,6 +127,7 @@ try {
     // ============================
     // ✅ RESPONSE
     // ============================
+    $pdo->commit();
     echo json_encode([
         "error" => "None",
         "trade" => [
@@ -149,12 +143,12 @@ try {
     ], JSON_UNESCAPED_SLASHES);
 
 } catch (Throwable $e) {
-    http_response_code(500);
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    http_response_code($e instanceof FriendError ? $e->status : 500);
     echo json_encode([
-        "error" => ["code" => "SERVER_ERROR"]
+        "error" => ["code" => $e instanceof FriendError ? $e->getMessage() : "SERVER_ERROR"]
     ]);
 }
-
 
 /*
 {
