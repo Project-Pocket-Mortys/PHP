@@ -4702,7 +4702,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "a461c10763800fc71b7381f6ea1c05746d55c469401ee90b9891fd37bb6ae48c"
+        "sha256": "a72d502d2e6a4387556cf509823951912dd6ac6a5c96b5fa99431b43f4378645"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -4771,6 +4771,14 @@
         {
           "file": "lib/friend_invite_stream.php",
           "sha256": "74b8527d5e7b00924747c4027f73fada342d025d9a34e6d5a4c1a5dc9366a838"
+        },
+        {
+          "file": "lib/friend_battle_preparations.php",
+          "sha256": "abb240d1726cb8891668cfed965212b38d998510d877901b43c1cd696244f353"
+        },
+        {
+          "file": "lib/friend_battle_membership.php",
+          "sha256": "5a682cbb5de0fe0eb48524b2aded618e376acfb40b56be818d7f3f358821f11e"
         }
       ]
     },

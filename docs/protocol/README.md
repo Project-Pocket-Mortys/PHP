@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Preparation deadlines](battle-preparation-deadlines.md) now bound new internal
+reservations and release coherent claims after expiry, invitation closure or
+friendship removal. Apply migration 008. SSE checks active clients; an optional
+CLI worker handles disconnected participants. Acceptance remains unavailable.
+
 [Shared battle membership](shared-battle-membership.md) now supplies internal
 two-player reservation/cancellation and both-side world/wild/invitation guards.
 Apply migration 007. No public route invokes this preparation foundation;

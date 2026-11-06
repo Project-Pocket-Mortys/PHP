@@ -1,5 +1,11 @@
 # Shared friend-battle membership foundation
 
+The follow-up [preparation deadlines](battle-preparation-deadlines.md) adds
+bounded automatic cleanup through SSE and an optional scheduler for preparations
+with known deadlines. Historical NULL deadlines and malformed claims still
+require explicit review/cancellation. The original foundation's scope and checks
+below are retained as milestone evidence.
+
 This branch builds on main `9ff1a11`, prerequisite PR #39 at `e73b96e`, and its
 dependency history.
 
