@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Immutable party snapshots](battle-party-snapshots.md) now freeze both reserved
+parties from actual stored Morty/attack rows. Apply migration 009. Party writers
+use reservation guards and user locks; inventory/profile policy, private starts,
+readiness and reconnect still block public acceptance.
+
 [Preparation deadlines](battle-preparation-deadlines.md) now bound new internal
 reservations and release coherent claims after expiry, invitation closure or
 friendship removal. Apply migration 008. SSE checks active clients; an optional

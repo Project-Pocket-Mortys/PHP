@@ -2177,7 +2177,7 @@
       "server_evidence": {
         "file": "session/deck/edit/index.php",
         "line": 1,
-        "sha256": "9d1b8220de09ddf126e3dd792fba6589fa79465fa9eba259fffa8c0a2bdc2790"
+        "sha256": "d7e234c58de3290f2e95230e2e4f2bc80221d435926df7e0fe0e54d2a2075690"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -2228,6 +2228,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -2257,7 +2264,7 @@
       "server_evidence": {
         "file": "session/deck/set-active/index.php",
         "line": 1,
-        "sha256": "055e557eac3088a2fa4110fda397316a2c7277eefed32b3a30fcdbe5d1500183"
+        "sha256": "eeaeeffbec7a6b68e736a30171288a696ec5ba6cfcffd479340de16655f4d859"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -2300,6 +2307,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3112,7 +3126,7 @@
       "server_evidence": {
         "file": "session/gacha/index.php",
         "line": 1,
-        "sha256": "6966a2f0de3a9565e822809cd43af6d31103137f8bbb6dcdf90564b736876108"
+        "sha256": "81ed739cc84199242c24f595f81b41e4312a37a2a5c05289a496f1832f2a62f9"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -3182,6 +3196,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3257,7 +3278,7 @@
       "server_evidence": {
         "file": "session/heal/index.php",
         "line": 1,
-        "sha256": "7f0db828d70df2d9589f17032a23a7774c14ba5e474501943757cde25cd81ce7"
+        "sha256": "48babf0947bf98d2bd65935c733dfc78c6f5ff343fab6d3804efba4b2ea14388"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Healing; runtime compatibility not yet verified",
@@ -3322,7 +3343,14 @@
         "runtime verification"
       ],
       "integration_contract": "docs/protocol/gameplay-integration.md",
-      "ailment_contract": "docs/protocol/status-cure-implementation.md"
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
+      ]
     },
     {
       "path": "/session/incentive/reject",
@@ -3716,6 +3744,13 @@
         "morty-release-contract.md",
         "morty-release-implementation.md",
         "morty-release-capture.json"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3746,7 +3781,7 @@
       "server_evidence": {
         "file": "session/owned_morties/learn-attacks/index.php",
         "line": 1,
-        "sha256": "c62123cc7f7ae6a8c46507da1ea28e4838a51ba8635c2099f12bc3b170e306c9"
+        "sha256": "756a114f675716452330cabf4713ecce941d58e484907f1eb05ae2ca0cfa530b"
       },
       "implementation_status": "implemented",
       "status_basis": "README Completed: Learn Attacks; runtime compatibility not yet verified",
@@ -3812,7 +3847,14 @@
         "retry semantics",
         "runtime verification"
       ],
-      "ailment_contract": "docs/protocol/status-cure-implementation.md"
+      "ailment_contract": "docs/protocol/status-cure-implementation.md",
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
+      ]
     },
     {
       "path": "/session/owned_morties/lock",
@@ -3848,13 +3890,20 @@
       "server_evidence": {
         "file": "session/owned_morties/lock/index.php",
         "line": 1,
-        "sha256": "a58758dbb289520b31e5d0ed3919c9a02ea7a77ad22bed7614e4a629b644a38c"
+        "sha256": "8aca6511fcdccb6125c5a9207a12151720d5d47806029596ce044c3a1db6b8d5"
       },
       "status_basis": "Owner-scoped toggle and persistence; destructive action protection remains separate",
       "http_method": "POST",
       "contract_evidence": [
         "morty-lock-contract.md",
         "morty-lock-capture.json"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -3899,6 +3948,13 @@
         "morty-release-contract.md",
         "morty-release-implementation.md",
         "morty-release-capture.json"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
       ]
     },
     {
@@ -4499,7 +4555,7 @@
       "server_evidence": {
         "file": "session/use-item/index.php",
         "line": 1,
-        "sha256": "72363bc8b75b0eb96dfc01cce6311eebb4ba03e793160526c03ff731debb5826"
+        "sha256": "6a2146d158aa991bbb5fd6a8566b39f06d0422707fb149adb2c4f0658c2cc860"
       },
       "implementation_status": "partial",
       "status_basis": "12 world items: eight HP, full revive/AP, targeted poison/paralysis cures. Native MP eligibility and typed updates, additive regressions and Android cures verified; remaining effects/battle use partial. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP.",
@@ -4531,7 +4587,14 @@
         "ap-maxima-contract.md"
       ],
       "ailment_contract": "docs/protocol/status-cure-implementation.md",
-      "full_recover_contract": "docs/protocol/full-recover-implementation.md"
+      "full_recover_contract": "docs/protocol/full-recover-implementation.md",
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/battle_membership_guard.php",
+          "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
+        }
+      ]
     },
     {
       "path": "/session/use-shiny-potion",
@@ -5224,7 +5287,7 @@
       "server_evidence": {
         "file": "trading/offer-response/index.php",
         "line": 1,
-        "sha256": "0f76195375f6f0beb1f47345b15a44861c1fa41648116da90c82f9422d88648e"
+        "sha256": "9d1844e86e49ad35da685bcf2cfaf8b305a9e8c103c3a1fd96a93cad9af51bf2"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -5259,6 +5322,13 @@
         "error compatibility",
         "retry semantics",
         "runtime verification"
+      ],
+      "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
+      "implementation_helpers": [
+        {
+          "file": "lib/trade_membership_guard.php",
+          "sha256": "784d37bda49fd9d5ac577bd787c440f0883c061c803898c2dc35fff72a8f95f8"
+        }
       ]
     },
     {
