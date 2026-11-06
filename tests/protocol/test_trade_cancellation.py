@@ -263,7 +263,7 @@ class TradeCancellationTests(unittest.TestCase):
         self.assertRegex(offer['_created'], r'^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$')
         self.assertEqual({k: v for k, v in offer.items() if k not in ('trade_offer_id', '_created')},
                          {'trade_id': self.trade, 'player_id': self.b, 'morty_offer_id': self.b,
-                          'request_user_name': self.a, 'offering_morty_id': 'Morty', 'request_morty_id': self.a})
+                          'request_user_name': 'TradeCancelFixture', 'offering_morty_id': 'Morty', 'request_morty_id': 'Morty'})
         after = self.snapshot()
         added = [row for row in after['offers'] if row['trade_offer_id'] == offer['trade_offer_id']]
         self.assertEqual(len(added), 1)

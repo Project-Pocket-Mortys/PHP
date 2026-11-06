@@ -4,6 +4,7 @@ header("X-Powered-By: Express");
 header("Access-Control-Allow-Origin: *");
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../lib/trade_offer_metadata.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -75,13 +76,13 @@ try {
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $trade_offers = [];
     foreach($rows as $r){
-        $trade_offers[] = [
+        $trade_offers[] = array_merge([
             "trade_offer_id"=>$r['trade_offer_id'],
             "trade_id"=>$r['trade_id'],
             "player_id"=>$r['player_id'],
             "morty_offer_id"=>$r['morty_offer_id'],
             "_created"=>gmdate("Y-m-d\TH:i:s.v\Z", strtotime($r['created_at']))
-        ];
+        ], trade_offer_metadata($pdo, (string)$r['trade_id'], (string)$r['player_id'], (string)$r['morty_offer_id']));
         $trade_ids[] = $r['morty_offer_id'];
     }
 

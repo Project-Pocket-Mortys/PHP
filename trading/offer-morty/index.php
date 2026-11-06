@@ -4,6 +4,7 @@ header("X-Powered-By: Express");
 header("Access-Control-Allow-Origin: *");
 
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
+require_once __DIR__ . '/../../lib/trade_offer_metadata.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -57,21 +58,19 @@ try {
         VALUES (?, ?, ?, ?, NOW())
     ");
     $stmt->execute([$offer_id, $trade_request_id, $player_id, $offered_morty_id]);
+    $metadata = trade_offer_metadata($pdo, $trade_request_id, $player_id, $offered_morty_id);
     $pdo->commit();
 
     // RETURN official-style JSON
     $response = [
         "error" => "None",
-        "offer" => [
+        "offer" => array_merge([
             "trade_offer_id" => $offer_id,
             "trade_id" => $trade_request_id,
             "player_id" => $player_id,
             "morty_offer_id" => $offered_morty_id,
             "_created" => gmdate("Y-m-d\TH:i:s.v\Z"),
-            "request_user_name" => $trade['player_id'], // optional: map to username if available
-            "offering_morty_id" => $morty['morty_id'],
-            "request_morty_id" => $trade['morty_trade_id'] // requested Morty in the trade
-        ]
+        ], $metadata)
     ];
 
     echo json_encode($response, JSON_UNESCAPED_SLASHES);
