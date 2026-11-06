@@ -12,6 +12,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = [
+    'test_startup_capture_device', 'test_export_android_startup',
     'test_http.AssetServingTests', 'test_emulator_environment', 'test_capture',
     'test_heartbeats', 'test_room_membership_migration', 'test_leave_room',
     'test_join_room_ownership', 'test_sse_sessions', 'test_sse_membership',
