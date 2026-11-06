@@ -13,7 +13,7 @@ $use_friends = (bool)($data['use_friends'] ?? true);
 
 try {
     // AUTH
-    $stmt = $pdo->prepare("SELECT player_id FROM users WHERE session_id = ? LIMIT 1");
+    $stmt = $pdo->prepare("SELECT player_id, expiry_trade FROM users WHERE session_id = ? LIMIT 1");
     $stmt->execute([$session_id]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$user) {
