@@ -7,3 +7,42 @@ sse/index.php text eol=lf
 session/leave-room/index.php text eol=lf
 session/join-room/index.php text eol=lf
 session/ping-dynamic/index.php text eol=lf
+compose.research-udp-tunnel.yaml text eol=lf
+
+session/owned_morties/lock/index.php text eol=lf
+
+session/use-item/index.php text eol=lf
+lib/healing_items.php text eol=lf
+lib/battle_timeouts.php text eol=lf
+lib/shiny_potion.php text eol=lf
+session/use-shiny-potion/index.php text eol=lf
+
+config/attack_max_ap.json text eol=lf
+
+lib/morty_release.php text eol=lf
+lib/morty_absorb.php text eol=lf
+lib/friends.php text eol=lf
+lib/friend_battle_invites.php text eol=lf
+lib/friend_invite_stream.php text eol=lf
+lib/friend_battle_membership.php text eol=lf
+lib/friend_battle_preparations.php text eol=lf
+lib/friend_battle_party_snapshots.php text eol=lf
+lib/trade_membership_guard.php text eol=lf
+session/deck/edit/index.php text eol=lf
+session/deck/set-active/index.php text eol=lf
+session/gacha/index.php text eol=lf
+session/owned_morties/learn-attacks/index.php text eol=lf
+session/heal/index.php text eol=lf
+trading/offer-response/index.php text eol=lf
+config/multiplayer_morty_ids.json text eol=lf
+lib/battle_membership_guard.php text eol=lf
+lib/world_action_guard.php text eol=lf
+session/battle-wild-morty/index.php text eol=lf
+session/battle-invite/** text eol=lf
+session/friend/** text eol=lf
+session/owned_morties/absorb/index.php text eol=lf
+session/owned_morties/attempt-release-multiple/index.php text eol=lf
+session/owned_morties/release-multiple/index.php text eol=lf
+
+session/recipe/use/index.php text eol=lf
+config/crafting_recipes.json text eol=lf

@@ -1,0 +1,1240 @@
+{
+  "base_commit": "e1ac6e2",
+  "environment": {
+    "host": "Windows",
+    "host_python": "3.14.5",
+    "server_python": "3.13.16",
+    "docker_engine": "29.8.2",
+    "compose": "5.6.0",
+    "php": "8.3.35"
+  },
+  "adapter_sha256": "ae0ebd0865e4f4e925b10fa9f84213c4218c5e6244a27b4a6d4cac03a1c1f2ec",
+  "compose_overlay_sha256": "9a94e356cc5fb95c6e789e88cde2d85fe5e3b4655151f20e04ec79b255b6d14a",
+  "quiet_probe": {
+    "probe": "synthetic_localhost_two_peers",
+    "started_utc": "2026-10-17T16:38:40.997198+00:00",
+    "requested_quiet_seconds": 125,
+    "receive_timeout_seconds": 0.7,
+    "heartbeat_interval_seconds": 20,
+    "events": [
+      {
+        "event": "started",
+        "elapsed_seconds": 0.0
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 0.762,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 0.79,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "heartbeat_persistence_checked",
+        "elapsed_seconds": 0.967,
+        "role": 0,
+        "label": "before_quiet",
+        "age_seconds": 0,
+        "success": true
+      },
+      {
+        "event": "heartbeat_persistence_checked",
+        "elapsed_seconds": 1.147,
+        "role": 1,
+        "label": "before_quiet",
+        "age_seconds": 1,
+        "success": true
+      },
+      {
+        "event": "registration_confirmed",
+        "elapsed_seconds": 1.25,
+        "received": true,
+        "expected_translation": true
+      },
+      {
+        "event": "quiet_started",
+        "elapsed_seconds": 1.251
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 21.29,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 21.302,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 21.302,
+        "quiet_elapsed_seconds": 20.052
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 41.283,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 41.31,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 41.31,
+        "quiet_elapsed_seconds": 40.059
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 61.278,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 61.306,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 61.306,
+        "quiet_elapsed_seconds": 60.056
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 81.282,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 81.294,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 81.294,
+        "quiet_elapsed_seconds": 80.043
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 101.275,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 101.288,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 101.288,
+        "quiet_elapsed_seconds": 100.037
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 121.274,
+        "role": 0,
+        "success": true
+      },
+      {
+        "event": "http_heartbeat",
+        "elapsed_seconds": 121.287,
+        "role": 1,
+        "success": true
+      },
+      {
+        "event": "quiet_http_heartbeat",
+        "elapsed_seconds": 121.287,
+        "quiet_elapsed_seconds": 120.036
+      },
+      {
+        "event": "heartbeat_persistence_checked",
+        "elapsed_seconds": 126.425,
+        "role": 0,
+        "label": "after_quiet",
+        "age_seconds": 5,
+        "success": true
+      },
+      {
+        "event": "heartbeat_persistence_checked",
+        "elapsed_seconds": 126.602,
+        "role": 1,
+        "label": "after_quiet",
+        "age_seconds": 5,
+        "success": true
+      },
+      {
+        "event": "quiet_ended",
+        "elapsed_seconds": 126.602
+      },
+      {
+        "event": "peer_to_quiet_recipient",
+        "elapsed_seconds": 126.605,
+        "received": true,
+        "expected_translation": true
+      },
+      {
+        "event": "recipient_sends_again",
+        "elapsed_seconds": 126.606,
+        "received": true,
+        "expected_translation": true
+      },
+      {
+        "event": "peer_to_refreshed_recipient",
+        "elapsed_seconds": 126.608,
+        "received": true,
+        "expected_translation": true
+      },
+      {
+        "event": "probe_finished",
+        "elapsed_seconds": 126.608
+      },
+      {
+        "event": "cleanup_finished",
+        "elapsed_seconds": 127.672,
+        "success": true
+      }
+    ],
+    "heartbeats": [
+      {
+        "role": 0,
+        "started_elapsed_seconds": 0.708,
+        "completed_elapsed_seconds": 0.762,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 0.762,
+        "completed_elapsed_seconds": 0.79,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 21.251,
+        "completed_elapsed_seconds": 21.29,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 21.29,
+        "completed_elapsed_seconds": 21.302,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 41.251,
+        "completed_elapsed_seconds": 41.283,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 41.283,
+        "completed_elapsed_seconds": 41.31,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 61.251,
+        "completed_elapsed_seconds": 61.278,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 61.278,
+        "completed_elapsed_seconds": 61.306,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 81.251,
+        "completed_elapsed_seconds": 81.282,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 81.282,
+        "completed_elapsed_seconds": 81.294,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 101.251,
+        "completed_elapsed_seconds": 101.275,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 101.275,
+        "completed_elapsed_seconds": 101.288,
+        "success": true
+      },
+      {
+        "role": 0,
+        "started_elapsed_seconds": 121.251,
+        "completed_elapsed_seconds": 121.274,
+        "success": true
+      },
+      {
+        "role": 1,
+        "started_elapsed_seconds": 121.274,
+        "completed_elapsed_seconds": 121.287,
+        "success": true
+      }
+    ],
+    "heartbeat_persistence_checks": [
+      {
+        "label": "before_quiet",
+        "role": 0,
+        "elapsed_seconds": 0.967,
+        "age_seconds": 0,
+        "current_and_fresh": true
+      },
+      {
+        "label": "before_quiet",
+        "role": 1,
+        "elapsed_seconds": 1.147,
+        "age_seconds": 1,
+        "current_and_fresh": true
+      },
+      {
+        "label": "after_quiet",
+        "role": 0,
+        "elapsed_seconds": 126.425,
+        "age_seconds": 5,
+        "current_and_fresh": true
+      },
+      {
+        "label": "after_quiet",
+        "role": 1,
+        "elapsed_seconds": 126.602,
+        "age_seconds": 5,
+        "current_and_fresh": true
+      }
+    ],
+    "deliveries": [
+      {
+        "label": "registration_confirmed",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 0,
+        "sent_elapsed_seconds": 1.247,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 1.25
+      },
+      {
+        "label": "peer_to_quiet_recipient",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 1,
+        "sent_elapsed_seconds": 126.602,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 126.605
+      },
+      {
+        "label": "recipient_sends_again",
+        "sender_role": 0,
+        "receiver_role": 1,
+        "sequence": 1,
+        "sent_elapsed_seconds": 126.605,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 126.606
+      },
+      {
+        "label": "peer_to_refreshed_recipient",
+        "sender_role": 1,
+        "receiver_role": 0,
+        "sequence": 2,
+        "sent_elapsed_seconds": 126.607,
+        "received": true,
+        "expected_translation": true,
+        "checked_elapsed_seconds": 126.608
+      }
+    ],
+    "complete": true,
+    "cleanup_complete": true,
+    "actual_quiet_seconds": 125.351,
+    "local_socket_tuple_unchanged": [
+      true,
+      true
+    ],
+    "finished_utc": "2026-10-17T16:40:48.715241+00:00"
+  },
+  "quiet_capture": {
+    "input_sha256": "fbde6c614cf4a29a71116dc226a4324131558919cc1e11b5c47834fc00c44a01",
+    "capture_packet_count": 9,
+    "source_endpoint_changes": {
+      "role0": 0,
+      "role1": 0
+    },
+    "totals": {
+      "ingress_role0": 2,
+      "ingress_role1": 3,
+      "egress_role0": 1,
+      "egress_role1": 3
+    },
+    "events": [
+      {
+        "t": 0.0,
+        "kind": "ingress",
+        "sender": "role0",
+        "target": "relay",
+        "sequence": 0,
+        "xy": [
+          29,
+          35
+        ]
+      },
+      {
+        "t": 0.100706,
+        "kind": "ingress",
+        "sender": "role1",
+        "target": "relay",
+        "sequence": 0,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 0.101446,
+        "kind": "egress",
+        "sender": "role1",
+        "target": "role0",
+        "sequence": 0,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 125.45469,
+        "kind": "ingress",
+        "sender": "role1",
+        "target": "relay",
+        "sequence": 1,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 125.455978,
+        "kind": "egress",
+        "sender": "role1",
+        "target": "role0",
+        "sequence": 1,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 125.457211,
+        "kind": "ingress",
+        "sender": "role0",
+        "target": "relay",
+        "sequence": 1,
+        "xy": [
+          29,
+          35
+        ]
+      },
+      {
+        "t": 125.457874,
+        "kind": "egress",
+        "sender": "role0",
+        "target": "role1",
+        "sequence": 1,
+        "xy": [
+          29,
+          35
+        ]
+      },
+      {
+        "t": 125.45871,
+        "kind": "ingress",
+        "sender": "role1",
+        "target": "relay",
+        "sequence": 2,
+        "xy": [
+          35,
+          35
+        ]
+      },
+      {
+        "t": 125.459122,
+        "kind": "egress",
+        "sender": "role1",
+        "target": "role0",
+        "sequence": 2,
+        "xy": [
+          35,
+          35
+        ]
+      }
+    ],
+    "limitations": "Synthetic roles are inferred from fixed coordinates: role0 x=29, role1 x=35, both y=35. Each role must retain the same internal ingress identity throughout the capture; mixed probe identities are rejected. Endpoint changes describe relay-observed source tuples, not local socket changes or their cause. Targets use previously observed ingress endpoints, including historical ones; missing or ambiguous mappings remain unknown. Times are relative to the first capture packet. Egress observation does not establish socket delivery. Correlate independent probe receipts by target, sender, sequence and coordinates; repeated records do not establish latency. Capture coverage and drops require separate evidence. Checksums are not checked. Only port-5055 UDP is summarized. Identifiers, endpoint addresses/ports, payload bytes and payload hashes are omitted. The input SHA-256 identifies the complete capture artifact."
+  },
+  "quiet_capture_statistics": {
+    "captured": 9,
+    "received_by_filter": 18,
+    "kernel_dropped": 0
+  },
+  "android": {
+    "complete": true,
+    "duration_seconds": 170,
+    "heartbeats": {
+      "start": {
+        "elapsed_seconds": 0,
+        "completed_elapsed_seconds": null,
+        "rows": [
+          {
+            "username": "PMResearch01",
+            "in_world": 1,
+            "heartbeat_age_seconds": 9,
+            "session_matches": 1,
+            "room_matches": 1,
+            "same_room": 1
+          },
+          {
+            "username": "PMResearch02",
+            "in_world": 1,
+            "heartbeat_age_seconds": 21,
+            "session_matches": 1,
+            "room_matches": 1,
+            "same_room": 1
+          }
+        ]
+      },
+      "139": {
+        "elapsed_seconds": 139.007,
+        "completed_elapsed_seconds": 139.19,
+        "rows": [
+          {
+            "username": "PMResearch01",
+            "in_world": 1,
+            "heartbeat_age_seconds": 28,
+            "session_matches": 1,
+            "room_matches": 1,
+            "same_room": 1
+          },
+          {
+            "username": "PMResearch02",
+            "in_world": 1,
+            "heartbeat_age_seconds": 9,
+            "session_matches": 1,
+            "room_matches": 1,
+            "same_room": 1
+          }
+        ]
+      },
+      "155": {
+        "elapsed_seconds": 155.001,
+        "completed_elapsed_seconds": 155.17,
+        "rows": [
+          {
+            "username": "PMResearch01",
+            "in_world": 1,
+            "heartbeat_age_seconds": 14,
+            "session_matches": 1,
+            "room_matches": 1,
+            "same_room": 1
+          },
+          {
+            "username": "PMResearch02",
+            "in_world": 1,
+            "heartbeat_age_seconds": 25,
+            "session_matches": 1,
+            "room_matches": 1,
+            "same_room": 1
+          }
+        ]
+      }
+    },
+    "hops": {
+      "capture_packet_counts": {
+        "relay": 11,
+        "primary": 6,
+        "peer": 5
+      },
+      "source_endpoint_changes": {
+        "primary": 0,
+        "peer": 0
+      },
+      "malformed_payload_counts": {
+        "relay": 0,
+        "primary": 0,
+        "peer": 0
+      },
+      "records": [
+        {
+          "t": 0.0,
+          "kind": "ingress",
+          "sender": "primary",
+          "target": "relay",
+          "sequence": 11,
+          "xy": [
+            31,
+            31
+          ],
+          "seen_in_destination_capture": null
+        },
+        {
+          "t": 0.059952,
+          "kind": "ingress",
+          "sender": "peer",
+          "target": "relay",
+          "sequence": 15,
+          "xy": [
+            31,
+            32
+          ],
+          "seen_in_destination_capture": null
+        },
+        {
+          "t": 0.060735,
+          "kind": "egress",
+          "sender": "peer",
+          "target": "primary",
+          "sequence": 15,
+          "xy": [
+            31,
+            32
+          ],
+          "seen_in_destination_capture": true
+        },
+        {
+          "t": 0.294839,
+          "kind": "ingress",
+          "sender": "primary",
+          "target": "relay",
+          "sequence": 12,
+          "xy": [
+            32,
+            31
+          ],
+          "seen_in_destination_capture": null
+        },
+        {
+          "t": 0.29547,
+          "kind": "egress",
+          "sender": "primary",
+          "target": "peer",
+          "sequence": 12,
+          "xy": [
+            32,
+            31
+          ],
+          "seen_in_destination_capture": true
+        },
+        {
+          "t": 8.967999,
+          "kind": "ingress",
+          "sender": "peer",
+          "target": "relay",
+          "sequence": 16,
+          "xy": [
+            30,
+            32
+          ],
+          "seen_in_destination_capture": null
+        },
+        {
+          "t": 8.968702,
+          "kind": "egress",
+          "sender": "peer",
+          "target": "primary",
+          "sequence": 16,
+          "xy": [
+            30,
+            32
+          ],
+          "seen_in_destination_capture": true
+        },
+        {
+          "t": 136.934353,
+          "kind": "ingress",
+          "sender": "peer",
+          "target": "relay",
+          "sequence": 17,
+          "xy": [
+            31,
+            32
+          ],
+          "seen_in_destination_capture": null
+        },
+        {
+          "t": 136.935642,
+          "kind": "egress",
+          "sender": "peer",
+          "target": "primary",
+          "sequence": 17,
+          "xy": [
+            31,
+            32
+          ],
+          "seen_in_destination_capture": true
+        },
+        {
+          "t": 147.440835,
+          "kind": "ingress",
+          "sender": "primary",
+          "target": "relay",
+          "sequence": 13,
+          "xy": [
+            32,
+            31
+          ],
+          "seen_in_destination_capture": null
+        },
+        {
+          "t": 147.441821,
+          "kind": "egress",
+          "sender": "primary",
+          "target": "peer",
+          "sequence": 13,
+          "xy": [
+            32,
+            31
+          ],
+          "seen_in_destination_capture": true
+        }
+      ],
+      "limitations": "Exactly two peers are assumed: guest outbound record prefixes identify its session role; guest inbound prefixes identify the opposite player role. Conflicting prefix or endpoint mappings remain unknown. Relay destination roles use previously observed ingress endpoints, including historical ones. Endpoint changes describe observed relay source tuples, not local socket or FD changes, NAT lifetime, or the cause of a mapping change. Receipt means an identical complete UDP payload appears in the destination capture; a replay may match an earlier packet. No clock alignment or latency is inferred. False means absent from the supplied destination capture, not proof of network loss; null means unknown destination or ingress. Capture coverage and drops require separate verification. Packet observation does not prove application processing. Times are relative to the first relay capture packet. Malformed/truncated capture headers, lengths and IPv4 fragments are rejected. Non-placement UDP payloads are counted and omitted. Checksums are not checked. Identifiers, addresses, ports, payload bytes and payload hashes are omitted."
+    },
+    "devices": {
+      "primary": {
+        "avd": "PocketMortys_API30",
+        "socket_identity_unchanged": true,
+        "packets": {
+          "capture_packet_count": 6,
+          "capture_span_seconds": 147.44148,
+          "directions": {
+            "outbound": {
+              "packet_count": 3,
+              "record_count": 3,
+              "malformed_payload_count": 0,
+              "first_offset_seconds": 0.0,
+              "last_offset_seconds": 147.44148
+            },
+            "inbound": {
+              "packet_count": 3,
+              "record_count": 3,
+              "malformed_payload_count": 0,
+              "first_offset_seconds": 0.064003,
+              "last_offset_seconds": 136.938014
+            },
+            "other": {
+              "packet_count": 0,
+              "record_count": 0,
+              "malformed_payload_count": 0,
+              "first_offset_seconds": null,
+              "last_offset_seconds": null
+            }
+          },
+          "packets": [
+            {
+              "t": 0.0,
+              "direction": "outbound",
+              "sequence": [
+                11
+              ],
+              "xy": [
+                [
+                  31,
+                  31
+                ]
+              ]
+            },
+            {
+              "t": 0.064003,
+              "direction": "inbound",
+              "sequence": [
+                15
+              ],
+              "xy": [
+                [
+                  31,
+                  32
+                ]
+              ]
+            },
+            {
+              "t": 0.295858,
+              "direction": "outbound",
+              "sequence": [
+                12
+              ],
+              "xy": [
+                [
+                  32,
+                  31
+                ]
+              ]
+            },
+            {
+              "t": 8.971315,
+              "direction": "inbound",
+              "sequence": [
+                16
+              ],
+              "xy": [
+                [
+                  30,
+                  32
+                ]
+              ]
+            },
+            {
+              "t": 136.938014,
+              "direction": "inbound",
+              "sequence": [
+                17
+              ],
+              "xy": [
+                [
+                  31,
+                  32
+                ]
+              ]
+            },
+            {
+              "t": 147.44148,
+              "direction": "outbound",
+              "sequence": [
+                13
+              ],
+              "xy": [
+                [
+                  32,
+                  31
+                ]
+              ]
+            }
+          ],
+          "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers."
+        },
+        "syscalls": {
+          "provenance": "Android syscall results; selected UDP descriptor mapped independently. Relative origin is first timestamped trace line, including other descriptors. Resumed calls use completion timestamp. Descriptor reuse is not detected. Syscall receipt does not prove game processing.",
+          "observed_span_seconds": 169.972536,
+          "summary": {
+            "recvfrom": {
+              "count": 3,
+              "bytes": 72,
+              "first_offset_seconds": 3.624066,
+              "last_offset_seconds": 140.486286
+            },
+            "sendto": {
+              "count": 3,
+              "bytes": 72,
+              "first_offset_seconds": 3.543382,
+              "last_offset_seconds": 150.984903
+            }
+          },
+          "events": [
+            {
+              "offset_seconds": 3.543382,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 3.624066,
+              "syscall": "recvfrom",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 3.839669,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 12.516819,
+              "syscall": "recvfrom",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 140.486286,
+              "syscall": "recvfrom",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 150.984903,
+              "syscall": "sendto",
+              "bytes": 24
+            }
+          ],
+          "packet_events": [
+            {
+              "offset_seconds": 3.543382,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 3.624066,
+              "syscall": "recvfrom",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 3.839669,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 12.516819,
+              "syscall": "recvfrom",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 140.486286,
+              "syscall": "recvfrom",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 150.984903,
+              "syscall": "sendto",
+              "bytes": 24
+            }
+          ],
+          "other_positive_completions": {
+            "recvmsg": 0,
+            "sendmsg": 0,
+            "recvmmsg": 0
+          },
+          "limitations": "recvmsg/sendmsg/recvmmsg are counted as positive completions only; their structures and datagram sizes are not decoded. Trace duration and UDP descriptor identity require separate evidence."
+        }
+      },
+      "peer": {
+        "avd": "PocketMortys_API30_Peer",
+        "socket_identity_unchanged": true,
+        "packets": {
+          "capture_packet_count": 5,
+          "capture_span_seconds": 147.384854,
+          "directions": {
+            "outbound": {
+              "packet_count": 3,
+              "record_count": 3,
+              "malformed_payload_count": 0,
+              "first_offset_seconds": 0.0,
+              "last_offset_seconds": 136.874336
+            },
+            "inbound": {
+              "packet_count": 2,
+              "record_count": 2,
+              "malformed_payload_count": 0,
+              "first_offset_seconds": 0.238875,
+              "last_offset_seconds": 147.384854
+            },
+            "other": {
+              "packet_count": 0,
+              "record_count": 0,
+              "malformed_payload_count": 0,
+              "first_offset_seconds": null,
+              "last_offset_seconds": null
+            }
+          },
+          "packets": [
+            {
+              "t": 0.0,
+              "direction": "outbound",
+              "sequence": [
+                15
+              ],
+              "xy": [
+                [
+                  31,
+                  32
+                ]
+              ]
+            },
+            {
+              "t": 0.238875,
+              "direction": "inbound",
+              "sequence": [
+                12
+              ],
+              "xy": [
+                [
+                  32,
+                  31
+                ]
+              ]
+            },
+            {
+              "t": 8.9088,
+              "direction": "outbound",
+              "sequence": [
+                16
+              ],
+              "xy": [
+                [
+                  30,
+                  32
+                ]
+              ]
+            },
+            {
+              "t": 136.874336,
+              "direction": "outbound",
+              "sequence": [
+                17
+              ],
+              "xy": [
+                [
+                  31,
+                  32
+                ]
+              ]
+            },
+            {
+              "t": 147.384854,
+              "direction": "inbound",
+              "sequence": [
+                13
+              ],
+              "xy": [
+                [
+                  32,
+                  31
+                ]
+              ]
+            }
+          ],
+          "limitations": "Classic little-endian microsecond PCAP, Linux cooked v1 (113), IPv4 only. Malformed/truncated headers and IP fragments are rejected; malformed placement payloads are counted without decoding. Checksums are not checked. Only UDP involving port 5055 is listed; outbound requires the emulator host destination and inbound requires source port 5055. Other matching traffic is labeled other. Times are relative to the first captured packet, including unlisted traffic. Empty captures do not establish idle behavior. Capture observation does not prove application receipt or peer visibility. Identifiers, payload bytes and addresses are omitted; records are not correlated across packets or peers."
+        },
+        "syscalls": {
+          "provenance": "Android syscall results; selected UDP descriptor mapped independently. Relative origin is first timestamped trace line, including other descriptors. Resumed calls use completion timestamp. Descriptor reuse is not detected. Syscall receipt does not prove game processing.",
+          "observed_span_seconds": 169.981472,
+          "summary": {
+            "recvfrom": {
+              "count": 2,
+              "bytes": 48,
+              "first_offset_seconds": 3.852327,
+              "last_offset_seconds": 150.998876
+            },
+            "sendto": {
+              "count": 3,
+              "bytes": 72,
+              "first_offset_seconds": 3.598547,
+              "last_offset_seconds": 140.473267
+            }
+          },
+          "events": [
+            {
+              "offset_seconds": 3.598547,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 3.852327,
+              "syscall": "recvfrom",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 12.507928,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 140.473267,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 150.998876,
+              "syscall": "recvfrom",
+              "bytes": 24
+            }
+          ],
+          "packet_events": [
+            {
+              "offset_seconds": 3.598547,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 3.852327,
+              "syscall": "recvfrom",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 12.507928,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 140.473267,
+              "syscall": "sendto",
+              "bytes": 24
+            },
+            {
+              "offset_seconds": 150.998876,
+              "syscall": "recvfrom",
+              "bytes": 24
+            }
+          ],
+          "other_positive_completions": {
+            "recvmsg": 0,
+            "sendmsg": 0,
+            "recvmmsg": 0
+          },
+          "limitations": "recvmsg/sendmsg/recvmmsg are counted as positive completions only; their structures and datagram sizes are not decoded. Trace duration and UDP descriptor identity require separate evidence."
+        }
+      }
+    },
+    "artifacts": {
+      "peer-139.png": {
+        "bytes": 714234,
+        "sha256": "e312fc7db8ae5de76e42575b1ee7b9224c21190087befe835d5a999914da19e9"
+      },
+      "peer-144.png": {
+        "bytes": 713109,
+        "sha256": "c3362143371c3cbba54b418cbfb61eda51c8e9d5d767307463fe8d2e12a2d3de"
+      },
+      "peer-initial.png": {
+        "bytes": 708670,
+        "sha256": "c21776a26e789297f34328ad29daad5cfb5fbae9a25eb39ece796c693aa3d6f4"
+      },
+      "peer-move-12.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-move-12.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-move-140.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-move-140.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-move-3.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-move-3.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-pcap.stderr.log": {
+        "bytes": 169,
+        "sha256": "d27fa7c17e5a9709289cae7413e6409ac6152eb8948aaef0ecf04415755b7062"
+      },
+      "peer-pcap.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-screenshot-139.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-screenshot-144.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer-syscalls.stderr.log": {
+        "bytes": 155,
+        "sha256": "6a78a3a947708ec485d518350befb90f060e3fcd472d47fb8a657c8154d9a79f"
+      },
+      "peer-syscalls.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "peer.pcap": {
+        "bytes": 444,
+        "sha256": "a3b7151982d0a0959489591e00be431639a66cebffef09de4d75444c013e3591"
+      },
+      "peer.syscalls.log": {
+        "bytes": 3600407,
+        "sha256": "80479d3ad6d3d111d7707797c31c5639c25f4aba607a9c194d96000418ab63e1"
+      },
+      "primary-139.png": {
+        "bytes": 690558,
+        "sha256": "d856cb46d6f11f8df92bf51c362001696404b4646c5fddc0ac856880d6d8050c"
+      },
+      "primary-144.png": {
+        "bytes": 690148,
+        "sha256": "51613f1a5f8bd587ded781e626084ae7a23abaaa12a5161de98453127c0b3fb9"
+      },
+      "primary-initial.png": {
+        "bytes": 702935,
+        "sha256": "984cc5847ef0427c365cda1e0aad073310260d81710bf9f646f10a1bfe9d8916"
+      },
+      "primary-move-150.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "primary-move-150.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "primary-move-3.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "primary-move-3.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "primary-pcap.stderr.log": {
+        "bytes": 169,
+        "sha256": "fcee01a3cfe5b44e902b819b0586204a562b23b45e36ce5d527fa8bab467223f"
+      },
+      "primary-pcap.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "primary-screenshot-139.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "primary-screenshot-144.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "primary-syscalls.stderr.log": {
+        "bytes": 155,
+        "sha256": "6a78a3a947708ec485d518350befb90f060e3fcd472d47fb8a657c8154d9a79f"
+      },
+      "primary-syscalls.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "primary.pcap": {
+        "bytes": 528,
+        "sha256": "58856e697b4e06eac50b6bdc1f57924013bc58fda2ea03db38e4357b7afaaec7"
+      },
+      "primary.syscalls.log": {
+        "bytes": 3565920,
+        "sha256": "d00280ce695324e20c4e36cc4e6363a7bedd5b3039bbb4e9621909985de21578"
+      }
+    },
+    "relay_capture": {
+      "sha256": "09e33714973ed9177844ddcf2740870a14a3960f494ddef95603afd327cfa8b7",
+      "captured": 11,
+      "received_by_filter": 22,
+      "kernel_dropped": 0
+    }
+  },
+  "compose_overlay_capture_bytes_sha256": "26d4745d5b5f2ed1cf81eee2809204ea71c8c9ee32e68bd17cef279f5dadf98a",
+  "overlay_provenance_note": "Only CRLF to LF normalization occurred after capture; canonical tracked overlay hash and original capture-time byte hash are both recorded."
+}
