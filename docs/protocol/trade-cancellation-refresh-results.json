@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "Live replacement-server Android 2.41.0 own-offer and parent cancellation counterparts",
+  "actual_native_own_offer_cancellation_proved": true,
+  "actual_native_parent_cancellation_proved": true,
+  "counterpart_native_trade_and_details_refresh_proved": true,
+  "parent_cancel_offerer_details_unlocked": true,
+  "request_owner_details_stayed_reserved_after_offer_withdrawal": true,
+  "actor_trade_event_absent_in_supplied_phase": true,
+  "self_cancel_immediate_owned_refresh_observed": false,
+  "peer_cold_login_boundary_proved": true,
+  "uninterrupted_peer_session_proved": false,
+  "self_cancel_cached_memory_unlock_proved": false,
+  "selector_eligibility_proved": false,
+  "parent_cancel_incoming_ui_button_proved": false,
+  "original_service_behavior_proved": false,
+  "cross_capture_clock_order_proved": false,
+  "mutation_to_sse_latency_proved": false,
+  "exact_sse_frame_trade_id_binding_proved": false,
+  "sse_correlation_scope": "Phase correlation using native HTTP IDs and exact recipient revision changes; SSE payloads are empty objects",
+  "timing_scope": "Only each capture clock is used; peer cold login is a separate capture and session",
+  "details_include": [
+    "morties",
+    "attacks",
+    "decks",
+    "mortydex"
+  ],
+  "details_mask": "0x78",
+  "notifications": [
+    {
+      "event": "trade:offer-submit",
+      "recipient": "PMTrade01",
+      "actor": "PMTrade02",
+      "exact_recipient_revision_increment": true
+    },
+    {
+      "event": "trade:offer-submit",
+      "recipient": "PMTrade01",
+      "actor": "PMTrade02",
+      "exact_recipient_revision_increment": true
+    },
+    {
+      "event": "trade:offer-submit",
+      "recipient": "PMTrade01",
+      "actor": "PMTrade02",
+      "exact_recipient_revision_increment": true
+    },
+    {
+      "event": "trade:offer-rejected",
+      "recipient": "PMTrade02",
+      "actor": "PMTrade01",
+      "exact_recipient_revision_increment": true
+    }
+  ],
+  "both_existing_completions_preserved": true,
+  "listing_classification": [
+    {
+      "native_completion_alias_present": true,
+      "completion_aliases_equal": true,
+      "offer_metadata": "owner_username_and_species_ids"
+    },
+    {
+      "native_completion_alias_present": true,
+      "completion_aliases_equal": true,
+      "offer_metadata": "no_offer_after_cancellation"
+    },
+    {
+      "native_completion_alias_present": true,
+      "completion_aliases_equal": true,
+      "offer_metadata": "owner_username_and_species_ids"
+    },
+    {
+      "native_completion_alias_present": true,
+      "completion_aliases_equal": true,
+      "offer_metadata": "no_offer_after_cancellation"
+    }
+  ],
+  "capture_timelines": [
+    {
+      "capture": "primary",
+      "phase": "counterpart_refresh_1",
+      "frame_seconds": 336.88361,
+      "trades_request_seconds": 336.925857,
+      "details_request_seconds": 336.919459
+    },
+    {
+      "capture": "primary",
+      "phase": "counterpart_refresh_2",
+      "frame_seconds": 400.144658,
+      "trades_request_seconds": 400.170468,
+      "details_request_seconds": 400.168673
+    },
+    {
+      "capture": "primary",
+      "phase": "counterpart_refresh_3",
+      "frame_seconds": 815.673327,
+      "trades_request_seconds": 815.703747,
+      "details_request_seconds": 815.70518
+    },
+    {
+      "capture": "peer_second",
+      "phase": "parent_cancel_refresh",
+      "frame_seconds": 315.562033,
+      "trades_request_seconds": 315.600137,
+      "details_request_seconds": 315.602642
+    }
+  ],
+  "protected_fixture_history_revalidated": true,
+  "baseline_sha256": "19e601967fa50e95e8a1d6cec6e0843947dc94844dd0f44ba9ce8a17e46c480e",
+  "accepted_anchor_sha256": "22e4f1eda8d50865b961af3b184fff78faefe0fae27cac0da530015ab516310d",
+  "fixture_history_sha256": [
+    "e8ca9037a4fd1dab4a5ffeb2e1bde0990c56d482a3e39b87747403d82acbc5b6",
+    "ca8f3388cdcc39e470fd42fb268725fd29a06b52aaee361869ae99dd7225a044",
+    "9d8c4603c466b709d90d2a3a1d0845cd24b15b2b3f1606396a44fa6d7f5d4c10",
+    "4631b0867b8c5656c6760d8bdf68eadf08da53d366ca525def26a896afe406fb",
+    "cda0e69f8c3709d13ddaa5e1b623d19c57bb3fcab6679e0fde2273f45ae1cce3",
+    "3301d06515dfc718eda524a500f19880164d39d79dc191e6a38974306f02c721"
+  ],
+  "input_sha256": {
+    "parent": "e8ca9037a4fd1dab4a5ffeb2e1bde0990c56d482a3e39b87747403d82acbc5b6",
+    "first_offer": "ca8f3388cdcc39e470fd42fb268725fd29a06b52aaee361869ae99dd7225a044",
+    "offer_cancelled": "9d8c4603c466b709d90d2a3a1d0845cd24b15b2b3f1606396a44fa6d7f5d4c10",
+    "second_offer": "4631b0867b8c5656c6760d8bdf68eadf08da53d366ca525def26a896afe406fb",
+    "parent_cancelled": "cda0e69f8c3709d13ddaa5e1b623d19c57bb3fcab6679e0fde2273f45ae1cce3"
+  },
+  "capture_sha256": {
+    "primary": "331d96f546861d8561f9e412dcfb4b10503b01e92471804d88ef9000fb20c253",
+    "peer_first": "0879f74060519591212238bbcb6fa0d3622811849a092f749112b22c69f1c94c",
+    "peer_second": "f02c8c5ac028c7eea882dcb7b2af1f6e21a7551f108abf7c361aaaa44c2c42cf"
+  }
+}

@@ -26,25 +26,25 @@ This repository contains the server-side components required to support client a
 See [the Android protocol inventory and developer handoff](docs/protocol/README.md) for reproducible analysis tools, evidence, an isolated test server, regression tests, and remaining compatibility work. The completed gameplay features below remain the project baseline.
 
 ## To Do
-- Battle & catch mortys
+- Battle & catch mortys: [wild party switching](docs/protocol/battle-switch-implementation.md) and [battle healing items](docs/protocol/battle-item-implementation.md) and [selection timeout recovery](docs/protocol/battle-timeout-implementation.md) implemented; full combat, capture and rewards remain
 - Battle Bots
-- Battle friends
+- Battle friends: [invitations](docs/protocol/friend-battle-invitation-implementation.md), [internal preparation deadlines](docs/protocol/battle-preparation-deadlines.md) and [party snapshots/guards](docs/protocol/battle-party-snapshots.md) tested (migrations 006–009); acceptance and human combat remain
 - Raid & other event Battles
-- Use Items
-- Release Morties
-- Lock Morties
-- Crafting
+- Use Items: [Shiny Potion activation](docs/protocol/shiny-potion-implementation.md), [world healing](docs/protocol/use-item-implementation.md), [full revival/AP restoration](docs/protocol/full-restore-items.md), [poison/paralysis cures](docs/protocol/status-cure-implementation.md), [combined Pure Curum recovery](docs/protocol/full-recover-implementation.md), and [battle use](docs/protocol/battle-item-implementation.md) implemented; other effects remain
+- Lock Morties: [toggle, persistence and release/absorption protection](docs/protocol/absorb-protection-implementation.md) implemented/tested; enforcement in other destructive actions remains
 - Challenges
 
 ## Completed
 - <s>Fix item spawning</s>
 - <s>Fix Morties roaming</s>
-- <s>Evolve Mortys</s>
+- <s>Evolve Mortys</s> — [same-species/variant donor validation](docs/protocol/absorb-eligibility-implementation.md) added; full transformation and conditional party checks remain under review
 - <s>Healing</s>
 - <s>Buy deck slots</s>
 - <s>Learn Attacks</s>
 - <s>Swap Stop</s>
 - <s>Salesman Rick's</s>
+- <s>Release Morties</s>: [world release and batch contracts](docs/protocol/morty-release-implementation.md)
+- <s>Crafting</s>: [22 multiplayer recipes](docs/protocol/crafting-implementation.md)
 
 ## Legal Disclaimer
 

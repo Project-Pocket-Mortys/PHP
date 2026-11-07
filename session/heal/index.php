@@ -2,8 +2,8 @@
 // heal
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
@@ -16,9 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php"; // $pdo
+require_once __DIR__ . '/../../lib/world_action_guard.php';
+require_once __DIR__ . '/../../lib/trade_references.php';
 
 // ---------------- helpers ----------------
 function json_out(array $arr, int $code = 200): void {
+  global $pdo;
+  if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();
   http_response_code($code);
   echo json_encode($arr, JSON_UNESCAPED_SLASHES);
   exit;
@@ -83,7 +87,8 @@ try {
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   // 1) user by session_id
-  $stmt = $pdo->prepare("SELECT * FROM users WHERE session_id = ? LIMIT 1");
+  $pdo->beginTransaction();
+  $stmt = $pdo->prepare("SELECT * FROM users WHERE session_id = ? LIMIT 1 FOR UPDATE");
   $stmt->execute([$session_id]);
   $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -92,6 +97,9 @@ try {
   }
 
   $player_id = (string)($user["player_id"] ?? "");
+  if (world_action_has_active_battle($pdo, $player_id)) {
+    json_out(["error" => ["code" => "FAILED"]], 409);
+  }
   if ($player_id === "") {
     json_out(["error" => ["code" => "NO_PLAYER_ID"]], 500);
   }
@@ -118,9 +126,15 @@ try {
     json_out(["error" => ["code" => "DECK_EMPTY"]], 400);
   }
 
+  // Ownerless attack rows must never be reached through a stale foreign deck.
+  $check = $pdo->prepare('SELECT player_id,owned_morty_id FROM owned_morties WHERE owned_morty_id=? ORDER BY id FOR UPDATE');
+  foreach ($ownedIds as $id) {
+    $check->execute([$id]); $matches=$check->fetchAll(PDO::FETCH_ASSOC);
+    if (count($matches)!==1 || $matches[0]['player_id']!==$player_id || $matches[0]['owned_morty_id']!==$id) {
+      json_out(['error'=>['code'=>'FAILED']],409);
+    }
+  }
   // 3) heal HP + PP (transaction)
-  $pdo->beginTransaction();
-
   $ph = implode(",", array_fill(0, count($ownedIds), "?"));
 
   // HP -> full
@@ -146,9 +160,10 @@ try {
 
   // 4) fetch morties in deck order (FIELD keeps exact order)
   $fieldList = implode(",", array_fill(0, count($ownedIds), "?"));
+  $tradeProjection = trade_reference_projection('heal_owned.owned_morty_id');
   $sqlMorties = "
-    SELECT *
-    FROM owned_morties
+    SELECT heal_owned.*, $tradeProjection AS has_trade_reference
+    FROM owned_morties heal_owned
     WHERE player_id = ?
       AND owned_morty_id IN ($ph)
     ORDER BY FIELD(owned_morty_id, $fieldList)
@@ -203,8 +218,10 @@ try {
       "defence_stat"      => (int)$m["defence_stat"],
       "variant"           => (string)($m["variant"] ?? "Normal"),
       "speed_stat"        => (int)$m["speed_stat"],
+      "is_poisoned"       => toBool($m["is_poisoned"] ?? false),
+      "is_paralysed"      => toBool($m["is_paralysed"] ?? false),
       "is_locked"         => toBool($m["is_locked"] ?? false),
-      "is_trading_locked" => toBool($m["is_trading_locked"] ?? false),
+      "is_trading_locked" => toBool($m["is_trading_locked"] ?? false) || (int)$m['has_trade_reference'] === 1,
       "fight_pit_id"      => toNull($m["fight_pit_id"] ?? null),
       "evolution_points"  => (int)($m["evolution_points"] ?? 0),
       "owned_attacks"     => $attByOwned[$oid] ?? [],
