@@ -1,27 +1,191 @@
 # Evidence gaps and repair backlog
 
+[Counterpart notifications](trade-refresh-implementation.md) now cover new offers
+and decisions with committed account revisions and a startup join barrier. The
+[live two-client cycle](live-trade-refresh.md) now verifies native mutations,
+counterpart refreshes, rejection selector unlock and an exact two-spare transfer;
+see the [receipt](live-trade-refresh-results.json). Resolve the self-cancellation
+inventory race and validate cross-room, iOS and native third-account exclusion.
+[Counterpart cancellation publication](trade-cancellation-notifications.md) now
+passes 15 new backend and 50 adjacent cases. The
+[three-capture Android proof](trade-cancellation-refresh-results.json) verifies
+both cancellation paths and counterpart trade/details refreshes in the same
+world, with the peer deliberately cold logging in between capture/session
+phases. Immediate actor cached unlock, cross-room, native third-account and
+iOS coverage remain open. The [fresh callback/save audit](trade-cancellation-refresh-contract.md)
+found no ordering-safe PHP actor acknowledgement in the inspected paths.
+Request-creation fanout and original-service semantics remain separate.
+
+Latest SDK prerequisite: [isolated native offline-path recovery](onetrust-startup-recovery.md)
+now passes retained-client startup, login, world entry and actual trading cookie
+transmission, with unchanged SDK files and guarded saves. Exact Android online
+SDK-fetch failure attribution, offer-cancel
+inventory refresh and wider trading-lock reconciliation remain. Player details and
+absorption now honor [durable trade references](trade-reference-implementation.md);
+other Morty serializers and legacy true flags remain explicit gaps. This does not grant
+consent or establish universal optional-SDK denial; keep external isolation.
+
+Independent paired-client offline fixtures now pass the live follow-up above:
+separate 8091/8093 sidecars preserve each container's one-shot probe state without
+resetting the active counterpart. Both retained clients stay in their world
+sessions across rejection and acceptance.
+
 Implementation status and evidence confidence are independent. The root README remains authoritative for claimed completed features. Native constants establish interface names, not successful runtime behavior. Every unmapped parser in `parser-mapping.json` is an explicit research obligation; no fallback schema is silently assigned to it.
 
 | Priority | Work | Evidence and affected interfaces | Acceptance |
 |---|---|---|---|
-| P0 | Resolve live Android UDP idle path | Two170-second dual-emulator captures: current HTTP heartbeats, relay egress missing at guest, changed relay-visible primary endpoint after outbound movement with unchanged guest socket (`android-peer-verification.md`). | Identify the translation boundary and recover any client/server UDP liveness contract; stationary Android receives after quiet intervals without manual movement. Do not infer an exact timeout or invent original heartbeat packets. |
-| P0 | Complete Android runtime acceptance | Local startup and 155 bundle downloads pass; diagnostic-profile account registration, login and world-1 entry are captured in `account-bootstrap.md`. | SSE interruption/manual Play recovery is captured in `movement-and-reconnect.md`; verify other interruption modes, natural onboarding and two-account behavior; two-emulator entry/visibility and bidirectional movement are now verified; idle delivery fails after endpoint remapping and reconnect scenarios remain outstanding. |
-| P0 | Review native constructor/parser associations | `native-transport.json`, `parser-mapping.json`; 89 constructor candidates and 119 parser references. | Each association has a reviewed native trace or capture; unmatched methods retain named blockers. Extend OpenAPI only from evidence. |
+| P1 | Complete shared battle startup and acceptance | Membership/deadline cleanup and immutable paired party snapshots now work (`battle-party-snapshots.md`, migration009). Covered party writers serialize against shared claims; trade response authorization/offer binding is now repaired (`trade-response-implementation.md`), with separate protected-listing and selected native-transfer follow-ups; broader party variants remain separate. No public activation. | Define inventory/profile startup policy, both-user transitions/two private starts, readiness/reconnect and shared terminal cleanup before enabling acceptance. Validate the native projection, attack eligibility and raw XP/status fields separately. Schedule disconnected cleanup; implement human turns separately. |
+| P1 | Recover Shiny encounter policy and remaining numeric items | Shiny Potion activation/expiry/startup and conditional private battle variants are implemented (`shiny-potion-implementation.md`). Existing spawn flags retain placeholder probabilities. Fresh seed audit finds no MP magnitudes/caps; SP values are separate (`remaining-item-evidence.md`). | Recover original encounter rates, seed amounts/caps, growth and percentage rounding from independent evidence; preserve durable expiry/stock behavior and do not substitute SP numbers or infer capture rules. |
+| P1 | Reconcile full evolution and conditional absorption party checks | Locked-donor protection, deduplication and owner-scoped counter/deck writes work (`absorb-protection-implementation.md`); same-species/variant eligibility now rejects incompatible donors atomically (`absorb-eligibility-implementation.md`). Point-only absorption now preserves a living active party (`absorb-active-party-implementation.md`), with the native threshold exception kept distinct from replacement policy. Native optional `created` full-evolution data remains separate (`absorb-protection-contract.md`). README-completed evolution status is retained. | Verify full transformation and server-authoritative species/stat/party behavior separately; enforce remaining predicates without inventing formulas or replacing existing progress. Cover threshold and partial cases and retain donor/target protections. |
+| P1 | Verify original timeout policy and interrupted-battle replay | Selection expiry recovery now uses native ABANDONED with atomic claim release and no HP/AP/stock changes (`battle-timeout-implementation.md`). Native countdown and independent 180-second disconnect watchdog are distinct. | Preserve the tested replacement cancellation; recover original grace/penalty rules if evidence appears. Verify replay after shared-cursor advancement and transition races; do not infer turn identity from identical READY bodies. |
+| P0 | Validate UDP transport lifecycle beyond bounded idle | Two 170-second dual-emulator captures show stale relay-visible endpoints (`android-peer-verification.md`). A Windows-only quiet socket probe reproduces the loss without Android (`udp-quiet-mapping.md`), narrowing a sufficient failure path to Windows/Docker published UDP forwarding. The optional adapter now passes synthetic 125-second silence and two-emulator idle receipt (`udp-stable-transport.md`). | Short Home/resume and process restart now have Android evidence; same-session increasing-sequence reconnect and session rotation pass synthetic tests (`udp-lifecycle.md`). Establish whether a same-session sender reset actually occurs before changing sequence rules: inspected room/socket transitions preserve the sender (`udp-native-lifecycle.md`). Test additional network interruptions. Opt-in idle retention now passes first delivery after 610 seconds (`udp-idle-retention.md`); the standalone default remains 600 seconds and the server lifetime cap remains 256. Host tuple reuse before fresh registration remains unresolved. Recover original liveness independently; do not infer exact NAT timeout or invent game heartbeats. |
+| P0 | Complete Android runtime acceptance | Local startup and 155 bundle downloads pass; diagnostic-profile account registration, login and world-1 entry are captured in `account-bootstrap.md`. | SSE interruption/manual Play recovery is captured in `movement-and-reconnect.md`; verify other interruption modes, natural onboarding and two-account behavior; two-emulator entry/visibility, bidirectional movement and same-world portal leave/rejoin are verified (`android-portal-transition.md`); world-1/world-2 split-room isolation and destination delivery now pass with a reversible fixture (`distinct-world-verification.md`); rapid-transition races, repeated tutorial dialogs and black screenshots during tracing remain explicit gaps; bounded idle delivery passes using the optional adapter; direct UDP and reconnect scenarios remain outstanding. |
+| P0 | Review native constructor/parser associations | `native-transport.json`, `parser-mapping.json`; 89 constructor candidates and 121 parser references including two newly reviewed invitation error-only callbacks. | Each association has a reviewed native trace or capture; unmatched methods retain named blockers. Extend OpenAPI only from evidence. |
 | P0 | Audit startup response hosts and asset provenance | `NetworkDefs`, `user/login`, `sse`, aliases and bundle manifest. Some PHP responses embed existing public server URLs; `Status/rat.json` is empty. The colon/underscore bundle path mismatch has a tested Apache rewrite. | Test configuration consistently redirects all first-party HTTP/SSE/assets/UDP destinations; bundle hashes match served bytes; status response behavior is established. |
-| P1 | Complete wild battle state transitions and persistence | `session/battle/move` still uses fixed damage, random PP/stats, simulated capture rewards and incomplete completion handling. | One battle survives reconnect; victory, defeat, run and capture finish once; HP/PP/items/Morty/XP persist atomically. |
-| P1 | Establish capture consumption and duplicate-turn rules | Move request contains no explicit idempotency key in the reviewed constructor. Inventory decrement remains commented out. | Recover consumption timing and retry behavior before implementing transactions/turn identity; duplicate requests cannot charge or award twice. |
-| P1 | Recover actual combat rules | MP `AttackInfo`, `MortyInfo`, `MortyAttacksInfo`, client battle handlers. Data tables do not prove server formulas. | Evidence-backed formulas or clearly named replacement rules; test accuracy, effects, initiative, PP, switching and reward bounds. |
-| P1 | Finish SSE delivery and reconnection audit | Event ID output is disabled, while Last-Event-ID/since are accepted; null-recipient fallback checks an unbuilt payload. Live room changes now follow membership (`sse-room-transitions.md`); rapid same-room rejoin, shared cursors and snapshot races remain unresolved. Session rotation/deletion now closes old streams (`sse-session-revocation.md`). | Two-player privacy, ordered replay, reconnect and missing-recipient cases tested. Do not invent original cursor semantics. |
-| P1 | Recover UDP wire protocol | `movement-native.json`, `contracts.json`, and 15 sanitized attempted-send records establish GUID order, coordinates, history and sequence rules; receiver accepts 24-byte batches. | The optional PHP relay verifies inbound player identity, room privacy and rotated sessions with one emulator plus synthetic peer (`udp-relay.md`). Synthetic idle retention/expiry is now tested with HTTP heartbeats (`udp-heartbeats.md`). Two-emulator movement is now verified (`android-peer-verification.md`); address the observed idle endpoint remapping, then verify room transitions, authority and lifecycle. |
-| P2 | Inventory missing battle modes | Bot/boss success stubs; custom battle and battle-invite create/response/revoke constants have no matching handlers. | Recover invitation/match lifecycle, participant-specific payloads and disconnect behavior before implementation. |
-| P2 | Implement remaining collection actions | `use-item` is empty; client constants expose general-item, release/attempt-release-multiple, lock and recipe/use. | Validate ownership, deck/trade locks, inventory limits and atomic mutations against client contracts. |
+| P1 | Finish Android wild battle acceptance | Replacement start claims player/spawn; ATTACK persists action HP and decrements selected owned PP; RUN/WIN/LOSE close atomically with one private terminal result (`battle-completion-contract.md`). Android RUN then ATTACK/WIN and world return pass with synthetic private starts (`android-battle-lifecycle.md`). | Verify natural wild interaction, live LOSE and interrupted-battle reconnect; retain authoritative HP/PP, room state, and subsequent battle behavior. |
+| P1 | Recover capture, rewards and active-turn/reconnect identity | ITEM/capture returns 501 without simulated ownership. The bounded native/asset audit (`capture-rules-research.md`, `capture-data-audit.md`) finds MP metadata/learnsets but no authoritative MP stat/XP generation or chance. SP formulas remain separate. | Obtain authoritative values or specify an explicit replacement policy; resolve wild sentinel versus owned identity, chosen attacks, quotas/seen/caught and atomic item/record/deck completion before enabling capture. Active-turn retry identity/reconnect remain separate. |
+| P1 | Recover actual combat rules | MP tables and native handlers do not prove server formulas. Voluntary/forced switching follows the native wire contract with explicit replacement turn-cost policy (`battle-switch-implementation.md`). | Recover damage/accuracy/effects/initiative, original switch turn cost and reward bounds; preserve authoritative party state. |
+| P1 | Finish SSE delivery and reconnection audit | Event ID output is disabled, while Last-Event-ID/since are accepted. Explicit recipient and legacy battle-target privacy now pass two-account HTTP/SSE tests (`sse-event-privacy.md`). Rapid same-room rejoin now uses membership generations (`sse-rejoin-generation.md`); fresh SSE publication loss now has a bounded snapshot repair (`sse-snapshot-boundary.md`); shared cursors, join snapshots, mutable entity rows and out-of-order transaction commits remain unresolved. Session rotation/deletion now closes old streams (`sse-session-revocation.md`). | Two-player privacy, ordered replay, reconnect and missing-recipient cases tested. Do not invent original cursor semantics. |
+| P1 | Recover UDP wire protocol | `movement-native.json`, `contracts.json`, and 15 sanitized attempted-send records establish GUID order, coordinates, history and sequence rules; receiver accepts 24-byte batches. | The optional PHP relay verifies inbound player identity, room privacy and rotated sessions with one emulator plus synthetic peer (`udp-relay.md`). Synthetic idle retention/expiry is now tested with HTTP heartbeats (`udp-heartbeats.md`). Two-emulator movement is now verified (`android-peer-verification.md`); the optional local adapter passes the reproduced idle failure (`udp-stable-transport.md`); bounded world-1/world-2 transitions now pass (`distinct-world-verification.md`); verify transition races, authority and further lifecycle scenarios next. |
+| P2 | Inventory remaining battle modes | Bot/boss success stubs and absent custom battle remain. Friend invite/create/response/revoke and PvF start are now traced (`friend-battle-handoff.md`) but remain unimplemented. | Implement the recovered friend lifecycle in dependency order; separately recover bot/boss/custom matchmaking and remaining turn/disconnect behavior. |
+| P2 | Implement remaining collection actions | Thirteen HP/revive/AP/cure items now work in world and battle, including Pure Curum full HP plus poison/paralysis recovery (`full-recover-implementation.md`); percentage variants/stat/damage/general items remain. World release/preview, lock toggle and 22 crafting recipes are implemented. | Preserve existing features while recovering remaining effects and timing; validate ownership, locks, inventory limits and atomic mutations against client contracts. |
 | P2 | Challenges, arena and timed event claims | Missing claim endpoints and static/sample event responses; event and reward tables in assets. | Configured time windows, claim-once behavior and empty-event behavior verified. |
 | P2 | Account, purchase and third-party boundaries | Account deletion is a static response; linking and purchases require review; Android manifest includes billing, Braze, ads and license-check components. | Inventory requests, errors and startup dependency; use synthetic receipts only. Do not enable live purchases. |
 | P3 | Decode remaining embedded Unity carriers | `embedded-assets.json` inventories the APK assets. Only globalgamemanagers and repository data bundles were decoded in this pass. | Target additional carriers from unresolved data references; compare hashes and schema versions. |
 | P3 | iOS compatibility | IPA unavailable. | Inspect bundle/Mach-O/metadata and compare matching-version contracts; document platform differences. |
 
+## Current implementation priority
+
+[Native decisions and completion projection](native-trade-decisions.md) now
+include requester Reject, successful requester Accept, exact guarded spare transfer
+and both actors' normal inventory refreshes. The same unacknowledged rejection
+history verifies the additive `competed_trades` wire key;
+legacy `completed_trades` remains equal. Selected native decisions, paired inventory
+refreshes and final completed-list projection are verified; intermediate capture
+gaps remain disclosed. Preserve the separate offer-cancel refresh limitation. See
+[native navigation and notification acknowledgement](native-trade-decision-navigation.md).
+
+[Party transition guards](trade-party-transitions.md) now cover nonempty deck
+edits, saved-deck activation and both outgoing instances at acceptance. Valid
+spares still transfer; unsafe listings can be rejected/cancelled. Audit remaining
+party writers, broader transfer variants and legacy raw flags. Native decision
+presentation and the practical completed-list key now have the follow-up above.
+Older flat deck errors remain a parser-compatibility gap outside the new guarded failures.
+
+[Protected listing creation](trade-listing-protection.md) now checks both locks,
+global durable references, current ownership/active deck and specific offer
+criteria. Later deck activation and acceptance-time party eligibility now have
+the follow-up above; selected native acceptance and both inventory refreshes now
+pass. Resolve post-cancel refresh and broader transfer variants. Direct
+legacy ACTIVE-battle eligibility requires terminal reconciliation; it is not
+newly blanket-blocked. Existing price/cooldown calculations remain unchanged.
+
+Trade response authorization and parent/offer binding now have a scoped
+[transactional repair](trade-response-implementation.md), including native
+error envelopes and competing-offer cleanup. Native decision presentation now
+has separate evidence; audit remaining party writers and preserve
+the separate immediate offer-cancellation refresh gap. Original transfer
+economics remain unresolved. The practical completed-list wire key is now verified;
+field-specific serializer attribute internals were not directly dumped.
+
+Player-visible missing features now take priority over broad transport audits; see
+[the feature delivery order](missing-features.md). Lock/unlock toggle and persistence
+are implemented with Android capture; destructive-action lock enforcement remains.
+Older P0 research labels above describe research risk, not the current feature
+execution order. Completed README features remain the playable baseline.
+
+The [integration branch](gameplay-integration.md) restores completed feature
+commits missing from main and guards heal/absorb/join/leave during ACTIVE battles.
+
+## Crafting on current main
+
+The `hayward/crafting` feature is based directly on `origin/main` at `9ff1a11`.
+It implements the previously missing recipe endpoint from recovered multiplayer
+contracts and all 22 recipe records; see [crafting-implementation.md](crafting-implementation.md).
+The integration branch explicitly combines crafting with the earlier item/lock/release work; see [integration provenance](gameplay-integration.md).
+Player-visible missing features remain the execution priority; research gaps
+do not by themselves mark ConspiracyRick's completed features as broken.
+
 ## Repairs included
 
-Readiness now uses `battle_id`; both battle routes verify initiator ownership and active state; attack requests verify active Morty ownership; capture no longer concatenates two JSON responses; SSE active-deck lookup joins the selected deck and excludes foreign-owned Morties; room membership events identify the queued player rather than the subscriber (see `sse-membership.md`); shared bootstrap disables error display and supports environment database configuration; Apache serves the existing bundles at their manifest paths.
+Readiness now uses `battle_id`; both battle routes verify initiator ownership and active state; attack requests verify active Morty ownership; capture no longer concatenates two JSON responses; SSE active-deck lookup joins the selected deck and excludes foreign-owned Morties; join-room snapshots now also exclude foreign-owned Morties referenced by stale decks (`join-snapshot-ownership.md`); room membership events identify the queued player rather than the subscriber (see `sse-membership.md`); shared bootstrap disables error display and supports environment database configuration; Apache serves the existing bundles at their manifest paths.
 
-These changes do not make battles complete. In particular, a successful capture still emits a simulated reward without inserting the captured Morty. Replay prevention and original error-code parity remain unresolved. Room leave now clears membership and publishes one departure atomically; concurrent retries without another join are deduplicated, and UDP delivery stops after leaving (`room-leave-repair.md`). No database migration, public deployment, payment operation or account migration is included.
+The durable battle foundation additionally persists supported ATTACK HP/PP, closes RUN/WIN/LOSE with queued room/private result events in one transaction, and rejects further mutation of closed battles. Starts reconcile legacy ACTIVE rows only from consistent explicit private terminal evidence, without replaying rewards. Capture is explicitly unsupported and no longer emits simulated ownership; WIN emits empty XP/rewards. Combat formulas, switching, capture, active-turn retry identity, reconnect replay, remaining Android scenarios and original error-code parity remain unresolved (`battle-completion-contract.md`). Room leave now clears membership and publishes one departure atomically; concurrent retries without another join are deduplicated, and UDP delivery stops after leaving (`room-leave-repair.md`). The recovered SSE/join/leave handlers require the additive room-membership-generation migration before use. No public deployment or payment operation is included.
+
+## Private start-view preparation
+
+[Recipient-specific start views](private-battle-start-views.md) now freeze owner inventory/resources and public trainer profiles from existing immutable parties. Migration 010 stores both projections plus a capture marker; seven additional resource/profile writers serialize with shared participant claims. This is an internal preparation step: acceptance remains 501, with publication, readiness/reconnect, human turns and terminal cleanup still pending. Native evidence supports wire fields; no live client start or original combat formula is claimed.
+
+Migration 011 now supplies [internal shared startup](shared-battle-startup.md):
+atomic paired state/recipient intents, caller-only retrieval, initial ready barrier,
+fixed lease and paired cancellation/expiry. Next, verify and implement safe native
+delivery across rooms/fresh connections, duplicate-start handling and transport
+loss/abort presentation. Keep public acceptance disabled until the client lifecycle
+is safe. Later-phase readiness identity, paired moves and combat remain separate.
+
+[Research-gated startup delivery](shared-battle-stream-delivery.md) now passes
+cross-room/private SSE, at-most-once attempts, initial ready and interruption
+tests (migration 012). Before enabling approval, capture the Android intro and
+server-ended/fresh-connect/join behavior on dedicated accounts; verify loss,
+duplicate-start and slow-client cases. The default service and public approval
+remain disabled for shared starts. Run the existing startup-expiry scheduler
+separately when exercising clients that may both disappear.
+
+[Two dedicated Android captures](android-shared-startup.md) now verify native
+private startup, initial ready, server-ended/EOF and fresh login/join for the
+registration party. Research-gated first ATTACK storage and immutable pairing now pass 18 backend
+cases (migration 013, [contract and implementation](paired-selection-contract.md)).
+[Two native inputs, waiting and fixed-expiry automatic recovery](android-paired-selection-results.json)
+are verified on dedicated registration parties. Next establish
+later-phase readiness/replay identity and recover or explicitly specify
+resolution/terminal policy before enabling public approval. Full native invite send/approval and packet-loss/slow/broader-party
+coverage remain. The peer's observed `accept:false`/409 near start is an open
+compatibility question, not a confirmed defect or permission to invent success.
+
+## First human selection boundary
+
+Migration 013 stores one immutable ATTACK per participant after its own initial
+ready signal; a pair requires both ready signals. Matching retries retain IDs,
+conflicts fail 409, and corrupt/partial ledgers fail without recapture. Cancellation
+and fixed-deadline expiry retire selections/pair with both users and claims,
+including the gate-off worker. Eighteen scoped backend cases cover this boundary.
+[Native two-input waiting and fixed-expiry recovery](android-paired-selection-results.json)
+are verified on dedicated registration parties. The earlier partial one-input
+round retired correctly and is separate from the complete pair receipt. Human resolution, later phases, full invite
+approval and broader interruption coverage remain acceptance obligations. No
+combat formula or playable human battle is claimed.
+
+## Trade cancellation and remaining acceptance
+
+[Trade/offer cancellation](trade-cancellation-implementation.md) now authenticates
+the exact listing owner, retires only that listing and dependent offers, and
+serializes parent cancellation with offer creation. Login provisions a scoped
+replacement session cookie; static native Best.HTTP support and real HTTP
+CookieJar flow are verified. The later SDK recovery proves native outgoing-cookie
+transport; own-request cancellation is now observed on a separate disposable
+client. [Native offer creation/reload/cancellation](native-trade-offers.md) also
+passes on two disposable accounts, with corrected display metadata. The initial OneTrust
+startup failure is retained as historical evidence, superseded for startup by
+the isolated recovery. [Kiosk placement and native entry](trading-kiosk-reachability.md)
+are now verified in the first dimension: the retained client opened Barter Rick,
+Trade slots and Browse's empty state. Original APK resources place kiosks in all
+seven dimension prefabs; runtime reachability in the others remains unverified.
+[Native free request creation/cancellation and lock refresh](native-trade-cancellation.md)
+now pass on PMTrade01/5564 with an explicitly synthetic non-party spare. GetTrades
+now returns the authenticated account's existing stored cooldown; native reload
+shows the disabled free slot/countdown. Preserve its snapshots and prepared data.
+The second disposable account now supplies the native friend-request/offer
+fixture. Both complete offer cycles preserve the parent and resources, and all
+temporary listings were retired afterward through owner-scoped APIs. Preserve
+their receipts and prepared collections. Immediate offer-cancel inventory refresh
+remains open: the selector stayed empty until ordinary cold login. Authorization,
+request/offer binding and eligibility now have separate transactional regressions;
+native requester decisions and the practical completed-list wire key have the
+follow-up above. The selected two-spare transfer and both inventory refreshes now pass; wider list
+privacy, other transfer/party variants and original refunds/cooldowns remain separate; existing trade completion claims
+in the README are retained as baseline behavior. Player-details lock projection,
+recipient/donor absorption protection and exact owner withdrawal of orphan offers
+are now covered by [57 regression cases](trade-reference-implementation.md).
+Before broadening lock reconciliation, map every full-Morty serializer and native
+refresh after cancellation; preserve unknown legacy flags and prove two-account
+privacy, ownership and request/offer binding separately.

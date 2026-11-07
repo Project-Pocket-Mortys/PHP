@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "Bounded native notification completion alias repair on isolated replacement server",
+  "pcap_sha256": {
+    "primary-second-offer-startup-capture": "2b275e767bd2d81f548e7a4034ae5764ae416f0cf22e45eefd3008f3dd27849e",
+    "primary-second-offer-create-capture": "975561ee0ab056cee28bb170d991626ebaf68e53d54d8e9f8e79efeeb75b5d9d",
+    "primary-fixed-offer-startup-capture": "c0d4d3b2e29a1668f097995b3a5b7de9fa78045fabc7fa740e68561e7a31f136",
+    "primary-fixed-notification-offer-capture": "9a835b261ae26ebc339188e3d119dad2b6154ba4b199fcfd10dcf05d3295349d"
+  },
+  "fixture_sha256": "c7c21e851b4477fe1540eb9d96e5e4421b9bc1300adc8d76f75b0424939b7225",
+  "observations": [
+    {
+      "phase": "baseline",
+      "request_packet_index": 5,
+      "response_packet_index": 6,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true,
+      "login_scoped_cookie_jwt_identity_matches_listing": true,
+      "actual_packet_time_login_before_listing": true,
+      "native_completion_alias_present": false,
+      "legacy_completed_count": 0,
+      "native_completed_count": null,
+      "completion_aliases_equal": null
+    },
+    {
+      "phase": "fixed",
+      "request_packet_index": 2,
+      "response_packet_index": 3,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true,
+      "login_scoped_cookie_jwt_identity_matches_listing": true,
+      "actual_packet_time_login_before_listing": true,
+      "native_completion_alias_present": true,
+      "legacy_completed_count": 0,
+      "native_completed_count": 0,
+      "completion_aliases_equal": true
+    }
+  ],
+  "baseline_legacy_empty_and_native_alias_missing": true,
+  "fixed_both_completion_lists_empty_and_equal": true,
+  "decision_cycle_proved": false,
+  "native_second_offer_creation_proved": false,
+  "gui_text_proved_by_wire_alone": false,
+  "no_database_or_device_actions": true
+}

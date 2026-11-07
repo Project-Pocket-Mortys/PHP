@@ -1,0 +1,736 @@
+{
+  "evidence_kind": "Android 2.41.0 diagnostic clients and replacement-server synthetic destination; not original-server evidence",
+  "phases": {
+    "baseline": {
+      "started_utc": "2026-10-17T23:56:24.132641+00:00",
+      "finished_utc": "2026-10-17T23:56:41.693579+00:00",
+      "expect": "same",
+      "capture_complete": true,
+      "acceptance_passed": true,
+      "membership_and_sessions_unchanged": true,
+      "socket_unchanged": {
+        "primary": true,
+        "peer": true
+      },
+      "matches": {
+        "primary": [
+          {
+            "sequence": 42,
+            "received_by_other": false
+          },
+          {
+            "sequence": 43,
+            "received_by_other": true
+          },
+          {
+            "sequence": 44,
+            "received_by_other": true
+          }
+        ],
+        "peer": [
+          {
+            "sequence": 56,
+            "received_by_other": true
+          },
+          {
+            "sequence": 57,
+            "received_by_other": true
+          },
+          {
+            "sequence": 58,
+            "received_by_other": true
+          },
+          {
+            "sequence": 59,
+            "received_by_other": true
+          },
+          {
+            "sequence": 60,
+            "received_by_other": true
+          },
+          {
+            "sequence": 61,
+            "received_by_other": true
+          }
+        ]
+      },
+      "worlds": {
+        "primary": "1",
+        "peer": "1"
+      },
+      "packet_counts": {
+        "primary": {
+          "outbound": 3,
+          "inbound": 6
+        },
+        "peer": {
+          "outbound": 6,
+          "inbound": 2
+        }
+      },
+      "kernel_drops": {
+        "primary": 0,
+        "peer": 0
+      },
+      "artifacts": {
+        ".research\\emulator\\world-rooms-baseline\\peer-after.png": {
+          "bytes": 692851,
+          "sha256": "28ce8c5c1794dbd67a1b481a82a328a6292f9dfe527f95c1c92b0a582b61a320"
+        },
+        ".research\\emulator\\world-rooms-baseline\\peer-before.png": {
+          "bytes": 698285,
+          "sha256": "ae65fd3d5ebb2dd158e956a2f2690cf0c9311aaf6a172433e300e7bb4dd1ae6c"
+        },
+        ".research\\emulator\\world-rooms-baseline\\peer-capture.log": {
+          "bytes": 169,
+          "sha256": "cfbeacc65084b996793aa367fd33e1d1d9a0b846bff8e0e60724870f249b5d01"
+        },
+        ".research\\emulator\\world-rooms-baseline\\peer.pcap": {
+          "bytes": 696,
+          "sha256": "cf4f36fb2bf63e94af9833504e587c95bac526bbcf3d916aadede5f9507f67ca"
+        },
+        ".research\\emulator\\world-rooms-baseline\\primary-after.png": {
+          "bytes": 823869,
+          "sha256": "752bf7ff022fa04edd02a13f8b2174eabf03186a1a7345e0c12d42a4da27ce09"
+        },
+        ".research\\emulator\\world-rooms-baseline\\primary-before.png": {
+          "bytes": 866797,
+          "sha256": "8b606d5b8f578de8181152f1c6907e36eb15093cb12f91ddd61509ed0fe15054"
+        },
+        ".research\\emulator\\world-rooms-baseline\\primary-capture.log": {
+          "bytes": 169,
+          "sha256": "aee621cb6a97b1ddd3b37eb87c150335b9a3e00a9457b34217a502ad31a2c880"
+        },
+        ".research\\emulator\\world-rooms-baseline\\primary.pcap": {
+          "bytes": 780,
+          "sha256": "0044387269d564a0601f00fd291bdb943feeaa08601b031b37b8556ca537afbc"
+        },
+        ".research\\emulator\\world-rooms-baseline\\results.json": {
+          "bytes": 10178,
+          "sha256": "ae4f6137232eb3a0664bd93ffd40f6f74058552b9cebbfab0451c62c93624d3e"
+        }
+      }
+    },
+    "split": {
+      "started_utc": "2026-10-18T00:04:28.810568+00:00",
+      "finished_utc": "2026-10-18T00:04:46.319741+00:00",
+      "expect": "different",
+      "capture_complete": true,
+      "acceptance_passed": true,
+      "membership_and_sessions_unchanged": true,
+      "socket_unchanged": {
+        "primary": true,
+        "peer": true
+      },
+      "matches": {
+        "primary": [
+          {
+            "sequence": 4,
+            "received_by_other": false
+          },
+          {
+            "sequence": 5,
+            "received_by_other": false
+          },
+          {
+            "sequence": 6,
+            "received_by_other": false
+          }
+        ],
+        "peer": [
+          {
+            "sequence": 2,
+            "received_by_other": false
+          },
+          {
+            "sequence": 3,
+            "received_by_other": false
+          },
+          {
+            "sequence": 4,
+            "received_by_other": false
+          }
+        ]
+      },
+      "worlds": {
+        "primary": "2",
+        "peer": "1"
+      },
+      "packet_counts": {
+        "primary": {
+          "outbound": 3,
+          "inbound": 0
+        },
+        "peer": {
+          "outbound": 3,
+          "inbound": 0
+        }
+      },
+      "kernel_drops": {
+        "primary": 0,
+        "peer": 0
+      },
+      "artifacts": {
+        ".research\\emulator\\world-rooms-split\\peer-after.png": {
+          "bytes": 827993,
+          "sha256": "cae5c628ac04eb0db727de43e3a9df8b90879a254a3f93acfd3fde8ced9de480"
+        },
+        ".research\\emulator\\world-rooms-split\\peer-before.png": {
+          "bytes": 851209,
+          "sha256": "cb7d195f13a030e84a1361f50ca490e342970516c7bc0bc215771a16b9401101"
+        },
+        ".research\\emulator\\world-rooms-split\\peer-capture.log": {
+          "bytes": 169,
+          "sha256": "0b032150aa53522a1f6a32cedc4ebd37eeb7c8c9613420393392f32d26445766"
+        },
+        ".research\\emulator\\world-rooms-split\\peer.pcap": {
+          "bytes": 276,
+          "sha256": "0aef3b8d8aa4c310247f3d7b603bd3aaaeb05b0365b0bc33f4af9a6fe134daf1"
+        },
+        ".research\\emulator\\world-rooms-split\\primary-after.png": {
+          "bytes": 942204,
+          "sha256": "1cf9f786bed7a871890c737bfabdfc283fb7f8ba9c29552fa031a76b00ba00b3"
+        },
+        ".research\\emulator\\world-rooms-split\\primary-before.png": {
+          "bytes": 972981,
+          "sha256": "70bcb11ab900c8e3eb1147a1d3fcb2cd0d383a9f76910c878083aef0ff462f6f"
+        },
+        ".research\\emulator\\world-rooms-split\\primary-capture.log": {
+          "bytes": 169,
+          "sha256": "0b032150aa53522a1f6a32cedc4ebd37eeb7c8c9613420393392f32d26445766"
+        },
+        ".research\\emulator\\world-rooms-split\\primary.pcap": {
+          "bytes": 276,
+          "sha256": "776dfdef89db560ab6baebb50000219492a01966ef8690b9cef9d53d0ab6c23c"
+        },
+        ".research\\emulator\\world-rooms-split\\results.json": {
+          "bytes": 7368,
+          "sha256": "51518b7fda3c5682e3a8682276c53db4ff048d0a1e7824ef507b77e3094ba653"
+        }
+      }
+    },
+    "destination": {
+      "started_utc": "2026-10-18T00:05:57.545163+00:00",
+      "finished_utc": "2026-10-18T00:06:15.064001+00:00",
+      "expect": "same",
+      "capture_complete": true,
+      "acceptance_passed": true,
+      "membership_and_sessions_unchanged": true,
+      "socket_unchanged": {
+        "primary": true,
+        "peer": true
+      },
+      "matches": {
+        "primary": [
+          {
+            "sequence": 9,
+            "received_by_other": true
+          },
+          {
+            "sequence": 10,
+            "received_by_other": true
+          },
+          {
+            "sequence": 11,
+            "received_by_other": true
+          },
+          {
+            "sequence": 12,
+            "received_by_other": true
+          },
+          {
+            "sequence": 13,
+            "received_by_other": true
+          }
+        ],
+        "peer": [
+          {
+            "sequence": 10,
+            "received_by_other": true
+          },
+          {
+            "sequence": 11,
+            "received_by_other": true
+          },
+          {
+            "sequence": 12,
+            "received_by_other": true
+          },
+          {
+            "sequence": 13,
+            "received_by_other": true
+          }
+        ]
+      },
+      "worlds": {
+        "primary": "2",
+        "peer": "2"
+      },
+      "packet_counts": {
+        "primary": {
+          "outbound": 5,
+          "inbound": 4
+        },
+        "peer": {
+          "outbound": 4,
+          "inbound": 5
+        }
+      },
+      "kernel_drops": {
+        "primary": 0,
+        "peer": 0
+      },
+      "artifacts": {
+        ".research\\emulator\\world-rooms-destination\\peer-after.png": {
+          "bytes": 943309,
+          "sha256": "4435016ffa2131299afdeab21d272265c38aaf7ba35b37e6ae58fa3e92333258"
+        },
+        ".research\\emulator\\world-rooms-destination\\peer-before.png": {
+          "bytes": 977497,
+          "sha256": "d92e06b914d3cb592b3a0c8e7b59dbd173beaacddaa2fa0deb8c60e3b428a183"
+        },
+        ".research\\emulator\\world-rooms-destination\\peer-capture.log": {
+          "bytes": 169,
+          "sha256": "aee621cb6a97b1ddd3b37eb87c150335b9a3e00a9457b34217a502ad31a2c880"
+        },
+        ".research\\emulator\\world-rooms-destination\\peer.pcap": {
+          "bytes": 780,
+          "sha256": "adb0c07b3241d1df3f9a9e4ee229f651dae95923bd1be0f3e9e626c3256b73c7"
+        },
+        ".research\\emulator\\world-rooms-destination\\primary-after.png": {
+          "bytes": 943958,
+          "sha256": "100bd145eeee4c9eac5d66a88e5f816b43fbbacdd531bff2463e48f8b4931453"
+        },
+        ".research\\emulator\\world-rooms-destination\\primary-before.png": {
+          "bytes": 957466,
+          "sha256": "59fcb46d0dbc1cf914cf92789948d427b49eac7cf610e872372a72d9d8ecf43c"
+        },
+        ".research\\emulator\\world-rooms-destination\\primary-capture.log": {
+          "bytes": 169,
+          "sha256": "aee621cb6a97b1ddd3b37eb87c150335b9a3e00a9457b34217a502ad31a2c880"
+        },
+        ".research\\emulator\\world-rooms-destination\\primary.pcap": {
+          "bytes": 780,
+          "sha256": "9feadecc79d505d37523a56b9d78f88132d2ec1d7a91c9b672a9419153c5ed6f"
+        },
+        ".research\\emulator\\world-rooms-destination\\results.json": {
+          "bytes": 10470,
+          "sha256": "c193fb9ab37e27e660c9f3c62348430050f8bd6bb111f440a40e430f7b16ef7b"
+        }
+      }
+    },
+    "return-split": {
+      "started_utc": "2026-10-18T00:07:19.222654+00:00",
+      "finished_utc": "2026-10-18T00:07:36.719044+00:00",
+      "expect": "different",
+      "capture_complete": true,
+      "acceptance_passed": true,
+      "membership_and_sessions_unchanged": true,
+      "socket_unchanged": {
+        "primary": true,
+        "peer": true
+      },
+      "matches": {
+        "primary": [
+          {
+            "sequence": 17,
+            "received_by_other": false
+          },
+          {
+            "sequence": 18,
+            "received_by_other": false
+          },
+          {
+            "sequence": 19,
+            "received_by_other": false
+          }
+        ],
+        "peer": [
+          {
+            "sequence": 14,
+            "received_by_other": false
+          },
+          {
+            "sequence": 15,
+            "received_by_other": false
+          },
+          {
+            "sequence": 16,
+            "received_by_other": false
+          },
+          {
+            "sequence": 17,
+            "received_by_other": false
+          }
+        ]
+      },
+      "worlds": {
+        "primary": "1",
+        "peer": "2"
+      },
+      "packet_counts": {
+        "primary": {
+          "outbound": 3,
+          "inbound": 0
+        },
+        "peer": {
+          "outbound": 4,
+          "inbound": 0
+        }
+      },
+      "kernel_drops": {
+        "primary": 0,
+        "peer": 0
+      },
+      "artifacts": {
+        ".research\\emulator\\world-rooms-return-split\\peer-after.png": {
+          "bytes": 944252,
+          "sha256": "89754796e75a3e77af8aca3cf80190eae45c53118ad358afe7f2486dd98b61e0"
+        },
+        ".research\\emulator\\world-rooms-return-split\\peer-before.png": {
+          "bytes": 942439,
+          "sha256": "577a3eaebbf7737c7deea423715da1c3509b209080696548b90ae9ba150643d3"
+        },
+        ".research\\emulator\\world-rooms-return-split\\peer-capture.log": {
+          "bytes": 169,
+          "sha256": "059d0c5d57ec87567107ac0525415ca7fd1e825f3afbcdd6fb5cacc85ba29115"
+        },
+        ".research\\emulator\\world-rooms-return-split\\peer.pcap": {
+          "bytes": 360,
+          "sha256": "3e7dbb2cc67c35f875bf38a91b6e1ff756958987caf2639ac0aaf5190fa8585d"
+        },
+        ".research\\emulator\\world-rooms-return-split\\primary-after.png": {
+          "bytes": 826988,
+          "sha256": "f2bebb2a05531c13fbb59c99c40dfcf308138813bdcc77a7594377ae12608789"
+        },
+        ".research\\emulator\\world-rooms-return-split\\primary-before.png": {
+          "bytes": 849249,
+          "sha256": "aaa62e2f7932a2fba6ee27fc74ad38a94bf24d31f44cd91d56a0b9bfa01cbe1d"
+        },
+        ".research\\emulator\\world-rooms-return-split\\primary-capture.log": {
+          "bytes": 169,
+          "sha256": "0b032150aa53522a1f6a32cedc4ebd37eeb7c8c9613420393392f32d26445766"
+        },
+        ".research\\emulator\\world-rooms-return-split\\primary.pcap": {
+          "bytes": 276,
+          "sha256": "0d957f23c3de54705f0498336a4a60a1586dd887c9f54f65286887b4359ac374"
+        },
+        ".research\\emulator\\world-rooms-return-split\\results.json": {
+          "bytes": 7695,
+          "sha256": "fed76683e0678011fada21041505da2645e86c7f5600581cb6511f3acaec4ab7"
+        }
+      }
+    },
+    "restored": {
+      "started_utc": "2026-10-18T00:09:28.286117+00:00",
+      "finished_utc": "2026-10-18T00:09:45.768082+00:00",
+      "expect": "same",
+      "capture_complete": true,
+      "acceptance_passed": true,
+      "membership_and_sessions_unchanged": true,
+      "socket_unchanged": {
+        "primary": true,
+        "peer": true
+      },
+      "matches": {
+        "primary": [
+          {
+            "sequence": 2,
+            "received_by_other": true
+          },
+          {
+            "sequence": 3,
+            "received_by_other": true
+          },
+          {
+            "sequence": 4,
+            "received_by_other": true
+          }
+        ],
+        "peer": [
+          {
+            "sequence": 2,
+            "received_by_other": true
+          },
+          {
+            "sequence": 3,
+            "received_by_other": true
+          },
+          {
+            "sequence": 4,
+            "received_by_other": true
+          },
+          {
+            "sequence": 5,
+            "received_by_other": true
+          }
+        ]
+      },
+      "worlds": {
+        "primary": "1",
+        "peer": "1"
+      },
+      "packet_counts": {
+        "primary": {
+          "outbound": 3,
+          "inbound": 4
+        },
+        "peer": {
+          "outbound": 4,
+          "inbound": 3
+        }
+      },
+      "kernel_drops": {
+        "primary": 0,
+        "peer": 0
+      },
+      "artifacts": {
+        ".research\\emulator\\world-rooms-restored\\peer-after.png": {
+          "bytes": 818755,
+          "sha256": "2bb6a8829cc88d2c77d03bebc3f2c3fdaee6e57f5307efc0b6e1669ccf2eaa66"
+        },
+        ".research\\emulator\\world-rooms-restored\\peer-before.png": {
+          "bytes": 846296,
+          "sha256": "4d8524a72889bbc282bd2d8514e3dcbfa706f2505cf4c17f81eb7b92e7336d0d"
+        },
+        ".research\\emulator\\world-rooms-restored\\peer-capture.log": {
+          "bytes": 169,
+          "sha256": "a95810d13a213f0b085a608803a2e1dccb97c698607d1449050289078e48cf1c"
+        },
+        ".research\\emulator\\world-rooms-restored\\peer.pcap": {
+          "bytes": 612,
+          "sha256": "305d0afcd00dbec1af4e82bdc5df225a85378f0cb8e6ac01f8e010b21fec1206"
+        },
+        ".research\\emulator\\world-rooms-restored\\primary-after.png": {
+          "bytes": 819919,
+          "sha256": "861b6200cdabdf5ca5419d8c2d3060ea985a0aabea4550f8974efd05d0f64ba7"
+        },
+        ".research\\emulator\\world-rooms-restored\\primary-before.png": {
+          "bytes": 846199,
+          "sha256": "e5a7be738a95ebb67f47cbf7b8958cf1310bd908406fcaecebfea1388ef8ff0e"
+        },
+        ".research\\emulator\\world-rooms-restored\\primary-capture.log": {
+          "bytes": 169,
+          "sha256": "a95810d13a213f0b085a608803a2e1dccb97c698607d1449050289078e48cf1c"
+        },
+        ".research\\emulator\\world-rooms-restored\\primary.pcap": {
+          "bytes": 612,
+          "sha256": "d08ccded970e790296ce4d9182eef9e28c2673ba8e3058a3aea4add3e7110f2d"
+        },
+        ".research\\emulator\\world-rooms-restored\\results.json": {
+          "bytes": 9344,
+          "sha256": "b00fdc1f823c2ddb14912e9de99ece356421ed853e530fe104d4cd76b4efb5f4"
+        }
+      }
+    }
+  },
+  "same_session_across_successful_world_transitions": {
+    "primary": true,
+    "peer": true
+  },
+  "http_chronology_not_role_attributed": [
+    {
+      "time_utc": "2026-10-17T23:57:54+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-17T23:57:54+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-18T00:01:16+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-18T00:01:16+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-18T00:02:52+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-18T00:02:53+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-18T00:03:32+00:00",
+      "method": "POST",
+      "path": "/session/leave-room",
+      "status": 200,
+      "requested_world": null,
+      "response_world": null
+    },
+    {
+      "time_utc": "2026-10-18T00:03:51+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "2",
+      "response_world": 2
+    },
+    {
+      "time_utc": "2026-10-18T00:05:22+00:00",
+      "method": "POST",
+      "path": "/session/leave-room",
+      "status": 200,
+      "requested_world": null,
+      "response_world": null
+    },
+    {
+      "time_utc": "2026-10-18T00:05:41+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "2",
+      "response_world": 2
+    },
+    {
+      "time_utc": "2026-10-18T00:06:55+00:00",
+      "method": "POST",
+      "path": "/session/leave-room",
+      "status": 200,
+      "requested_world": null,
+      "response_world": null
+    },
+    {
+      "time_utc": "2026-10-18T00:07:02+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-18T00:08:20+00:00",
+      "method": "POST",
+      "path": "/session/leave-room",
+      "status": 200,
+      "requested_world": null,
+      "response_world": null
+    },
+    {
+      "time_utc": "2026-10-18T00:08:27+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-18T00:09:04+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    },
+    {
+      "time_utc": "2026-10-18T00:09:05+00:00",
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "requested_world": "1",
+      "response_world": 1
+    }
+  ],
+  "restoration": {
+    "accounts": [
+      {
+        "username": "PMResearch01",
+        "level": 1,
+        "state": "WORLD",
+        "world_id": "1"
+      },
+      {
+        "username": "PMResearch02",
+        "level": 1,
+        "state": "WORLD",
+        "world_id": "1"
+      }
+    ],
+    "world2_room_absent": true,
+    "recovery_snapshot_removed": true,
+    "heartbeats": [
+      {
+        "username": "PMResearch01",
+        "in_world": 1,
+        "heartbeat_age_seconds": 4,
+        "session_matches": 1,
+        "room_matches": 1,
+        "same_room": 1
+      },
+      {
+        "username": "PMResearch02",
+        "in_world": 1,
+        "heartbeat_age_seconds": 3,
+        "session_matches": 1,
+        "room_matches": 1,
+        "same_room": 1
+      }
+    ]
+  },
+  "fixture_level": 5,
+  "original_level": 1,
+  "limitations": [
+    "Capture windows bracket world changes; no assertion about races during transitions.",
+    "No syscall or raw SSE traces in these phases; packet receipt is distinct from application processing.",
+    "Baseline ran before world labels were added to probe JSON; world1 labels reflect checked initial membership.",
+    "First attempt encountered DialogueUI null reference; retry succeeded without a client or backend patch.",
+    "Guest packet sessions remain equal across the three successful transition phases; client restarts before/after intentionally rotated sessions."
+  ],
+  "source_sha256_lf_normalized": {
+    "tools/research/probe_android_world_rooms.py": "e4fc1c1dd6501f010d706686d3fdc77e910244cc9dc2561dcf941a5ae9528e5d",
+    "tools/research/server/seed-world-transition.php": "c62cfa2c02dab0f0341ad253ecdfe874203cfe24a2e9e4dfe79aff18fd030ac4"
+  },
+  "additional_artifacts": {
+    ".research/emulator/world2-confirm.png": {
+      "bytes": 676569,
+      "sha256": "9c4ffda22769be839a26589a22214e3ab11545eee3dec70efa9d77ad55186ba7"
+    },
+    ".research/emulator/world2-retry-menu.png": {
+      "bytes": 707383,
+      "sha256": "b98adc795e04e5c8c4c3abe6823094f5f39ced496e95a46b3da88a71cfc72a8e"
+    },
+    ".research/emulator/world2-primary-arrived.png": {
+      "bytes": 501452,
+      "sha256": "5d1038121bb75413ee52e9096b2ad1ea66653581725e1d4c87eb8cdb2f16f18e"
+    },
+    ".research/emulator/world2-logcat.txt": {
+      "bytes": 145466,
+      "sha256": "5dd5cead7eafbb2f2e4c9bfc0cd46e766d7394833db0e02c30c6311a36eed2a1"
+    },
+    ".research/emulator/world2-attempt/before-restore.json": {
+      "bytes": 305,
+      "sha256": "0b88db6f1f0d96ea49f385277ef53a380a7f0498c5799f1ddb368d3d72e31ef2"
+    },
+    ".research/emulator/primary-restored-controls.png": {
+      "bytes": 846215,
+      "sha256": "cfe8a951b45c2a11278ddcd1011591f7aaaf98a99beb6104a544299664f50888"
+    }
+  }
+}

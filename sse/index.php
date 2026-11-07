@@ -3,8 +3,8 @@
 // Streams session + room events via SSE.
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 
 set_time_limit(0);
 ignore_user_abort(true);
@@ -17,6 +17,11 @@ header('X-Accel-Buffering: no');
 require __DIR__ . "/../pocket_f4894h398r8h9w9er8he98he.php";
 require __DIR__ . "/../lib/auth.php";
 require __DIR__ . "/../lib/events.php"; // provides sse_send()
+require_once __DIR__ . '/../lib/battle_timeouts.php';
+require_once __DIR__ . '/../lib/friend_invite_stream.php';
+require_once __DIR__ . '/../lib/friend_battle_preparations.php';
+require_once __DIR__ . '/../lib/friend_battle_startup.php';
+require_once __DIR__ . '/../lib/trade_refresh.php';
 
 // ---------------- SSE HELPERS ----------------
 function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
@@ -26,40 +31,77 @@ function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
     @ob_flush(); @flush();
 }
 
+/** Opt-in global delivery is independent of the room cursor and snapshots. */
+function stream_shared_battle(PDO $pdo, string $player, string $session, string $stream): void {
+    if ($stream==='') return;
+    try {
+        $batch=friend_battle_transport_poll($pdo,$session,$player,$stream);
+        foreach ($batch['events'] as $event) {
+            if (!in_array($event['event'],['battle:start','session:end'],true)) throw new LogicException('Unsupported shared stream event');
+            sse_send_id($event['event'],json_encode($event['payload'],JSON_THROW_ON_ERROR|JSON_UNESCAPED_SLASHES));
+        }
+        if ($batch['close']) exit;
+    } catch (Throwable $error) {
+        // Superseded/revoked connections close without restarting old clients.
+        error_log('Shared battle stream closed: '.get_class($error));
+        exit;
+    }
+}
+
+function stream_friend_invites(PDO $pdo, string $player, string $session, array &$seen): void {
+    // This runs outside the room/world transaction: preparation cleanup locks
+    // both participants in sorted order before touching shared reservations.
+    static $lastPreparationCheck = [];
+    $key = $player . ':' . $session;
+    $now = microtime(true);
+    if (!isset($lastPreparationCheck[$key]) || $now - $lastPreparationCheck[$key] >= 1.0) {
+        $lastPreparationCheck[$key] = $now;
+        try {
+            friend_battle_prepare_expire_player($pdo, $player, 8, $session);
+        } catch (Throwable $error) {
+            // Keep incomplete/invalid claims fail-closed; the next poll retries.
+            error_log('SSE friend preparation cleanup failed: ' . get_class($error));
+        }
+    }
+    try {
+        foreach (friend_battle_invite_events($pdo, $player, $session, $seen) as $event) {
+            sse_send_id($event['event'], json_encode($event['payload'], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
+        }
+    } catch (Throwable $error) {
+        // Missing migrations and revoked/ambiguous sessions fail closed without
+        // printing SQL details, PHP warnings, or a fabricated protocol event.
+        error_log('SSE friend invitation poll failed: ' . get_class($error));
+        exit;
+    }
+}
+
+function stream_trade_refresh(PDO $pdo, string $player, string $session, ?string &$seen,
+    string $initialGeneration, bool &$ready): void {
+    try {
+        // OnOpen binds native trade handlers before startup initializes their
+        // playerData. A fresh successful join is the observed startup barrier;
+        // a retained old room alone does not prove this connection is ready.
+        if (!$ready) {
+            $membership = require_live_stream_session($pdo, $player, $session);
+            if ((string)$membership['room_membership_generation'] === $initialGeneration
+                || in_array((string)$membership['room_id'], ['', '0'], true)) return;
+            $ready = true;
+        }
+        $event = trade_refresh_poll($pdo, $player, $session, $seen);
+        if ($event === null) return;
+        sse_send_id($event['event'], json_encode($event['payload'], JSON_THROW_ON_ERROR));
+        $seen = $event['revision'];
+    } catch (Throwable $error) {
+        error_log('SSE trade refresh closed: ' . get_class($error));
+        exit;
+    }
+}
+
 function base64url_decode($data) { return base64_decode(strtr($data, '-_', '+/')); }
 function decode_jwt_payload($jwt) {
     $parts = explode('.', $jwt);
     if (count($parts) < 2) return null;
     return json_decode(base64url_decode($parts[1]), true);
-}
-
-// Only used as fallback if event_queue.player_id is NULL for private events
-function payload_involves_player(string $payloadJson, string $player_id): bool {
-    $d = json_decode($payloadJson, true);
-    if (!is_array($d)) return false;
-
-    $keys = [
-        "player_id",
-        "attacker_player_id",
-        "defender_player_id",
-        "challenger_player_id",
-        "challenged_player_id",
-        "owner_player_id",
-    ];
-
-    foreach ($keys as $k) {
-        if (isset($d[$k]) && (string)$d[$k] === $player_id) return true;
-    }
-
-    if (isset($d["turn_datas"]) && is_array($d["turn_datas"])) {
-        foreach ($d["turn_datas"] as $t) {
-            if (!is_array($t)) continue;
-            if (isset($t["attacker_player_id"]) && (string)$t["attacker_player_id"] === $player_id) return true;
-            if (isset($t["defender_player_id"]) && (string)$t["defender_player_id"] === $player_id) return true;
-        }
-    }
-
-    return false;
 }
 
 // Cursor stored in users table
@@ -68,10 +110,11 @@ function cursor_get(PDO $pdo, string $player_id): int {
     $q->execute([$player_id]);
     return (int)$q->fetchColumn();
 }
-function cursor_set(PDO $pdo, string $player_id, int $last_id, string $session_id, string $room_id): void {
-    // A previous room's poll must not overwrite a new join's cursor.
-    $q = $pdo->prepare("UPDATE users SET last_event_id = ?, last_seen = NOW() WHERE player_id = ? AND session_id = ? AND room_id = ?");
-    $q->execute([$last_id, $player_id, $session_id, $room_id]);
+function cursor_set(PDO $pdo, string $player_id, int $last_id, string $session_id, string $room_id, string $generation): void {
+    // A previous membership's poll must not overwrite a new join's cursor,
+    // including a leave/rejoin to the same room between polls.
+    $q = $pdo->prepare("UPDATE users SET last_event_id = ?, last_seen = NOW() WHERE player_id = ? AND session_id = ? AND room_id = ? AND room_membership_generation = ?");
+    $q->execute([$last_id, $player_id, $session_id, $room_id, $generation]);
 }
 function room_max_event_id(PDO $pdo, string $room_id): int {
     $q = $pdo->prepare("SELECT COALESCE(MAX(id), 0) FROM event_queue WHERE room_id = ?");
@@ -82,13 +125,19 @@ function room_max_event_id(PDO $pdo, string $room_id): int {
 // A stream belongs to the session that opened it, not every future login
 // for the same player. End revoked streams without inventing a wire event.
 function require_live_stream_session(PDO $pdo, string $player_id, string $session_id): array {
-    $q = $pdo->prepare("SELECT room_id, COALESCE(last_event_id, 0) AS last_event_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+    $q = $pdo->prepare("SELECT room_id, room_membership_generation, COALESCE(last_event_id, 0) AS last_event_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
     $q->execute([$player_id, $session_id]);
     $membership = $q->fetch(PDO::FETCH_ASSOC);
     if (!$membership) exit;
     return $membership;
 }
 
+
+// Keep BIGINT generations as decimal strings, including values above PHP_INT_MAX.
+function stream_membership_matches(array $membership, string $room_id, string $generation): bool {
+    return (string)$membership['room_id'] === $room_id
+        && (string)$membership['room_membership_generation'] === $generation;
+}
 
 /* ---------------- ACTIVE DECK MORTIES ---------------- */
 require_once __DIR__ . '/../lib/active_deck.php';
@@ -105,22 +154,21 @@ if ($session_id === "") {
     exit;
 }
 
-$stmt = $pdo->prepare("
-    SELECT player_id, username, level, tags, room_id, player_avatar_id, state, COALESCE(last_event_id, 0) AS last_event_id
-    FROM users
-    WHERE session_id = ?
-    LIMIT 1
-");
-$stmt->execute([$session_id]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$user) {
+try {
+    $user = friend_auth($pdo, $session_id);
+} catch (Throwable $error) {
+    error_log('SSE authentication failed: ' . get_class($error));
     http_response_code(401);
     sse_send_id("error", json_encode(["error" => "Not authenticated"], JSON_UNESCAPED_SLASHES));
     exit;
 }
 
 $player_id = (string)$user["player_id"];
+$friend_battle_stream_id='';
+if (friend_battle_transport_enabled()) {
+    try { $friend_battle_stream_id=friend_battle_transport_open($pdo,$session_id,$player_id); }
+    catch (Throwable $error) { error_log('Shared stream registration failed: '.get_class($error)); exit; }
+}
 
 $tags = $user["tags"] ?? [];
 if (is_string($tags)) {
@@ -157,6 +205,14 @@ $session = [
 ];
 
 sse_send("session:start", json_encode($session, JSON_UNESCAPED_SLASHES));
+$friend_invite_seen = [];
+$trade_refresh_seen = null;
+$trade_refresh_initial_generation = (string)$user['room_membership_generation'];
+$trade_refresh_ready = false;
+stream_trade_refresh($pdo, $player_id, $session_id, $trade_refresh_seen,
+    $trade_refresh_initial_generation, $trade_refresh_ready);
+stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
+stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
 
 // -------------------- WAIT FOR ROOM --------------------
 
@@ -164,11 +220,16 @@ $room_id = "";
 $last_keepalive = time();
 
 while (!connection_aborted()) {
-    $st = $pdo->prepare("SELECT room_id FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
+    stream_trade_refresh($pdo, $player_id, $session_id, $trade_refresh_seen,
+        $trade_refresh_initial_generation, $trade_refresh_ready);
+    stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
+    stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
+    $st = $pdo->prepare("SELECT room_id, room_membership_generation FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
     $st->execute([$player_id, $session_id]);
     $membership = $st->fetch(PDO::FETCH_ASSOC);
     if (!$membership) exit;
     $room_id = (string)$membership['room_id'];
+    $generation = (string)$membership['room_membership_generation'];
 
     if ($room_id !== "" && $room_id !== "0") break;
 
@@ -196,19 +257,24 @@ $fresh_connect = ($client_last_event_id === null);
 // -------------------- INITIAL SNAPSHOT (ONLY ON FRESH CONNECT) --------------------
 
 if ($fresh_connect) {
+    // Fix one boundary before reading entities. Later publications belong to
+    // the live queue, even if they arrive while a snapshot is being sent.
+    $snapshot_last_id = room_max_event_id($pdo, $room_id);
+
     // ---------------- PICKUPS ----------------
     $pickupStmt = $pdo->prepare("
-        SELECT id, pickup_id, placement, pick_up_contents
+        SELECT id, only_show_to_player_id, pickup_id, placement, pick_up_contents
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:pickup-added'
         AND pickup_id_collected_by_player_id IS NULL
         ORDER BY id ASC
     ");
-    $pickupStmt->execute([$room_id]);
+    $pickupStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
-        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
+        if (!event_is_visible_to_player($p, $player_id)) continue;
+        if (!stream_membership_matches(require_live_stream_session($pdo, $player_id, $session_id), $room_id, $generation)) break;
 
         $placement = explode(",", $p["placement"] ?? "0,0");
 
@@ -230,16 +296,17 @@ if ($fresh_connect) {
 
     // ---------------- WILD MORTIES ----------------
     $wildStmt = $pdo->prepare("
-        SELECT id, wild_morty_id, morty_id, placement, state, division, variant, shiny_if_potion
+        SELECT id, only_show_to_player_id, wild_morty_id, morty_id, placement, state, division, variant, shiny_if_potion
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:wild-morty-added'
         ORDER BY id ASC
     ");
-    $wildStmt->execute([$room_id]);
+    $wildStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
-        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
+        if (!event_is_visible_to_player($w, $player_id)) continue;
+        if (!stream_membership_matches(require_live_stream_session($pdo, $player_id, $session_id), $room_id, $generation)) break;
 
         $placement = explode(",", $w["placement"] ?? "0,0");
 
@@ -267,16 +334,17 @@ if ($fresh_connect) {
 
     // ---------------- BOTS ----------------
     $botStmt = $pdo->prepare("
-        SELECT id, bot_id, username, player_avatar_id, placement, state, owned_morties
+        SELECT id, only_show_to_player_id, bot_id, username, player_avatar_id, placement, state, owned_morties
         FROM event_queue
-        WHERE room_id = ?
+        WHERE room_id = ? AND id <= ?
         AND event_name = 'room:bot-added'
         ORDER BY id ASC
     ");
-    $botStmt->execute([$room_id]);
+    $botStmt->execute([$room_id, $snapshot_last_id]);
 
     while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
-        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
+        if (!event_is_visible_to_player($b, $player_id)) continue;
+        if (!stream_membership_matches(require_live_stream_session($pdo, $player_id, $session_id), $room_id, $generation)) break;
 
         $placement = explode(",", $b["placement"] ?? "0,0");
 
@@ -301,32 +369,40 @@ if ($fresh_connect) {
         );
     }
 
-    // move cursor forward after snapshot
-    $last_id = room_max_event_id($pdo, $room_id);
-    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
+    // Continue above the original boundary, not a new maximum after delivery.
+    $last_id = $snapshot_last_id;
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id, $generation);
 
 } else {
     $last_id = (int)$client_last_event_id;
-    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id, $generation);
 }
 
 // -------------------- MAIN STREAM LOOP --------------------
 
 $keepalive_interval_sec = 30;
 $last_keepalive = time();
-
-$privateEvents = [
-    "battle:start",
-    "battle:move-timer-started",
-    "battle:turn-result"
-];
+$last_timeout_check = 0;
 
 while (!connection_aborted()) {
 
+    stream_trade_refresh($pdo, $player_id, $session_id, $trade_refresh_seen,
+        $trade_refresh_initial_generation, $trade_refresh_ready);
+    stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
+    stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
     $membership = require_live_stream_session($pdo, $player_id, $session_id);
+    if (time() !== $last_timeout_check) {
+        $last_timeout_check = time();
+        try {
+            battle_timeout_expire_player($pdo, $player_id, 8, $session_id);
+        } catch (Throwable $error) {
+            error_log('SSE battle timeout check failed: ' . $error->getMessage());
+        }
+    }
     $current_room_id = (string)$membership['room_id'];
-    if ($current_room_id !== $room_id) {
+    if (!stream_membership_matches($membership, $room_id, $generation)) {
         $room_id = $current_room_id;
+        $generation = (string)$membership['room_membership_generation'];
         // join-room supplies the snapshot over HTTP and installs this baseline
         // together with membership. Do not replay the destination's history.
         $last_id = (int)$membership['last_event_id'];
@@ -385,7 +461,7 @@ while (!connection_aborted()) {
     $sent = false;
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        if ((string)require_live_stream_session($pdo, $player_id, $session_id)['room_id'] !== $room_id) break;
+        if (!stream_membership_matches(require_live_stream_session($pdo, $player_id, $session_id), $room_id, $generation)) break;
 
         $eventName = (string)$row["event_name"];
         $eid = (int)$row["id"];
@@ -393,21 +469,10 @@ while (!connection_aborted()) {
 
         $payload = (string)null;
 
-        // ---------------- PRIVATE EVENT FILTER ----------------
-        if (in_array($eventName, $privateEvents, true)) {
-
-            if ($targetPid !== "" && $targetPid !== $player_id) {
-                $last_id = $eid;
-                continue;
-            }
-
-            if (
-                $targetPid === "" &&
-                !payload_involves_player($payload, $player_id)
-            ) {
-                $last_id = $eid;
-                continue;
-            }
+        // Recipient metadata is authoritative; ambiguous private events stay private.
+        if (!event_is_visible_to_player($row, $player_id)) {
+            $last_id = $eid;
+            continue;
         }
 
         // ---------------- REBUILD PICKUP EVENTS ----------------
@@ -493,6 +558,9 @@ while (!connection_aborted()) {
 		}
 
 		// ---------------- WILD MORTY STATE CHANGE ----------------
+        elseif ($eventName === "room:wild-morty-removed") {
+            $payload = json_encode(["wild_morty_id" => $row["wild_morty_id"]], JSON_UNESCAPED_SLASHES);
+        }
         elseif ($eventName === "room:wild-morty-state-changed") {
 		   $rebuilt = [
                 "wild_morty_id" => $row["wild_morty_id"],
@@ -601,7 +669,7 @@ while (!connection_aborted()) {
         $sent = true;
     }
 
-    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id);
+    cursor_set($pdo, $player_id, $last_id, $session_id, $room_id, $generation);
 
     if (
         !$sent &&
