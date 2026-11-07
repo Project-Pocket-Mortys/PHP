@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "branch": "hayward/trade-listing-protection",
+  "base_main_commit": "9ff1a116e41e809172e63d983558cee9c662dc75",
+  "prerequisite_commit": "b0170b2cc66cdf24bb32c7e3c0c8d7c332eb1cc8",
+  "scope": "Eligibility at request/offer insertion; static Android evidence plus synthetic replacement HTTP/database tests; no new Android capture or original-service evidence",
+  "native": {
+    "rea": "6.8.0",
+    "ghidra": "12.1.4",
+    "elf_sha256": "ff773be7d3718ee307f6342358268748e8fa2487460e7b3857715478cb8e4326",
+    "metadata_version": 31,
+    "fresh_receipt": ".research/trade-listing-protection-20261106T233540Z",
+    "bounded_methods": 19,
+    "contract": "trade-listing-protection-contract.md",
+    "reproduce": "wsl.exe -- bash tools/research/ghidra-trade-listing-protection.sh"
+  },
+  "exploratory_baseline": {
+    "methods": 21,
+    "failing_assertions_including_subtests": 78,
+    "seconds": 37.859,
+    "source_commit": "b0170b2cc66cdf24bb32c7e3c0c8d7c332eb1cc8",
+    "private_receipt": ".research/trade-listing-baseline-tests.txt",
+    "limit": "Initial expectations included provisional statuses and a legacy-battle freeze probe later excluded; failure count is not a confirmed-defect count"
+  },
+  "verification": {
+    "unique_cases_covered": 74,
+    "passed_after_focused_followups": true,
+    "runs": [
+      {
+        "suite": "test_trade_listing_protection.py",
+        "methods": 28,
+        "passed": 27,
+        "failed": 1,
+        "seconds": 93.657,
+        "failure": "Expected successful paid request snapshot omitted users.last_seen automatic ON UPDATE timestamp; assertion corrected, affected successful request cases rerun below"
+      },
+      {
+        "suite": "test_trade_references.py",
+        "methods": 12,
+        "passed": 12,
+        "seconds": 32.793
+      },
+      {
+        "suite": "test_trade_cancellation.py",
+        "methods": 19,
+        "passed": 19,
+        "seconds": 40.499
+      },
+      {
+        "suite": "test_start_context_writer_guards.py",
+        "methods": 8,
+        "passed": 6,
+        "failed": 2,
+        "seconds": 80.831,
+        "failure": "Wait monitor searched player ID only while new current read locks by session; monitor corrected, failed cases rerun below"
+      },
+      {
+        "suite": "focused request-success and context wait followups",
+        "methods": 6,
+        "passed": 6,
+        "seconds": 29.768,
+        "cases": [
+          "TradeListingProtectionTests.test_inactive_deck_spare_can_create_free_request_with_existing_wire_and_cooldown",
+          "TradeListingProtectionTests.test_inactive_deck_spare_can_create_paid_request_with_existing_coupon_cost",
+          "TradeListingProtectionTests.test_legacy_request_omissions_keep_defaults_and_authenticated_owner",
+          "TradeListingProtectionTests.test_concurrent_request_and_offer_can_reserve_spare_only_once",
+          "StartContextWriterGuardTests.test_claim_committed_during_user_lock_wait_is_observed",
+          "StartContextWriterGuardTests.test_session_revoked_during_user_lock_wait_cannot_write"
+        ]
+      },
+      {
+        "suite": "test_trade_offer_metadata.py",
+        "methods": 4,
+        "passed": 4,
+        "seconds": 5.643
+      },
+      {
+        "suite": "test_trade_cooldown.py",
+        "methods": 3,
+        "passed": 3,
+        "seconds": 4.029
+      }
+    ],
+    "execution": "Exact suites serially against isolated Compose; additive UUID fixtures; scoped cleanup; no global reseed",
+    "assertion_changes": "Only successful request actor last_seen may follow schema auto-update; successful offers/rejected requests retain exact snapshots. Wait monitor accepts either fixture session/player SQL identity; blocked process cleanup closes pipes.",
+    "php_lint": "All three changed/new PHP files pass",
+    "wrapper": "Fresh targeted execution and bash -n pass; REA reports6.8.0",
+    "source_validation": "JSON/source/helper hashes, reviewed constructor field sets, bounded native mapping and Python syntax pass",
+    "guards": [
+      "Original account/social/invitation/battle history preserved",
+      "Battle-item accounts HP/AP/items/decks/progression/membership preserved",
+      "Native trading pair unchanged excluding last_seen",
+      "Retained paired startup save/history preserved"
+    ]
+  },
+  "unchanged": [
+    "Successful request/offer wire formats and display metadata",
+    "Existing paid cost1 and free expiry time()+3600",
+    "Raw lock flags, collection, active/inactive deck membership and attacks",
+    "Root README claims/attribution",
+    "main/master",
+    "Retained emulator installations/saves",
+    "Database schema"
+  ],
+  "remaining": [
+    "Later deck activation of a listed instance and acceptance-time party revalidation",
+    "Native accept/reject presentation and inventory refresh",
+    "Legacy direct ACTIVE-battle eligibility requires terminal reconciliation",
+    "Original slot/cooldown/economics and duplicate-offer/friendship policy",
+    "Parent-owner/collection integrity for legacy listings",
+    "Completed-list spelling and offer-cancel immediate refresh",
+    "Mixed legacy lock order/current scans may deadlock; rolled-back failure, no auto retry"
+  ]
+}

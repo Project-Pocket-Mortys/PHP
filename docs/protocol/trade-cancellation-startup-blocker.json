@@ -1,0 +1,106 @@
+{
+  "status": "Native startup blocked before login; cookie handoff and native cancellation not proven",
+  "evidence_kind": "Sanitized dedicated research-client startup captures against replacement server; not original-service evidence",
+  "captures": [
+    {
+      "capture": ".research/emulator/trade-cancellation-cookie-20261106/primary-capture/primary-http.pcap",
+      "pcap_sha256": "9d99f28aaf61ba86ec47f84f718654336ab9b86b9a628ffb2dc55d277d273977",
+      "configured_duration_seconds": 120,
+      "elapsed_capture_seconds": 120.091,
+      "routing": "device ports 8087 and 8089 reversed to host 8087",
+      "login_request_count": 0,
+      "trading_request_count": 0,
+      "onetrust_null_reference_exception_count": 7,
+      "request_status_summaries": [
+        {
+          "method": "GET",
+          "path": "/_research/online",
+          "response_statuses": [
+            204
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/time",
+          "response_statuses": [
+            200
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/inappdeletion/get-account-data-storage-time",
+          "response_statuses": [
+            200
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/promos/active",
+          "response_statuses": [
+            200
+          ]
+        }
+      ],
+      "native_cookie_handoff_proven": false,
+      "native_cancellation_proven": false,
+      "retained_log_onetrust_stack_count": 7,
+      "exception_count_scope": "Stack entries whose logcat epoch falls within the host capture started_utc..capture_ended_utc interval; retained log may include earlier runs"
+    },
+    {
+      "capture": ".research/emulator/trade-cancellation-cookie-20261106/sidecar-primary-capture/primary-http.pcap",
+      "pcap_sha256": "637e3e6468d06114ae9e55dcd17ee530dacc74775aa6e3d19e7b2c4c49120c7b",
+      "configured_duration_seconds": 165,
+      "elapsed_capture_seconds": 165.076,
+      "routing": "device ports 8087 and 8089 reversed to host 8089",
+      "login_request_count": 0,
+      "trading_request_count": 0,
+      "onetrust_null_reference_exception_count": 7,
+      "request_status_summaries": [
+        {
+          "method": "GET",
+          "path": "/_research/online",
+          "response_statuses": [
+            204
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/time",
+          "response_statuses": [
+            200
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/inappdeletion/get-account-data-storage-time",
+          "response_statuses": [
+            200
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/promos/active",
+          "response_statuses": [
+            200
+          ]
+        }
+      ],
+      "native_cookie_handoff_proven": false,
+      "native_cancellation_proven": false,
+      "retained_log_onetrust_stack_count": 14,
+      "exception_count_scope": "Stack entries whose logcat epoch falls within the host capture started_utc..capture_ended_utc interval; retained log may include earlier runs"
+    }
+  ],
+  "observed_exception_stack": [
+    "OneTrust.CMPSDK.get_domainData_Groups",
+    "OneTrustController.<UpdateSDKs>b__34_0",
+    "UnityMainThreadDispatcher.Update"
+  ],
+  "interpretation": "Repeated OneTrust initialization exceptions coincide with a pre-login spinner. Backend routing changed between attempts; neither attempt reached login or trading. The evidence does not establish the root cause of the startup stall.",
+  "sanitizer_result": "Both captures fail closed: no acknowledged native primary login plus subsequent trading Cookie request. No successful handoff output emitted.",
+  "pending": [
+    "Actual native login Set-Cookie receipt and later native trading Cookie transmission",
+    "Native owner cancellation UI, list refresh and trading-lock lifecycle"
+  ],
+  "redaction": "No raw PCAP streams, request bodies, headers, logs, query strings, credentials, session values, player IDs, or trade IDs included."
+}

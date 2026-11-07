@@ -1,0 +1,32 @@
+{
+  "evidence_kind": "Observed native Android replacement-server cookie handoff; not original-service evidence",
+  "fixture_identity": "PMStartup01",
+  "fixture_sha256": "6be827198365f02b9f6ff2abeb1d6dced4749b191c0bcf1d68a8e99f0c0f44ad",
+  "pcap_sha256": "720987dc75475c8d1486bcecf4dfaa45d20373289b247841db3f8abe7541342c",
+  "primary_login_count": 1,
+  "login_secret_matches_immutable_fixture": true,
+  "login_claims_match_immutable_fixture": true,
+  "set_cookie": {
+    "name": "session_id",
+    "path": "/trading/",
+    "httponly": true,
+    "samesite": "Lax",
+    "secure_values": [
+      false
+    ]
+  },
+  "trading_requests": [
+    {
+      "method": "POST",
+      "path": "/trading/config",
+      "response_status": 200,
+      "body_keys": [
+        "session_id"
+      ],
+      "cookie_matches_primary_login": true,
+      "exact_tcp_ack_pair": true,
+      "native_headers_present": true
+    }
+  ],
+  "redaction": "No raw secret, session, JWT, cookie value, player ID, or trade ID emitted"
+}
