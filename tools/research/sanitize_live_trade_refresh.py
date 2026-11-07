@@ -23,7 +23,8 @@ PATHS = {'/user/login', '/session/join-room', '/session/player-details',
          '/trading/offer-morty', '/trading/offer-response'}
 
 
-def wire_observations(pcap):
+def wire_observations(pcap, allowed_paths=None):
+    paths = PATHS if allowed_paths is None else allowed_paths
     capture_packet_times(pcap)  # Fail on regressing/truncated capture timestamps.
     flow, zero = flows(pcap)
     exchanges, events = [], []
@@ -45,8 +46,8 @@ def wire_observations(pcap):
             method, target, _ = request['line'].split(' ')
             path = urlsplit(target).path.rstrip('/')
             if path.startswith('/trading/'):
-                require(path in PATHS)  # Only explicitly reviewed native mutations are admissible.
-            if path not in PATHS and path != '/sse':
+                require(path in paths)  # Only explicitly reviewed native mutations are admissible.
+            if path not in paths and path != '/sse':
                 continue
             native(request['headers'], path == '/sse')
             require(request['finish'] is not None)
@@ -135,11 +136,15 @@ def identity(rows, events, user):
         require(bool(prior))
         require(type(row['request']) is dict)
         if row['path'] == '/trading/config' and row['request'] == {'session_id': None}:
-            # Native startup asks for static trading configuration before
-            # assigning the login session into its request model. Its cookie
-            # already identifies the current login; no gameplay is authorized.
-            require(not [entry for entry in rows if entry['path'] == '/session/player-details'
-                         and entry['request_time'] < row['request_time']])
+            # Config construction can capture null while the independently
+            # queued initial details request finishes first. Bound this exact
+            # static request to startup before the first native join request
+            # or non-config trading operation. The current login cookie still
+            # identifies it; this exception cannot authorize gameplay.
+            boundaries = [entry['request_time'] for entry in rows
+                if entry['path'] == '/session/join-room'
+                or (entry['path'].startswith('/trading/') and entry['path'] != '/trading/config')]
+            require(bool(boundaries) and row['request_time'] < min(boundaries))
         elif 'session_id' in row['request']:
             require(row['request']['session_id'] == user['session_id'])
         if row['path'].startswith('/trading/'):

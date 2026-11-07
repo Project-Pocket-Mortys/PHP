@@ -106,6 +106,8 @@ class LiveTradeRefreshTests(unittest.TestCase):
     def test_startup_static_config_null_session_is_cookie_bound_and_cannot_authorize_refresh(self):
         config = self.row('PMTrade01', '/trading/config', {'session_id': None}, {}, 1.5)
         self.rows['PMTrade01'].insert(1, config)
+        self.rows['PMTrade01'].insert(2, self.row('PMTrade01', '/session/join-room',
+            {'session_id': self.users['PMTrade01']['session_id']}, {}, 3))
         self.assertTrue(self.validate()['separate_native_client_identities_proved'])
         for change in (lambda: config['headers'].update(cookie='session_id=wrong'),
                        lambda: config['request'].update(session_id='wrong'),
@@ -116,6 +118,22 @@ class LiveTradeRefreshTests(unittest.TestCase):
                 self.validate()
             config.clear()
             config.update(original)
+
+    def test_startup_null_config_can_follow_initial_details_but_must_precede_join_request(self):
+        startup_details = self.detail('PMTrade01', 1.1, set())
+        startup_details['response_time'] = 1.2
+        config = self.row('PMTrade01', '/trading/config', {'session_id': None}, {}, 1.5)
+        join = self.row('PMTrade01', '/session/join-room',
+            {'session_id': self.users['PMTrade01']['session_id']}, {}, 3)
+        self.rows['PMTrade01'][1:1] = [startup_details, config, join]
+        self.assertTrue(self.validate()['separate_native_client_identities_proved'])
+        config.update(request_time=3.1, response_time=4.1)
+        with self.assertRaises(ValueError):
+            self.validate()
+        join.update(request_time=30, response_time=31)
+        config.update(request_time=25, response_time=26)
+        with self.assertRaises(ValueError):
+            self.validate()
 
     def test_identity_fields_cookie_mask_metadata_and_alias_fail_closed(self):
         changes = [
