@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "Live replacement-server native Android 2.41.0 offer, rejection and acceptance refreshes",
+  "actual_native_offer_and_owner_rejection_proved": true,
+  "native_cross_client_refresh_observed": true,
+  "acceptance_proved": true,
+  "original_service_behavior_proved": false,
+  "cross_device_clock_order_proved": false,
+  "mutation_to_sse_latency_proved": false,
+  "exact_sse_frame_trade_id_binding_proved": false,
+  "sse_correlation_scope": "Empty payload invalidations correlated by capture phase, exact HTTP trade IDs and DB recipient revisions",
+  "timing_scope": "Only ordering within each device capture clock; no cross-device or server clock alignment",
+  "details_include": [
+    "morties",
+    "attacks",
+    "decks",
+    "mortydex"
+  ],
+  "details_mask": "0x78",
+  "separate_native_client_identities_proved": true,
+  "notifications": [
+    {
+      "event": "trade:offer-submit",
+      "recipient": "PMTrade02",
+      "actor": "PMTrade01",
+      "exact_recipient_revision_increment": true
+    },
+    {
+      "event": "trade:offer-rejected",
+      "recipient": "PMTrade01",
+      "actor": "PMTrade02",
+      "exact_recipient_revision_increment": true
+    }
+  ],
+  "listing_classification": [
+    {
+      "native_completion_alias_present": true,
+      "completion_aliases_equal": true,
+      "offer_metadata": "owner_username_and_species_ids"
+    },
+    {
+      "native_completion_alias_present": true,
+      "completion_aliases_equal": true,
+      "offer_metadata": "no_offer_after_rejection"
+    }
+  ],
+  "device_timelines": [
+    {
+      "device": "primary",
+      "timestamps": [
+        {
+          "action": "native_offer_response",
+          "seconds": 312.375755
+        },
+        {
+          "action": "local_owned_details_request",
+          "seconds": 312.391581
+        },
+        {
+          "action": "rejection_frame_complete",
+          "seconds": 368.536024
+        },
+        {
+          "action": "rejection_get_trades_request",
+          "seconds": 368.568024
+        },
+        {
+          "action": "rejection_owned_details_request",
+          "seconds": 368.568304
+        }
+      ]
+    },
+    {
+      "device": "peer",
+      "timestamps": [
+        {
+          "action": "offer_frame_complete",
+          "seconds": 312.640806
+        },
+        {
+          "action": "offer_get_trades_request",
+          "seconds": 312.692413
+        },
+        {
+          "action": "offer_owned_details_request",
+          "seconds": 312.689347
+        },
+        {
+          "action": "native_owner_reject_response",
+          "seconds": 368.392689
+        }
+      ]
+    }
+  ],
+  "later_native_trade_phase_present": true,
+  "proof_capture_scope": "Offer, owner rejection, second offer and owner acceptance in complete supplied captures",
+  "acceptance_both_clients_owned_refresh_proved": true,
+  "acceptance_notifications": [
+    {
+      "event": "trade:offer-submit",
+      "recipient": "PMTrade02",
+      "actor": "PMTrade01",
+      "exact_recipient_revision_increment": true
+    },
+    {
+      "event": "trade:offer-accepted",
+      "recipient": "PMTrade01",
+      "actor": "PMTrade02",
+      "exact_recipient_revision_increment": true
+    }
+  ],
+  "acceptance_listing_classification": [
+    {
+      "native_completion_alias_present": true,
+      "completion_aliases_equal": true,
+      "offer_metadata": "owner_username_and_species_ids"
+    },
+    {
+      "native_completion_alias_present": true,
+      "completion_aliases_equal": true,
+      "offer_metadata": "no_offer_after_acceptance"
+    }
+  ],
+  "acceptance_refresh_details_mask": "0x78",
+  "input_sha256": {
+    "parent": "cb4a096e282282a6b4e21efedef56f60ef5fdce92df45b039431e41782b98dc9",
+    "offered": "690c9b36f3d5f2611008bfc590720738f4f52ed6f93ffab2e6e681f3f1ce9ef0",
+    "rejected": "a3f0718c478b2752be67c1fc8fe1b8aef647dbea6b71cd45a30d4c92f3b9e0cf",
+    "accept_offer": "07a962f1bbd9d81a3bcbbd401bc264fc1f2561a51d207378f04b6d24e28d33fc",
+    "accepted": "77c197dfb2b0d32fc5cb5721ec798f76ddf6189983480d30b221291c7f8c9cdf"
+  },
+  "capture_sha256": {
+    "primary": [
+      {
+        "phase": "continuous",
+        "sha256": "1bfa891c087f8b372405344918a40dbdb46e0968ba4336c6a1e94bb4221a74a6"
+      }
+    ],
+    "peer": [
+      {
+        "phase": "continuous",
+        "sha256": "2752721ecda1d2ff3ee08da693d621c99cb3311e395e476ce165f242679b6b36"
+      }
+    ]
+  },
+  "fixture_history_sha256": [
+    "cb4a096e282282a6b4e21efedef56f60ef5fdce92df45b039431e41782b98dc9",
+    "690c9b36f3d5f2611008bfc590720738f4f52ed6f93ffab2e6e681f3f1ce9ef0",
+    "a3f0718c478b2752be67c1fc8fe1b8aef647dbea6b71cd45a30d4c92f3b9e0cf",
+    "07a962f1bbd9d81a3bcbbd401bc264fc1f2561a51d207378f04b6d24e28d33fc",
+    "77c197dfb2b0d32fc5cb5721ec798f76ddf6189983480d30b221291c7f8c9cdf"
+  ],
+  "baseline_sha256": "3080f9d650b813ddc025144becf055549b6e64f3e49b8d8452eac2deb83eb5af",
+  "protected_fixture_history_revalidated": true
+}

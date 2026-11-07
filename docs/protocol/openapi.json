@@ -182,19 +182,117 @@
       "x-method-unresolved": true
     },
     "/session/battle-invite/create": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
-      "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "implemented",
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$SendInviteUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "opponent_player_id": {
+                    "type": "string"
+                  },
+                  "battle_type": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "opponent_player_id",
+                  "battle_type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-invite/response": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
-      "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "partial",
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$RespondToReceivedInvite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  },
+                  "accept": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "token",
+                  "accept"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-invite/revoke": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
-      "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "description": "Recovered native contract with invitation-only replacement implementation. Acceptance remains unavailable; see contracts.json.",
+      "x-implementation-status": "implemented",
+      "x-reviewed-contract": "contracts.json",
+      "post": {
+        "summary": "NetworkBattleInviteAPI$$CancelPendingSentInvite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Native response/error consumption is in contracts.json; original HTTP status mapping unresolved."
+          }
+        }
+      }
     },
     "/session/battle-wild-morty": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -339,14 +437,249 @@
       "x-method-unresolved": true
     },
     "/session/deck/edit": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "post": {
+        "description": "Native POST contract; PHP method enforcement/older coercion and flat failures remain partial. Validate every target member when a nonempty edit activates the deck; empty edit retains legacy deletion/active-index behavior. Reservation rejection is replacement policy; no native runtime success claimed.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "deck_id": {
+                    "type": "integer"
+                  },
+                  "owned_morty_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "deck_id",
+                  "owned_morty_ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing success/profile body; preserve complete selected decks including escaped SQL storage projections",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "active_deck_id",
+                    "decks"
+                  ],
+                  "properties": {
+                    "active_deck_id": {
+                      "type": "integer"
+                    },
+                    "decks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "deck_id",
+                          "owned_morty_ids"
+                        ],
+                        "properties": {
+                          "deck_id": {
+                            "type": "integer"
+                          },
+                          "owned_morty_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "New reservation/ownership/ambiguity guard uses nested FAILED; unrelated legacy409 paths may still be flat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "success",
+                        "error"
+                      ],
+                      "properties": {
+                        "success": {
+                          "const": false
+                        },
+                        "error": {
+                          "type": "object",
+                          "required": [
+                            "code"
+                          ],
+                          "properties": {
+                            "code": {
+                              "const": "FAILED"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Existing legacy failure paths; not standardized in this repair"
+          }
+        },
+        "x-evidence": [
+          "trade-party-transition-contract.md",
+          "trade-party-transitions.md"
+        ]
+      }
     },
     "/session/deck/set-active": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "post": {
+        "description": "Native POST contract; PHP method enforcement/older coercion and flat failures remain partial. Validate unique nonempty saved target and every current member before activating. Reservation rejection is replacement policy; no native runtime success claimed.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "deck_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "deck_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing success/profile body; preserve complete selected decks including escaped SQL storage projections",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "active_deck_id",
+                    "decks"
+                  ],
+                  "properties": {
+                    "active_deck_id": {
+                      "type": "integer"
+                    },
+                    "decks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "deck_id",
+                          "owned_morty_ids"
+                        ],
+                        "properties": {
+                          "deck_id": {
+                            "type": "integer"
+                          },
+                          "owned_morty_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "New reservation/ownership/ambiguity guard uses nested FAILED; unrelated legacy409 paths may still be flat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "success",
+                        "error"
+                      ],
+                      "properties": {
+                        "success": {
+                          "const": false
+                        },
+                        "error": {
+                          "type": "object",
+                          "required": [
+                            "code"
+                          ],
+                          "properties": {
+                            "code": {
+                              "const": "FAILED"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Existing legacy failure paths; not standardized in this repair"
+          }
+        },
+        "x-evidence": [
+          "trade-party-transition-contract.md",
+          "trade-party-transitions.md"
+        ]
+      }
     },
     "/session/decks/slots/buy": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -566,7 +899,8 @@
     "/sse": {
       "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "x-method-unresolved": true,
+      "x-trade-refresh-contract": "trade-refresh-implementation.md"
     },
     "/time": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -589,24 +923,545 @@
       "x-method-unresolved": true
     },
     "/trading/get-trades": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "x-server-method-enforcement": "not enforced; POST is the native constructor method",
+      "post": {
+        "summary": "GetTradeData",
+        "description": "Native trade-data projection. Android consumes competed_trades; completed_trades is retained as an equal legacy alias. Same pending rejection history reproduced and verified the notification fix. Both actors' post-accept owned inventories match the guarded swap; final native/legacy completed arrays equal with one record. Nested record schemas and broader transfer variants remain partial; intermediate capture gaps are disclosed.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "player_id": {
+                    "type": "string",
+                    "description": "Native constructor includes it; replacement authenticates session_id and derives caller identity instead."
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "player_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing trade projection with equal native/legacy completed arrays",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "trade_requests": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "trade_offers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "trade_mortys": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "trade_attacks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "competed_trades": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "description": "Native Android 2.41.0 completed-list key; equals completed_trades for empty and populated results."
+                    },
+                    "completed_trades": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "description": "Retained legacy alias; equals competed_trades."
+                    },
+                    "player_cooldown_data": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "trade_requests",
+                    "trade_offers",
+                    "trade_mortys",
+                    "trade_attacks",
+                    "competed_trades",
+                    "completed_trades",
+                    "player_cooldown_data"
+                  ],
+                  "description": "Replacement projection; nested record schemas remain partial. Both completed-list keys project the same existing array without changing records, ordering, visibility or economics."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid session_id; error.code NOT_AUTHENTICATED"
+          },
+          "default": {
+            "description": "Error compatibility remains partial"
+          }
+        },
+        "x-native-address": "0x179136c",
+        "x-evidence": [
+          "native-trade-decisions.md",
+          "native-trade-decision-navigation.md"
+        ],
+        "x-native-decision-proof": {
+          "selected_native_decisions_and_refreshes_proved": true,
+          "continuous_full_cycle_capture": false,
+          "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
+          "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+          "evidence": "native-trade-decisions.md"
+        }
+      }
     },
     "/trading/offer-morty": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "post": {
+        "description": "Protected creation at current owned/active-deck state. Existing economic policy retained; later party transitions are guarded separately in trade-party-transitions.md. Authentication is in JSON, not the cancellation cookie.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "player_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "offered_morty_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "trade_request_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "player_id",
+                  "offered_morty_id",
+                  "trade_request_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing {error:None,offer:{trade_offer_id,trade_id,player_id,morty_offer_id,_created,...optional display metadata}} retained",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error",
+                    "offer"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeOfferCreationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeOfferCreationError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeOfferCreationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeOfferCreationError"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeOfferCreationError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeOfferCreationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeOfferCreationError"
+                }
+              }
+            }
+          }
+        },
+        "x-evidence": [
+          "trade-listing-protection-contract.md",
+          "trade-listing-protection.md",
+          "native-trade-creation-contract.md"
+        ]
+      },
+      "x-trade-refresh-contract": "trade-refresh-implementation.md"
     },
     "/trading/offer-response": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "post": {
+        "description": "Reviewed Android three-field request and body-agnostic success. Replacement authorization/transaction policy documented in trade-response-implementation.md; native requester Reject/Accept, exact guarded spare swap and both actors' inventory refreshes are verified. Selected captures disclose intermediate gaps; broader transfer variants remain separate. When cookie and Bearer are both supplied they must agree. Acceptance rechecks both outgoing instances against current active parties; withdrawal remains available for unsafe legacy listings.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "trade_request_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "description": "Nonblank logical identifier; replacement server limits UTF-8 byte length to 64"
+                  },
+                  "trade_offer_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "description": "Nonblank logical identifier; replacement server limits UTF-8 byte length to 64"
+                  },
+                  "request_accepted": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "trade_request_id",
+                  "trade_offer_id",
+                  "request_accepted"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TradingSessionCookie": []
+          },
+          {
+            "TradingSessionBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Replacement success [null,null]; client does not inspect body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not request owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing listing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Not POST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Ambiguous/inconsistent or reserved state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected failure; rollback",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeResponseError"
+                }
+              }
+            }
+          }
+        },
+        "x-credential-consistency": "If both credentials are present they must match; malformed explicit credentials fail closed",
+        "x-evidence": [
+          "native-trade-response-contract.md",
+          "trade-response-implementation.md",
+          "trade-party-transitions.md"
+        ],
+        "x-native-decision-evidence": [
+          "native-trade-decisions.md",
+          "native-trade-decision-navigation.md"
+        ],
+        "x-native-decision-proof": {
+          "selected_native_decisions_and_refreshes_proved": true,
+          "continuous_full_cycle_capture": false,
+          "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
+          "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+          "evidence": "native-trade-decisions.md"
+        }
+      },
+      "x-trade-refresh-contract": "trade-refresh-implementation.md"
     },
     "/trading/request-morty": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "post": {
+        "description": "Protected creation at current owned/active-deck state. Existing economic policy retained; later party transitions are guarded separately in trade-party-transitions.md. Authentication is in JSON, not the cancellation cookie.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "player_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "owned_morty_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "requested_morty_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "default": "any"
+                  },
+                  "request_variant": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "enum": [
+                      "Normal",
+                      "Shiny",
+                      "Pulsing"
+                    ],
+                    "default": "Normal"
+                  },
+                  "is_free_trade": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "owned_morty_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing {error:None,trade:{trade_id,player_id,morty_trade_id,morty_request,_created,is_free_trade,request_variant},coupons} retained; native optional cooldown remains separate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error",
+                    "trade",
+                    "coupons"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeRequestCreationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeRequestCreationError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeRequestCreationError"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeRequestCreationError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeRequestCreationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Replacement status policy; see trade-listing-protection.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeRequestCreationError"
+                }
+              }
+            }
+          }
+        },
+        "x-evidence": [
+          "trade-listing-protection-contract.md",
+          "trade-listing-protection.md",
+          "native-trade-creation-contract.md"
+        ]
+      }
     },
     "/user/login": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -617,6 +1472,118 @@
       "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
       "x-method-unresolved": true
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "TradingSessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "session_id"
+      },
+      "TradingSessionBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "TradeResponseError": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "FAILED",
+                  "TRADE_NO_TRADE_EXISTS",
+                  "TRADE_NO_OFFER_EXISTS"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "TradeRequestCreationError": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "FAILED",
+                  "TRADE_MORTY_LOCKED",
+                  "TRADE_REQUEST_MORTY_DOES_NOT_BELONG_TO_PLAYER"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "TradeOfferCreationError": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "FAILED",
+                  "TRADE_NO_TRADE_EXISTS",
+                  "TRADE_NO_SUCH_MORTY",
+                  "TRADE_MORTY_NOT_MATCH_CRITERIA",
+                  "TRADE_OFFER_MORTY_DOES_NOT_BELONG_TO_OFFERING_PLAYER"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-trade-refresh-events": {
+    "names": [
+      "trade:request-submit",
+      "trade:offer-submit",
+      "trade:offer-accepted",
+      "trade:offer-rejected"
+    ],
+    "payload": {},
+    "client_consumed_fields": [],
+    "recipient_policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+    "startup_gate": "Fresh membership generation and nonempty room before first delivery; ready retained afterward",
+    "evidence": "trade-refresh-event-contract.md",
+    "native_live_validation": {
+      "document": "live-trade-refresh.md",
+      "results": "live-trade-refresh-results.json",
+      "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+      "limits": [
+        "Self-cancellation refresh remains open",
+        "Cross-room and iOS not exercised",
+        "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+      ]
     }
   }
 }

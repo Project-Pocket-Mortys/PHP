@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "client_version": "2.41.0",
+  "device": "dedicated primary emulator-5560",
+  "evidence_kind": "Observed retained diagnostic Android UI and isolated replacement-server reads; not original-service evidence",
+  "fixture_sha256": "6be827198365f02b9f6ff2abeb1d6dced4749b191c0bcf1d68a8e99f0c0f44ad",
+  "prerequisite_commit": "d255490441e5810bb8c64332fdf9f70500f8f264",
+  "static_placement": "trading-kiosk-placement.json",
+  "native_contract": "trading-kiosk-native-contract.md",
+  "native_kiosk_opened": true,
+  "native_trade_slots_opened": true,
+  "native_browse_no_posted_trades_observed": true,
+  "native_cancellation_acceptance_proven": false,
+  "trading_mutation_posts_in_four_captures": 0,
+  "capture_limit": "The four bounded captures are not continuous across the whole inspection. Later Browse empty-state screenshot is outside capture windows.",
+  "immutable_save_history_guard_before": true,
+  "immutable_save_history_guard_after": true,
+  "original_accounts_guards_passed": true,
+  "installed_apks_unchanged": true,
+  "sdk_bytes_unchanged": {
+    "OneTrustOTTData.json": "9be17c053c06c307d381a3a557d4c98d1cd130977820a86ff73be621703ab113",
+    "profile.json": "a543538b54960fd5c2a7575f12ab5fe073334c8d0276e5036f860c412bbb8d5d"
+  },
+  "collection_trades_or_offers_injected": false,
+  "server_gameplay_or_schema_changed": false,
+  "screenshots": {
+    "images/trading-kiosk-approach.png": "d1218641b2a2b88ec8cc52bd16f6e3df364dca70d230e070d8d74422913dfbaa",
+    "images/trading-kiosk-menu.png": "bdfebb1903e86aa178285bea7bbefd48166a66b171c8015cd2886d9504dd1186",
+    "images/trading-kiosk-slots.png": "e8030a458e2de1ab03b75a44b842428cf912a2a2af9e32a623763ae41d75104e",
+    "images/trading-kiosk-browse.png": "ed21237dee0fa6f45685d33d2a2da786ec90a2335af9e62231291dee1c935b33"
+  },
+  "captures": [
+    {
+      "capture": "startup",
+      "schema_version": 1,
+      "evidence_kind": "Observed Android reads from isolated replacement server; not original-service evidence",
+      "pcap_sha256": "0034ef203c2b03570001acba515c1698ae0d9f610c1ba682b7a9d67321793c10",
+      "reads": [
+        {
+          "method": "POST",
+          "path": "/trading/config",
+          "status": 200,
+          "native_headers": true,
+          "exact_tcp_ack_pair": true,
+          "request_types": {
+            "session_id": "NoneType"
+          },
+          "response_types": {
+            "config_id": "str",
+            "max_trades": "int",
+            "premium_trade_cost": "int",
+            "trade_cooldown_minutes": "int"
+          },
+          "response_list_counts": {}
+        }
+      ],
+      "other_trading_post_count": 0,
+      "limits": "No cookie identity, listing creation, cancellation, transfer or lock-refresh acceptance proved"
+    },
+    {
+      "capture": "kiosk",
+      "schema_version": 1,
+      "evidence_kind": "Observed Android reads from isolated replacement server; not original-service evidence",
+      "pcap_sha256": "e735e81e7256cb2a86ba126e45488250293a5f41b9396d1ca46856a80cec7b32",
+      "reads": [
+        {
+          "method": "POST",
+          "path": "/trading/get-trades",
+          "status": 200,
+          "native_headers": true,
+          "exact_tcp_ack_pair": true,
+          "request_types": {
+            "player_id": "str",
+            "session_id": "str"
+          },
+          "response_types": {
+            "completed_trades": "list",
+            "player_cooldown_data": "dict",
+            "trade_attacks": "list",
+            "trade_mortys": "list",
+            "trade_offers": "list",
+            "trade_requests": "list"
+          },
+          "response_list_counts": {
+            "completed_trades": 0,
+            "trade_attacks": 0,
+            "trade_mortys": 0,
+            "trade_offers": 0,
+            "trade_requests": 0
+          }
+        }
+      ],
+      "other_trading_post_count": 0,
+      "limits": "No cookie identity, listing creation, cancellation, transfer or lock-refresh acceptance proved"
+    },
+    {
+      "capture": "menu",
+      "schema_version": 1,
+      "evidence_kind": "Observed Android reads from isolated replacement server; not original-service evidence",
+      "pcap_sha256": "0293490c1d9b4bc3c29471ba40a3760dbbd061afcaad88a7062b0ac006c24b61",
+      "reads": [],
+      "other_trading_post_count": 0,
+      "limits": "No cookie identity, listing creation, cancellation, transfer or lock-refresh acceptance proved"
+    },
+    {
+      "capture": "browse",
+      "schema_version": 1,
+      "evidence_kind": "Observed Android reads from isolated replacement server; not original-service evidence",
+      "pcap_sha256": "a1833f486676e010f98d63bd6501de5c66a7b858149bbd3158924491e782cde4",
+      "reads": [],
+      "other_trading_post_count": 0,
+      "limits": "No cookie identity, listing creation, cancellation, transfer or lock-refresh acceptance proved"
+    }
+  ],
+  "remaining": [
+    "Native request and offer cancellation buttons against dedicated disposable listings",
+    "Immediate lock refresh and other full-Morty serializers",
+    "Acceptance authorization and request/offer binding"
+  ],
+  "redaction": "No credentials, cookies, user IDs, room IDs, raw logs or payload values; screenshot name PMStartup01 is a synthetic diagnostic account"
+}
