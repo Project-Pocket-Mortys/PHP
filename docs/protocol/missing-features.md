@@ -1,5 +1,13 @@
 # Missing gameplay features: implementation order
 
+[Learn-attacks empty slots](learn-attack-slots-implementation.md) now store
+actual attacks at their submitted native positions, removing the empty-ID
+rows that caused one full AP-rock rejection. The
+[bounded native contract](learn-attack-slots-contract.md) supplies static
+evidence; no new Android capture. PP=8, original AP reset/preservation,
+eligibility and lab-fee behavior remain separate gaps.
+All 12 new slot regressions and 23 adjacent cases pass (35 total).
+
 [Mr. Meeseeks Box](meeseeks-box-implementation.md) now supports one battle-only
 PvWM item action: the current owned actor defeats the wild enemy, consumes one
 box and completes WIN atomically without an AI counterattack. The

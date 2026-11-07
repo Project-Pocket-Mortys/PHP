@@ -66,6 +66,9 @@ try {
 
         // Limit to 4 attacks (game behavior)
         $attack_ids = array_slice($attack_ids, 0, 4);
+        // Native sends null for unused slots. An entirely empty selection
+        // follows the existing empty-entry skip behavior, before deleting rows.
+        if (!array_filter($attack_ids, static fn($attack_id) => $attack_id !== null)) continue;
 
         // Verify ownership
         $stmt = $pdo->prepare("
@@ -87,6 +90,11 @@ try {
         // Insert new attacks
         $pos = 0;
         foreach ($attack_ids as $attack_id) {
+            // Keep the native slot index without storing a blank attack ID.
+            if ($attack_id === null) {
+                $pos++;
+                continue;
+            }
 
             $attack_id = (string)$attack_id;
 

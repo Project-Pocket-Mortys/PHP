@@ -843,10 +843,94 @@
       "x-method-unresolved": true
     },
     "/session/owned_morties/learn-attacks": {
-      "description": "Existing endpoint; full owned-Morty replies now preserve durable reservations and canonical legacy booleans. See morty-mutation-flags.md and item-reservation-projection-contract.md; no new Android capture.",
+      "description": "Native four-slot attack edits use null for empty positions. The route skips strict nulls, preserves actual positions and skips all-null entries before deletion; response flags remain canonical and reservation-aware. PP=8 and original AP/eligibility/lab-fee behavior remain unresolved. Static native evidence and additive backend regressions; no new Android capture.",
       "x-implementation-status": "implemented",
-      "x-method-unresolved": true,
-      "x-morty-mutation-flags": "morty-mutation-flags.md"
+      "x-morty-mutation-flags": "morty-mutation-flags.md",
+      "x-learn-attack-slots": {
+        "native_contract": "learn-attack-slots-contract.md",
+        "implementation": "learn-attack-slots-implementation.md",
+        "request": "Native constructor emits exactly four attack_ids per Morty, with JSON null for missing SortedList positions; body also carries session_id and morty_labs",
+        "storage": "Retain first four entries; strict null slots create no row while advancing position; an all-null retained entry is skipped before deletion",
+        "response": "PlayerEditAttacksResponse contains coupons and owned_morties; NONE=4 merges dictionaries with clearAttacks=true, retaining explicit attack positions; coupons applied only in lab mode",
+        "scope": "Fixes invisible empty-ID rows and their later full AP-rock blocker; preserves existing PP=pp_stat=8 placeholder, eligibility, ignored morty_labs and fee behavior",
+        "limits": [
+          "Original AP initialization/reset/preservation, species/level eligibility and lab fees unresolved",
+          "PP=8 can exceed static maxima for some attacks; this repair does not close every AP-restoration failure",
+          "No historical-row migration or new Android capture"
+        ],
+        "validation": "12 additive learn-slot HTTP/database cases and 23 adjacent cases passed (35 total); PHP lint, research validator and fresh bounded native wrapper passed; no new Android capture"
+      },
+      "post": {
+        "operationId": "learnMortyAttacks",
+        "summary": "Save attacks at their native slot positions",
+        "description": "Native request shape; replacement route retains legacy shorter arrays and ignores morty_labs. Original fee, eligibility and AP behavior remain unresolved.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "session_id",
+                  "owned_morties",
+                  "morty_labs"
+                ],
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "morty_labs": {
+                    "type": "boolean"
+                  },
+                  "owned_morties": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "owned_morty_id",
+                        "attack_ids"
+                      ],
+                      "properties": {
+                        "owned_morty_id": {
+                          "type": "string"
+                        },
+                        "attack_ids": {
+                          "type": "array",
+                          "minItems": 4,
+                          "maxItems": 4,
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing player response with coupons and changed owned_morties; actual attacks carry explicit positions. Ignored entries produce no changed Morty. Full response is not exhaustively specified here."
+          },
+          "400": {
+            "description": "Existing malformed-request failure; original error parity unresolved"
+          },
+          "401": {
+            "description": "Existing unauthenticated-session failure"
+          },
+          "409": {
+            "description": "Existing shared-battle membership guard returns FAILED"
+          },
+          "500": {
+            "description": "Existing transaction failure"
+          }
+        }
+      }
     },
     "/session/owned_morties/lock": {
       "description": "Unverified contract. See inventory.json for source evidence.",

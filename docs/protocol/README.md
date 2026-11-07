@@ -1,5 +1,13 @@
 # Pocket Mortys protocol research handoff
 
+[Learn-attacks empty slots](learn-attack-slots-implementation.md) now preserve
+native four-slot positions without inserting empty-ID attack rows. This removes
+one later full AP-rock rejection for edits with one to three moves. The
+[native contract](learn-attack-slots-contract.md) is statically established;
+no new Android capture is claimed. PP=8 remains a placeholder, and original
+AP, eligibility and lab-fee rules remain open.
+All 12 new slot regressions and 23 adjacent cases pass (35 total).
+
 [Mr. Meeseeks Box](meeseeks-box-implementation.md) now supports one battle-only
 PvWM item action: the current owned actor defeats the wild enemy, consumes one
 box and completes WIN atomically without an AI counterattack. The

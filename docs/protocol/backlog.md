@@ -1,5 +1,13 @@
 # Evidence gaps and repair backlog
 
+[Learn-attacks slot holes](learn-attack-slots-implementation.md) now preserve
+native null positions and avoid invisible empty-ID attack rows that block a
+later full AP rock. The [native contract](learn-attack-slots-contract.md) is
+bounded static evidence; no new Android capture. Recover original new/current
+attack AP behavior, eligibility and lab fees separately. PP=8 remains a
+placeholder and can exceed some attacks' static maxima.
+All 12 new slot regressions and 23 adjacent cases pass (35 total).
+
 [Mr. Meeseeks Box](meeseeks-box-implementation.md) now supports one battle-only
 PvWM item action: the current owned actor defeats the wild enemy, consumes one
 box and completes WIN atomically without an AI counterattack. The

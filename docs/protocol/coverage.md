@@ -1,5 +1,13 @@
 # Protocol coverage
 
+[Learn-attacks empty slots](learn-attack-slots-implementation.md) now preserve
+native four-slot positions without persisting nulls as empty attack IDs. The
+[bounded contract](learn-attack-slots-contract.md) establishes the request and
+response slot handling. This removes one full AP-rock blocker; the PP=8
+placeholder and original AP/eligibility/lab-fee policies remain separate.
+No new Android capture is claimed.
+All 12 new slot regressions and 23 adjacent cases pass (35 total).
+
 [Mr. Meeseeks Box](meeseeks-box-implementation.md) now supports one battle-only
 PvWM item action: the current owned actor defeats the wild enemy, consumes one
 box and completes WIN atomically without an AI counterattack. The

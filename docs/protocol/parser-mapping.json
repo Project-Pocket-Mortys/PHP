@@ -851,11 +851,25 @@
           "morty_labs"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "confidence": "reviewed bounded REA 6.8.0/Ghidra plus metadata-bounded ARM64 instructions; exactly four attack IDs with null holes",
       "reviewed_response_flags": {
         "evidence": "item-reservation-projection-contract.md",
         "implementation": "morty-mutation-flags.md",
         "scope": "Bounded callback/merge evidence only; existing request constructor confidence retained"
+      },
+      "reviewed_attack_slots": {
+        "native_contract": "learn-attack-slots-contract.md",
+        "implementation": "learn-attack-slots-implementation.md",
+        "request": "Native constructor emits exactly four attack_ids per Morty, with JSON null for missing SortedList positions; body also carries session_id and morty_labs",
+        "storage": "Retain first four entries; strict null slots create no row while advancing position; an all-null retained entry is skipped before deletion",
+        "response": "PlayerEditAttacksResponse contains coupons and owned_morties; NONE=4 merges dictionaries with clearAttacks=true, retaining explicit attack positions; coupons applied only in lab mode",
+        "scope": "Fixes invisible empty-ID rows and their later full AP-rock blocker; preserves existing PP=pp_stat=8 placeholder, eligibility, ignored morty_labs and fee behavior",
+        "limits": [
+          "Original AP initialization/reset/preservation, species/level eligibility and lab fees unresolved",
+          "PP=8 can exceed static maxima for some attacks; this repair does not close every AP-restoration failure",
+          "No historical-row migration or new Android capture"
+        ],
+        "validation": "12 additive learn-slot HTTP/database cases and 23 adjacent cases passed (35 total); PHP lint, research validator and fresh bounded native wrapper passed; no new Android capture"
       }
     },
     {
@@ -1727,7 +1741,21 @@
         "name": "Method$NetworkDefs.ParseHTTPResponse<eEditAttacksError, PlayerEditAttacksResponse>()"
       },
       "schema_available": false,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint",
+      "reviewed_attack_slots": {
+        "native_contract": "learn-attack-slots-contract.md",
+        "implementation": "learn-attack-slots-implementation.md",
+        "request": "Native constructor emits exactly four attack_ids per Morty, with JSON null for missing SortedList positions; body also carries session_id and morty_labs",
+        "storage": "Retain first four entries; strict null slots create no row while advancing position; an all-null retained entry is skipped before deletion",
+        "response": "PlayerEditAttacksResponse contains coupons and owned_morties; NONE=4 merges dictionaries with clearAttacks=true, retaining explicit attack positions; coupons applied only in lab mode",
+        "scope": "Fixes invisible empty-ID rows and their later full AP-rock blocker; preserves existing PP=pp_stat=8 placeholder, eligibility, ignored morty_labs and fee behavior",
+        "limits": [
+          "Original AP initialization/reset/preservation, species/level eligibility and lab fees unresolved",
+          "PP=8 can exceed static maxima for some attacks; this repair does not close every AP-restoration failure",
+          "No historical-row migration or new Android capture"
+        ],
+        "validation": "12 additive learn-slot HTTP/database cases and 23 adjacent cases passed (35 total); PHP lint, research validator and fresh bounded native wrapper passed; no new Android capture"
+      }
     },
     {
       "method": "NetworkPlayerAPI.<>c__DisplayClass43_0$$<LockMorty>b__0",

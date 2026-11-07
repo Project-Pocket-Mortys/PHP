@@ -1572,6 +1572,82 @@
         "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
         "evidence": "native-trade-decisions.md"
       }
+    },
+    "/session/owned_morties/learn-attacks": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$EditMortyAttacks",
+      "address": "0x17a2f30",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "owned_morty_id": {
+                  "type": "string"
+                },
+                "attack_ids": {
+                  "type": "array",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "owned_morty_id",
+                "attack_ids"
+              ]
+            }
+          },
+          "morty_labs": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morties",
+          "morty_labs"
+        ]
+      },
+      "request_origin": "Native four-slot serialization; replacement route continues accepting legacy shorter arrays and does not enforce morty_labs",
+      "response_type": "PlayerEditAttacksResponse",
+      "response_fields": {
+        "coupons": "int",
+        "owned_morties": "array of full owned-Morty dictionaries with explicit owned_attacks.position"
+      },
+      "error_enum": "eEditAttacksError",
+      "native_error_names": {
+        "UNKOWN": 0,
+        "OWNED_MORTIES_INVALID": 1,
+        "MORTY_LABS_INVALID": 2,
+        "FAILED": 3,
+        "NONE": 4
+      },
+      "error_origin": "Recovered parser enum only; existing replacement errors do not establish original endpoint error parity",
+      "slot_repair": {
+        "native_contract": "learn-attack-slots-contract.md",
+        "implementation": "learn-attack-slots-implementation.md",
+        "request": "Native constructor emits exactly four attack_ids per Morty, with JSON null for missing SortedList positions; body also carries session_id and morty_labs",
+        "storage": "Retain first four entries; strict null slots create no row while advancing position; an all-null retained entry is skipped before deletion",
+        "response": "PlayerEditAttacksResponse contains coupons and owned_morties; NONE=4 merges dictionaries with clearAttacks=true, retaining explicit attack positions; coupons applied only in lab mode",
+        "scope": "Fixes invisible empty-ID rows and their later full AP-rock blocker; preserves existing PP=pp_stat=8 placeholder, eligibility, ignored morty_labs and fee behavior",
+        "limits": [
+          "Original AP initialization/reset/preservation, species/level eligibility and lab fees unresolved",
+          "PP=8 can exceed static maxima for some attacks; this repair does not close every AP-restoration failure",
+          "No historical-row migration or new Android capture"
+        ],
+        "validation": "12 additive learn-slot HTTP/database cases and 23 adjacent cases passed (35 total); PHP lint, research validator and fresh bounded native wrapper passed; no new Android capture"
+      }
     }
   },
   "sse": {

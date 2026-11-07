@@ -3931,21 +3931,22 @@
               "morty_labs"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "reviewed bounded REA 6.8.0/Ghidra plus metadata-bounded ARM64 instructions; see learn-attack-slots-contract.md"
         }
       ],
       "server_evidence": {
         "file": "session/owned_morties/learn-attacks/index.php",
         "line": 1,
-        "sha256": "91ed0407b8f28a5ea9b05c702c83946a526cb713f25b13cb1e28841ff2797241"
+        "sha256": "9c66a5ef21808aa67ce5fb282f8a989fcb7b2499c2c21508fc89d004cf4c9304"
       },
       "implementation_status": "implemented",
-      "status_basis": "README Completed: Learn Attacks; runtime compatibility not yet verified; item/heal/learn full-Morty flag projection repaired with additive backend tests and bounded native merge evidence; no new Android capture",
+      "status_basis": "README Completed: Learn Attacks; bounded native four-slot/null request and positional-response evidence; strict-null storage repair with additive regressions; response flag projection preserved; PP=8 and original eligibility/fees/AP policy remain unresolved; no new Android capture",
       "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "http_method": "POST (native postData transport); PHP retains existing method enforcement",
       "input_field_candidates": [
         "owned_morties",
-        "session_id"
+        "session_id",
+        "morty_labs"
       ],
       "query_fields": [],
       "response_key_candidates": [
@@ -3997,11 +3998,14 @@
       "events_published": [],
       "authentication": "session lookup present",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "original AP initialization/reset/preservation",
+        "species/level eligibility",
+        "lab fees and authoritative morty_labs handling",
+        "complete original response/error envelopes",
+        "original error compatibility",
+        "general retry semantics",
+        "new Android runtime verification",
+        "historical invalid attack rows"
       ],
       "ailment_contract": "docs/protocol/status-cure-implementation.md",
       "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
@@ -4014,7 +4018,21 @@
       "mutation_flag_evidence": [
         "item-reservation-projection-contract.md",
         "morty-mutation-flags.md"
-      ]
+      ],
+      "learn_attack_slots": {
+        "native_contract": "learn-attack-slots-contract.md",
+        "implementation": "learn-attack-slots-implementation.md",
+        "request": "Native constructor emits exactly four attack_ids per Morty, with JSON null for missing SortedList positions; body also carries session_id and morty_labs",
+        "storage": "Retain first four entries; strict null slots create no row while advancing position; an all-null retained entry is skipped before deletion",
+        "response": "PlayerEditAttacksResponse contains coupons and owned_morties; NONE=4 merges dictionaries with clearAttacks=true, retaining explicit attack positions; coupons applied only in lab mode",
+        "scope": "Fixes invisible empty-ID rows and their later full AP-rock blocker; preserves existing PP=pp_stat=8 placeholder, eligibility, ignored morty_labs and fee behavior",
+        "limits": [
+          "Original AP initialization/reset/preservation, species/level eligibility and lab fees unresolved",
+          "PP=8 can exceed static maxima for some attacks; this repair does not close every AP-restoration failure",
+          "No historical-row migration or new Android capture"
+        ],
+        "validation": "12 additive learn-slot HTTP/database cases and 23 adjacent cases passed (35 total); PHP lint, research validator and fresh bounded native wrapper passed; no new Android capture"
+      }
     },
     {
       "path": "/session/owned_morties/lock",
