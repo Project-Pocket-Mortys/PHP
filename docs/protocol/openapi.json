@@ -899,7 +899,8 @@
     "/sse": {
       "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "x-method-unresolved": true,
+      "x-trade-refresh-contract": "trade-refresh-implementation.md"
     },
     "/time": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -1168,7 +1169,8 @@
           "trade-listing-protection.md",
           "native-trade-creation-contract.md"
         ]
-      }
+      },
+      "x-trade-refresh-contract": "trade-refresh-implementation.md"
     },
     "/trading/offer-response": {
       "x-implementation-status": "partial",
@@ -1318,7 +1320,8 @@
           "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
           "evidence": "native-trade-decisions.md"
         }
-      }
+      },
+      "x-trade-refresh-contract": "trade-refresh-implementation.md"
     },
     "/trading/request-morty": {
       "x-implementation-status": "partial",
@@ -1559,5 +1562,18 @@
         }
       }
     }
+  },
+  "x-trade-refresh-events": {
+    "names": [
+      "trade:request-submit",
+      "trade:offer-submit",
+      "trade:offer-accepted",
+      "trade:offer-rejected"
+    ],
+    "payload": {},
+    "client_consumed_fields": [],
+    "recipient_policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+    "startup_gate": "Fresh membership generation and nonempty room before first delivery; ready retained afterward",
+    "evidence": "trade-refresh-event-contract.md"
   }
 }

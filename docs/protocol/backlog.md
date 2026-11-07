@@ -1,5 +1,11 @@
 # Evidence gaps and repair backlog
 
+[Counterpart notifications](trade-refresh-implementation.md) now cover new offers
+and decisions with committed account revisions and a startup join barrier. Next
+validate live two-client notifications during trade mutations and resolve the
+self-cancellation inventory race. Request/cancellation fanout is outside this
+publication scope; original-service semantics remain unknown.
+
 Latest SDK prerequisite: [isolated native offline-path recovery](onetrust-startup-recovery.md)
 now passes retained-client startup, login, world entry and actual trading cookie
 transmission, with unchanged SDK files and guarded saves. Exact Android online

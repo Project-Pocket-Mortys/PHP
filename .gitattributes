@@ -81,6 +81,7 @@ tests/protocol/test_crafting_pickup_preparation_guards.py text eol=lf
 docs/protocol/private-battle-start-views.md text eol=lf
 
 lib/trade_cancellation.php text eol=lf
+lib/trade_refresh.php text eol=lf
 trading/cancel-trade/index.php text eol=lf
 trading/cancel-trade-offer/index.php text eol=lf
 trading/offer-morty/index.php text eol=lf

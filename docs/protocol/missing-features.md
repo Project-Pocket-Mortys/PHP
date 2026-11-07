@@ -1,5 +1,10 @@
 # Missing gameplay features: implementation order
 
+[Counterpart trade updates](trade-refresh-implementation.md) now publish committed
+offer/decision invalidations through the original refresh handlers. Immediate
+self-cancellation lock visibility remains open; no cancellation actor echo was
+added because it can race native saved-offer cleanup.
+
 ConspiracyRick's playable backend and README-completed features remain the
 baseline. An unverified feature is not automatically broken. Work now prioritizes
 missing player actions; broad transport research is deferred unless a reproduced

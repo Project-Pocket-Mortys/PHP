@@ -4908,7 +4908,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "9326933c8fae7f2138e8b1369a80d0b25dba44df17de4656b39a49f0df59c38a"
+        "sha256": "172622f7ebfcdb24b3dfe754db1da8e6393d16043c6feee684c68548f187f38a"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -5001,6 +5001,12 @@
         "contract": "docs/protocol/shared-battle-stream-delivery.md",
         "acceptance_enabled": false,
         "android_capture": "docs/protocol/android-shared-startup.md"
+      },
+      "trade_refresh_delivery": {
+        "policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+        "contract": "trade-refresh-event-contract.md",
+        "implementation": "trade-refresh-implementation.md",
+        "scope": "Account-global committed invalidation; startup gate; original delivery semantics not claimed"
       }
     },
     {
@@ -5427,7 +5433,7 @@
       "server_evidence": {
         "file": "trading/offer-morty/index.php",
         "line": 1,
-        "sha256": "bcb1a7ea2c2239713c5b69b5b72129231e9754732ebef583ed7e864ab0adb3aa"
+        "sha256": "6281356753c4c4839f2b9d35dd398cae3755d565f191c63531ea464bd32f2732"
       },
       "implementation_status": "partial",
       "status_basis": "Owner-scoped creation now enforces recovered lock/active-deck eligibility and offer criteria; success/economics retained; reverse transitions and full transfer remain separate",
@@ -5501,7 +5507,13 @@
       "native_offer_observation": "docs/protocol/native-trade-offer-results.json",
       "native_offer_limit": "Observed native offer create/reload/cancel with disposable accepted friends; immediate post-cancel owned refresh, acceptance and transfer remain separate.",
       "reviewed_contract": "docs/protocol/trade-listing-protection-contract.md",
-      "listing_protection": "docs/protocol/trade-listing-protection.md"
+      "listing_protection": "docs/protocol/trade-listing-protection.md",
+      "trade_refresh_delivery": {
+        "policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+        "contract": "trade-refresh-event-contract.md",
+        "implementation": "trade-refresh-implementation.md",
+        "scope": "Account-global committed invalidation; startup gate; original delivery semantics not claimed"
+      }
     },
     {
       "path": "/trading/offer-response",
@@ -5607,6 +5619,12 @@
         "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
         "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
         "evidence": "native-trade-decisions.md"
+      },
+      "trade_refresh_delivery": {
+        "policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+        "contract": "trade-refresh-event-contract.md",
+        "implementation": "trade-refresh-implementation.md",
+        "scope": "Account-global committed invalidation; startup gate; original delivery semantics not claimed"
       }
     },
     {

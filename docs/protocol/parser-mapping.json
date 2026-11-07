@@ -8270,7 +8270,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "statically established refresh-only handler; replacement delivery documented separately",
+      "reviewed_handler": {
+        "method": "NetworkFriendAPI$$TradOfferAcceptdHandler",
+        "address": "0x1792334",
+        "consumed_payload_fields": [],
+        "evidence": "trade-refresh-event-contract.md"
+      }
     },
     {
       "event": "trade:offer-rejected",
@@ -8338,7 +8344,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "statically established refresh-only handler; replacement delivery documented separately",
+      "reviewed_handler": {
+        "method": "NetworkFriendAPI$$TradOfferRejectHandler",
+        "address": "0x17923e8",
+        "consumed_payload_fields": [],
+        "evidence": "trade-refresh-event-contract.md"
+      }
     },
     {
       "event": "trade:offer-submit",
@@ -8406,7 +8418,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "statically established refresh-only handler; replacement delivery documented separately",
+      "reviewed_handler": {
+        "method": "NetworkFriendAPI$$TradeOfferdSummitHandler",
+        "address": "0x1792280",
+        "consumed_payload_fields": [],
+        "evidence": "trade-refresh-event-contract.md"
+      }
     },
     {
       "event": "trade:request-submit",
@@ -8474,7 +8492,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "statically established refresh-only handler; replacement delivery documented separately",
+      "reviewed_handler": {
+        "method": "NetworkFriendAPI$$TradRequestSummitedHandler",
+        "address": "0x17921cc",
+        "consumed_payload_fields": [],
+        "evidence": "trade-refresh-event-contract.md"
+      }
     }
   ]
 }

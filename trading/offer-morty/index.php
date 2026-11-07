@@ -6,6 +6,7 @@ header("Access-Control-Allow-Origin: *");
 require '../../pocket_f4894h398r8h9w9er8he98he.php';
 require_once __DIR__ . '/../../lib/trade_offer_metadata.php';
 require_once __DIR__ . '/../../lib/trade_listing.php';
+require_once __DIR__ . '/../../lib/trade_refresh.php';
 
 try {
     if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') throw new TradeListingError(405);
@@ -30,6 +31,9 @@ try {
     ");
     $stmt->execute([$offer_id, $trade_request_id, $player_id, $offered_morty_id]);
     $metadata = trade_offer_metadata($pdo, $trade_request_id, $player_id, $offered_morty_id);
+    if ($trade['player_id'] !== $player_id) {
+        trade_refresh_publish($pdo, [$trade['player_id']], 'trade:offer-submit');
+    }
     $pdo->commit();
 
     // RETURN official-style JSON

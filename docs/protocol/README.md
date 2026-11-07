@@ -1,5 +1,10 @@
 # Pocket Mortys protocol research handoff
 
+[Counterpart trade refresh delivery](trade-refresh-implementation.md) now publishes
+committed offer/decision invalidations using the [native handlers](trade-refresh-event-contract.md).
+It adds startup gating, account-global coalescing and reconnect replay. Immediate
+self-cancellation unlock remains separate because its callback can race a refresh.
+
 [Native trade decisions](native-trade-decisions.md) now include captured requester
 rejection, successful requester Accept and both actors' normal owned-inventory
 refreshes. The offerer's same pending rejection history reproduced an incorrect

@@ -54,6 +54,7 @@ class TradePartyTransitionTests(unittest.TestCase):
 
     def cleanup(self):
         self.execute([
+            f"DELETE FROM trade_refresh_notifications WHERE player_id IN ('{self.ids}')",
             f"DELETE FROM completed_trades WHERE request_player_id IN ('{self.ids}') OR offer_player_id IN ('{self.ids}')",
             f"DELETE FROM trade_offers WHERE player_id IN ('{self.ids}') OR morty_offer_id IN ('{self.morties}')",
             f"DELETE FROM trades WHERE player_id IN ('{self.ids}') OR morty_trade_id IN ('{self.morties}')",

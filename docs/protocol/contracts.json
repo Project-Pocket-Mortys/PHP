@@ -1076,7 +1076,8 @@
         "trade-party-transition-contract.md",
         "trade-party-transitions.md",
         "native-trade-decisions.md",
-        "native-trade-decision-navigation.md"
+        "native-trade-decision-navigation.md",
+        "trade-refresh-implementation.md"
       ],
       "limitations": [
         "Selected native decisions, transfer and paired inventory refreshes verified; broader transfer/party variants remain separate",
@@ -1091,7 +1092,8 @@
         "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
         "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
         "evidence": "native-trade-decisions.md"
-      }
+      },
+      "trade_refresh_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication."
     },
     "/trading/request-morty": {
       "method": "POST",
@@ -1240,13 +1242,15 @@
       "evidence": [
         "trade-listing-protection-contract.md",
         "trade-listing-protection.md",
-        "native-trade-creation-contract.md"
+        "native-trade-creation-contract.md",
+        "trade-refresh-implementation.md"
       ],
       "limitations": [
         "Creation eligibility is complemented by trade-party-transitions.md; full living-party policy and native capture remain separate",
         "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
         "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
-      ]
+      ],
+      "trade_refresh_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication."
     },
     "/session/deck/edit": {
       "method": "POST",
@@ -1901,6 +1905,94 @@
         "scope": "research gate only; not a human terminal result or transparent battle resume",
         "android_capture": "docs/protocol/android-shared-startup.md"
       }
+    },
+    "trade:request-submit": {
+      "native_handler": "NetworkFriendAPI$$TradRequestSummitedHandler",
+      "handler_address": "0x17921cc",
+      "evidence_confidence": "statically established",
+      "client_consumed_payload_fields": [],
+      "client_action": "Reload GetTradeData(local player ID) and GetDetails(0x78); does not await either response.",
+      "replacement_payload": {
+        "type": "object",
+        "maxProperties": 0
+      },
+      "replacement_delivery": "Committed per-account revision; latest invalidation coalesced and replayed per fresh ready stream. Initial replay waits for a changed room-membership generation with nonempty room; ready streams continue outside rooms. No new SSE id or client acknowledgement.",
+      "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+      "evidence": [
+        "trade-refresh-event-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Original audiences, payloads and delivery guarantees unknown",
+        "No self-cancellation cached-lock repair",
+        "Synthetic/backend evidence must not be counted as original-service traffic"
+      ]
+    },
+    "trade:offer-submit": {
+      "native_handler": "NetworkFriendAPI$$TradeOfferdSummitHandler",
+      "handler_address": "0x1792280",
+      "evidence_confidence": "statically established",
+      "client_consumed_payload_fields": [],
+      "client_action": "Reload GetTradeData(local player ID) and GetDetails(0x78); does not await either response.",
+      "replacement_payload": {
+        "type": "object",
+        "maxProperties": 0
+      },
+      "replacement_delivery": "Committed per-account revision; latest invalidation coalesced and replayed per fresh ready stream. Initial replay waits for a changed room-membership generation with nonempty room; ready streams continue outside rooms. No new SSE id or client acknowledgement.",
+      "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+      "evidence": [
+        "trade-refresh-event-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Original audiences, payloads and delivery guarantees unknown",
+        "No self-cancellation cached-lock repair",
+        "Synthetic/backend evidence must not be counted as original-service traffic"
+      ]
+    },
+    "trade:offer-accepted": {
+      "native_handler": "NetworkFriendAPI$$TradOfferAcceptdHandler",
+      "handler_address": "0x1792334",
+      "evidence_confidence": "statically established",
+      "client_consumed_payload_fields": [],
+      "client_action": "Reload GetTradeData(local player ID) and GetDetails(0x78); does not await either response.",
+      "replacement_payload": {
+        "type": "object",
+        "maxProperties": 0
+      },
+      "replacement_delivery": "Committed per-account revision; latest invalidation coalesced and replayed per fresh ready stream. Initial replay waits for a changed room-membership generation with nonempty room; ready streams continue outside rooms. No new SSE id or client acknowledgement.",
+      "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+      "evidence": [
+        "trade-refresh-event-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Original audiences, payloads and delivery guarantees unknown",
+        "No self-cancellation cached-lock repair",
+        "Synthetic/backend evidence must not be counted as original-service traffic"
+      ]
+    },
+    "trade:offer-rejected": {
+      "native_handler": "NetworkFriendAPI$$TradOfferRejectHandler",
+      "handler_address": "0x17923e8",
+      "evidence_confidence": "statically established",
+      "client_consumed_payload_fields": [],
+      "client_action": "Reload GetTradeData(local player ID) and GetDetails(0x78); does not await either response.",
+      "replacement_payload": {
+        "type": "object",
+        "maxProperties": 0
+      },
+      "replacement_delivery": "Committed per-account revision; latest invalidation coalesced and replayed per fresh ready stream. Initial replay waits for a changed room-membership generation with nonempty room; ready streams continue outside rooms. No new SSE id or client acknowledgement.",
+      "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+      "evidence": [
+        "trade-refresh-event-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Original audiences, payloads and delivery guarantees unknown",
+        "No self-cancellation cached-lock repair",
+        "Synthetic/backend evidence must not be counted as original-service traffic"
+      ]
     }
   },
   "transport": {

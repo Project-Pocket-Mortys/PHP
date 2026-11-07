@@ -21,6 +21,7 @@ require_once __DIR__ . '/../lib/battle_timeouts.php';
 require_once __DIR__ . '/../lib/friend_invite_stream.php';
 require_once __DIR__ . '/../lib/friend_battle_preparations.php';
 require_once __DIR__ . '/../lib/friend_battle_startup.php';
+require_once __DIR__ . '/../lib/trade_refresh.php';
 
 // ---------------- SSE HELPERS ----------------
 function sse_send_id(string $event, string $dataJson, ?int $id = null): void {
@@ -70,6 +71,28 @@ function stream_friend_invites(PDO $pdo, string $player, string $session, array 
         // Missing migrations and revoked/ambiguous sessions fail closed without
         // printing SQL details, PHP warnings, or a fabricated protocol event.
         error_log('SSE friend invitation poll failed: ' . get_class($error));
+        exit;
+    }
+}
+
+function stream_trade_refresh(PDO $pdo, string $player, string $session, ?string &$seen,
+    string $initialGeneration, bool &$ready): void {
+    try {
+        // OnOpen binds native trade handlers before startup initializes their
+        // playerData. A fresh successful join is the observed startup barrier;
+        // a retained old room alone does not prove this connection is ready.
+        if (!$ready) {
+            $membership = require_live_stream_session($pdo, $player, $session);
+            if ((string)$membership['room_membership_generation'] === $initialGeneration
+                || in_array((string)$membership['room_id'], ['', '0'], true)) return;
+            $ready = true;
+        }
+        $event = trade_refresh_poll($pdo, $player, $session, $seen);
+        if ($event === null) return;
+        sse_send_id($event['event'], json_encode($event['payload'], JSON_THROW_ON_ERROR));
+        $seen = $event['revision'];
+    } catch (Throwable $error) {
+        error_log('SSE trade refresh closed: ' . get_class($error));
         exit;
     }
 }
@@ -183,6 +206,11 @@ $session = [
 
 sse_send("session:start", json_encode($session, JSON_UNESCAPED_SLASHES));
 $friend_invite_seen = [];
+$trade_refresh_seen = null;
+$trade_refresh_initial_generation = (string)$user['room_membership_generation'];
+$trade_refresh_ready = false;
+stream_trade_refresh($pdo, $player_id, $session_id, $trade_refresh_seen,
+    $trade_refresh_initial_generation, $trade_refresh_ready);
 stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
 stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
 
@@ -192,6 +220,8 @@ $room_id = "";
 $last_keepalive = time();
 
 while (!connection_aborted()) {
+    stream_trade_refresh($pdo, $player_id, $session_id, $trade_refresh_seen,
+        $trade_refresh_initial_generation, $trade_refresh_ready);
     stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
     stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
     $st = $pdo->prepare("SELECT room_id, room_membership_generation FROM users WHERE player_id = ? AND session_id = ? LIMIT 1");
@@ -356,6 +386,8 @@ $last_timeout_check = 0;
 
 while (!connection_aborted()) {
 
+    stream_trade_refresh($pdo, $player_id, $session_id, $trade_refresh_seen,
+        $trade_refresh_initial_generation, $trade_refresh_ready);
     stream_shared_battle($pdo,$player_id,$session_id,$friend_battle_stream_id);
     stream_friend_invites($pdo, $player_id, $session_id, $friend_invite_seen);
     $membership = require_live_stream_session($pdo, $player_id, $session_id);

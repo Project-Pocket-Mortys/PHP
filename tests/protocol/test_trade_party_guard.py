@@ -31,6 +31,7 @@ class TradePartyGuardTests(unittest.TestCase):
 
     def cleanup_trade(self):
         self.f.execute([
+            f"DELETE FROM trade_refresh_notifications WHERE player_id IN ('{self.f.ids}')",
             f"DELETE FROM completed_trades WHERE trade_request_id='{self.trade}' OR trade_offer_id='{self.offer}'",
             f"DELETE FROM trade_offers WHERE trade_offer_id='{self.offer}'",
             f"DELETE FROM trades WHERE trade_id='{self.trade}'",

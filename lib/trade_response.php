@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/trade_cancellation.php';
 require_once __DIR__ . '/trade_membership_guard.php';
 require_once __DIR__ . '/trade_listing.php';
+require_once __DIR__ . '/trade_refresh.php';
 
 final class TradeResponseError extends RuntimeException {
     public function __construct(public int $status, string $code = 'FAILED') {
@@ -130,6 +131,20 @@ function trade_response_apply(PDO $pdo, string $session, string $tradeId, string
             $query->execute([$offer['id'], $offerId, $tradeId, $offer['player_id']]);
             if ($query->rowCount() !== 1) throw new TradeResponseError(409);
         }
+        // The requester callback already refreshes itself. Notify counterpart
+        // accounts only; a self refresh can race its local saved-offer cleanup.
+        // Sort every outbox recipient before locking any notification row.
+        $notifications = [];
+        foreach ($accepted ? $siblings : [$offer] as $removed) {
+            $recipient = $removed['player_id'];
+            if ($recipient === $currentActor['player_id']) continue;
+            if (!isset($notifications[$recipient])) $notifications[$recipient] = 'trade:offer-rejected';
+        }
+        if ($offer['player_id'] !== $currentActor['player_id']) {
+            $notifications[$offer['player_id']] = $accepted ? 'trade:offer-accepted' : 'trade:offer-rejected';
+        }
+        ksort($notifications, SORT_STRING);
+        foreach ($notifications as $recipient => $event) trade_refresh_publish($pdo, [(string)$recipient], $event);
         $pdo->commit();
     } catch (Throwable $error) {
         if ($pdo->inTransaction()) $pdo->rollBack();

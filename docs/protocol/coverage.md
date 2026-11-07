@@ -1,5 +1,10 @@
 # Protocol coverage
 
+[Trade refresh delivery](trade-refresh-implementation.md) now notifies counterparts
+after committed new offers and decisions. Bounded REA establishes the handlers;
+synthetic HTTP/DB/SSE tests cover privacy, rollback, startup and reconnect.
+Original audiences and immediate self-cancellation unlock remain separate.
+
 [Native trade decisions](native-trade-decisions.md) now cover requester Reject
 and successful requester Accept, exact guarded spare transfer and both actors'
 normal owned-inventory refreshes. A controlled reload of the same pending
