@@ -26,17 +26,19 @@ class TradeResponseAuthorizationTests(unittest.TestCase):
         self.players = [str(uuid.uuid4()) for _ in range(4)]
         self.a, self.b, self.c, self.d = self.players
         self.ids = "','".join(self.players)
+        self.parties = {player: str(uuid.uuid4()) for player in self.players}
         self.trade, self.other_trade = [str(uuid.uuid4()) for _ in range(2)]
         self.offer, self.sibling, self.other_offer = [str(uuid.uuid4()) for _ in range(3)]
         self.addCleanup(self.cleanup)
         queries = []
         for player in self.players:
             queries.extend([
-                f"INSERT INTO users (secret,player_id,session_id,username,state,tags,level,wins,losses) VALUES ('{player}','{player}','{player}','TradeResponseFixture','WORLD','[]',7,2,1)",
+                f"INSERT INTO users (secret,player_id,session_id,username,state,active_deck_id,tags,level,wins,losses) VALUES ('{player}','{player}','{player}','TradeResponseFixture','WORLD',1,'[]',7,2,1)",
                 f"INSERT INTO owned_items (player_id,item_id,quantity) VALUES ('{player}','ItemSerum',3)",
                 f"INSERT INTO owned_morties (owned_morty_id,player_id,morty_id,hp,hp_stat,is_locked,is_trading_locked) VALUES ('{player}','{player}','Morty',42,100,'1','1')",
                 f"INSERT INTO owned_attacks (owned_morty_id,attack_id,position,pp,pp_stat) VALUES ('{player}','AttackLick',0,3,5)",
-                f"INSERT INTO decks (player_id,deck_id,owned_morty_ids) VALUES ('{player}',1,'[\"{player}\"]')",
+                f"INSERT INTO owned_morties (owned_morty_id,player_id,morty_id,hp,hp_stat) VALUES ('{self.parties[player]}','{player}','Morty',100,100)",
+                f"INSERT INTO decks (player_id,deck_id,owned_morty_ids) VALUES ('{player}',1,'[\"{self.parties[player]}\"]')",
             ])
         queries.extend([
             f"INSERT INTO trades (trade_id,player_id,morty_trade_id,is_free_trade) VALUES ('{self.trade}','{self.a}','{self.a}',1),('{self.other_trade}','{self.c}','{self.c}',0)",

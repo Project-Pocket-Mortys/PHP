@@ -437,14 +437,249 @@
       "x-method-unresolved": true
     },
     "/session/deck/edit": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "post": {
+        "description": "Native POST contract; PHP method enforcement/older coercion and flat failures remain partial. Validate every target member when a nonempty edit activates the deck; empty edit retains legacy deletion/active-index behavior. Reservation rejection is replacement policy; no native runtime success claimed.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "deck_id": {
+                    "type": "integer"
+                  },
+                  "owned_morty_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "deck_id",
+                  "owned_morty_ids"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing success/profile body; preserve complete selected decks including escaped SQL storage projections",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "active_deck_id",
+                    "decks"
+                  ],
+                  "properties": {
+                    "active_deck_id": {
+                      "type": "integer"
+                    },
+                    "decks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "deck_id",
+                          "owned_morty_ids"
+                        ],
+                        "properties": {
+                          "deck_id": {
+                            "type": "integer"
+                          },
+                          "owned_morty_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "New reservation/ownership/ambiguity guard uses nested FAILED; unrelated legacy409 paths may still be flat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "success",
+                        "error"
+                      ],
+                      "properties": {
+                        "success": {
+                          "const": false
+                        },
+                        "error": {
+                          "type": "object",
+                          "required": [
+                            "code"
+                          ],
+                          "properties": {
+                            "code": {
+                              "const": "FAILED"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Existing legacy failure paths; not standardized in this repair"
+          }
+        },
+        "x-evidence": [
+          "trade-party-transition-contract.md",
+          "trade-party-transitions.md"
+        ]
+      }
     },
     "/session/deck/set-active": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "post": {
+        "description": "Native POST contract; PHP method enforcement/older coercion and flat failures remain partial. Validate unique nonempty saved target and every current member before activating. Reservation rejection is replacement policy; no native runtime success claimed.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "deck_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "deck_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing success/profile body; preserve complete selected decks including escaped SQL storage projections",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "active_deck_id",
+                    "decks"
+                  ],
+                  "properties": {
+                    "active_deck_id": {
+                      "type": "integer"
+                    },
+                    "decks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "deck_id",
+                          "owned_morty_ids"
+                        ],
+                        "properties": {
+                          "deck_id": {
+                            "type": "integer"
+                          },
+                          "owned_morty_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "New reservation/ownership/ambiguity guard uses nested FAILED; unrelated legacy409 paths may still be flat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "success",
+                        "error"
+                      ],
+                      "properties": {
+                        "success": {
+                          "const": false
+                        },
+                        "error": {
+                          "type": "object",
+                          "required": [
+                            "code"
+                          ],
+                          "properties": {
+                            "code": {
+                              "const": "FAILED"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Existing legacy failure paths; not standardized in this repair"
+          }
+        },
+        "x-evidence": [
+          "trade-party-transition-contract.md",
+          "trade-party-transitions.md"
+        ]
+      }
     },
     "/session/decks/slots/buy": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -694,7 +929,7 @@
     "/trading/offer-morty": {
       "x-implementation-status": "partial",
       "post": {
-        "description": "Protected creation at current owned/active-deck state. No new economic or reverse-transition policy. Authentication is in JSON, not the cancellation cookie.",
+        "description": "Protected creation at current owned/active-deck state. Existing economic policy retained; later party transitions are guarded separately in trade-party-transitions.md. Authentication is in JSON, not the cancellation cookie.",
         "requestBody": {
           "required": true,
           "content": {
@@ -829,7 +1064,7 @@
     "/trading/offer-response": {
       "x-implementation-status": "partial",
       "post": {
-        "description": "Reviewed Android three-field request and body-agnostic success. Replacement authorization/transaction policy documented in trade-response-implementation.md; native accept/reject not captured. When cookie and Bearer are both supplied they must agree.",
+        "description": "Reviewed Android three-field request and body-agnostic success. Replacement authorization/transaction policy documented in trade-response-implementation.md; native accept/reject not captured. When cookie and Bearer are both supplied they must agree. Acceptance rechecks both outgoing instances against current active parties; withdrawal remains available for unsafe legacy listings.",
         "requestBody": {
           "required": true,
           "content": {
@@ -960,14 +1195,15 @@
         "x-credential-consistency": "If both credentials are present they must match; malformed explicit credentials fail closed",
         "x-evidence": [
           "native-trade-response-contract.md",
-          "trade-response-implementation.md"
+          "trade-response-implementation.md",
+          "trade-party-transitions.md"
         ]
       }
     },
     "/trading/request-morty": {
       "x-implementation-status": "partial",
       "post": {
-        "description": "Protected creation at current owned/active-deck state. No new economic or reverse-transition policy. Authentication is in JSON, not the cancellation cookie.",
+        "description": "Protected creation at current owned/active-deck state. Existing economic policy retained; later party transitions are guarded separately in trade-party-transitions.md. Authentication is in JSON, not the cancellation cookie.",
         "requestBody": {
           "required": true,
           "content": {

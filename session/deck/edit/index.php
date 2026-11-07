@@ -11,6 +11,7 @@ header("Vary: Accept-Encoding");
 
 require __DIR__ . "/../../../pocket_f4894h398r8h9w9er8he98he.php"; // must provide $pdo
 require_once __DIR__ . "/../../../lib/battle_membership_guard.php";
+require_once __DIR__ . "/../../../lib/trade_party_transitions.php";
 
 
 function is_uuid(string $s): bool {
@@ -99,10 +100,12 @@ try {
     $lock = $pdo->prepare("SELECT * FROM users WHERE player_id = ? FOR UPDATE");
     $lock->execute([$player_id]);
     $lockedUsers = $lock->fetchAll(PDO::FETCH_ASSOC);
-    $sessionCheck = $pdo->prepare("SELECT id FROM users WHERE session_id = ?");
+    $sessionCheck = $pdo->prepare("SELECT id, session_id FROM users WHERE session_id = ? ORDER BY id FOR UPDATE");
     $sessionCheck->execute([$session_id]);
     $sessionUsers = $sessionCheck->fetchAll(PDO::FETCH_ASSOC);
-    if (count($lockedUsers) !== 1 || $lockedUsers[0]['session_id'] !== $session_id || count($sessionUsers) !== 1) {
+    if (count($lockedUsers) !== 1 || $lockedUsers[0]['player_id'] !== $player_id
+        || $lockedUsers[0]['session_id'] !== $session_id || count($sessionUsers) !== 1
+        || $sessionUsers[0]['id'] !== $lockedUsers[0]['id'] || $sessionUsers[0]['session_id'] !== $session_id) {
         $pdo->rollBack();
         respond(401, ["success" => false, "error" => "Invalid session"]);
     }
@@ -149,13 +152,15 @@ try {
             respond(409, ["success" => false, "error" => "Owned morty not found for player", "missing" => $missing]);
         }
 
+        // Nonempty edits also activate this party, so validate every member.
+        trade_party_transition_ids($pdo, $user, $owned_morty_ids);
+        $target = trade_party_transition_target($pdo, $user, $deck_id);
+
         // Store JSON array string exactly like your DB format
         $deck_json = json_encode(array_values($owned_morty_ids), JSON_UNESCAPED_SLASHES);
 
         // Upsert (since decks table has no unique key on player_id+deck_id)
-        $exists = $pdo->prepare("SELECT id FROM decks WHERE player_id = ? AND deck_id = ? LIMIT 1");
-        $exists->execute([$player_id, $deck_id]);
-        $rowId = $exists->fetchColumn();
+        $rowId = $target['id'] ?? null;
 
         if ($rowId) {
             $up = $pdo->prepare("UPDATE decks SET owned_morty_ids = ? WHERE id = ?");
@@ -175,6 +180,7 @@ try {
     $pdo->commit();
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) $pdo->rollBack();
+    if ($e instanceof TradePartyTransitionError) respond($e->status, ["success" => false, "error" => ["code" => "FAILED"]]);
     respond(500, ["success" => false, "error" => "Server error", "detail" => $e->getMessage()]);
 }
 
@@ -188,6 +194,7 @@ $dq->execute([$player_id]);
 $decks = [];
 while ($r = $dq->fetch(PDO::FETCH_ASSOC)) {
     $ids = json_decode($r["owned_morty_ids"] ?? "[]", true);
+    if (!is_array($ids)) $ids = json_decode(stripcslashes($r["owned_morty_ids"] ?? "[]"), true);
     if (!is_array($ids)) $ids = [];
     // Optional: filter out empty decks just in case
     if (count($ids) === 0) continue;

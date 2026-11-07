@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/trade_cancellation.php';
 require_once __DIR__ . '/trade_membership_guard.php';
+require_once __DIR__ . '/trade_listing.php';
 
 final class TradeResponseError extends RuntimeException {
     public function __construct(public int $status, string $code = 'FAILED') {
@@ -60,6 +61,16 @@ function trade_response_transfer(PDO $pdo, array $morty, string $owner): void {
     if ($query->rowCount() !== 1) throw new TradeResponseError(409);
 }
 
+/** Existing user locks serialize acceptance against both owners' party writers. */
+function trade_response_party_excludes(PDO $pdo, array $morty): void {
+    $owner = trade_party_guard_row($pdo, 'users', 'player_id', $morty['player_id'], true);
+    try {
+        trade_listing_active_deck_excludes($pdo, $owner, $morty, 'FAILED');
+    } catch (TradeListingError $error) {
+        throw new TradeResponseError(409);
+    }
+}
+
 function trade_response_apply(PDO $pdo, string $session, string $tradeId, string $offerId, bool $accepted): void {
     if ($pdo->inTransaction()) throw new LogicException('Standalone trade response required');
     try {
@@ -93,6 +104,10 @@ function trade_response_apply(PDO $pdo, string $session, string $tradeId, string
             if ($requested['player_id'] !== $trade['player_id'] || $offered['player_id'] !== $offer['player_id']) {
                 throw new TradeResponseError(409);
             }
+            // Listings can outlive party changes: recheck both current parties.
+            // Their own durable references and legacy stored locks are expected.
+            trade_response_party_excludes($pdo, $requested);
+            trade_response_party_excludes($pdo, $offered);
             trade_response_transfer($pdo, $requested, $offer['player_id']);
             trade_response_transfer($pdo, $offered, $trade['player_id']);
             $query = $pdo->prepare('INSERT INTO completed_trades (completed_trade_id,request_player_id,offer_player_id,morty_request_id,morty_offer_id,trade_request_id,trade_offer_id,is_free_trade,fulfilled_at) VALUES (?,?,?,?,?,?,?,?,NOW())');

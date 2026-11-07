@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Trade-safe party transitions](trade-party-transitions.md) now prevent deck edit
+or activation from introducing reserved instances and recheck both current
+active parties before acceptance. Successful deck responses retain escaped
+legacy storage correctly. New guard errors match the native parser; older deck
+failure paths and native accept/reject presentation remain separate.
+
 [Protected listing creation](trade-listing-protection.md) now checks owned
 instances, both locks, durable reservations and active-deck membership before
 inserting requests/offers. Specific offers match species and variant. Existing

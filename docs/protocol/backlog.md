@@ -35,17 +35,25 @@ Implementation status and evidence confidence are independent. The root README r
 
 ## Current implementation priority
 
+[Party transition guards](trade-party-transitions.md) now cover nonempty deck
+edits, saved-deck activation and both outgoing instances at acceptance. Valid
+spares still transfer; unsafe listings can be rejected/cancelled. Next verify
+native accept/reject presentation and inventory refresh, recover completed-list
+mapping, and audit other party writers/legacy raw flags. Older flat deck errors
+remain a parser-compatibility gap outside the new guarded failures.
+
 [Protected listing creation](trade-listing-protection.md) now checks both locks,
 global durable references, current ownership/active deck and specific offer
-criteria. Next guard later deck activation and acceptance-time party eligibility,
-verify native accept/reject presentation and resolve post-cancel refresh. Direct
+criteria. Later deck activation and acceptance-time party eligibility now have
+the follow-up above; next verify native accept/reject presentation and resolve
+post-cancel refresh. Direct
 legacy ACTIVE-battle eligibility requires terminal reconciliation; it is not
 newly blanket-blocked. Existing price/cooldown calculations remain unchanged.
 
 Trade response authorization and parent/offer binding now have a scoped
 [transactional repair](trade-response-implementation.md), including native
 error envelopes and competing-offer cleanup. Next verify native accept/reject
-presentation and active-party safety across later transitions; preserve
+presentation and audit remaining party writers; preserve
 the separate immediate offer-cancellation refresh gap. Original transfer
 economics and completed-list wire-name mapping remain unresolved.
 

@@ -1056,7 +1056,7 @@
         "error": "Non-success JSON error.code; replacement-emitted codes: FAILED, TRADE_NO_TRADE_EXISTS, TRADE_NO_OFFER_EXISTS. Full recovered enum also defines UNKNOWN and NONE."
       },
       "authentication": "Replacement login-issued /trading/ session_id cookie or Bearer; both must agree; body identity never authorizes",
-      "server_policy": "Current unambiguous requester only; exact parent/offer binding; acceptance requires declared ownership; existing both-decision shared battle guard retained",
+      "server_policy": "Current unambiguous requester only; exact parent/offer binding; acceptance requires declared ownership; existing both-decision shared battle guard retained; acceptance-only current active-deck exclusion for both exchanged instances under sorted participant locks",
       "side_effects": {
         "accept": "Atomic selected ownership swap and one completion; delete parent and all attached offers",
         "reject": "Delete only selected attached offer; preserve parent and siblings"
@@ -1072,12 +1072,15 @@
       },
       "evidence": [
         "native-trade-response-contract.md",
-        "trade-response-implementation.md"
+        "trade-response-implementation.md",
+        "trade-party-transition-contract.md",
+        "trade-party-transitions.md"
       ],
       "limitations": [
-        "Static client contract plus synthetic replacement-server tests; no native accept/reject capture",
-        "Original statuses/economics and completed-list spelling unresolved",
-        "Protected listing creation, active-party eligibility and legacy true flags remain separate"
+        "Native accept/reject presentation not captured",
+        "Original statuses/economics/completed-list spelling and stored lock provenance unresolved",
+        "Current party exclusion does not introduce living-party thresholds or rewrite inactive saved decks",
+        "Legacy direct ACTIVE-battle reconciliation remains separate"
       ]
     },
     "/trading/request-morty": {
@@ -1156,7 +1159,7 @@
         "native-trade-creation-contract.md"
       ],
       "limitations": [
-        "Eligibility at creation only; later deck activation and acceptance-time party revalidation remain separate",
+        "Creation eligibility is complemented by trade-party-transitions.md; full living-party policy and native capture remain separate",
         "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
         "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
       ],
@@ -1230,9 +1233,134 @@
         "native-trade-creation-contract.md"
       ],
       "limitations": [
-        "Eligibility at creation only; later deck activation and acceptance-time party revalidation remain separate",
+        "Creation eligibility is complemented by trade-party-transitions.md; full living-party policy and native capture remain separate",
         "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
         "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
+      ]
+    },
+    "/session/deck/edit": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$EditDeck",
+      "address": "0x17a2ce8",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "deck_id": {
+            "type": "integer"
+          },
+          "owned_morty_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "deck_id",
+          "owned_morty_ids"
+        ]
+      },
+      "authentication": "Existing body session lookup, owner lock and exact current session/player/physical-row recheck",
+      "server_policy": "Validate every target member when a nonempty edit activates the deck; empty edit retains legacy deletion/active-index behavior; reject stored trade lock, global durable reference, ambiguous logical identity or nonownership; ordinary manual locks alone remain allowed",
+      "response": {
+        "success": {
+          "decks": "Array of {deck_id,owned_morty_ids}; existing extra profile fields retained",
+          "null_semantics": "Native SetDecks(null) leaves cache; nonnull array clears/repopulates. Missing active_deck_id defaults0 and is assigned.",
+          "consumed_native_fields": [
+            "active_deck_id",
+            "decks"
+          ]
+        },
+        "new_transition_error": {
+          "status": 409,
+          "body": {
+            "success": false,
+            "error": {
+              "code": "FAILED"
+            }
+          }
+        },
+        "legacy_errors": "Existing unrelated flat failure paths remain; native parser compatibility is still incomplete"
+      },
+      "native_error_enum": [
+        "UNKOWN",
+        "DECK_ID_INVALID",
+        "OWNED_MORTY_IDS_INVALID",
+        "OWNED_MORTY_IDS_LENGTH",
+        "FAILED",
+        "NONE"
+      ],
+      "evidence": [
+        "trade-party-transition-contract.md",
+        "trade-party-transitions.md"
+      ],
+      "limitations": [
+        "No native deck-edit/activation capture in this milestone",
+        "Saved-deck activation blockade is replacement integrity policy, not recovered original validation",
+        "Manual-lock UI gating differs from lower-level save/activation; baseline server allowance preserved",
+        "Older method enforcement/coercion and flat error paths remain separate; no new living-party threshold"
+      ]
+    },
+    "/session/deck/set-active": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$SetActiveDeck",
+      "address": "0x17a3b24",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "deck_id": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "session_id",
+          "deck_id"
+        ]
+      },
+      "authentication": "Existing body session lookup, owner lock and exact current session/player/physical-row recheck",
+      "server_policy": "Validate unique nonempty saved target and every current member before activating; reject stored trade lock, global durable reference, ambiguous logical identity or nonownership; ordinary manual locks alone remain allowed",
+      "response": {
+        "success": {
+          "decks": "Array of {deck_id,owned_morty_ids}; existing extra profile fields retained",
+          "null_semantics": "Native SetDecks(null) leaves cache; nonnull array clears/repopulates. Missing active_deck_id defaults0 and is assigned.",
+          "consumed_native_fields": [
+            "active_deck_id",
+            "decks"
+          ]
+        },
+        "new_transition_error": {
+          "status": 409,
+          "body": {
+            "success": false,
+            "error": {
+              "code": "FAILED"
+            }
+          }
+        },
+        "legacy_errors": "Existing unrelated flat failure paths remain; native parser compatibility is still incomplete"
+      },
+      "native_error_enum": [
+        "UNKOWN",
+        "DECK_ID_INVALID",
+        "FAILED",
+        "NONE"
+      ],
+      "evidence": [
+        "trade-party-transition-contract.md",
+        "trade-party-transitions.md"
+      ],
+      "limitations": [
+        "No native deck-edit/activation capture in this milestone",
+        "Saved-deck activation blockade is replacement integrity policy, not recovered original validation",
+        "Manual-lock UI gating differs from lower-level save/activation; baseline server allowance preserved",
+        "Older method enforcement/coercion and flat error paths remain separate; no new living-party threshold"
       ]
     }
   },

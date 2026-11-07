@@ -1,5 +1,11 @@
 # Protocol coverage
 
+[Party transitions and acceptance](trade-party-transitions.md) now preserve
+trade reservations across current deck/edit, set-active and accepted transfers.
+Bounded native evidence distinguishes UI lock predicates from replacement
+activation/transfer integrity policy. Synthetic HTTP/DB races pass; no new
+Android deck or acceptance capture is claimed.
+
 [Request/offer creation eligibility](trade-listing-protection.md) now enforces
 the recovered native selector at insertion, including active-deck/lock exclusion
 and offer species/variant criteria. Evidence combines bounded REA6.8 traces and

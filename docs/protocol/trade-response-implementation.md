@@ -1,5 +1,9 @@
 # Authenticated trade offer responses
 
+Follow-up: [party transitions](trade-party-transitions.md) now recheck both
+current active parties during acceptance while preserving rejection/cancellation.
+Native accept/reject and full living-party policy remain separate.
+
 Follow-up: [protected listing creation](trade-listing-protection.md) now enforces
 lock/active-deck and offer criteria at insertion. The response milestone below
 remains separate from later deck transitions and native acceptance verification.

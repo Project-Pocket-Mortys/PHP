@@ -2234,18 +2234,18 @@
               "owned_morty_ids"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "Reviewed native constructor/parser and reservation predicate; trade-party-transition-contract.md"
         }
       ],
       "server_evidence": {
         "file": "session/deck/edit/index.php",
         "line": 1,
-        "sha256": "d7e234c58de3290f2e95230e2e4f2bc80221d435926df7e0fe0e54d2a2075690"
+        "sha256": "e38af4adb5ca2b4d03773fcdc2dfe4234b89d08fee190b556a7e5a647d26cf02"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Reservation-aware target-party writes and exact current ownership checks added; existing success/profile fields retained; older error/method paths remain separate",
+      "evidence_confidence": "Reviewed bounded native constructor/parser/UI trace plus synthetic replacement HTTP/database behavior",
+      "http_method": "POST (native); existing PHP does not explicitly enforce method",
       "input_field_candidates": [
         "deck_id",
         "owned_morty_ids",
@@ -2277,28 +2277,46 @@
         "xp_lower",
         "xp_upper"
       ],
-      "http_status_candidates": [],
+      "http_status_candidates": [
+        200,
+        400,
+        401,
+        409,
+        500
+      ],
       "table_candidates": [
+        "users",
         "decks",
         "owned_morties",
-        "users"
+        "trades",
+        "trade_offers",
+        "friend_battle_memberships"
       ],
       "events_published": [],
-      "authentication": "session lookup present",
+      "authentication": "Existing body session lookup, owner lock and exact current session/player/physical-row recheck",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "No native deck-edit/activation capture in this milestone",
+        "Saved-deck activation blockade is replacement integrity policy, not recovered original validation",
+        "Manual-lock UI gating differs from lower-level save/activation; baseline server allowance preserved",
+        "Older method enforcement/coercion and flat error paths remain separate; no new living-party threshold"
       ],
       "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
       "implementation_helpers": [
         {
+          "file": "lib/trade_party_transitions.php",
+          "sha256": "49fd5753b48da9fec25fe162b6cac2d554a045a803fdcbb20d2e219cb03ff3a5"
+        },
+        {
+          "file": "lib/trade_references.php",
+          "sha256": "dd92829e31b38d70b6cbcb765fff2bec5dab82b9361c16a9826fc99b91eadbd6"
+        },
+        {
           "file": "lib/battle_membership_guard.php",
           "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
         }
-      ]
+      ],
+      "reviewed_contract": "docs/protocol/trade-party-transition-contract.md",
+      "trade_party_transitions": "docs/protocol/trade-party-transitions.md"
     },
     {
       "path": "/session/deck/set-active",
@@ -2321,18 +2339,18 @@
               "deck_id"
             ]
           ],
-          "confidence": "derived by linear disassembly; review before treating as wire contract"
+          "confidence": "Reviewed native constructor/parser; native activation has no lock check; party-add reservation predicate and replacement policy distinguished in trade-party-transition-contract.md"
         }
       ],
       "server_evidence": {
         "file": "session/deck/set-active/index.php",
         "line": 1,
-        "sha256": "eeaeeffbec7a6b68e736a30171288a696ec5ba6cfcffd479340de16655f4d859"
+        "sha256": "0172b9882df72915e571c1c91c5e46071276807762cc8474b5503ec91c4ae22f"
       },
       "implementation_status": "partial",
-      "status_basis": "provisional source triage; small static responses may be legitimate",
-      "evidence_confidence": "statically established (server behavior only)",
-      "http_method": "unknown; PHP route does not necessarily enforce method",
+      "status_basis": "Reservation-aware target-party writes and exact current ownership checks added; existing success/profile fields retained; older error/method paths remain separate",
+      "evidence_confidence": "Reviewed bounded native constructor/parser/UI trace plus synthetic replacement HTTP/database behavior",
+      "http_method": "POST (native); existing PHP does not explicitly enforce method",
       "input_field_candidates": [
         "deck_id",
         "session_id"
@@ -2356,28 +2374,46 @@
         "xp_lower",
         "xp_upper"
       ],
-      "http_status_candidates": [],
+      "http_status_candidates": [
+        200,
+        400,
+        401,
+        409,
+        500
+      ],
       "table_candidates": [
-        "active",
+        "users",
         "decks",
-        "users"
+        "owned_morties",
+        "trades",
+        "trade_offers",
+        "friend_battle_memberships"
       ],
       "events_published": [],
-      "authentication": "session lookup present",
+      "authentication": "Existing body session lookup, owner lock and exact current session/player/physical-row recheck",
       "unresolved": [
-        "HTTP method",
-        "complete response schema",
-        "error compatibility",
-        "retry semantics",
-        "runtime verification"
+        "No native deck-edit/activation capture in this milestone",
+        "Saved-deck activation blockade is replacement integrity policy, not recovered original validation",
+        "Manual-lock UI gating differs from lower-level save/activation; baseline server allowance preserved",
+        "Older method enforcement/coercion and flat error paths remain separate; no new living-party threshold"
       ],
       "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
       "implementation_helpers": [
         {
+          "file": "lib/trade_party_transitions.php",
+          "sha256": "49fd5753b48da9fec25fe162b6cac2d554a045a803fdcbb20d2e219cb03ff3a5"
+        },
+        {
+          "file": "lib/trade_references.php",
+          "sha256": "dd92829e31b38d70b6cbcb765fff2bec5dab82b9361c16a9826fc99b91eadbd6"
+        },
+        {
           "file": "lib/battle_membership_guard.php",
           "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
         }
-      ]
+      ],
+      "reviewed_contract": "docs/protocol/trade-party-transition-contract.md",
+      "trade_party_transitions": "docs/protocol/trade-party-transitions.md"
     },
     {
       "path": "/session/decks/slots/buy",
@@ -5422,7 +5458,7 @@
       "events_published": [],
       "authentication": "Body session_id resolves an exact unambiguous actor; provided player_id must equal authenticated player (request legacy omission derives actor)",
       "unresolved": [
-        "Eligibility at creation only; later deck activation and acceptance-time party revalidation remain separate",
+        "Creation eligibility is complemented by trade-party-transitions.md; full living-party policy and native capture remain separate",
         "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
         "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
       ],
@@ -5482,7 +5518,7 @@
         "sha256": "f247719a3b2952175788ddc031e808e9f2506265c88309d6165e0fdeb69836b7"
       },
       "implementation_status": "partial",
-      "status_basis": "Authenticated requester decisions, exact binding and native-compatible errors repaired; complete transfer/party/native verification remains separate",
+      "status_basis": "Authenticated bound decisions now revalidate both current active decks before acceptance; valid spare transfers and withdrawal paths retained",
       "evidence_confidence": "statically established client contract; observed synthetic replacement HTTP/DB regression behavior",
       "http_method": "POST",
       "input_field_candidates": [
@@ -5516,15 +5552,16 @@
       "events_published": [],
       "authentication": "Replacement login-issued /trading/ session_id cookie or Bearer; both must agree; body identity never authorizes",
       "unresolved": [
-        "Static client contract plus synthetic replacement-server tests; no native accept/reject capture",
-        "Original statuses/economics and completed-list spelling unresolved",
-        "Protected listing creation, active-party eligibility and legacy true flags remain separate"
+        "Native accept/reject presentation not captured",
+        "Original statuses/economics/completed-list spelling and stored lock provenance unresolved",
+        "Current party exclusion does not introduce living-party thresholds or rewrite inactive saved decks",
+        "Legacy direct ACTIVE-battle reconciliation remains separate"
       ],
       "party_preparation_guard": "docs/protocol/battle-party-snapshots.md (guard scope only; original operation-policy gaps retained)",
       "implementation_helpers": [
         {
           "file": "lib/trade_response.php",
-          "sha256": "f2e3a3e3b646cca808ca1bc0ab1e4074bf5c6f78e243f49508d6469cfc4be5db"
+          "sha256": "b50fd0c5d67078dd95a8392c1189234a4e7055af11db6b95dde228c8f3033409"
         },
         {
           "file": "lib/trade_cancellation.php",
@@ -5533,10 +5570,19 @@
         {
           "file": "lib/trade_membership_guard.php",
           "sha256": "784d37bda49fd9d5ac577bd787c440f0883c061c803898c2dc35fff72a8f95f8"
+        },
+        {
+          "file": "lib/trade_listing.php",
+          "sha256": "387cf05087e50e97b6ea6876eb06284ff62abf259f859805d427e73b5becde18"
+        },
+        {
+          "file": "lib/trade_references.php",
+          "sha256": "dd92829e31b38d70b6cbcb765fff2bec5dab82b9361c16a9826fc99b91eadbd6"
         }
       ],
       "reviewed_contract": "docs/protocol/native-trade-response-contract.md",
-      "repair": "docs/protocol/trade-response-implementation.md"
+      "repair": "docs/protocol/trade-response-implementation.md",
+      "trade_party_transitions": "docs/protocol/trade-party-transitions.md"
     },
     {
       "path": "/trading/request-morty",
@@ -5617,7 +5663,7 @@
       "events_published": [],
       "authentication": "Body session_id resolves an exact unambiguous actor; provided player_id must equal authenticated player (request legacy omission derives actor)",
       "unresolved": [
-        "Eligibility at creation only; later deck activation and acceptance-time party revalidation remain separate",
+        "Creation eligibility is complemented by trade-party-transitions.md; full living-party policy and native capture remain separate",
         "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
         "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
       ],

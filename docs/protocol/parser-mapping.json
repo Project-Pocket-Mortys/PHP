@@ -496,7 +496,8 @@
           "owned_morty_ids"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "Reviewed bounded constructor and ParseHTTPResponse/error decoder; trade-party-transition-contract.md",
+      "reviewed_contract": "docs/protocol/trade-party-transition-contract.md"
     },
     {
       "path": "/session/deck/set-active",
@@ -509,7 +510,8 @@
           "deck_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "Reviewed bounded constructor and ParseHTTPResponse/error decoder; trade-party-transition-contract.md",
+      "reviewed_contract": "docs/protocol/trade-party-transition-contract.md"
     },
     {
       "path": "/session/decks/slots/buy",

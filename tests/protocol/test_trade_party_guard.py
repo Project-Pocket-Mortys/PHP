@@ -19,8 +19,12 @@ class TradePartyGuardTests(unittest.TestCase):
         self.f.setUp()
         self.a, self.b, self.c, self.d = self.f.players
         self.trade, self.offer, self.claim = [str(uuid.uuid4()) for _ in range(3)]
+        self.parties = {player: str(uuid.uuid4()) for player in self.f.players}
         self.addCleanup(self.cleanup_trade)
         self.f.execute([
+            *[f"INSERT INTO owned_morties (owned_morty_id,player_id,morty_id,hp,hp_stat) VALUES ('{party}','{player}','Morty',100,100)" for player, party in self.parties.items()],
+            *[f"UPDATE decks SET owned_morty_ids='[\"{party}\"]' WHERE player_id='{player}' AND deck_id=1" for player, party in self.parties.items()],
+            f"UPDATE users SET active_deck_id=1 WHERE player_id IN ('{self.f.ids}')",
             f"INSERT INTO trades (trade_id,player_id,morty_trade_id,is_free_trade) VALUES ('{self.trade}','{self.a}','{self.a}',1)",
             f"INSERT INTO trade_offers (trade_offer_id,trade_id,player_id,morty_offer_id) VALUES ('{self.offer}','{self.trade}','{self.b}','{self.b}')",
         ])

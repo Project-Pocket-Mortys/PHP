@@ -1,5 +1,9 @@
 # Protected trade request and offer creation
 
+Follow-up: [party transitions](trade-party-transitions.md) now guard later
+deck edits/activation and both current active parties during acceptance. The
+creation milestone below records its original scope and remaining native gaps.
+
 Both creation endpoints previously allowed locked or active-party instances to
 be listed. Offer creation also accepted instances that did not match a specific
 request's species or variant. The [recovered native selector](trade-listing-protection-contract.md)
