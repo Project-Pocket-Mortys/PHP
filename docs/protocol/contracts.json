@@ -316,7 +316,7 @@
         "item_id": "string",
         "is_success": "boolean",
         "effect_value": "integer; HP restored for healing, 100 for full revive/AP, 0 for targeted cures (compatible convention)",
-        "owned_morties": "array of changed Morties, including explicit boolean is_poisoned/is_paralysed",
+        "owned_morties": "Full changed Morties with canonical boolean flags and effective durable reservation; unchanged attacks included",
         "owned_items": "array of changed items including zero quantity",
         "attacks_to_learn": "array; empty for currently supported world items"
       },
@@ -327,10 +327,12 @@
         "full-restore-capture.json",
         "ap-maxima-contract.md",
         "status-cure-contract.md",
-        "status-cure-implementation.md"
+        "status-cure-implementation.md",
+        "item-reservation-projection-contract.md",
+        "morty-mutation-flags.md"
       ],
       "limitations": [
-        "Eight world RestoreHP items, Pure Halzinger, Pure Plutonic Rock and targeted poison/paralysis cures; remaining effects pending; these twelve also supported by battle/move",
+        "Thirteen supported world HP/revive/AP/cure items including Full Recover; remaining effects pending; item formulas unchanged by the flag repair",
         "Migration 003 is required before loading persistent ailment DTOs; ailment application/ticks during combat remain unimplemented",
         "No request identity: identical effective requests can each consume an item",
         "Original HTTP validation/consumption parity unknown"
@@ -2182,5 +2184,19 @@
       "Server-authoritative movement validation and persistence",
       "Restart/reconnect sequence handling and prolonged packet loss"
     ]
+  },
+  "morty_mutation_flags": {
+    "document": "morty-mutation-flags.md",
+    "native_contract": "item-reservation-projection-contract.md",
+    "scope": [
+      "/session/use-item",
+      "/session/heal",
+      "/session/owned_morties/learn-attacks"
+    ],
+    "boolean_conversion": "Trim and lowercase stored values; true exactly for 1,true,yes,y,on; JSON boolean output",
+    "effective_trading_lock": "Canonical stored flag OR global trades/trade_offers reference by owned instance ID under existing database collation, including orphan/stale-owner references",
+    "preserved": "Stored flags, manual locks, eligibility, HP/AP/status/item mutations and existing learn-attacks PP=8 placeholder",
+    "consistency": "Existing item/learn transaction view; heal projection after existing commit; no new reference locks or latest-wall-clock guarantee",
+    "validation": "76 tests passed across eight exact protocol modules using additive isolated backend fixtures; PHP lint and research validator pass; retained account/save guards pass; no new Android capture, migration or production mutation"
   }
 }

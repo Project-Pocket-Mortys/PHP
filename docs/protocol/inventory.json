@@ -3384,10 +3384,10 @@
       "server_evidence": {
         "file": "session/heal/index.php",
         "line": 1,
-        "sha256": "48babf0947bf98d2bd65935c733dfc78c6f5ff343fab6d3804efba4b2ea14388"
+        "sha256": "91f578b169e42f51508a0d5f4f17aaf0cb783d04dca76ba13f92e1006613c1a1"
       },
       "implementation_status": "implemented",
-      "status_basis": "README Completed: Healing; runtime compatibility not yet verified",
+      "status_basis": "README Completed: Healing; runtime compatibility not yet verified; item/heal/learn full-Morty flag projection repaired with additive backend tests and bounded native merge evidence; no new Android capture",
       "evidence_confidence": "statically established (server behavior only)",
       "http_method": "unknown; PHP route does not necessarily enforce method",
       "input_field_candidates": [
@@ -3456,6 +3456,10 @@
           "file": "lib/battle_membership_guard.php",
           "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
         }
+      ],
+      "mutation_flag_evidence": [
+        "item-reservation-projection-contract.md",
+        "morty-mutation-flags.md"
       ]
     },
     {
@@ -3893,10 +3897,10 @@
       "server_evidence": {
         "file": "session/owned_morties/learn-attacks/index.php",
         "line": 1,
-        "sha256": "756a114f675716452330cabf4713ecce941d58e484907f1eb05ae2ca0cfa530b"
+        "sha256": "91ed0407b8f28a5ea9b05c702c83946a526cb713f25b13cb1e28841ff2797241"
       },
       "implementation_status": "implemented",
-      "status_basis": "README Completed: Learn Attacks; runtime compatibility not yet verified",
+      "status_basis": "README Completed: Learn Attacks; runtime compatibility not yet verified; item/heal/learn full-Morty flag projection repaired with additive backend tests and bounded native merge evidence; no new Android capture",
       "evidence_confidence": "statically established (server behavior only)",
       "http_method": "unknown; PHP route does not necessarily enforce method",
       "input_field_candidates": [
@@ -3966,6 +3970,10 @@
           "file": "lib/battle_membership_guard.php",
           "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
         }
+      ],
+      "mutation_flag_evidence": [
+        "item-reservation-projection-contract.md",
+        "morty-mutation-flags.md"
       ]
     },
     {
@@ -4701,7 +4709,7 @@
         "sha256": "6a2146d158aa991bbb5fd6a8566b39f06d0422707fb149adb2c4f0658c2cc860"
       },
       "implementation_status": "partial",
-      "status_basis": "12 world items: eight HP, full revive/AP, targeted poison/paralysis cures. Native MP eligibility and typed updates, additive regressions and Android cures verified; remaining effects/battle use partial. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP.",
+      "status_basis": "13 world items including Full Recover: eight HP, full revive/AP, targeted poison/paralysis cures. Native MP eligibility and typed updates, additive regressions and Android cures verified; remaining effects/battle use partial. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP; item/heal/learn full-Morty flag projection repaired with additive backend tests and bounded native merge evidence; no new Android capture",
       "evidence_confidence": "observed Android 2.41.0 Serum/full-revive/full-AP uses; native contract and static maxima; 22 item regression tests",
       "http_method": "POST",
       "input_field_candidates": [],
@@ -4737,6 +4745,10 @@
           "file": "lib/battle_membership_guard.php",
           "sha256": "17040ff505c83ee8851bd81e5e8ea9e79453cccc0fb72b26f2489bbf0552beb3"
         }
+      ],
+      "mutation_flag_evidence": [
+        "item-reservation-projection-contract.md",
+        "morty-mutation-flags.md"
       ]
     },
     {
@@ -6884,5 +6896,19 @@
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
       "delivery_semantics": "unknown until handler trace and runtime capture"
     }
-  ]
+  ],
+  "morty_mutation_flags": {
+    "document": "morty-mutation-flags.md",
+    "native_contract": "item-reservation-projection-contract.md",
+    "scope": [
+      "/session/use-item",
+      "/session/heal",
+      "/session/owned_morties/learn-attacks"
+    ],
+    "boolean_conversion": "Trim and lowercase stored values; true exactly for 1,true,yes,y,on; JSON boolean output",
+    "effective_trading_lock": "Canonical stored flag OR global trades/trade_offers reference by owned instance ID under existing database collation, including orphan/stale-owner references",
+    "preserved": "Stored flags, manual locks, eligibility, HP/AP/status/item mutations and existing learn-attacks PP=8 placeholder",
+    "consistency": "Existing item/learn transaction view; heal projection after existing commit; no new reference locks or latest-wall-clock guarantee",
+    "validation": "76 tests passed across eight exact protocol modules using additive isolated backend fixtures; PHP lint and research validator pass; retained account/save guards pass; no new Android capture, migration or production mutation"
+  }
 }

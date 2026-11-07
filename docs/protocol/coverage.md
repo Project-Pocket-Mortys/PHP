@@ -1,5 +1,10 @@
 # Protocol coverage
 
+[Item, heal and learn-attacks flags](morty-mutation-flags.md) now use canonical
+legacy booleans and preserve durable reservations in full-Morty responses.
+The [bounded native merge audit](item-reservation-projection-contract.md) and
+additive HTTP/database tests establish this repair; no new Android capture.
+
 [Cancellation invalidations](trade-cancellation-notifications.md) now target
 counterparts only, atomically with listing removal. All 15 new backend cases,
 50 adjacent cases and nine pure observer cases pass. Native cancellation
@@ -60,8 +65,9 @@ creation/cancellation is now [verified](native-trade-cancellation.md); offer
 cancellation now also [passes on the disposable pair](native-trade-offers.md).
 Immediate inventory unlock after offer cancellation remains a refresh gap.
 Player details and absorption now honor
-[durable trade references](trade-reference-implementation.md); other serializers
-and legacy true-flag reconciliation remain separate.
+[durable trade references](trade-reference-implementation.md). Item, heal and
+learn-attacks serializers now have the [same projection](morty-mutation-flags.md);
+legacy true-flag reconciliation remains separate.
 
 [Native kiosk entry](trading-kiosk-reachability.md), Trade slots and Browse's empty
 state are now observed. A separate disposable client created and cancelled its

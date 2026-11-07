@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php"; // $pdo
 require_once __DIR__ . '/../../lib/world_action_guard.php';
+require_once __DIR__ . '/../../lib/trade_references.php';
 
 // ---------------- helpers ----------------
 function json_out(array $arr, int $code = 200): void {
@@ -159,9 +160,10 @@ try {
 
   // 4) fetch morties in deck order (FIELD keeps exact order)
   $fieldList = implode(",", array_fill(0, count($ownedIds), "?"));
+  $tradeProjection = trade_reference_projection('heal_owned.owned_morty_id');
   $sqlMorties = "
-    SELECT *
-    FROM owned_morties
+    SELECT heal_owned.*, $tradeProjection AS has_trade_reference
+    FROM owned_morties heal_owned
     WHERE player_id = ?
       AND owned_morty_id IN ($ph)
     ORDER BY FIELD(owned_morty_id, $fieldList)
@@ -219,7 +221,7 @@ try {
       "is_poisoned"       => toBool($m["is_poisoned"] ?? false),
       "is_paralysed"      => toBool($m["is_paralysed"] ?? false),
       "is_locked"         => toBool($m["is_locked"] ?? false),
-      "is_trading_locked" => toBool($m["is_trading_locked"] ?? false),
+      "is_trading_locked" => toBool($m["is_trading_locked"] ?? false) || (int)$m['has_trade_reference'] === 1,
       "fight_pit_id"      => toNull($m["fight_pit_id"] ?? null),
       "evolution_points"  => (int)($m["evolution_points"] ?? 0),
       "owned_attacks"     => $attByOwned[$oid] ?? [],

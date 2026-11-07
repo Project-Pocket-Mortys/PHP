@@ -743,7 +743,12 @@
           "session_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "reviewed_response_flags": {
+        "evidence": "item-reservation-projection-contract.md",
+        "implementation": "morty-mutation-flags.md",
+        "scope": "Bounded callback/merge evidence only; existing request constructor confidence retained"
+      }
     },
     {
       "path": "/session/incentive/reject",
@@ -846,7 +851,12 @@
           "morty_labs"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "reviewed_response_flags": {
+        "evidence": "item-reservation-projection-contract.md",
+        "implementation": "morty-mutation-flags.md",
+        "scope": "Bounded callback/merge evidence only; existing request constructor confidence retained"
+      }
     },
     {
       "path": "/session/owned_morties/lock",
@@ -1003,7 +1013,12 @@
           "item_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "reviewed_response_flags": {
+        "evidence": "item-reservation-projection-contract.md",
+        "implementation": "morty-mutation-flags.md",
+        "scope": "Bounded callback/merge evidence only; existing request constructor confidence retained"
+      }
     },
     {
       "path": "/session/use-shiny-potion",
@@ -8568,5 +8583,19 @@
         "evidence": "trade-refresh-event-contract.md"
       }
     }
-  ]
+  ],
+  "morty_mutation_flags": {
+    "document": "morty-mutation-flags.md",
+    "native_contract": "item-reservation-projection-contract.md",
+    "scope": [
+      "/session/use-item",
+      "/session/heal",
+      "/session/owned_morties/learn-attacks"
+    ],
+    "boolean_conversion": "Trim and lowercase stored values; true exactly for 1,true,yes,y,on; JSON boolean output",
+    "effective_trading_lock": "Canonical stored flag OR global trades/trade_offers reference by owned instance ID under existing database collation, including orphan/stale-owner references",
+    "preserved": "Stored flags, manual locks, eligibility, HP/AP/status/item mutations and existing learn-attacks PP=8 placeholder",
+    "consistency": "Existing item/learn transaction view; heal projection after existing commit; no new reference locks or latest-wall-clock guarantee",
+    "validation": "76 tests passed across eight exact protocol modules using additive isolated backend fixtures; PHP lint and research validator pass; retained account/save guards pass; no new Android capture, migration or production mutation"
+  }
 }

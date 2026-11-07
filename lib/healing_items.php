@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/trade_references.php';
 
 // Android MP ItemInfo identities + Android EN descriptions.
 // Null amount means full HP. See docs/protocol/use-item-data.md.
@@ -89,8 +90,18 @@ function item_updated_morty(PDO $pdo, array $morty): array {
         $result[$field] = (int)($morty[$field] ?? 0);
     }
     foreach (['is_locked', 'is_trading_locked', 'is_poisoned', 'is_paralysed'] as $field) {
-        $result[$field] = filter_var($morty[$field] ?? false, FILTER_VALIDATE_BOOLEAN);
+        $result[$field] = in_array(strtolower(trim((string)($morty[$field] ?? false))),
+            ['1', 'true', 'yes', 'y', 'on'], true);
     }
+    // Match player-details: a full item reply must retain durable reservations.
+    // Use the item's existing transaction view without taking new reference locks.
+    $query = $pdo->prepare('SELECT ' . trade_reference_projection('item_owned.owned_morty_id') . '
+        FROM owned_morties item_owned
+        WHERE item_owned.id=? AND item_owned.owned_morty_id=? AND item_owned.player_id=?');
+    $query->execute([$morty['id'], $morty['owned_morty_id'], $morty['player_id']]);
+    $reserved = $query->fetchColumn();
+    if ($reserved === false) throw new LogicException('Item response instance no longer matches');
+    $result['is_trading_locked'] = $result['is_trading_locked'] || (int)$reserved === 1;
     $fightPit = (string)($morty['fight_pit_id'] ?? '');
     $result['fight_pit_id'] = $fightPit === '' || strtolower($fightPit) === 'null' ? null : $fightPit;
     $query = $pdo->prepare('SELECT attack_id, position, pp, pp_stat FROM owned_attacks WHERE owned_morty_id = ? ORDER BY position');

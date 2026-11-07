@@ -767,9 +767,10 @@
       "x-method-unresolved": true
     },
     "/session/heal": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
+      "description": "Existing endpoint; full owned-Morty replies now preserve durable reservations and canonical legacy booleans. See morty-mutation-flags.md and item-reservation-projection-contract.md; no new Android capture.",
       "x-implementation-status": "implemented",
-      "x-method-unresolved": true
+      "x-method-unresolved": true,
+      "x-morty-mutation-flags": "morty-mutation-flags.md"
     },
     "/session/incentive/reject": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -807,9 +808,10 @@
       "x-method-unresolved": true
     },
     "/session/owned_morties/learn-attacks": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
+      "description": "Existing endpoint; full owned-Morty replies now preserve durable reservations and canonical legacy booleans. See morty-mutation-flags.md and item-reservation-projection-contract.md; no new Android capture.",
       "x-implementation-status": "implemented",
-      "x-method-unresolved": true
+      "x-method-unresolved": true,
+      "x-morty-mutation-flags": "morty-mutation-flags.md"
     },
     "/session/owned_morties/lock": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -872,9 +874,10 @@
       "x-method-unresolved": true
     },
     "/session/use-item": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
-      "x-implementation-status": "stub",
-      "x-method-unresolved": true
+      "description": "Existing endpoint; full owned-Morty replies now preserve durable reservations and canonical legacy booleans. See morty-mutation-flags.md and item-reservation-projection-contract.md; no new Android capture.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true,
+      "x-morty-mutation-flags": "morty-mutation-flags.md"
     },
     "/session/use-shiny-potion": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -1638,5 +1641,19 @@
         "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
       ]
     }
+  },
+  "x-morty-mutation-flags": {
+    "document": "morty-mutation-flags.md",
+    "native_contract": "item-reservation-projection-contract.md",
+    "scope": [
+      "/session/use-item",
+      "/session/heal",
+      "/session/owned_morties/learn-attacks"
+    ],
+    "boolean_conversion": "Trim and lowercase stored values; true exactly for 1,true,yes,y,on; JSON boolean output",
+    "effective_trading_lock": "Canonical stored flag OR global trades/trade_offers reference by owned instance ID under existing database collation, including orphan/stale-owner references",
+    "preserved": "Stored flags, manual locks, eligibility, HP/AP/status/item mutations and existing learn-attacks PP=8 placeholder",
+    "consistency": "Existing item/learn transaction view; heal projection after existing commit; no new reference locks or latest-wall-clock guarantee",
+    "validation": "76 tests passed across eight exact protocol modules using additive isolated backend fixtures; PHP lint and research validator pass; retained account/save guards pass; no new Android capture, migration or production mutation"
   }
 }

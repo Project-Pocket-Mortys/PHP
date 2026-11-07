@@ -1,5 +1,11 @@
 # Pocket Mortys protocol research handoff
 
+[Morty mutation flags](morty-mutation-flags.md) now preserve durable trade
+reservations in item, heal and learn-attacks replies and correct learn-attacks
+string boolean conversion. The [fresh native merge audit](item-reservation-projection-contract.md)
+establishes callback consumption; additive backend tests cover projection and
+unchanged mutations. No new Android capture or migration is claimed.
+
 [Counterpart cancellation refresh](trade-cancellation-notifications.md) now
 publishes committed own-offer withdrawals to the parent owner and parent
 cancellations to removed offerers. Fifteen additive backend cases and 50 adjacent

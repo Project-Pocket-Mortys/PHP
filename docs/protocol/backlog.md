@@ -1,5 +1,11 @@
 # Evidence gaps and repair backlog
 
+[Mutation response flags](morty-mutation-flags.md) now cover item, heal and
+learn-attacks, including learn-attacks string-false corruption. Fresh bounded
+native evidence and additive backend tests cover these serializers. Other
+response paths, immediate actor refresh and stored true reconciliation remain
+separate; no new Android capture or original-server policy is established.
+
 [Counterpart notifications](trade-refresh-implementation.md) now cover new offers
 and decisions with committed account revisions and a startup join barrier. The
 [live two-client cycle](live-trade-refresh.md) now verifies native mutations,
@@ -22,7 +28,8 @@ transmission, with unchanged SDK files and guarded saves. Exact Android online
 SDK-fetch failure attribution, offer-cancel
 inventory refresh and wider trading-lock reconciliation remain. Player details and
 absorption now honor [durable trade references](trade-reference-implementation.md);
-other Morty serializers and legacy true flags remain explicit gaps. This does not grant
+item/heal/learn serializers now retain those flags, while other response paths
+and legacy true reconciliation remain explicit gaps. This does not grant
 consent or establish universal optional-SDK denial; keep external isolation.
 
 Independent paired-client offline fixtures now pass the live follow-up above:

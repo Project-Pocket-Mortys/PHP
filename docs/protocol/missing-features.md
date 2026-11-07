@@ -1,5 +1,12 @@
 # Missing gameplay features: implementation order
 
+[Morty mutation response flags](morty-mutation-flags.md) now retain durable
+trade reservations in item/heal/learn-attacks dictionaries and fix string-false
+conversion in learn-attacks. This serializer repair preserves existing item
+effects and attack learning. Backend tests and the
+[native merge audit](item-reservation-projection-contract.md) provide evidence;
+no new Android gameplay capture was made.
+
 [Counterpart cancellation updates](trade-cancellation-notifications.md) now
 publish committed own-offer withdrawal and parent cancellation invalidations.
 Fifteen new backend cases and 50 adjacent regressions pass. The
@@ -36,7 +43,8 @@ Native own-request creation/cancellation and lock refresh now
 [pass on a disposable client](native-trade-cancellation.md), and GetTrades now
 projects its stored cooldown correctly. [Native offer creation/reload/cancellation](native-trade-offers.md)
 now passes with repaired display metadata. Immediate offer-cancel inventory
-refresh, broader transfer variants and other full-Morty serializers remain open;
+refresh, broader transfer variants and full-Morty serializers beyond the
+item/heal/learn [repair](morty-mutation-flags.md) remain open;
 the baseline claims below are preserved.
 
 [Native incoming decisions](native-trade-decisions.md) now include captured Reject

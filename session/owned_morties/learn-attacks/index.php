@@ -6,6 +6,7 @@ header("Vary: Accept-Encoding");
 
 require '../../../pocket_f4894h398r8h9w9er8he98he.php';
 require_once __DIR__ . '/../../../lib/battle_membership_guard.php';
+require_once __DIR__ . '/../../../lib/trade_references.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -135,10 +136,12 @@ try {
     }
 
     $placeholders = implode(',', array_fill(0, count($updated_ids), '?'));
+    $tradeProjection = trade_reference_projection('m.owned_morty_id');
 
     $stmt = $pdo->prepare("
         SELECT
             m.*,
+            $tradeProjection AS has_trade_reference,
             a.attack_id,
             a.position,
             a.pp,
@@ -158,6 +161,9 @@ try {
     // 🔥 BUILD RESPONSE
     // ============================
     $mortyMap = [];
+    // Match player-details' legacy DB spellings; (bool)"false" is true in PHP.
+    $responseBool = static fn($value): bool => in_array(
+        strtolower(trim((string)$value)), ['1', 'true', 'yes', 'y', 'on'], true);
 
     foreach ($rows as $row) {
 
@@ -175,10 +181,10 @@ try {
                 "defence_stat" => (int)$row['defence_stat'],
                 "variant" => $row['variant'] ?? "Normal",
                 "speed_stat" => (int)$row['speed_stat'],
-                "is_poisoned" => (bool)$row['is_poisoned'],
-                "is_paralysed" => (bool)$row['is_paralysed'],
-                "is_locked" => (bool)$row['is_locked'],
-                "is_trading_locked" => (bool)$row['is_trading_locked'],
+                "is_poisoned" => $responseBool($row['is_poisoned']),
+                "is_paralysed" => $responseBool($row['is_paralysed']),
+                "is_locked" => $responseBool($row['is_locked']),
+                "is_trading_locked" => $responseBool($row['is_trading_locked']) || (int)$row['has_trade_reference'] === 1,
                 "fight_pit_id" => $row['fight_pit_id'] ?: null,
                 "evolution_points" => (int)$row['evolution_points'],
                 "xp_lower" => (int)$row['xp_lower'],
