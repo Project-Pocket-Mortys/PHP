@@ -1748,7 +1748,7 @@
         "sha256": "a5d3768ce71578a62eb2fc929ea3cda01463a723e455cc585e8a1c5908461b62"
       },
       "implementation_status": "partial",
-      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP. Research-only PvF first ATTACK selection storage and immutable pairing now run under PM_RESEARCH_SHARED_BATTLE_STREAM=1 (migration013), after caller initial ready; no combat resolution, resource spend, timer/result publication, later phase or public acceptance. Battle-only ItemMrMeeseek now consumes one box, emits an enemy HP-zero ITEM action and completes PvWM WIN with no AI action; empty XP/rewards remain. All 17 new and 89 adjacent backend cases pass; no new Android item capture.",
+      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP. Research-only PvF first ATTACK selection storage and immutable pairing now run under PM_RESEARCH_SHARED_BATTLE_STREAM=1 (migration013), after caller initial ready; no combat resolution, resource spend, timer/result publication, later phase or public acceptance. Battle-only ItemMrMeeseek now consumes one box, emits an enemy HP-zero ITEM action and completes PvWM WIN with no AI action; empty XP/rewards remain. All 17 new and 89 adjacent backend cases pass; Android 2.41.0 native item use, animation and WIN are observed with synthetic setup; see android-meeseeks-box.md.",
       "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
       "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -1904,7 +1904,17 @@
         },
         "inventory": "one stock consumed; absolute remaining quantity including zero",
         "terminal": "existing WIN transaction; empty XP/rewards; player WORLD and wild removed",
-        "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; no new Android item acceptance"
+        "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; Android 2.41.0 native ITEM/animation/WIN now observed with synthetic setup; see android-meeseeks-box-results.json",
+        "native_android_validation": {
+          "document": "android-meeseeks-box.md",
+          "receipt": "android-meeseeks-box-results.json",
+          "evidence_kind": "Observed Android 2.41.0 replacement-server request and animation",
+          "scope": "Synthetic owned clone and private wild start; native ITEM, 1 to 0 stock, Meeseeks animation, WIN and exact original-row cleanup",
+          "original_service_evidence": false,
+          "limitations": [
+            "Natural encounter initiation, other battle modes and original reward/combat rules remain unverified"
+          ]
+        }
       },
       "meeseeks_box_implementation": "docs/protocol/meeseeks-box-implementation.md"
     },

@@ -5,8 +5,10 @@ PvWM item action: the current owned actor defeats the wild enemy, consumes one
 box and completes WIN atomically without an AI counterattack. The
 [native contract](meeseeks-box-contract.md) establishes actor identity and enemy
 HP snapshots. All 17 new and 89 adjacent backend cases pass; XP/rewards remain
-empty, and no new Android item capture is claimed. Other battle modes and
-original combat/reward formulas remain separate.
+empty. [Android acceptance](android-meeseeks-box.md) now verifies native item
+use, the Meeseeks animation, WIN, depletion to zero and exact fixture cleanup.
+Encounter setup is synthetic; other battle modes and original combat/reward
+formulas remain separate.
 
 [Morty mutation response flags](morty-mutation-flags.md) now retain durable
 trade reservations in item/heal/learn-attacks dictionaries and fix string-false

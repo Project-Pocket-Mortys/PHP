@@ -41,7 +41,7 @@ Native menu filtering permits ordinary wild opponents and excludes RAID_BOSS
 and MOVING_MORTY. This implementation covers the existing PvWM route only.
 World use keeps its existing unsupported response; shared/friend/bot/event
 battles, purchases, capture, original combat balance and original reward rules
-remain separate. No migration, public deployment or device acceptance is added.
+remain separate. No migration or public deployment is added.
 
 ## Verification
 
@@ -51,7 +51,10 @@ zero, completed retry, concurrency and late event-insert rollback. Both changed
 PHP files pass lint; protocol JSON, constructor fields and source evidence
 validation pass. The full serial run passes all 106 cases: 17 new Meeseeks,
 20 existing battle-item, 20 switching, 24 lifecycle and 25 timeout cases.
-Static native evidence does not constitute a new Android gameplay capture.
+The [Android follow-up](android-meeseeks-box.md) now verifies native item use,
+the Meeseeks animation, victory and depletion to zero with guarded synthetic
+setup. It preserves the original account rows after fixture-only cleanup.
+This does not establish natural encounter initiation or original-service rules.
 
 Against the dedicated Compose research backend with its existing prerequisite
 migrations, run these five exact modules serially. Each uses isolated fixtures;

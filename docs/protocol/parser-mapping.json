@@ -8630,6 +8630,16 @@
       }
     },
     "scope": "Reviewed Meeseeks request/action path only; existing unresolved generic event registrations and other parsers remain unresolved",
-    "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; no new Android item acceptance"
+    "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; Android 2.41.0 native ITEM/animation/WIN now observed with synthetic setup; see android-meeseeks-box-results.json",
+    "native_android_validation": {
+      "document": "android-meeseeks-box.md",
+      "receipt": "android-meeseeks-box-results.json",
+      "evidence_kind": "Observed Android 2.41.0 replacement-server request and animation",
+      "scope": "Synthetic owned clone and private wild start; native ITEM, 1 to 0 stock, Meeseeks animation, WIN and exact original-row cleanup",
+      "original_service_evidence": false,
+      "limitations": [
+        "Natural encounter initiation, other battle modes and original reward/combat rules remain unverified"
+      ]
+    }
   }
 }

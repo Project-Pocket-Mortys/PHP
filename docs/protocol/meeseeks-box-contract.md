@@ -144,4 +144,6 @@ zero inventory projection, one defender HP-zero action with no AI action,
 durable terminal/wild cleanup, retry/concurrent last-stock behavior and a late
 event-insert failure rolling back stock, battle, wild and user state. Keep other
 unsupported item families rejected and keep world use unsupported. A separate
-native Android UI use is needed before claiming runtime animation acceptance.
+native Android UI use was subsequently verified by the
+[guarded acceptance follow-up](android-meeseeks-box.md); that capture remains
+separate from the static evidence above.
