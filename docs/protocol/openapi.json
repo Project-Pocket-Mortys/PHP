@@ -922,9 +922,118 @@
       "x-method-unresolved": true
     },
     "/trading/get-trades": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "x-server-method-enforcement": "not enforced; POST is the native constructor method",
+      "post": {
+        "summary": "GetTradeData",
+        "description": "Native trade-data projection. Android consumes competed_trades; completed_trades is retained as an equal legacy alias. Same pending rejection history reproduced and verified the notification fix. Both actors' post-accept owned inventories match the guarded swap; final native/legacy completed arrays equal with one record. Nested record schemas and broader transfer variants remain partial; intermediate capture gaps are disclosed.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string"
+                  },
+                  "player_id": {
+                    "type": "string",
+                    "description": "Native constructor includes it; replacement authenticates session_id and derives caller identity instead."
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "player_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Existing trade projection with equal native/legacy completed arrays",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "trade_requests": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "trade_offers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "trade_mortys": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "trade_attacks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "competed_trades": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "description": "Native Android 2.41.0 completed-list key; equals completed_trades for empty and populated results."
+                    },
+                    "completed_trades": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "description": "Retained legacy alias; equals competed_trades."
+                    },
+                    "player_cooldown_data": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "trade_requests",
+                    "trade_offers",
+                    "trade_mortys",
+                    "trade_attacks",
+                    "competed_trades",
+                    "completed_trades",
+                    "player_cooldown_data"
+                  ],
+                  "description": "Replacement projection; nested record schemas remain partial. Both completed-list keys project the same existing array without changing records, ordering, visibility or economics."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid session_id; error.code NOT_AUTHENTICATED"
+          },
+          "default": {
+            "description": "Error compatibility remains partial"
+          }
+        },
+        "x-native-address": "0x179136c",
+        "x-evidence": [
+          "native-trade-decisions.md",
+          "native-trade-decision-navigation.md"
+        ],
+        "x-native-decision-proof": {
+          "selected_native_decisions_and_refreshes_proved": true,
+          "continuous_full_cycle_capture": false,
+          "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
+          "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+          "evidence": "native-trade-decisions.md"
+        }
+      }
     },
     "/trading/offer-morty": {
       "x-implementation-status": "partial",
@@ -1064,7 +1173,7 @@
     "/trading/offer-response": {
       "x-implementation-status": "partial",
       "post": {
-        "description": "Reviewed Android three-field request and body-agnostic success. Replacement authorization/transaction policy documented in trade-response-implementation.md; native accept/reject not captured. When cookie and Bearer are both supplied they must agree. Acceptance rechecks both outgoing instances against current active parties; withdrawal remains available for unsafe legacy listings.",
+        "description": "Reviewed Android three-field request and body-agnostic success. Replacement authorization/transaction policy documented in trade-response-implementation.md; native requester Reject/Accept, exact guarded spare swap and both actors' inventory refreshes are verified. Selected captures disclose intermediate gaps; broader transfer variants remain separate. When cookie and Bearer are both supplied they must agree. Acceptance rechecks both outgoing instances against current active parties; withdrawal remains available for unsafe legacy listings.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1197,7 +1306,18 @@
           "native-trade-response-contract.md",
           "trade-response-implementation.md",
           "trade-party-transitions.md"
-        ]
+        ],
+        "x-native-decision-evidence": [
+          "native-trade-decisions.md",
+          "native-trade-decision-navigation.md"
+        ],
+        "x-native-decision-proof": {
+          "selected_native_decisions_and_refreshes_proved": true,
+          "continuous_full_cycle_capture": false,
+          "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
+          "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+          "evidence": "native-trade-decisions.md"
+        }
       }
     },
     "/trading/request-morty": {

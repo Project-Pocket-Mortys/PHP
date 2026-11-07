@@ -75,11 +75,13 @@ At inspection, PHP `trading/offer-morty/index.php` returned `request_user_name` 
 
 `GetTradeData` callback (`0x1794d80`) requires nonnull `trade_requests` and `trade_offers` for partitioning, nonnull `trade_mortys` for iteration, and nonnull `trade_attacks` while attaching attacks to each returned Morty. Empty arrays satisfy those loops. Return matching parent requests and presentation Morties for the lookups above; ID fields alone do not supply the requested/offer cells.
 
-### Candidate completed-list wire-name mismatch remains unresolved
+### Completed-list wire key confirmed by subsequent native validation
 
-The dumped `TradeDataResponse` declares `competed_trades` at `+0x30`; PHP emits `completed_trades`. The callback assigns this deserialized field to completed-trade cache `+0xa8`. This is a candidate wire-name mismatch, not a proven wire defect.
+The dumped `TradeDataResponse` declares `competed_trades` at `+0x30`; PHP originally emitted only `completed_trades`. The callback assigns this deserialized field to completed-trade cache `+0xa8`. At the time of this static pass, the spelling comparison alone was a candidate mismatch.
 
-The available `dump.cs` shows `[Serializable]` on TradeDataResponse and no displayed rename annotation on that field. The actual callback uses `JsonFx.Json.JsonReader.Deserialize`, not the separately bundled Newtonsoft serializer. JsonFx exposes `JsonNameAttribute.GetJsonName` (`0x2471b88`), reader settings with a `TypeCoercionUtility`, and typed reader entry points. These establish that rename/coercion machinery exists and that Newtonsoft `JsonProperty` assumptions are insufficient. The reconstructed dump's absence of a field annotation does not establish the absence of runtime attribute mapping. This pass did not resolve the field's runtime custom-attribute value, coercion member-map behavior, or controlled deserialization result. Do not change either spelling solely from this comparison.
+The available `dump.cs` shows `[Serializable]` on TradeDataResponse and no displayed rename annotation on that field. The actual callback uses `JsonFx.Json.JsonReader.Deserialize`, not the separately bundled Newtonsoft serializer. JsonFx exposes `JsonNameAttribute.GetJsonName` (`0x2471b88`), reader settings with a `TypeCoercionUtility`, and typed reader entry points. The subsequent [bounded navigation trace](native-trade-decision-navigation.md) confirms that the member map uses a nonempty JsonName override or the reflection member name. The field-specific runtime attribute value was not directly dumped; the reconstructed dump alone cannot establish its absence.
+
+Subsequent [native decision validation](native-trade-decisions.md) resolves the practical wire behavior. With an actual rejected offer and no completions, legacy `completed_trades:[]` alone produced an accepted notification. Adding `competed_trades:[]` while retaining the equal legacy array corrected the same unacknowledged saved offer's notification after a normal force-stop/relaunch. No save restoration or cache editing was used. The server now emits both keys for empty and populated results; this correction rests on controlled native behavior rather than metadata spelling alone. The notification's Accept button acknowledges history and does not accept a trade.
 
 ## Refresh expectations and limits
 

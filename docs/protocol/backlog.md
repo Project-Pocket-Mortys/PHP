@@ -13,7 +13,7 @@ Implementation status and evidence confidence are independent. The root README r
 
 | Priority | Work | Evidence and affected interfaces | Acceptance |
 |---|---|---|---|
-| P1 | Complete shared battle startup and acceptance | Membership/deadline cleanup and immutable paired party snapshots now work (`battle-party-snapshots.md`, migration009). Covered party writers serialize against shared claims; trade response authorization/offer binding is now repaired (`trade-response-implementation.md`), while protected listing creation and native transfer verification remain separate. No public activation. | Define inventory/profile startup policy, both-user transitions/two private starts, readiness/reconnect and shared terminal cleanup before enabling acceptance. Validate the native projection, attack eligibility and raw XP/status fields separately. Schedule disconnected cleanup; implement human turns separately. |
+| P1 | Complete shared battle startup and acceptance | Membership/deadline cleanup and immutable paired party snapshots now work (`battle-party-snapshots.md`, migration009). Covered party writers serialize against shared claims; trade response authorization/offer binding is now repaired (`trade-response-implementation.md`), with separate protected-listing and selected native-transfer follow-ups; broader party variants remain separate. No public activation. | Define inventory/profile startup policy, both-user transitions/two private starts, readiness/reconnect and shared terminal cleanup before enabling acceptance. Validate the native projection, attack eligibility and raw XP/status fields separately. Schedule disconnected cleanup; implement human turns separately. |
 | P1 | Recover Shiny encounter policy and remaining numeric items | Shiny Potion activation/expiry/startup and conditional private battle variants are implemented (`shiny-potion-implementation.md`). Existing spawn flags retain placeholder probabilities. Fresh seed audit finds no MP magnitudes/caps; SP values are separate (`remaining-item-evidence.md`). | Recover original encounter rates, seed amounts/caps, growth and percentage rounding from independent evidence; preserve durable expiry/stock behavior and do not substitute SP numbers or infer capture rules. |
 | P1 | Reconcile full evolution and conditional absorption party checks | Locked-donor protection, deduplication and owner-scoped counter/deck writes work (`absorb-protection-implementation.md`); same-species/variant eligibility now rejects incompatible donors atomically (`absorb-eligibility-implementation.md`). Point-only absorption now preserves a living active party (`absorb-active-party-implementation.md`), with the native threshold exception kept distinct from replacement policy. Native optional `created` full-evolution data remains separate (`absorb-protection-contract.md`). README-completed evolution status is retained. | Verify full transformation and server-authoritative species/stat/party behavior separately; enforce remaining predicates without inventing formulas or replacing existing progress. Cover threshold and partial cases and retain donor/target protections. |
 | P1 | Verify original timeout policy and interrupted-battle replay | Selection expiry recovery now uses native ABANDONED with atomic claim release and no HP/AP/stock changes (`battle-timeout-implementation.md`). Native countdown and independent 180-second disconnect watchdog are distinct. | Preserve the tested replacement cancellation; recover original grace/penalty rules if evidence appears. Verify replay after shared-cursor advancement and transition races; do not infer turn identity from identical READY bodies. |
@@ -35,27 +35,37 @@ Implementation status and evidence confidence are independent. The root README r
 
 ## Current implementation priority
 
+[Native decisions and completion projection](native-trade-decisions.md) now
+include requester Reject, successful requester Accept, exact guarded spare transfer
+and both actors' normal inventory refreshes. The same unacknowledged rejection
+history verifies the additive `competed_trades` wire key;
+legacy `completed_trades` remains equal. Selected native decisions, paired inventory
+refreshes and final completed-list projection are verified; intermediate capture
+gaps remain disclosed. Preserve the separate offer-cancel refresh limitation. See
+[native navigation and notification acknowledgement](native-trade-decision-navigation.md).
+
 [Party transition guards](trade-party-transitions.md) now cover nonempty deck
 edits, saved-deck activation and both outgoing instances at acceptance. Valid
-spares still transfer; unsafe listings can be rejected/cancelled. Next verify
-native accept/reject presentation and inventory refresh, recover completed-list
-mapping, and audit other party writers/legacy raw flags. Older flat deck errors
-remain a parser-compatibility gap outside the new guarded failures.
+spares still transfer; unsafe listings can be rejected/cancelled. Audit remaining
+party writers, broader transfer variants and legacy raw flags. Native decision
+presentation and the practical completed-list key now have the follow-up above.
+Older flat deck errors remain a parser-compatibility gap outside the new guarded failures.
 
 [Protected listing creation](trade-listing-protection.md) now checks both locks,
 global durable references, current ownership/active deck and specific offer
 criteria. Later deck activation and acceptance-time party eligibility now have
-the follow-up above; next verify native accept/reject presentation and resolve
-post-cancel refresh. Direct
+the follow-up above; selected native acceptance and both inventory refreshes now
+pass. Resolve post-cancel refresh and broader transfer variants. Direct
 legacy ACTIVE-battle eligibility requires terminal reconciliation; it is not
 newly blanket-blocked. Existing price/cooldown calculations remain unchanged.
 
 Trade response authorization and parent/offer binding now have a scoped
 [transactional repair](trade-response-implementation.md), including native
-error envelopes and competing-offer cleanup. Next verify native accept/reject
-presentation and audit remaining party writers; preserve
+error envelopes and competing-offer cleanup. Native decision presentation now
+has separate evidence; audit remaining party writers and preserve
 the separate immediate offer-cancellation refresh gap. Original transfer
-economics and completed-list wire-name mapping remain unresolved.
+economics remain unresolved. The practical completed-list wire key is now verified;
+field-specific serializer attribute internals were not directly dumped.
 
 Player-visible missing features now take priority over broad transport audits; see
 [the feature delivery order](missing-features.md). Lock/unlock toggle and persistence
@@ -147,11 +157,11 @@ The second disposable account now supplies the native friend-request/offer
 fixture. Both complete offer cycles preserve the parent and resources, and all
 temporary listings were retired afterward through owner-scoped APIs. Preserve
 their receipts and prepared collections. Immediate offer-cancel inventory refresh
-remains open: the selector stayed empty until ordinary cold login. Acceptance
-authorization/request-offer binding, server eligibility, list privacy and JsonFx
-completed-list wire mapping need independent acceptance before broader transfers.
-Acceptance/offer binding, protected donor creation, full transfer/party effects
-and original refunds/cooldowns remain separate; existing trade completion claims
+remains open: the selector stayed empty until ordinary cold login. Authorization,
+request/offer binding and eligibility now have separate transactional regressions;
+native requester decisions and the practical completed-list wire key have the
+follow-up above. The selected two-spare transfer and both inventory refreshes now pass; wider list
+privacy, other transfer/party variants and original refunds/cooldowns remain separate; existing trade completion claims
 in the README are retained as baseline behavior. Player-details lock projection,
 recipient/donor absorption protection and exact owner withdrawal of orphan offers
 are now covered by [57 regression cases](trade-reference-implementation.md).

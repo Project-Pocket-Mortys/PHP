@@ -156,6 +156,8 @@ try {
         "trade_mortys"=>$trade_mortys,
         "trade_attacks"=>$trade_attacks,
         "player_cooldown_data"=>$player_cooldown_data,
+        // Android 2.41.0 consumes this spelling; retain the existing alias below.
+        "competed_trades"=>$completed_trades,
         "completed_trades"=>$completed_trades
     ], JSON_UNESCAPED_SLASHES);
 

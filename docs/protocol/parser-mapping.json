@@ -1407,7 +1407,20 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<TradeDataResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "POST /trading/get-trades; constructor/callback association confirmed by bounded static trace and native reload capture",
+      "completed_projection": {
+        "managed_field": "competed_trades",
+        "native_wire_key": "competed_trades",
+        "legacy_server_alias": "completed_trades",
+        "native_response_offset": "0x30",
+        "api_cache_offset": "0xa8",
+        "evidence": [
+          "native-trade-decisions.md",
+          "native-trade-decision-navigation.md"
+        ],
+        "confidence": "Controlled same-history native before/after establishes practical wire key; field-specific runtime attributes not independently dumped",
+        "native_observation": "Controlled same-history rejection notification corrected; final postaccept native/legacy completed arrays equal with one record. Selected paired inventory refreshes verified; continuous full-cycle capture not claimed."
+      }
     },
     {
       "method": "NetworkFriendAPI$$DonationMortyReceivedHandler",

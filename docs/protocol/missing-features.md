@@ -13,21 +13,28 @@ Native own-request creation/cancellation and lock refresh now
 [pass on a disposable client](native-trade-cancellation.md), and GetTrades now
 projects its stored cooldown correctly. [Native offer creation/reload/cancellation](native-trade-offers.md)
 now passes with repaired display metadata. Immediate offer-cancel inventory
-refresh, native acceptance verification and other full-Morty serializers
-remain open; the baseline claims below are preserved.
+refresh, broader transfer variants and other full-Morty serializers remain open;
+the baseline claims below are preserved.
+
+[Native incoming decisions](native-trade-decisions.md) now include captured Reject
+and successful requester Accept, exact guarded spare transfer and normal inventory
+refreshes matching the post-accept database for both actors. The same pending
+rejection history proves the GetTrades `competed_trades` alias corrects a notification
+error; existing `completed_trades` remains equal. The [navigation contract](native-trade-decision-navigation.md)
+distinguishes the notification's Accept acknowledgement from an actual decision.
 
 [Offer response authorization and binding](trade-response-implementation.md) are
 now repaired with recovered native errors and atomic sibling-offer cleanup.
 [Creation eligibility](trade-listing-protection.md) now protects active-party,
-locked and already-reserved instances, with exact specific-offer criteria. Next
-verify native accept/reject presentation and inventory refresh. Later deck
-activation and acceptance-time active-party checks now pass the
+locked and already-reserved instances, with exact specific-offer criteria. The
+selected native transfer and both inventory refreshes now pass, with intermediate
+capture gaps disclosed. Later deck activation and acceptance-time active-party checks pass the
 [party transition regressions](trade-party-transitions.md). These repairs do not
 establish original economic policy.
 
 | Order | Feature | Next deliverable and acceptance |
 |---|---|---|
-| 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); same-species/variant absorption checks reject incompatible batches (`absorb-eligibility-implementation.md`). Point-only absorption preserves a living active party (`absorb-active-party-implementation.md`). Native own-request creation/cancellation and lock refresh pass (`native-trade-cancellation.md`); native friend offer creation/reload/cancellation also pass (`native-trade-offers.md`). Response authorization, protected creation and deck/acceptance transition guards now pass regression tests (`trade-response-implementation.md`, `trade-listing-protection.md`, `trade-party-transitions.md`). Offer-cancel inventory refresh, native acceptance verification and legacy flag provenance remain separate. |
+| 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); same-species/variant absorption checks reject incompatible batches (`absorb-eligibility-implementation.md`). Point-only absorption preserves a living active party (`absorb-active-party-implementation.md`). Native own-request creation/cancellation and lock refresh pass (`native-trade-cancellation.md`); native friend offer creation/reload/cancellation also pass (`native-trade-offers.md`). Response authorization, protected creation and deck/acceptance transition guards now pass regression tests (`trade-response-implementation.md`, `trade-listing-protection.md`, `trade-party-transitions.md`). Native requester decisions and completed-key notification repair now have separate evidence (`native-trade-decisions.md`); selected native decisions, exact transfer and both inventory refreshes now pass with intermediate capture gaps disclosed. Offer-cancel refresh, broader transfer variants and legacy flag provenance remain separate. |
 | 2 | Use items | Eight HP items, full revival/AP restoration and targeted poison/paralysis cures work in world and battle (`battle-item-implementation.md`); Pure Curum combined HP/ailment recovery is implemented (`full-recover-implementation.md`). Account Shiny Potion activation/expiry is implemented (`shiny-potion-implementation.md`). Finish percentage variants, stat/damage/general items and authentic timing; remaining numeric evidence gaps are in `remaining-item-evidence.md`. |
 | 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
 | 4 | Crafting | 22 multiplayer recipes implemented atomically; Android Serum Quick Craft and inventory verified (`crafting-implementation.md`). |

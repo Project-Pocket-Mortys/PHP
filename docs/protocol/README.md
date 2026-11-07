@@ -1,22 +1,33 @@
 # Pocket Mortys protocol research handoff
 
+[Native trade decisions](native-trade-decisions.md) now include captured requester
+rejection, successful requester Accept and both actors' normal owned-inventory
+refreshes. The offerer's same pending rejection history reproduced an incorrect
+accepted notification; additive
+`competed_trades` alongside legacy `completed_trades` corrects it. See the
+[incoming-offer navigation](native-trade-decision-navigation.md). The guarded transfer
+swapped the two prepared spares, left one completion and no parent/offers, and
+preserved active parties/resources. Selected captures are verified; intermediate
+capture gaps are disclosed. Original economics and the immediate offer-cancel
+refresh gap remain open.
+
 [Trade-safe party transitions](trade-party-transitions.md) now prevent deck edit
 or activation from introducing reserved instances and recheck both current
 active parties before acceptance. Successful deck responses retain escaped
 legacy storage correctly. New guard errors match the native parser; older deck
-failure paths and native accept/reject presentation remain separate.
+failure paths remain separate; native decisions are covered by the follow-up above.
 
 [Protected listing creation](trade-listing-protection.md) now checks owned
 instances, both locks, durable reservations and active-deck membership before
 inserting requests/offers. Specific offers match species and variant. Existing
 success bodies, coupon cost and cooldown calculation remain unchanged; reverse
-deck transitions and native acceptance verification remain separate.
+deck transitions have the follow-up above; broader transfer variants remain separate.
 
 [Trade response authorization](trade-response-implementation.md) now binds each
 decision to the authenticated request owner and exact parent/offer pair, using
 the [recovered native contract](native-trade-response-contract.md). Acceptance
-cleans up competing offers atomically; native accept/reject presentation and
-protected listing creation remain separate verification work.
+cleans up competing offers atomically. Protected listing creation and native
+decision presentation have separate follow-ups above.
 
 [Native friend offers and cancellation](native-trade-offers.md) now pass on the
 disposable trading pair, including a repaired metadata reload. Offer display

@@ -1074,14 +1074,24 @@
         "native-trade-response-contract.md",
         "trade-response-implementation.md",
         "trade-party-transition-contract.md",
-        "trade-party-transitions.md"
+        "trade-party-transitions.md",
+        "native-trade-decisions.md",
+        "native-trade-decision-navigation.md"
       ],
       "limitations": [
-        "Native accept/reject presentation not captured",
-        "Original statuses/economics/completed-list spelling and stored lock provenance unresolved",
+        "Selected native decisions, transfer and paired inventory refreshes verified; broader transfer/party variants remain separate",
+        "Original statuses/economics and stored lock provenance unresolved; field-specific serializer attribute internals not directly dumped",
         "Current party exclusion does not introduce living-party thresholds or rewrite inactive saved decks",
         "Legacy direct ACTIVE-battle reconciliation remains separate"
-      ]
+      ],
+      "native_decision_observation": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record. Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+      "native_decision_proof": {
+        "selected_native_decisions_and_refreshes_proved": true,
+        "continuous_full_cycle_capture": false,
+        "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
+        "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+        "evidence": "native-trade-decisions.md"
+      }
     },
     "/trading/request-morty": {
       "method": "POST",
@@ -1362,6 +1372,110 @@
         "Manual-lock UI gating differs from lower-level save/activation; baseline server allowance preserved",
         "Older method enforcement/coercion and flat error paths remain separate; no new living-party threshold"
       ]
+    },
+    "/trading/get-trades": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$GetTradeData",
+      "address": "0x179136c",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "player_id": {
+            "type": "string",
+            "description": "Native constructor includes it; replacement authenticates session_id and derives caller identity instead."
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id"
+        ]
+      },
+      "server_request_policy": "session_id authenticates; server derives player_id. Native POST observed; replacement route does not enforce HTTP method. Existing optional use_friends defaults true.",
+      "response": {
+        "success": {
+          "type": "object",
+          "properties": {
+            "trade_requests": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "trade_offers": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "trade_mortys": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "trade_attacks": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "competed_trades": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Native Android 2.41.0 completed-list key; equals completed_trades for empty and populated results."
+            },
+            "completed_trades": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Retained legacy alias; equals competed_trades."
+            },
+            "player_cooldown_data": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "trade_requests",
+            "trade_offers",
+            "trade_mortys",
+            "trade_attacks",
+            "competed_trades",
+            "completed_trades",
+            "player_cooldown_data"
+          ],
+          "description": "Replacement projection; nested record schemas remain partial. Both completed-list keys project the same existing array without changing records, ordering, visibility or economics."
+        },
+        "error": "Replacement 401 error.code NOT_AUTHENTICATED; other error compatibility remains partial"
+      },
+      "completed_projection": {
+        "native_wire_key": "competed_trades",
+        "legacy_alias": "completed_trades",
+        "relationship": "Identical existing arrays for empty/populated results",
+        "classification": "Disappeared saved offers: null completed cache means completed; nonnull cache with no matching trade_offer_id means rejected."
+      },
+      "evidence": [
+        "native-trade-offer-contract.md",
+        "native-trade-decisions.md",
+        "native-trade-decision-navigation.md"
+      ],
+      "limitations": [
+        "Nested record schema and broader privacy/retry coverage remain partial",
+        "Selected native empty and one-record completed projection verified; broader transfer/party variants remain separate",
+        "Field-specific JsonFx rename-attribute internals not directly dumped; native before/after proves practical wire key"
+      ],
+      "native_decision_proof": {
+        "selected_native_decisions_and_refreshes_proved": true,
+        "continuous_full_cycle_capture": false,
+        "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
+        "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+        "evidence": "native-trade-decisions.md"
+      }
     }
   },
   "sse": {
