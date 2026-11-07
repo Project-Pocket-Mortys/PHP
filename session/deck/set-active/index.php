@@ -10,12 +10,9 @@ header("Access-Control-Allow-Origin: *");
 header("Vary: Accept-Encoding");
 
 require __DIR__ . "/../../../pocket_f4894h398r8h9w9er8he98he.php"; // provides $pdo
+require_once __DIR__ . "/../../../lib/battle_membership_guard.php";
+require_once __DIR__ . "/../../../lib/trade_party_transitions.php";
 
-function respond(int $code, array $data) {
-    http_response_code($code);
-    echo json_encode($data, JSON_UNESCAPED_SLASHES);
-    exit;
-}
 
 $raw  = file_get_contents("php://input");
 $data = json_decode($raw, true);
@@ -48,29 +45,60 @@ if ($deck_id < 0 || $deck_id >= $decks_owned) {
     ]);
 }
 
-// Verify the deck exists and is not empty
-$d = $pdo->prepare("SELECT owned_morty_ids
-                    FROM decks
-                    WHERE player_id = ? AND deck_id = ?
-                    LIMIT 1");
-$d->execute([$player_id, $deck_id]);
-$deckRow = $d->fetch(PDO::FETCH_ASSOC);
+try {
+    $pdo->beginTransaction();
 
-if (!$deckRow) {
-    respond(409, ["success" => false, "error" => "Deck does not exist", "deck_id" => $deck_id]);
+    // Shared reservations and party writers serialize on the authenticated user.
+    $lock = $pdo->prepare("SELECT * FROM users WHERE player_id = ? FOR UPDATE");
+    $lock->execute([$player_id]);
+    $lockedUsers = $lock->fetchAll(PDO::FETCH_ASSOC);
+    $sessionCheck = $pdo->prepare("SELECT id, session_id FROM users WHERE session_id = ? ORDER BY id FOR UPDATE");
+    $sessionCheck->execute([$session_id]);
+    $sessionUsers = $sessionCheck->fetchAll(PDO::FETCH_ASSOC);
+    if (count($lockedUsers) !== 1 || $lockedUsers[0]['player_id'] !== $player_id
+        || $lockedUsers[0]['session_id'] !== $session_id || count($sessionUsers) !== 1
+        || $sessionUsers[0]['id'] !== $lockedUsers[0]['id'] || $sessionUsers[0]['session_id'] !== $session_id) {
+        $pdo->rollBack();
+        respond(401, ["success" => false, "error" => "Invalid session"]);
+    }
+    $user = $lockedUsers[0];
+    if (battle_has_shared_membership($pdo, $player_id)) {
+        $pdo->rollBack();
+        respond(409, ["success" => false, "error" => "FAILED"]);
+    }
+    $decks_owned = (int)($user["decks_owned"] ?? 0);
+    if ($deck_id < 0 || $deck_id >= $decks_owned) {
+        $pdo->rollBack();
+        respond(409, ["success" => false, "error" => "Invalid deck_id", "deck_id" => $deck_id, "decks_owned" => $decks_owned]);
+    }
+    // Verify the deck exists and is not empty
+    $deckRow = trade_party_transition_target($pdo, $user, $deck_id);
+
+    if (!$deckRow) {
+        $pdo->rollBack();
+        respond(409, ["success" => false, "error" => "Deck does not exist", "deck_id" => $deck_id]);
+    }
+
+    $ids = trade_party_transition_decode($deckRow["owned_morty_ids"]);
+    if (count($ids) === 0) {
+        $pdo->rollBack();
+        respond(409, ["success" => false, "error" => "Cannot activate empty deck", "deck_id" => $deck_id]);
+    }
+
+    trade_party_transition_ids($pdo, $user, $ids);
+
+    // Update active deck
+    $set = $pdo->prepare("UPDATE users SET active_deck_id = ? WHERE session_id = ?");
+    $set->execute([$deck_id, $session_id]);
+
+    $user["active_deck_id"] = $deck_id;
+
+    $pdo->commit();
+} catch (Throwable $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    if ($e instanceof TradePartyTransitionError) respond($e->status, ["success" => false, "error" => ["code" => "FAILED"]]);
+    respond(500, ["success" => false, "error" => "Server error"]);
 }
-
-$ids = json_decode($deckRow["owned_morty_ids"] ?? "[]", true);
-if (!is_array($ids)) $ids = [];
-if (count($ids) === 0) {
-    respond(409, ["success" => false, "error" => "Cannot activate empty deck", "deck_id" => $deck_id]);
-}
-
-// Update active deck
-$set = $pdo->prepare("UPDATE users SET active_deck_id = ? WHERE session_id = ?");
-$set->execute([$deck_id, $session_id]);
-
-$user["active_deck_id"] = $deck_id;
 
 // Build decks list for response (only existing non-empty decks, like your sample)
 $dq = $pdo->prepare("SELECT deck_id, owned_morty_ids
@@ -82,6 +110,7 @@ $dq->execute([$player_id]);
 $decks = [];
 while ($r = $dq->fetch(PDO::FETCH_ASSOC)) {
     $list = json_decode($r["owned_morty_ids"] ?? "[]", true);
+    if (!is_array($list)) $list = json_decode(stripcslashes($r["owned_morty_ids"] ?? "[]"), true);
     if (!is_array($list)) $list = [];
     if (count($list) === 0) continue;
 

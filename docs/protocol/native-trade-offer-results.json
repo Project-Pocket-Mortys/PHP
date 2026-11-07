@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "prerequisite_commit": "8463f15684713ac469f53852a44df0705968f33b",
+  "metadata_repair_commit": "0660798",
+  "research_tools_commit": "e752c2f",
+  "evidence_kind": "Android 2.41.0 diagnostic clients and isolated replacement-server observations; not original-service behavior",
+  "clients": {
+    "primary": "PMTrade01 / trade-primary / emulator-5564",
+    "peer": "PMTrade02 / trade-peer / emulator-5566",
+    "diagnostic_apks_unchanged": true,
+    "trading_methods_patched": false,
+    "only_peer_userdata_new_this_turn": true
+  },
+  "setup": {
+    "peer_registration_native": true,
+    "primary_spare_preserved_from_previous_fixture": true,
+    "peer_spare_copied_from_own_native_starter": true,
+    "friendship_scripted_not_native": true,
+    "scripted_friendship_receipt_sha256": "f741933f3435cd8407fa9b683dda3b5b6d8a76f827d6cf07aa6f0e24ea40bd65",
+    "native_parent_creation_capture_sha256": "26037c31d812ae506cf30d197203b8be3b03e759dc0352fe601642b1654a2913"
+  },
+  "strict_two_cycle_proof": {
+    "schema_version": 1,
+    "native_replacement_server_only": true,
+    "baseline": {
+      "pcap_sha256": "71a41dfcb8d10689b5c2a7e775f429e85b735dc8ec187836dbd25179f6817b4e",
+      "fixture_sha256": {
+        "baseline": "d53805d033bba0fd474ba15c023e96af8ca958a9d4d166c5c67777f089054d83",
+        "observe-before-offer-create": "bbb236b78559204772e663c44a47e3ba56107573b596aac730cb05d4a64897ce",
+        "observe-offer-created": "6d2f1d968197ebcb571aa4de143cb9d01b141a57c571522c27e82f094d958308",
+        "observe-before-offer-cancel": "561ce4c7d9ff1096cda94d8903e9ede44a530372b52755820d0f4e5fa7c8d6c1",
+        "observe-offer-cancelled": "7d1cb52cd172b40c44ae952a38213da5ac75899aa082297bb3fb8222e6fa2378"
+      },
+      "exchanges": [
+        {
+          "path": "/trading/offer-morty",
+          "request_body_keys": [
+            "offered_morty_id",
+            "player_id",
+            "session_id",
+            "trade_request_id"
+          ],
+          "status": 200,
+          "request_packet_index": 0,
+          "response_packet_index": 1,
+          "native_headers_present": true,
+          "exact_tcp_ack_pair": true
+        },
+        {
+          "path": "/session/player-details",
+          "request_body_keys": [
+            "include",
+            "session_id"
+          ],
+          "status": 200,
+          "request_packet_index": 2,
+          "response_packet_index": 3,
+          "native_headers_present": true,
+          "exact_tcp_ack_pair": true
+        },
+        {
+          "path": "/trading/cancel-trade-offer",
+          "request_body_keys": [
+            "trade_offer_id"
+          ],
+          "status": 200,
+          "request_packet_index": 13,
+          "response_packet_index": 14,
+          "native_headers_present": true,
+          "exact_tcp_ack_pair": true
+        }
+      ],
+      "proof": {
+        "authenticated_four_field_creation_and_id_only_cookie_cancel": true,
+        "returned_core_ids_match_database": true,
+        "primary_spare_outside_party": true,
+        "database_offer_counts": [
+          0,
+          1,
+          1,
+          0
+        ],
+        "database_parent_counts": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "both_expiries_resources_owned_raw_flags_decks_attacks_items_preserved": true,
+        "parent_and_friendship_preserved": true,
+        "no_completed_transfer": true,
+        "owned_details_after_create_boolean_lock_true": true,
+        "owned_details_after_cancel_count": 0,
+        "immediate_native_unlock_proved": false,
+        "metadata_display_semantics_correct": false,
+        "metadata_retaining_get_trades_count": 0
+      },
+      "gaps": {
+        "baseline_username_is_peer_player_id": true,
+        "baseline_requested_species_is_owned_instance_id": true,
+        "baseline_get_trades_metadata_unobserved": true,
+        "cancellation_alone_proves_inventory_refresh": false
+      }
+    },
+    "two_cycles_same_peer_parent_proved": true,
+    "gui_selector_availability_proved": false,
+    "fixed": {
+      "pcap_sha256": "1ff880e4577e4c17f0b6671c2d9bc5d6b5ef3d1d53de129c02ba2d2e79c6bf00",
+      "fixture_sha256": {
+        "baseline": "d53805d033bba0fd474ba15c023e96af8ca958a9d4d166c5c67777f089054d83",
+        "observe-confirmation-before-offer-create": "d1af683f6e97cb2bda1082318d22b28f056a449b39287d4ae197e8226908d79d",
+        "observe-confirmation-offer-created": "6682a49997ac8dbc2e1c2082fb0395e27d5cb90d4c19c8775822156e06e70bd9",
+        "observe-confirmation-before-offer-cancel": "29318d1bdd8bf9b8ff4b2bea2f6f123b91ce19b4489408fc8a58960d64a32d8f",
+        "observe-confirmation-offer-cancelled": "e77c2173d87ddc847d1977ed12f837738bbc1bc5409c797512960eb6fd2fa06e"
+      },
+      "exchanges": [
+        {
+          "path": "/trading/offer-morty",
+          "request_body_keys": [
+            "offered_morty_id",
+            "player_id",
+            "session_id",
+            "trade_request_id"
+          ],
+          "status": 200,
+          "request_packet_index": 3,
+          "response_packet_index": 4,
+          "native_headers_present": true,
+          "exact_tcp_ack_pair": true
+        },
+        {
+          "path": "/session/player-details",
+          "request_body_keys": [
+            "include",
+            "session_id"
+          ],
+          "status": 200,
+          "request_packet_index": 5,
+          "response_packet_index": 6,
+          "native_headers_present": true,
+          "exact_tcp_ack_pair": true
+        },
+        {
+          "path": "/trading/get-trades",
+          "request_body_keys": [
+            "player_id",
+            "session_id"
+          ],
+          "status": 200,
+          "request_packet_index": 7,
+          "response_packet_index": 8,
+          "native_headers_present": true,
+          "exact_tcp_ack_pair": true
+        },
+        {
+          "path": "/trading/get-trades",
+          "request_body_keys": [
+            "player_id",
+            "session_id"
+          ],
+          "status": 200,
+          "request_packet_index": 17,
+          "response_packet_index": 18,
+          "native_headers_present": true,
+          "exact_tcp_ack_pair": true
+        },
+        {
+          "path": "/trading/cancel-trade-offer",
+          "request_body_keys": [
+            "trade_offer_id"
+          ],
+          "status": 200,
+          "request_packet_index": 20,
+          "response_packet_index": 21,
+          "native_headers_present": true,
+          "exact_tcp_ack_pair": true
+        }
+      ],
+      "proof": {
+        "authenticated_four_field_creation_and_id_only_cookie_cancel": true,
+        "returned_core_ids_match_database": true,
+        "primary_spare_outside_party": true,
+        "database_offer_counts": [
+          0,
+          1,
+          1,
+          0
+        ],
+        "database_parent_counts": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "both_expiries_resources_owned_raw_flags_decks_attacks_items_preserved": true,
+        "parent_and_friendship_preserved": true,
+        "no_completed_transfer": true,
+        "owned_details_after_create_boolean_lock_true": true,
+        "owned_details_after_cancel_count": 0,
+        "immediate_native_unlock_proved": false,
+        "metadata_display_semantics_correct": true,
+        "metadata_retaining_get_trades_count": 2
+      },
+      "gaps": {
+        "baseline_username_is_peer_player_id": false,
+        "baseline_requested_species_is_owned_instance_id": false,
+        "baseline_get_trades_metadata_unobserved": false,
+        "cancellation_alone_proves_inventory_refresh": false
+      }
+    }
+  },
+  "additional_metadata_capture": {
+    "pcap_sha256": "ef4df871cc5f13ff3e8b50d073ef1a31f27a0d00d520aab20891edbb442e9aad",
+    "limit": "Contains corrected creation and GetTrades reads but ended before cancellation; excluded from complete fixed-cycle proof"
+  },
+  "manual_ui_review": {
+    "offer_created_reopened_and_cancelled": true,
+    "parent_remained_after_child_cancel": true,
+    "immediate_post_cancel_selector_empty": true,
+    "ordinary_cold_login_restored_spare": true,
+    "cache_or_save_cleared": false,
+    "immediate_unlock_repaired": false,
+    "screenshots": {
+      "images/native-offer-created.png": "45fac50242cd7493a2656da8ba68dda3d60811d296ba0495dae095d35c7c11b2",
+      "images/native-offer-cancel-button.png": "e047291394cfd730316d6bce3ccac675f15593595364760b125746b83bf278e8",
+      "images/native-offer-cancelled.png": "095e171451c84eebc915134f8679486e9be489d87f2a51d11d2135b0c03af54d",
+      "images/native-offer-stale-selector.png": "0c3664764c37279ea63b13961d25c59d59e7bb77e36f5663ee0b85a80777d533",
+      "images/native-offer-reconnected-selector.png": "daa4d82122528208bf30d18358cca82f7deeb331c12188fc3ba9b3e0da56ad83"
+    }
+  },
+  "retirement": {
+    "parent_cancelled_by_scripted_exact_owner_cookie_api": true,
+    "native_parent_cleanup_claimed": false,
+    "receipt_sha256": "fa06cc8d71d50fc67d13a151b285747f7e7f7c6618c3ed2a3705151348d246d8",
+    "final_pair_guard_sha256": "054770c2fa82259ac1716204a5122c9650159d85137772e68e175811547ef673",
+    "final_active_requests": 0,
+    "final_active_offers": 0,
+    "completed_transfers": 0,
+    "prepared_collections_resources_parties_raw_flags_expiries_and_accepted_friendship_preserved": true
+  },
+  "preservation": {
+    "original_account_guards_passed": true,
+    "retained_startup_history_guard_passed": true,
+    "only_trading_avds_5564_5566_and_sdk_sidecar_stopped": true,
+    "userdata_and_private_evidence_retained": true
+  },
+  "validation": {
+    "backend_cases": 44,
+    "pure_cases": 16,
+    "pre_repair_metadata_tests_failure_or_error": 2,
+    "php_lint_passed": true,
+    "independent_metadata_source_review_no_blocker": true
+  },
+  "remaining": [
+    "Offer cancellation client inventory-refresh timing",
+    "Acceptance authorization and request/offer binding",
+    "Server-side eligibility and list privacy checks",
+    "JsonFx completed-list member mapping",
+    "Original economic rules and transfers"
+  ],
+  "redaction": "Only proof metadata/hashes and reviewed synthetic-account UI; no session, cookie, player, instance, room, trade or offer ID values"
+}

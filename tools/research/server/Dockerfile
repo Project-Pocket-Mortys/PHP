@@ -4,3 +4,4 @@ RUN docker-php-ext-install pdo_mysql && a2enmod rewrite headers substitute \
 COPY research.conf /etc/apache2/conf-enabled/research.conf
 COPY research.ini /usr/local/etc/php/conf.d/research.ini
 COPY capture.php /opt/pocket-research/capture.php
+COPY online.php /opt/pocket-research/online.php

@@ -1,0 +1,9 @@
+# Compose >= 2.24.4 is required for !override. Recreate only offline-sdk-peer
+# while a primary capture is active: each container owns its one-shot probe state.
+services:
+  offline-sdk-peer:
+    extends:
+      file: compose.research.yaml
+      service: offline-sdk-web
+    ports: !override
+      - "127.0.0.1:8093:80"
