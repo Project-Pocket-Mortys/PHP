@@ -1,0 +1,92 @@
+{
+  "evidence_kind": "Observed native Android startup against isolated replacement server; not original-service evidence",
+  "pcap_sha256": "720987dc75475c8d1486bcecf4dfaa45d20373289b247841db3f8abe7541342c",
+  "fixture_sha256": "6be827198365f02b9f6ff2abeb1d6dced4749b191c0bcf1d68a8e99f0c0f44ad",
+  "logcat_sha256": "b67f055d9660400ba581941f3f1aed2a8c45ba423630fbaa8986e9d10e054366",
+  "client_version": "2.41.0",
+  "installed_apk_matches_source": true,
+  "source_apk_sha256": [
+    "515cf2e13ea677d546533ad09dd19ceb19aa5893aa7a40c252dc8b3bf713542e",
+    "7791db3aa47c5477e9693251941fb91ed71c4f9e6715968709f993ad2ece8bc8"
+  ],
+  "online_probe_statuses": [
+    503,
+    204,
+    204
+  ],
+  "exact_tcp_ack_pairs": true,
+  "primary_login_status": 200,
+  "login_secret_matches_immutable_fixture": true,
+  "login_jwt_claims_match_immutable_fixture": true,
+  "returned_token_matches_native_session_request": true,
+  "authenticated_requests_match_returned_session": true,
+  "player_details_count": 1,
+  "world_join_count": 1,
+  "fresh_onetrust_domain_data_exception_count": 0,
+  "fresh_nullreference_exception_count": 0,
+  "fresh_onetrust_stack_line_count": 0,
+  "logcat_covers_recovered_exchanges": true,
+  "timeline": [
+    {
+      "method": "GET",
+      "path": "/_research/online",
+      "status": 503,
+      "seconds": 0.083734,
+      "exact_tcp_ack_pair": true,
+      "native_application_headers": false
+    },
+    {
+      "method": "GET",
+      "path": "/_research/online",
+      "status": 204,
+      "seconds": 9.255589,
+      "exact_tcp_ack_pair": true,
+      "native_application_headers": false
+    },
+    {
+      "method": "GET",
+      "path": "/_research/online",
+      "status": 204,
+      "seconds": 50.983751,
+      "exact_tcp_ack_pair": true,
+      "native_application_headers": false
+    },
+    {
+      "method": "POST",
+      "path": "/user/login",
+      "status": 200,
+      "seconds": 51.900664,
+      "exact_tcp_ack_pair": true,
+      "native_application_headers": true
+    },
+    {
+      "method": "POST",
+      "path": "/session/player-details",
+      "status": 200,
+      "seconds": 52.448286,
+      "exact_tcp_ack_pair": true,
+      "native_application_headers": true
+    },
+    {
+      "method": "POST",
+      "path": "/session/join-room",
+      "status": 200,
+      "seconds": 52.671608,
+      "exact_tcp_ack_pair": true,
+      "native_application_headers": true
+    }
+  ],
+  "redaction": "No raw secret, session, JWT, cookie, player ID, room ID, address, or request/response body emitted",
+  "local_file_invariants": {
+    "sdk_server_data": {
+      "before_sha256": "9be17c053c06c307d381a3a557d4c98d1cd130977820a86ff73be621703ab113",
+      "after_sha256": "9be17c053c06c307d381a3a557d4c98d1cd130977820a86ff73be621703ab113",
+      "unchanged": true
+    },
+    "sdk_active_profile": {
+      "before_sha256": "a543538b54960fd5c2a7575f12ab5fe073334c8d0276e5036f860c412bbb8d5d",
+      "after_sha256": "a543538b54960fd5c2a7575f12ab5fe073334c8d0276e5036f860c412bbb8d5d",
+      "unchanged": true
+    }
+  }
+}

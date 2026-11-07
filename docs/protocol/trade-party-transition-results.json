@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "branch": "hayward/trade-party-transitions",
+  "base_main_commit": "9ff1a116e41e809172e63d983558cee9c662dc75",
+  "prerequisite_commit": "db4d236a1ae03717252c75ab0d6c056c7584b48b",
+  "scope": "Reservation-aware deck writes/activation and current active-party exclusion at acceptance; bounded static Android evidence plus synthetic replacement HTTP/database tests, no new native capture",
+  "native": {
+    "rea": "6.8.0",
+    "ghidra": "12.1.4",
+    "elf_sha256": "ff773be7d3718ee307f6342358268748e8fa2487460e7b3857715478cb8e4326",
+    "metadata_version": 31,
+    "fresh_receipt": ".research/trade-party-transitions-20261106T235331Z",
+    "bounded_methods": 24,
+    "ghidra_methods": 23,
+    "contract": "trade-party-transition-contract.md",
+    "reproduce": "wsl.exe -- bash tools/research/ghidra-trade-party-transitions.sh"
+  },
+  "baselines": [
+    {
+      "scope": "Original branch prerequisite without transition guards",
+      "source_commit": "db4d236a1ae03717252c75ab0d6c056c7584b48b",
+      "methods": 19,
+      "failing_assertions_including_subtests": 34,
+      "seconds": 28.693,
+      "private_receipt": ".research/trade-party-transition-baseline-tests.txt",
+      "limit": "Assertion count is not a count of distinct defects"
+    },
+    {
+      "scope": "Integration of new escaped target decoder with old deck response projection, before projection correction; not original server evidence or previous released behavior",
+      "methods": 1,
+      "errors": 2,
+      "seconds": 1.587,
+      "private_receipt": ".research/trade-party-escaped-baseline-tests.txt",
+      "effect": "Successful activation/edit omitted the escaped saved deck from authoritative cache replacement response"
+    }
+  ],
+  "verification": {
+    "unique_cases": 60,
+    "all_passed": true,
+    "runs": [
+      {
+        "suite": "test_trade_party_transitions.py",
+        "methods": 26,
+        "seconds": 62.151
+      },
+      {
+        "suite": "test_trade_party_guard.py",
+        "methods": 6,
+        "seconds": 36.464
+      },
+      {
+        "suite": "test_trade_response_authorization.py",
+        "methods": 22,
+        "seconds": 53.879
+      },
+      {
+        "suite": "test_party_writer_guards.py",
+        "methods": 6,
+        "seconds": 40.092
+      }
+    ],
+    "execution": "Exact additive UUID suites serial/exclusive; scoped cleanup; no global reseed",
+    "test_blockers": "Temporary PDO blocker connections use fixture-only advisory locks/release signals; one blocker uses READ COMMITTED to observe release. Endpoint/default DB isolation unchanged.",
+    "php_lint": "All four changed/new PHP files passed",
+    "wrapper": "Fresh bounded execution and bash -n passed; REA version6.8.0",
+    "source_validation": "JSON/source/helper hashes, reviewed constructor fields, native bounds and Python syntax passed",
+    "guards": [
+      "Original account/social/invitation/battle history preserved",
+      "Battle-item HP/AP/items/decks/progression/membership preserved",
+      "Native trading pair collections/resources/parties/expiry/friendship preserved excluding last_seen",
+      "Retained paired startup save/history preserved"
+    ]
+  },
+  "policies": {
+    "manual_lock": "Existing server deck edits/activation remain allowed for manual favorites; normal native menu can gate both flags, lower-level add checks trade only",
+    "activation": "Block stored trade flag or any global durable listing reference in target; replacement reservation-integrity policy",
+    "acceptance": "Check both outgoing instances outside current active decks; own refs/raw flags not blanket rejected; existing ownership and membership guards retained",
+    "withdrawal": "Reject/cancel unsafe legacy listings remains available",
+    "legacy_decoding": "Project accepted escaped SQL deck arrays into success body without rewriting storage",
+    "new_error": "409 {success:false,error:{code:FAILED}} for deck transition errors; existing unrelated flat errors retained"
+  },
+  "unchanged": [
+    "Root README completion claims and attribution",
+    "main/master",
+    "Retained emulator installs/saves",
+    "Database schema and endpoint isolation",
+    "Successful deck/transfer envelopes, request cost/cooldown and raw lock flags",
+    "Inactive decks not rewritten during ownership transfer"
+  ],
+  "remaining": [
+    "Native accept/reject and deck presentation captures",
+    "Original status/economics/cooldown/completed-list spelling",
+    "Older deck flat errors/method enforcement/coercion paths",
+    "Full living-party policy and other party writer audits",
+    "Legacy raw ACTIVE-battle reconciliation",
+    "Legacy references on other parents/stored true flag provenance",
+    "Immediate post-offer-cancel inventory refresh",
+    "Mixed legacy lock order can deadlock and roll back; no automatic retry"
+  ]
+}

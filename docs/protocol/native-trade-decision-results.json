@@ -1,0 +1,638 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "Native Android isolated replacement-server observations",
+  "pcap_sha256": [
+    "55e7b0466aadf10c7c09d92c2815ca4decd5a1700e31f7a233cd2fbd15218d8f",
+    "598979e8492bdb8cd4fbb466222a78aed83dea6394001713ae1528c0188b7a44",
+    "861a525355af9e42163eb4f87d7cd6e8d9da224704a98cb169fbff6ea4949f8e",
+    "624ab8ccdd667928870552d63970f9e215d6bb0c26cef46ab08acafcd4790137",
+    "a8a67d8feca13975d8bf7936d08ebb491bafa32b71241f553eb3709940adebb6",
+    "595ec353e076c951f8b5dc3544598a0666a5dbb68f1a780cc7e9bac0f2d469c5",
+    "88d7306cef9a85670b69210352a24e9425b35a3195c21b66a8828e0a4920052d",
+    "1aa9757f361a33e8ec6fac1efa7321bcf75b4397ea692a08163f7f29f2d74d2b",
+    "47e25d5a93aa13b366a71e461d6ce85087035fbb089df5b261a20a601e15dd2c",
+    "736abbe5f8b84ad68407f48f434d7afce45f9fd39600fac2ab399ececd22bc81",
+    "8523a803c8b77a85a6d1c812ea6704671494cb20a468a13226897988a0b3dcf2",
+    "b86f72296480c71c020929dde49cc9d1b48e42e172952f0545aec73b9831c133"
+  ],
+  "fixture_sha256": {
+    "baseline": "9df082bf6d2ea7a0c874ca3d61d72079cbf3897716b9dfa31e428fb2974679b5",
+    "observation_1": "c4521f545777a5ddae165d4ae52007e53296dbe43cef881b9f4aa1204e6a113f",
+    "observation_2": "d428da8bee2b30763ebb85c0c878f6988e70bbfeca673ce9679ee8c70f07786c",
+    "observation_3": "7d9458e357bbaad4e38bbc8e93b9b9c4deeabdedc94306078121a7e6946ab5c4",
+    "observation_4": "8a705f7dc875785b3a5cee494c03556f9e38677378d144f4b6392e7487461e45",
+    "observation_5": "bea2bc8bdb9443345902593b2f7df87ec40c976fbc37b63b46810082e852872b",
+    "observation_6": "a02a528cbe3a5310d7295efe85bb2ac2836efca41fb3e73d966f811474c9608a",
+    "observation_7": "67e49658b077cfcbe4208c1fcb5a0ff44decacdb3e6cc76c1ae1798d62155967",
+    "observation_8": "c7c21e851b4477fe1540eb9d96e5e4421b9bc1300adc8d76f75b0424939b7225",
+    "observation_9": "3a3ff296303931dfd815f266cd702ed9550db36e9ff47a4096872edc06edef58",
+    "observation_10": "30ed5b7ce3da402e4553e8ceaebfafe44cdad800e1b36aa9b5e71b9b0fcd982e",
+    "observation_11": "64fc75e669b25885ab4c070f738d43a856e86f989db4d2a90ddb9ede416d3fea",
+    "observation_12": "89e070e5923dec857f983318054f6a3495d036b9f68de4b1428bbf07ed47146e",
+    "observation_13": "3264e56239f6d0955ab9197b05495991052c75dcf297eb2f14192f6d98d422f8",
+    "observation_14": "0aa6b4c0ab9cf171eeacefc52c5ae9af1342ac7de71d111d0b14243b7dbe7934",
+    "observation_15": "d5126a5155247082e764faa5cc19b362826b644119361440e7654641c1360e11",
+    "observation_16": "ddd518ea5a03b87d48e4e3e228049cba2174fe7006e1b30efe7aafd149cab07e",
+    "observation_17": "00a0c803840cab58db49e81dffc4e37ce95d1ac041f4d5b46083a73d31f918f5",
+    "resumption_10": "306226cbbc47e2c6d9645706204ec4708878957a8e5eb95dffd1053e52afa378"
+  },
+  "exchanges": [
+    {
+      "path": "/user/login",
+      "capture_index": 0,
+      "status": 200,
+      "request_packet_index": 20,
+      "response_packet_index": 21,
+      "request_body_keys": [
+        "consent_identifier",
+        "secret"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/config",
+      "capture_index": 0,
+      "status": 200,
+      "request_packet_index": 27,
+      "response_packet_index": 28,
+      "request_body_keys": [
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 0,
+      "status": 200,
+      "request_packet_index": 30,
+      "response_packet_index": 31,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/request-morty",
+      "capture_index": 1,
+      "status": 200,
+      "request_packet_index": 9,
+      "response_packet_index": 10,
+      "request_body_keys": [
+        "is_free_trade",
+        "owned_morty_id",
+        "player_id",
+        "request_variant",
+        "requested_morty_id",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 1,
+      "status": 200,
+      "request_packet_index": 11,
+      "response_packet_index": 12,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/user/login",
+      "capture_index": 2,
+      "status": 200,
+      "request_packet_index": 20,
+      "response_packet_index": 21,
+      "request_body_keys": [
+        "consent_identifier",
+        "secret"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/config",
+      "capture_index": 2,
+      "status": 200,
+      "request_packet_index": 28,
+      "response_packet_index": 29,
+      "request_body_keys": [
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 2,
+      "status": 200,
+      "request_packet_index": 30,
+      "response_packet_index": 31,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/get-trades",
+      "capture_index": 3,
+      "status": 200,
+      "request_packet_index": 2,
+      "response_packet_index": 3,
+      "request_body_keys": [
+        "player_id",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/offer-morty",
+      "capture_index": 3,
+      "status": 200,
+      "request_packet_index": 10,
+      "response_packet_index": 11,
+      "request_body_keys": [
+        "offered_morty_id",
+        "player_id",
+        "session_id",
+        "trade_request_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 3,
+      "status": 200,
+      "request_packet_index": 12,
+      "response_packet_index": 13,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/user/login",
+      "capture_index": 4,
+      "status": 200,
+      "request_packet_index": 20,
+      "response_packet_index": 21,
+      "request_body_keys": [
+        "consent_identifier",
+        "secret"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/config",
+      "capture_index": 4,
+      "status": 200,
+      "request_packet_index": 26,
+      "response_packet_index": 28,
+      "request_body_keys": [
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 4,
+      "status": 200,
+      "request_packet_index": 27,
+      "response_packet_index": 29,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/get-trades",
+      "capture_index": 4,
+      "status": 200,
+      "request_packet_index": 81,
+      "response_packet_index": 82,
+      "request_body_keys": [
+        "player_id",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/offer-response",
+      "capture_index": 5,
+      "status": 200,
+      "request_packet_index": 3,
+      "response_packet_index": 4,
+      "request_body_keys": [
+        "request_accepted",
+        "trade_offer_id",
+        "trade_request_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 5,
+      "status": 200,
+      "request_packet_index": 5,
+      "response_packet_index": 6,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/user/login",
+      "capture_index": 6,
+      "status": 200,
+      "request_packet_index": 20,
+      "response_packet_index": 21,
+      "request_body_keys": [
+        "consent_identifier",
+        "secret"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/config",
+      "capture_index": 6,
+      "status": 200,
+      "request_packet_index": 28,
+      "response_packet_index": 29,
+      "request_body_keys": [
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 6,
+      "status": 200,
+      "request_packet_index": 30,
+      "response_packet_index": 31,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/get-trades",
+      "capture_index": 6,
+      "status": 200,
+      "request_packet_index": 75,
+      "response_packet_index": 76,
+      "request_body_keys": [
+        "player_id",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/offer-morty",
+      "capture_index": 7,
+      "status": 200,
+      "request_packet_index": 3,
+      "response_packet_index": 4,
+      "request_body_keys": [
+        "offered_morty_id",
+        "player_id",
+        "session_id",
+        "trade_request_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 7,
+      "status": 200,
+      "request_packet_index": 5,
+      "response_packet_index": 6,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/user/login",
+      "capture_index": 8,
+      "status": 200,
+      "request_packet_index": 20,
+      "response_packet_index": 21,
+      "request_body_keys": [
+        "consent_identifier",
+        "secret"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/config",
+      "capture_index": 8,
+      "status": 200,
+      "request_packet_index": 28,
+      "response_packet_index": 29,
+      "request_body_keys": [
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 8,
+      "status": 200,
+      "request_packet_index": 30,
+      "response_packet_index": 31,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/get-trades",
+      "capture_index": 9,
+      "status": 200,
+      "request_packet_index": 5,
+      "response_packet_index": 6,
+      "request_body_keys": [
+        "player_id",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/offer-response",
+      "capture_index": 10,
+      "status": 200,
+      "request_packet_index": 3,
+      "response_packet_index": 4,
+      "request_body_keys": [
+        "request_accepted",
+        "trade_offer_id",
+        "trade_request_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 10,
+      "status": 200,
+      "request_packet_index": 5,
+      "response_packet_index": 6,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/user/login",
+      "capture_index": 11,
+      "status": 200,
+      "request_packet_index": 20,
+      "response_packet_index": 21,
+      "request_body_keys": [
+        "consent_identifier",
+        "secret"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/config",
+      "capture_index": 11,
+      "status": 200,
+      "request_packet_index": 28,
+      "response_packet_index": 29,
+      "request_body_keys": [
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/session/player-details",
+      "capture_index": 11,
+      "status": 200,
+      "request_packet_index": 30,
+      "response_packet_index": 31,
+      "request_body_keys": [
+        "include",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    },
+    {
+      "path": "/trading/get-trades",
+      "capture_index": 11,
+      "status": 200,
+      "request_packet_index": 75,
+      "response_packet_index": 76,
+      "request_body_keys": [
+        "player_id",
+        "session_id"
+      ],
+      "unlisted_request_body_key_count": 0,
+      "native_headers_present": true,
+      "exact_tcp_ack_pair": true
+    }
+  ],
+  "selected_native_decisions_and_refreshes_proved": true,
+  "full_native_decision_cycle_proved": false,
+  "bounded_stage_only": false,
+  "evidence_scope": "Selected native decisions and refreshes; intermediate observer history is disclosed separately",
+  "observer_history": {
+    "full_append_only_observer_history_validated": true,
+    "observation_count": 17,
+    "selected_observation_sequences": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "intermediate_observation_count": 7,
+    "intermediate_offer_count": 1,
+    "intermediate_offer_capture_gap_disclosed": true,
+    "resumed_failed_unchanged_offer_observations": [
+      {
+        "sequence": 10,
+        "sha256": "30ed5b7ce3da402e4553e8ceaebfafe44cdad800e1b36aa9b5e71b9b0fcd982e",
+        "resumption_sha256": "306226cbbc47e2c6d9645706204ec4708878957a8e5eb95dffd1053e52afa378"
+      }
+    ],
+    "continuous_native_observation_of_all_history_proved": false
+  },
+  "proof": {
+    "native_parent_and_both_offers_match_database": true,
+    "phase_order_proved_by_actual_capture_packet_times": true,
+    "exact_three_field_boolean_decisions": [
+      false,
+      true
+    ],
+    "login_scoped_cookie_matches_current_requester_session": true,
+    "rejection_removes_only_selected_offer_and_preserves_parent": true,
+    "acceptance_swaps_exactly_two_spares_and_inserts_one_completion": true,
+    "acceptance_removes_parent_and_all_attached_offers": true,
+    "database_parent_counts": [
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0
+    ],
+    "database_offer_counts": [
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      1,
+      0
+    ],
+    "database_completion_counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "protected_database_fields_preserved_with_controlled_native_presence": true,
+    "active_parties_attacks_items_stats_currencies_raw_flags_preserved": true,
+    "post_accept_native_owned_refresh_actor_count": 2,
+    "both_actors_native_owned_refresh_and_boolean_unlock_proved": true,
+    "completion_projection_observations": [
+      {
+        "capture_index": 3,
+        "request_packet_index": 2,
+        "response_packet_index": 3,
+        "native_completion_alias_present": false,
+        "legacy_completed_count": 0,
+        "native_completed_count": null,
+        "completion_aliases_equal": null
+      },
+      {
+        "capture_index": 4,
+        "request_packet_index": 81,
+        "response_packet_index": 82,
+        "native_completion_alias_present": false,
+        "legacy_completed_count": 0,
+        "native_completed_count": null,
+        "completion_aliases_equal": null
+      },
+      {
+        "capture_index": 6,
+        "request_packet_index": 75,
+        "response_packet_index": 76,
+        "native_completion_alias_present": true,
+        "legacy_completed_count": 0,
+        "native_completed_count": 0,
+        "completion_aliases_equal": true
+      },
+      {
+        "capture_index": 9,
+        "request_packet_index": 5,
+        "response_packet_index": 6,
+        "native_completion_alias_present": true,
+        "legacy_completed_count": 0,
+        "native_completed_count": 0,
+        "completion_aliases_equal": true
+      },
+      {
+        "capture_index": 11,
+        "request_packet_index": 75,
+        "response_packet_index": 76,
+        "native_completion_alias_present": true,
+        "legacy_completed_count": 1,
+        "native_completed_count": 1,
+        "completion_aliases_equal": true
+      }
+    ],
+    "all_observed_native_completion_aliases_match_legacy": true,
+    "all_get_trades_responses_have_native_completion_alias": false
+  },
+  "gaps": {
+    "other_actor_refresh_missing": false,
+    "gui_selector_availability_proved": false
+  },
+  "scripted_setup_cleanup_counted_as_native_evidence": false
+}
