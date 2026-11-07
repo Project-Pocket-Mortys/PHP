@@ -128,7 +128,7 @@ function friend_battle_transport_poll(PDO $pdo, string $session, string $player,
     if ($pdo->inTransaction()) throw new LogicException('Standalone stream poll required');
     try {
         // Read hints only. Release the single-user transaction before taking pair locks.
-        friend_transport_lock_user($pdo,$session,$player);
+        $streamUser=friend_transport_lock_user($pdo,$session,$player);
         if (!friend_transport_current(friend_transport_stream($pdo,$player),$streamId,$session)) { $pdo->commit(); return $closed; }
         $query=$pdo->prepare('SELECT s.* FROM friend_battle_stream_bindings b JOIN friend_battle_sessions s ON s.battle_id=b.battle_id WHERE b.player_id=? AND b.stream_id=? ORDER BY b.bound_at DESC');
         $query->execute([$player,$streamId]); $bound=$query->fetchAll(PDO::FETCH_ASSOC);
@@ -138,13 +138,19 @@ function friend_battle_transport_poll(PDO $pdo, string $session, string $player,
             $pdo->prepare('UPDATE friend_battle_streams SET heartbeat_at=UTC_TIMESTAMP(6) WHERE player_id=? AND stream_id=?')->execute([$player,$streamId]);
             $pdo->commit(); return $empty;
         }
-        if (!in_array($hint['state'],['STARTING','READY'],true)) { $pdo->commit(); return $bound ? $ended : $closed; }
+        if (!in_array($hint['state'],['STARTING','READY'],true)) {
+            $terminal=friend_battle_forfeit_poll_locked($pdo,$hint,$streamUser,$streamId);
+            $pdo->commit(); return $terminal ?? ($bound ? $ended : $closed);
+        }
         $pdo->rollBack();
         [$row,$self,$peer]=friend_startup_lock($pdo,$session,$hint['battle_id']);
         // Generation fence precedes every cleanup: old streams cannot cancel new starts.
         $own=friend_transport_stream($pdo,$player);
         if ($self['player_id']!==$player || !friend_transport_current($own,$streamId,$session)) { $pdo->commit(); return $closed; }
-        if (!in_array($row['state'],['STARTING','READY'],true)) { $pdo->commit(); return $ended; }
+        if (!in_array($row['state'],['STARTING','READY'],true)) {
+            $terminal=friend_battle_forfeit_poll_locked($pdo,$row,$self,$streamId);
+            $pdo->commit(); return $terminal ?? $ended;
+        }
         $users=[$self['player_id']=>$self,$peer['player_id']=>$peer];
         $startup=friend_startup_validate_active($pdo,$row,$users,false);
         if (!(bool)$startup['live'] || !friend_transport_bindings_live($pdo,$row,$users)) {

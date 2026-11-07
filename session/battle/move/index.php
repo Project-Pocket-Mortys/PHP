@@ -24,13 +24,14 @@ $owned_morty_id = $body['owned_morty_id'] ?? '';
 $move_id = $body['move_id'] ?? '';
 if (in_array($type, ['ATTACK', 'SWITCH'], true) && ($owned_morty_id === '' || $move_id === '')) respond(400, ['success' => false, 'error' => ['code' => 'FAILED']]);
 
-// Research-only first human selection; success acknowledges storage, not resolution.
+// Research-only first selection or voluntary RUN; public acceptance stays disabled.
 if (friend_battle_transport_enabled()) {
     try {
         $query=$pdo->prepare('SELECT 1 FROM friend_battle_sessions WHERE battle_id=?');
         $query->execute([$battle_id]);
         if ($query->fetchColumn()!==false) {
-            friend_battle_selection_submit($pdo,$body,$session_id);
+            if ($type === 'RUN') friend_battle_forfeit_submit($pdo,$body,$session_id);
+            else friend_battle_selection_submit($pdo,$body,$session_id);
             respond(200,['success'=>true]);
         }
     } catch (Throwable $error) {

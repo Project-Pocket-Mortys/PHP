@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/friend_battle_start_views.php';
 require_once __DIR__ . '/friend_battle_transport.php';
 require_once __DIR__ . '/friend_battle_selections.php';
+require_once __DIR__ . '/friend_battle_forfeit.php';
 
 /** Replacement-server startup lease; never interpreted as a combat timer. */
 function friend_battle_startup_seconds(): int {

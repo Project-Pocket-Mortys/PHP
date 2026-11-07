@@ -11,6 +11,7 @@ require_once __DIR__ . "/../../lib/events.php";
 require_once __DIR__ . "/../../lib/battle_turn.php";
 require_once __DIR__ . "/../../lib/battle_membership_guard.php";
 require_once __DIR__ . "/../../lib/shiny_potion.php";
+require_once __DIR__ . "/../../lib/friend_battle_startup.php";
 
 // ------------------------
 // Read input
@@ -77,6 +78,9 @@ $player_id = (string)$u["player_id"];
 $room_id = (string)($u["room_id"] ?? "");
 if ($room_id === "" || $room_id === "0") battle_reject(409);
 if (battle_has_shared_membership($pdo, $player_id)) battle_reject(409);
+// The old terminal must precede any newer battle:start on this research stream.
+try { friend_battle_forfeit_require_drained_locked($pdo, $u); }
+catch (FriendError $error) { battle_reject($error->status); }
 battle_reconcile_legacy_terminals($pdo, $player_id);
 $stmt = $pdo->prepare("SELECT battle_id FROM battles WHERE (player_id=? OR opponent_id=?) AND state='ACTIVE' FOR UPDATE");
 $stmt->execute([$player_id, $player_id]);

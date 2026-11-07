@@ -37,7 +37,7 @@ function stream_shared_battle(PDO $pdo, string $player, string $session, string 
     try {
         $batch=friend_battle_transport_poll($pdo,$session,$player,$stream);
         foreach ($batch['events'] as $event) {
-            if (!in_array($event['event'],['battle:start','session:end'],true)) throw new LogicException('Unsupported shared stream event');
+            if (!in_array($event['event'],['battle:start','battle:turn-result','session:end'],true)) throw new LogicException('Unsupported shared stream event');
             sse_send_id($event['event'],json_encode($event['payload'],JSON_THROW_ON_ERROR|JSON_UNESCAPED_SLASHES));
         }
         if ($batch['close']) exit;

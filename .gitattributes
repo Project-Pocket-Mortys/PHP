@@ -69,6 +69,7 @@ lib/friend_battle_start_views.php text eol=lf
 lib/friend_battle_startup.php text eol=lf
 lib/friend_battle_transport.php text eol=lf
 lib/friend_battle_selections.php text eol=lf
+lib/friend_battle_forfeit.php text eol=lf
 session/battle/move/index.php text eol=lf
 session/battle/ready/index.php text eol=lf
 config/multiplayer_start_ids.json text eol=lf
