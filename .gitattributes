@@ -11,6 +11,7 @@ tests/protocol/** text eol=lf
 docs/protocol/** text eol=lf
 docs/protocol/images/** binary
 compose.research.yaml text eol=lf
+compose.research-trade-pair.yaml text eol=lf
 user/login/index.php text eol=lf
 sse/index.php text eol=lf
 session/leave-room/index.php text eol=lf

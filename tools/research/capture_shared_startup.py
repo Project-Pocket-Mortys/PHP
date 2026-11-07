@@ -1,4 +1,4 @@
-"""Bounded private native HTTP/screens capture on fresh startup AVDs only."""
+"""Bounded private native HTTP/screens capture on verified research AVDs only."""
 import argparse
 from datetime import datetime, timezone
 import hashlib
@@ -17,8 +17,8 @@ def utc():
 
 
 def capture(role, duration, output, screens=None):
-    if not 30 <= duration <= 180 or screens is not None and not 3 <= screens <= 10:
-        raise ValueError('Require duration 30..180 and optional screenshot interval 3..10 seconds')
+    if not 30 <= duration <= 900 or screens is not None and not 3 <= screens <= 10:
+        raise ValueError('Require duration 30..900 and optional screenshot interval 3..10 seconds')
     output = Path(output).absolute()
     private = (ROOT / '.research').resolve()
     if output.resolve() != output or not output.is_relative_to(private) or output == private:
