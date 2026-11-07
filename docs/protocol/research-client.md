@@ -1,5 +1,11 @@
 # Local Android startup research client
 
+For the later OneTrust initialization stall, use the optional
+[single-client offline SDK fixture](onetrust-startup-recovery.md). It restores
+the retained client without changing the APK, SDK cache, saved consent profile
+or guarded save. Normal services still return 204. This research fixture does
+not restore the external SDK service or establish a consent grant.
+
 The author-authorized research copy of Android 2.41.0 now downloads all 155 bundles
 from the isolated server and reaches the opening single-player scene. See the
 [successful local transport follow-up](local-transport.md). Multiplayer remains unverified.

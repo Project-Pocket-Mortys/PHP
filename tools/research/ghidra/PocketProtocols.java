@@ -18,6 +18,7 @@ public class PocketProtocols extends GhidraScript {
     private Address nativeAddress(long offset) { return currentProgram.getImageBase().add(offset); }
     public void run() throws Exception {
         String[] args = getScriptArgs();
+        boolean includeAccessors = args.length > 3 && args[3].equals("include-accessors");
         JsonObject mapping = JsonParser.parseString(Files.readString(Path.of(args[0]))).getAsJsonObject();
         JsonArray methods = mapping.getAsJsonArray("ScriptMethod");
         List<JsonObject> selected = new ArrayList<>();
@@ -65,7 +66,7 @@ public class PocketProtocols extends GhidraScript {
             monitor.checkCancelled();
             String name = m.get("Name").getAsString();
             // Exclude delegates/accessors; retain constructors, requests, callbacks and handlers.
-            if (name.contains("Delegate$$") || name.matches(".*\\$\\$(get_|set_|add_|remove_).*")) continue;
+            if (name.contains("Delegate$$") || (!includeAccessors && name.matches(".*\\$\\$(get_|set_|add_|remove_).*"))) continue;
             Address address = nativeAddress(m.get("Address").getAsLong());
             Long next = boundaries.higher(m.get("Address").getAsLong());
             if (next == null) continue;
