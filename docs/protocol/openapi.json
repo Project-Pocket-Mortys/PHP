@@ -300,7 +300,7 @@
       "x-method-unresolved": true
     },
     "/session/battle/move": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
+      "description": "Partial PvWM battle actions, including battle-only ItemMrMeeseek instant enemy defeat. Research-gated PvF first selection remains separate; original combat/capture/reward and later human phases incomplete. See contracts.json.",
       "x-implementation-status": "partial",
       "post": {
         "summary": "NetworkBattleAPI$$SelectMove",
@@ -321,7 +321,8 @@
                     "type": "string"
                   },
                   "owned_morty_id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Healing ITEM selects an initial-party target; ItemMrMeeseek identifies the current active owned actor."
                   },
                   "move_id": {
                     "type": "string"
@@ -360,7 +361,31 @@
             "description": "Error envelope compatibility remains unresolved"
           }
         },
-        "x-native-address": "0x17882bc"
+        "x-native-address": "0x17882bc",
+        "x-meeseeks-box": {
+          "item_id": "ItemMrMeeseek",
+          "scope": "existing private wild PvWM only; world/shared/friend/bot/event use not enabled",
+          "request_actor": "current active living owned Morty, never enemy or bench ID",
+          "effect": "instant enemy defeat; opponent HP becomes zero; WIN with no AI counterattack",
+          "effect_value": "prior enemy HP, explicit replacement convention; native DamageHP result text does not read magnitude",
+          "action": {
+            "type": "ITEM",
+            "owned_morty_id": "current active owned actor ID",
+            "item_id": "ItemMrMeeseek",
+            "success": true,
+            "effect_value": "prior enemy HP",
+            "attacker_morty_datas": [],
+            "defender_morty_datas": [
+              {
+                "owned_morty_id": "wild spawn ID",
+                "hp": 0
+              }
+            ]
+          },
+          "inventory": "one stock consumed; absolute remaining quantity including zero",
+          "terminal": "existing WIN transaction; empty XP/rewards; player WORLD and wild removed",
+          "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; no new Android item acceptance"
+        }
       }
     },
     "/session/battle/ready": {

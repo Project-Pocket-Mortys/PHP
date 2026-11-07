@@ -1,5 +1,13 @@
 # Missing gameplay features: implementation order
 
+[Mr. Meeseeks Box](meeseeks-box-implementation.md) now supports one battle-only
+PvWM item action: the current owned actor defeats the wild enemy, consumes one
+box and completes WIN atomically without an AI counterattack. The
+[native contract](meeseeks-box-contract.md) establishes actor identity and enemy
+HP snapshots. All 17 new and 89 adjacent backend cases pass; XP/rewards remain
+empty, and no new Android item capture is claimed. Other battle modes and
+original combat/reward formulas remain separate.
+
 [Morty mutation response flags](morty-mutation-flags.md) now retain durable
 trade reservations in item/heal/learn-attacks dictionaries and fix string-false
 conversion in learn-attacks. This serializer repair preserves existing item
@@ -66,7 +74,7 @@ establish original economic policy.
 | Order | Feature | Next deliverable and acceptance |
 |---|---|---|
 | 1 | Lock/unlock Morties | Toggle/persistence and release/absorption protection implemented (`absorb-protection-implementation.md`); same-species/variant absorption checks reject incompatible batches (`absorb-eligibility-implementation.md`). Point-only absorption preserves a living active party (`absorb-active-party-implementation.md`). Native own-request creation/cancellation and lock refresh pass (`native-trade-cancellation.md`); native friend offer creation/reload/cancellation also pass (`native-trade-offers.md`). Response authorization, protected creation and deck/acceptance transition guards now pass regression tests (`trade-response-implementation.md`, `trade-listing-protection.md`, `trade-party-transitions.md`). Native requester decisions and completed-key notification repair now have separate evidence (`native-trade-decisions.md`); selected native decisions, exact transfer and both inventory refreshes now pass with intermediate capture gaps disclosed. Offer-cancel refresh, broader transfer variants and legacy flag provenance remain separate. |
-| 2 | Use items | Eight HP items, full revival/AP restoration and targeted poison/paralysis cures work in world and battle (`battle-item-implementation.md`); Pure Curum combined HP/ailment recovery is implemented (`full-recover-implementation.md`). Account Shiny Potion activation/expiry is implemented (`shiny-potion-implementation.md`). Finish percentage variants, stat/damage/general items and authentic timing; remaining numeric evidence gaps are in `remaining-item-evidence.md`. |
+| 2 | Use items | Eight HP items, full revival/AP restoration and targeted poison/paralysis cures work in world and battle (`battle-item-implementation.md`); Pure Curum combined HP/ailment recovery is implemented (`full-recover-implementation.md`). Account Shiny Potion activation/expiry is implemented (`shiny-potion-implementation.md`). Battle-only Mr. Meeseeks Box now completes a PvWM WIN (`meeseeks-box-implementation.md`). Finish percentage variants, stat/other damage/general items and authentic timing; remaining numeric evidence gaps are in `remaining-item-evidence.md`. |
 | 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
 | 4 | Crafting | 22 multiplayer recipes implemented atomically; Android Serum Quick Craft and inventory verified (`crafting-implementation.md`). |
 | 5 | Wild battles and catching | Durable attack/run/victory/defeat, party switching/forced replacement and safe selection expiry implemented (`battle-timeout-implementation.md`). Recover trustworthy stats/attacks, capture consumption/owned records and rewards; original combat rules and reconnect remain. |

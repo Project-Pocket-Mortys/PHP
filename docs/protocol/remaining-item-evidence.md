@@ -72,8 +72,12 @@ does not authorize inventory consumption or gameplay mutations.
 Battle-only effects are Morty Manipulator Chip (`Capture`, low-health capture
 description), Mr. Meeseeks Box (`DamageHP`, instant defeat description), Toxic
 Bundle (`FDAItem` / Speed, no numeric description), and Vape Incinerating
-Rocket (`DamageHP`, no numeric description). These require their own battle
-targeting, restrictions, result and terminal-state contracts. They are not
-additional world-use candidates.
+Rocket (`DamageHP`, no numeric description). Mr. Meeseeks Box now has a separate [native contract](meeseeks-box-contract.md)
+and [PvWM implementation](meeseeks-box-implementation.md): the current owned
+actor uses one box to set the enemy HP to zero and complete WIN. Its numeric
+`effect_value` convention reports prior enemy HP; the native damage animation
+uses the defender snapshot. No damage formula is introduced. The remaining
+battle-only items still require targeting, restrictions, result and terminal-state
+contracts. None is an additional world-use candidate.
 
 No runtime, account, database or asset mutation was performed for this audit.

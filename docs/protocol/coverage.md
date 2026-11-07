@@ -1,5 +1,13 @@
 # Protocol coverage
 
+[Mr. Meeseeks Box](meeseeks-box-implementation.md) now supports one battle-only
+PvWM item action: the current owned actor defeats the wild enemy, consumes one
+box and completes WIN atomically without an AI counterattack. The
+[native contract](meeseeks-box-contract.md) establishes actor identity and enemy
+HP snapshots. All 17 new and 89 adjacent backend cases pass; XP/rewards remain
+empty, and no new Android item capture is claimed. Other battle modes and
+original combat/reward formulas remain separate.
+
 [Item, heal and learn-attacks flags](morty-mutation-flags.md) now use canonical
 legacy booleans and preserve durable reservations in full-Morty responses.
 The [bounded native merge audit](item-reservation-projection-contract.md) and

@@ -1,5 +1,13 @@
 # Pocket Mortys protocol research handoff
 
+[Mr. Meeseeks Box](meeseeks-box-implementation.md) now supports one battle-only
+PvWM item action: the current owned actor defeats the wild enemy, consumes one
+box and completes WIN atomically without an AI counterattack. The
+[native contract](meeseeks-box-contract.md) establishes actor identity and enemy
+HP snapshots. All 17 new and 89 adjacent backend cases pass; XP/rewards remain
+empty, and no new Android item capture is claimed. Other battle modes and
+original combat/reward formulas remain separate.
+
 [Morty mutation flags](morty-mutation-flags.md) now preserve durable trade
 reservations in item, heal and learn-attacks replies and correct learn-attacks
 string boolean conversion. The [fresh native merge audit](item-reservation-projection-contract.md)

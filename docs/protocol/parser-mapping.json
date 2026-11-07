@@ -8597,5 +8597,39 @@
     "preserved": "Stored flags, manual locks, eligibility, HP/AP/status/item mutations and existing learn-attacks PP=8 placeholder",
     "consistency": "Existing item/learn transaction view; heal projection after existing commit; no new reference locks or latest-wall-clock guarantee",
     "validation": "76 tests passed across eight exact protocol modules using additive isolated backend fixtures; PHP lint and research validator pass; retained account/save guards pass; no new Android capture, migration or production mutation"
+  },
+  "meeseeks_box": {
+    "native_contract": "meeseeks-box-contract.md",
+    "implementation": "meeseeks-box-implementation.md",
+    "request": {
+      "path": "/session/battle/move",
+      "constructor": "NetworkBattleAPI$$SelectMove",
+      "address": "0x17882bc",
+      "actor_selection": "MPBagState.UIUseHandler at 0x1570ff0; non-self battle item sends current player owned ID"
+    },
+    "response": {
+      "event": "battle:turn-result",
+      "handler": "NetworkBattleAPI$$BattleTurnResultHandler",
+      "address": "0x1788dc4",
+      "item_parser": "MPBattleActItemData.SetFromDict at 0x1584ff8",
+      "snapshot_merge": "MPBattleUI.<StartTurnAct>d__87.MoveNext at 0x15969a8 before item animation",
+      "animation": "MPBattleUI.<TurnActItem>d__95.MoveNext at 0x159986c reads defender current HP for DamageHP",
+      "action": {
+        "type": "ITEM",
+        "owned_morty_id": "current active owned actor ID",
+        "item_id": "ItemMrMeeseek",
+        "success": true,
+        "effect_value": "prior enemy HP",
+        "attacker_morty_datas": [],
+        "defender_morty_datas": [
+          {
+            "owned_morty_id": "wild spawn ID",
+            "hp": 0
+          }
+        ]
+      }
+    },
+    "scope": "Reviewed Meeseeks request/action path only; existing unresolved generic event registrations and other parsers remain unresolved",
+    "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; no new Android item acceptance"
   }
 }

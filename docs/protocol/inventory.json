@@ -1745,10 +1745,10 @@
       "server_evidence": {
         "file": "session/battle/move/index.php",
         "line": 1,
-        "sha256": "73b5bea4979e997aff5ba249f45f600e58b2687c95d7fca61def760d4d6bc6bc"
+        "sha256": "a5d3768ce71578a62eb2fc929ea3cda01463a723e455cc585e8a1c5908461b62"
       },
       "implementation_status": "partial",
-      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP. Research-only PvF first ATTACK selection storage and immutable pairing now run under PM_RESEARCH_SHARED_BATTLE_STREAM=1 (migration013), after caller initial ready; no combat resolution, resource spend, timer/result publication, later phase or public acceptance.",
+      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP. Research-only PvF first ATTACK selection storage and immutable pairing now run under PM_RESEARCH_SHARED_BATTLE_STREAM=1 (migration013), after caller initial ready; no combat resolution, resource spend, timer/result publication, later phase or public acceptance. Battle-only ItemMrMeeseek now consumes one box, emits an enemy HP-zero ITEM action and completes PvWM WIN with no AI action; empty XP/rewards remain. All 17 new and 89 adjacent backend cases pass; no new Android item capture.",
       "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
       "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -1875,8 +1875,38 @@
         {
           "file": "lib/friend_battle_transport.php",
           "sha256": "2fe1b6fb387f6527876ad262631db053cf1e91aa8bd2d99350301bc866d6334a"
+        },
+        {
+          "file": "lib/battle_items.php",
+          "sha256": "762a47b46a3c7a5c41e1700683ce1719e0396fea6bd3aa7fa5a471111624ad69"
         }
-      ]
+      ],
+      "meeseeks_box_contract": "docs/protocol/meeseeks-box-contract.md",
+      "meeseeks_box": {
+        "item_id": "ItemMrMeeseek",
+        "scope": "existing private wild PvWM only; world/shared/friend/bot/event use not enabled",
+        "request_actor": "current active living owned Morty, never enemy or bench ID",
+        "effect": "instant enemy defeat; opponent HP becomes zero; WIN with no AI counterattack",
+        "effect_value": "prior enemy HP, explicit replacement convention; native DamageHP result text does not read magnitude",
+        "action": {
+          "type": "ITEM",
+          "owned_morty_id": "current active owned actor ID",
+          "item_id": "ItemMrMeeseek",
+          "success": true,
+          "effect_value": "prior enemy HP",
+          "attacker_morty_datas": [],
+          "defender_morty_datas": [
+            {
+              "owned_morty_id": "wild spawn ID",
+              "hp": 0
+            }
+          ]
+        },
+        "inventory": "one stock consumed; absolute remaining quantity including zero",
+        "terminal": "existing WIN transaction; empty XP/rewards; player WORLD and wild removed",
+        "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; no new Android item acceptance"
+      },
+      "meeseeks_box_implementation": "docs/protocol/meeseeks-box-implementation.md"
     },
     {
       "path": "/session/battle/ready",
@@ -6146,7 +6176,8 @@
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "delivery_semantics": "unknown until handler trace and runtime capture",
+      "meeseeks_box_contract": "docs/protocol/meeseeks-box-contract.md"
     },
     {
       "name": "challenge:complete",

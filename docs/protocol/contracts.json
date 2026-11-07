@@ -73,7 +73,7 @@
           },
           "owned_morty_id": {
             "type": "string",
-            "description": "ATTACK/SWITCH: current/outgoing ID. Supported ITEM: selected active or bench target in initial party."
+            "description": "ATTACK/SWITCH: current/outgoing ID. Healing ITEM: selected active or bench target in initial party. ItemMrMeeseek: current active owned actor; enemy ID is never the request actor."
           },
           "move_id": {
             "type": [
@@ -141,7 +141,8 @@
                     "ItemPurePlutonicRock",
                     "ItemPoisonCure",
                     "ItemParalysisCure",
-                    "ItemFullRecover"
+                    "ItemFullRecover",
+                    "ItemMrMeeseek"
                   ]
                 }
               },
@@ -170,17 +171,17 @@
       "event": "battle:turn-result",
       "limitations": [
         "Replacement combat remains placeholder: player damage 20, wild damage 1..3, wild PP 1; formulas/initiative remain unresolved",
-        "Capture and unsupported item effects return 501 ITEM_UNUSABLE with no charge; thirteen established healing/revive/AP/cure items now work in battle",
+        "Capture and unsupported item effects return 501 ITEM_UNUSABLE with no charge; thirteen established healing/revive/AP/cure items and battle-only ItemMrMeeseek now work in PvWM",
         "WIN returns empty xp_datas/rewards; XP, stat growth and reward formulas unresolved",
         "Repeated active-turn bodies are not idempotent; constructor has no turn identity and cooldown enforcement/reconnect replay remain unresolved",
         "Android research client RUN and ATTACK/WIN verified with synthetic private starts; live LOSE, natural battle initiation and interrupted-battle reconnect remain unverified (android-battle-lifecycle.md)",
         "Voluntary switch uses the existing AI counterattack; forced replacement is free. These are explicit replacement policies, not recovered original turn costs (battle-switch-contract.md).",
-        "Supported ITEM uses an action then existing AI1..3 counterattack against current active; original retaliation/cooldowns and timeout penalties remain unrecovered; expired selections now cancel safely through ABANDONED."
+        "Healing ITEM uses an action then existing AI1..3 counterattack against current active; ItemMrMeeseek ends WIN with no counterattack; original retaliation/cooldowns and timeout penalties remain unrecovered; expired selections now cancel safely through ABANDONED."
       ],
       "errors": {
         "400": "FAILED: malformed input, unsupported move type, or unknown attack",
         "401": "FAILED: invalid session",
-        "403": "FAILED: foreign battle, Morty, or private spawn",
+        "403": "FAILED: foreign battle, Morty, or private spawn; ItemMrMeeseek actor differs from current active owned Morty",
         "404": "FAILED: missing battle",
         "409": "FAILED: inactive battle, ambiguous/missing state, exhausted PP, stale HP, or inconsistent room/start/spawn evidence; ineffective supported item, invalid/insufficient stock/AP or pending replacement",
         "501": "ITEM_UNUSABLE: capture or unsupported effect; no mutations",
@@ -196,7 +197,8 @@
         "RUN permits verified legacy WORLD user/spawn state and does not change owned HP/PP",
         "SWITCH validates outgoing/current and incoming member of immutable battle:start party; persists active ID/HP and emits SWITCH action with incoming owned ID; no player AP cost",
         "Fainted active member with another living initial participant produces nonterminal FORCE_SWITCH; pending phase survives ready and rejected selection; LOSE requires party exhaustion",
-        "ITEM targets an initial-party member, applies shared world plan and stock decrement atomically, emits target post-item snapshot then AI active HP snapshot; absolute owned_items includes zero. Revived bench participates in subsequent FORCE_SWITCH/LOSE calculation."
+        "Healing ITEM targets an initial-party member, applies shared world plan and stock decrement atomically, emits target post-item snapshot then AI active HP snapshot; absolute owned_items includes zero. Revived bench participates in subsequent FORCE_SWITCH/LOSE calculation.",
+        "ItemMrMeeseek requires current active owned actor, consumes exactly one stock, emits only enemy HP-zero ITEM snapshot and completes existing WIN without AI action; stock/terminal/wild cleanup/private result commit together. Owned HP/AP/status, active party, XP and currency unchanged."
       ],
       "evidence": [
         "battle-completion-contract.md",
@@ -209,7 +211,9 @@
         "full-recover-contract.md",
         "full-recover-implementation.md",
         "android-full-recover.md",
-        "shiny-potion-implementation.md"
+        "shiny-potion-implementation.md",
+        "meeseeks-box-contract.md",
+        "meeseeks-box-implementation.md"
       ],
       "selection_timeout": "Expired armed selection cancels atomically before resource mutations, returns 409, and emits one private ABANDONED result; accepted moves clear deadline.",
       "full_recover": {
@@ -220,6 +224,30 @@
         "effect_value": 0,
         "snapshot": "target post-item/pre-AI HP/status; unchanged AP omitted",
         "policy_boundary": "existing placeholder AI retaliation unchanged; no new original-server formulas claimed"
+      },
+      "meeseeks_box": {
+        "item_id": "ItemMrMeeseek",
+        "scope": "existing private wild PvWM only; world/shared/friend/bot/event use not enabled",
+        "request_actor": "current active living owned Morty, never enemy or bench ID",
+        "effect": "instant enemy defeat; opponent HP becomes zero; WIN with no AI counterattack",
+        "effect_value": "prior enemy HP, explicit replacement convention; native DamageHP result text does not read magnitude",
+        "action": {
+          "type": "ITEM",
+          "owned_morty_id": "current active owned actor ID",
+          "item_id": "ItemMrMeeseek",
+          "success": true,
+          "effect_value": "prior enemy HP",
+          "attacker_morty_datas": [],
+          "defender_morty_datas": [
+            {
+              "owned_morty_id": "wild spawn ID",
+              "hp": 0
+            }
+          ]
+        },
+        "inventory": "one stock consumed; absolute remaining quantity including zero",
+        "terminal": "existing WIN transaction; empty XP/rewards; player WORLD and wild removed",
+        "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; no new Android item acceptance"
       }
     },
     "/session/leave-room": {
@@ -1713,12 +1741,12 @@
         "type": "ITEM",
         "attacker_player_id": "owner player ID",
         "defender_player_id": "opponent player ID",
-        "owned_morty_id": "selected party target ID",
+        "owned_morty_id": "healing ITEM: selected party target; ItemMrMeeseek: current active owned actor",
         "item_id": "supported item ID",
         "success": "boolean",
         "effect_value": "integer, shared item convention",
-        "attacker_morty_datas": "array containing target post-item/pre-AI partial snapshot",
-        "defender_morty_datas": "empty array",
+        "attacker_morty_datas": "healing ITEM: target post-item/pre-AI partial snapshot; ItemMrMeeseek: empty array",
+        "defender_morty_datas": "healing ITEM: empty array; ItemMrMeeseek: wild spawn owned_morty_id and hp:0",
         "inventory_location": "player_datas.player.owned_items: absolute quantities, including zero"
       },
       "reviewed_timeout_contract": "battle-timeout-contract.md",
@@ -1732,7 +1760,22 @@
         }
       },
       "timeout_audience": "initiator only; public room state notifications carry no private battle payload",
-      "reviewed_full_recover_contract": "full-recover-contract.md"
+      "reviewed_full_recover_contract": "full-recover-contract.md",
+      "reviewed_meeseeks_box_contract": "meeseeks-box-contract.md",
+      "meeseeks_box_action": {
+        "type": "ITEM",
+        "owned_morty_id": "current active owned actor ID",
+        "item_id": "ItemMrMeeseek",
+        "success": true,
+        "effect_value": "prior enemy HP",
+        "attacker_morty_datas": [],
+        "defender_morty_datas": [
+          {
+            "owned_morty_id": "wild spawn ID",
+            "hp": 0
+          }
+        ]
+      }
     },
     "battle-invite:received": {
       "client_type": "BattleInviteReceivedResponse",

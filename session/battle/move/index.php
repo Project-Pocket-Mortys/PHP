@@ -99,6 +99,8 @@ try {
     if ($type !== 'RUN') {
         if ($type === 'ITEM') {
             if ($roster === null) battle_reject(409);
+            // Non-self DamageHP items use the current actor, never a party target.
+            if ($move_id === 'ItemMrMeeseek' && $owned_morty_id !== (string)$battle['player_active_morty']) battle_reject(403);
             if (!in_array($owned_morty_id, $roster, true)) battle_reject(403);
             $stmt = $pdo->prepare('SELECT player_id FROM owned_morties WHERE owned_morty_id=? ORDER BY id FOR UPDATE');
             $stmt->execute([$owned_morty_id]);
@@ -145,7 +147,15 @@ try {
     $item_result = null;
     if ($type === 'ITEM') {
         if ($enemy_hp <= 0) battle_reject(409);
-        $item_result = battle_apply_item($pdo, $player_id, (string)$battle['opponent_id'], $owned_morty_id, $move_id, $party);
+        if ($move_id === 'ItemMrMeeseek') {
+            $validEnemyHp = item_nonnegative_integer($battle['opponent_hp']);
+            if ($validEnemyHp === null || $validEnemyHp <= 0 || $validEnemyHp > 2147483647) battle_reject(409);
+            $item_result = battle_apply_meeseeks_box($pdo, $player_id, (string)$battle['opponent_id'], $active_id, $spawn, $validEnemyHp);
+            $enemy_hp = 0;
+            $outcome = 'WIN';
+        } else {
+            $item_result = battle_apply_item($pdo, $player_id, (string)$battle['opponent_id'], $owned_morty_id, $move_id, $party);
+        }
         $turn_datas[] = $item_result['action'];
         $morty = $party[$active_id];
         $player_hp = (int)$morty['hp'];
@@ -175,10 +185,10 @@ try {
         }
         $pdo->prepare('UPDATE owned_attacks SET pp=? WHERE id=?')->execute([$pp, $attack['id']]);
     }
-    // Replacement policy: an item or voluntary switch consumes the player's action;
+    // Replacement policy: a nonterminal item or voluntary switch consumes the player's action;
     // the placeholder AI attacks the current Morty. Forced replacement
     // only selects a survivor; original game's initiative/turn cost is unverified.
-    if (($type === 'ATTACK' && $outcome !== 'WIN') || ($type === 'SWITCH' && !$forced_switch) || $type === 'ITEM') {
+    if (($type === 'ATTACK' && $outcome !== 'WIN') || ($type === 'SWITCH' && !$forced_switch) || ($type === 'ITEM' && $outcome !== 'WIN')) {
         $damage = random_int(1, 3);
         $player_hp = max(0, $player_hp - $damage);
         $ai_move = ['AttackBatteringRam', 'AttackVileSpew'][random_int(0, 1)];

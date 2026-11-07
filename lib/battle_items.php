@@ -5,7 +5,25 @@ require_once __DIR__ . '/healing_items.php';
 function battle_supported_item(string $item): bool {
     return array_key_exists($item, morty_healing_items())
         || array_key_exists($item, morty_status_cure_items())
-        || in_array($item, ['ItemPureHalzinger', 'ItemPurePlutonicRock', 'ItemFullRecover'], true);
+        || in_array($item, ['ItemPureHalzinger', 'ItemPurePlutonicRock', 'ItemFullRecover', 'ItemMrMeeseek'], true);
+}
+
+/** Battle-only DamageHP using locked stock; the caller owns the turn transaction. */
+function battle_apply_meeseeks_box(PDO $pdo, string $player, string $opponent, string $actor, string $spawn, int $enemyHp): array {
+    $stmt = $pdo->prepare('SELECT id, quantity FROM owned_items WHERE player_id=? AND item_id=? FOR UPDATE');
+    $stmt->execute([$player, 'ItemMrMeeseek']);
+    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stock = count($items) === 1 ? item_nonnegative_integer($items[0]['quantity']) : null;
+    if ($stock === null || $stock <= 0 || $stock > 2147483647 || $enemyHp <= 0) battle_reject(409);
+    $quantity = $stock - 1;
+    $pdo->prepare('UPDATE owned_items SET quantity=? WHERE id=? AND player_id=?')->execute([$quantity, $items[0]['id'], $player]);
+    return ['action' => [
+        'type' => 'ITEM', 'owned_morty_id' => $actor, 'item_id' => 'ItemMrMeeseek',
+        'success' => true, 'effect_value' => $enemyHp,
+        'attacker_player_id' => $player, 'defender_player_id' => $opponent,
+        'attacker_morty_datas' => [],
+        'defender_morty_datas' => [['owned_morty_id' => $spawn, 'hp' => 0]],
+    ], 'owned_item' => ['item_id' => 'ItemMrMeeseek', 'quantity' => $quantity]];
 }
 
 /** Apply one planned effect using only locked rows; the caller owns the turn transaction. */
