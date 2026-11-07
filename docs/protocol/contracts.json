@@ -32,9 +32,28 @@
         "401": "invalid session",
         "403": "other initiator",
         "404": "missing battle",
-        "409": "inactive battle or missing room"
+        "409": "inactive, expired, ambiguous or inconsistent PvWM battle/current room/user/spawn state"
       },
-      "errors_origin": "replacement server regression contract; original error envelopes unresolved"
+      "errors_origin": "replacement server regression contract; original error envelopes unresolved",
+      "selection_window": {
+        "duration_seconds": 30,
+        "clock": "UTC database time; additive migration 004 nullable battles.move_deadline",
+        "duplicate_ready": "success without extending deadline or republishing event",
+        "accepted_move": "clears deadline atomically; next READY opens next window",
+        "expiry": "ABANDONED cancellation under user/battle locks; expiry on SSE poll, due MOVE/READY or optional research worker",
+        "effects": "CANCELLED without winner; user/spawn WORLD; one private result; no HP/AP/items/rewards mutation",
+        "policy_origin": "explicit replacement-server safety policy; original deadline/grace/penalties unknown",
+        "evidence": [
+          "battle-timeout-contract.md",
+          "battle-timeout-implementation.md",
+          "android-battle-timeouts.md"
+        ]
+      },
+      "android_shared_startup_capture": {
+        "reference": "docs/protocol/android-shared-startup.md",
+        "receipt": "docs/protocol/android-shared-startup-results.json",
+        "scope": "Two diagnostic Android clients, native startup/initial ready only; scripted social setup/internal activation; no human move or native approval success"
+      }
     },
     "/session/battle/move": {
       "method": "POST",
@@ -53,10 +72,15 @@
             "type": "string"
           },
           "owned_morty_id": {
-            "type": "string"
+            "type": "string",
+            "description": "ATTACK/SWITCH: current/outgoing ID. Supported ITEM: selected active or bench target in initial party."
           },
           "move_id": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "ATTACK: attack ID. SWITCH: incoming owned ID. ITEM: item ID. RUN: nullable."
           }
         },
         "required": [
@@ -64,18 +88,139 @@
           "battle_id",
           "type"
         ],
-        "description": "Client constructs all five properties. Required list describes current server validation only."
+        "description": "Client constructs all five properties. Required list describes current server validation only.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "enum": [
+                    "ATTACK",
+                    "SWITCH"
+                  ]
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "owned_morty_id",
+                "move_id"
+              ],
+              "properties": {
+                "owned_morty_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "move_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "ITEM"
+                },
+                "move_id": {
+                  "enum": [
+                    "ItemSerum",
+                    "ItemGreatSerum",
+                    "ItemSensationalSerum",
+                    "ItemPureSerum",
+                    "ItemEasterEgg",
+                    "ItemPumpkin",
+                    "ItemSpicyBBQPizza",
+                    "ItemBreakfastMedley",
+                    "ItemPureHalzinger",
+                    "ItemPurePlutonicRock",
+                    "ItemPoisonCure",
+                    "ItemParalysisCure",
+                    "ItemFullRecover"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "move_id"
+              ]
+            },
+            "then": {
+              "required": [
+                "owned_morty_id"
+              ],
+              "properties": {
+                "owned_morty_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
       },
       "success": {
         "success": true
       },
       "event": "battle:turn-result",
       "limitations": [
-        "combat remains placeholder",
-        "capture is not persisted",
-        "duplicate active turns are not idempotent",
-        "item consumption unresolved"
-      ]
+        "Replacement combat remains placeholder: player damage 20, wild damage 1..3, wild PP 1; formulas/initiative remain unresolved",
+        "Capture and unsupported item effects return 501 ITEM_UNUSABLE with no charge; thirteen established healing/revive/AP/cure items now work in battle",
+        "WIN returns empty xp_datas/rewards; XP, stat growth and reward formulas unresolved",
+        "Repeated active-turn bodies are not idempotent; constructor has no turn identity and cooldown enforcement/reconnect replay remain unresolved",
+        "Android research client RUN and ATTACK/WIN verified with synthetic private starts; live LOSE, natural battle initiation and interrupted-battle reconnect remain unverified (android-battle-lifecycle.md)",
+        "Voluntary switch uses the existing AI counterattack; forced replacement is free. These are explicit replacement policies, not recovered original turn costs (battle-switch-contract.md).",
+        "Supported ITEM uses an action then existing AI1..3 counterattack against current active; original retaliation/cooldowns and timeout penalties remain unrecovered; expired selections now cancel safely through ABANDONED."
+      ],
+      "errors": {
+        "400": "FAILED: malformed input, unsupported move type, or unknown attack",
+        "401": "FAILED: invalid session",
+        "403": "FAILED: foreign battle, Morty, or private spawn",
+        "404": "FAILED: missing battle",
+        "409": "FAILED: inactive battle, ambiguous/missing state, exhausted PP, stale HP, or inconsistent room/start/spawn evidence; ineffective supported item, invalid/insufficient stock/AP or pending replacement",
+        "501": "ITEM_UNUSABLE: capture or unsupported effect; no mutations",
+        "500": "FAILED: unexpected storage/runtime failure; transaction rolled back"
+      },
+      "errors_origin": "Replacement server envelope {success:false,error:{code:...}}; original status/error parity unresolved",
+      "persistence_effects": [
+        "Lock session user then owned ACTIVE battle; verify private battle:start origin and current room/spawn",
+        "ATTACK locks unambiguous owned active Morty and attack, decrements selected PP once, and persists HP matching ordered action dictionaries",
+        "RUN sets CANCELLED; WIN/LOSE set COMPLETED and winner; terminal moves set user WORLD",
+        "WIN removes wild snapshot; RUN/LOSE release it to WORLD; room notifications and one initiator-private battle:turn-result share the transaction",
+        "Commit all state and queued events together; failure rolls back and completed-battle retries cannot mutate or enqueue another terminal result",
+        "RUN permits verified legacy WORLD user/spawn state and does not change owned HP/PP",
+        "SWITCH validates outgoing/current and incoming member of immutable battle:start party; persists active ID/HP and emits SWITCH action with incoming owned ID; no player AP cost",
+        "Fainted active member with another living initial participant produces nonterminal FORCE_SWITCH; pending phase survives ready and rejected selection; LOSE requires party exhaustion",
+        "ITEM targets an initial-party member, applies shared world plan and stock decrement atomically, emits target post-item snapshot then AI active HP snapshot; absolute owned_items includes zero. Revived bench participates in subsequent FORCE_SWITCH/LOSE calculation."
+      ],
+      "evidence": [
+        "battle-completion-contract.md",
+        "battle-switch-contract.md",
+        "battle-switch-implementation.md",
+        "android-battle-switching.md",
+        "battle-item-contract.md",
+        "battle-item-implementation.md",
+        "android-battle-items.md",
+        "full-recover-contract.md",
+        "full-recover-implementation.md",
+        "android-full-recover.md",
+        "shiny-potion-implementation.md"
+      ],
+      "selection_timeout": "Expired armed selection cancels atomically before resource mutations, returns 409, and emits one private ABANDONED result; accepted moves clear deadline.",
+      "full_recover": {
+        "item_id": "ItemFullRecover",
+        "name": "Pure Curum",
+        "eligibility": "living with missing HP or poison or paralysis; fainted/full-HP-unafflicted targets reject even with missing AP",
+        "effect": "HP becomes stored maximum; poison and paralysis false; AP unchanged",
+        "effect_value": 0,
+        "snapshot": "target post-item/pre-AI HP/status; unchanged AP omitted",
+        "policy_boundary": "existing placeholder AI retaliation unchanged; no new original-server formulas claimed"
+      }
     },
     "/session/leave-room": {
       "method": "POST",
@@ -97,14 +242,1244 @@
       },
       "success_origin": "Existing replacement-server envelope retained; original-server acknowledgement parity not established.",
       "event": "room:user-removed",
-      "persistent_effect": "Atomically clear users.room_id and publish one departure in prior room; already outside room acknowledges without event.",
+      "persistent_effect": "Reject unresolved ACTIVE battles under the user lock; otherwise atomically clear users.room_id and publish one departure in prior room. Already outside room acknowledges without event. Consistent legacy terminal evidence can close old ACTIVE markers without reward replay (gameplay-integration.md).",
       "retry_limit": "Concurrent retries before another join publish once. No request identity exists to distinguish a delayed leave after a new join.",
       "errors": {
         "400": "missing session",
         "404": "invalid session (existing behavior)",
+        "409": "unresolved ACTIVE battle; membership and queued events unchanged",
         "500": "failed transaction with rollback"
       },
       "evidence": "room-leave-repair.md; additive database, concurrent HTTP and UDP tests"
+    },
+    "/session/owned_morties/lock": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$LockMorty",
+      "address": "0x17a3444",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "is_locked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id",
+          "is_locked"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-lock-contract.md",
+        "morty-lock-capture.json"
+      ],
+      "limitations": [
+        "Original HTTP error status parity unknown",
+        "Toggle does not implement protection in destructive operations"
+      ]
+    },
+    "/session/use-item": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$UseItem",
+      "address": "0x17a46c8",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_id": {
+            "type": "string"
+          },
+          "item_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id",
+          "item_id"
+        ]
+      },
+      "response": {
+        "owned_morty_id": "string",
+        "item_id": "string",
+        "is_success": "boolean",
+        "effect_value": "integer; HP restored for healing, 100 for full revive/AP, 0 for targeted cures (compatible convention)",
+        "owned_morties": "array of changed Morties, including explicit boolean is_poisoned/is_paralysed",
+        "owned_items": "array of changed items including zero quantity",
+        "attacks_to_learn": "array; empty for currently supported world items"
+      },
+      "evidence": [
+        "use-item-contract.md",
+        "use-item-data.md",
+        "full-restore-items.md",
+        "full-restore-capture.json",
+        "ap-maxima-contract.md",
+        "status-cure-contract.md",
+        "status-cure-implementation.md"
+      ],
+      "limitations": [
+        "Eight world RestoreHP items, Pure Halzinger, Pure Plutonic Rock and targeted poison/paralysis cures; remaining effects pending; these twelve also supported by battle/move",
+        "Migration 003 is required before loading persistent ailment DTOs; ailment application/ticks during combat remain unimplemented",
+        "No request identity: identical effective requests can each consume an item",
+        "Original HTTP validation/consumption parity unknown"
+      ]
+    },
+    "/session/owned_morties/attempt-release-multiple": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$AttemptReleaseMortys",
+      "address": "0x17a3688",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_ids"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "complete array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-release-contract.md",
+        "morty-release-capture.json"
+      ],
+      "limitations": [
+        "No partial-success subset: client removes all requested IDs on confirmation success",
+        "Preview reserves nothing; confirmation independently validates",
+        "Original validation/status rules unknown; stronger protective policies documented"
+      ]
+    },
+    "/session/owned_morties/release-multiple": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$ReleaseMortys",
+      "address": "0x17a38fc",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "owned_morty_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_ids"
+        ]
+      },
+      "response": {
+        "active_deck_id": "integer",
+        "decks": "complete array of {deck_id: integer, owned_morty_ids: string[]}"
+      },
+      "evidence": [
+        "morty-release-contract.md",
+        "morty-release-capture.json"
+      ],
+      "limitations": [
+        "No partial-success subset: client removes all requested IDs on confirmation success",
+        "Preview reserves nothing; confirmation independently validates",
+        "Original validation/status rules unknown; stronger protective policies documented"
+      ]
+    },
+    "/session/recipe/use": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$CraftRecipe",
+      "address": "0x17a4ccc",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "recipe_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "recipe_id"
+        ]
+      },
+      "response": {
+        "owned_items": "absolute final counts for all touched items, including zeroes",
+        "result": "{type:3,item_id:string,quantity:final total,amount:1,amount_received:1}"
+      },
+      "evidence": [
+        "crafting-contract.md",
+        "crafting-data.md",
+        "crafting-implementation.md",
+        "crafting-capture.json"
+      ],
+      "limitations": [
+        "Original HTTP validation/reward rules unknown",
+        "All catalog recipes accepted; no recovered event/unlock gate",
+        "No request idempotency key"
+      ]
+    },
+    "/session/owned_morties/absorb": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$AbsorbMorties",
+      "address": "0x17a55d0",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owned_morty_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "absorb_owned_morty_ids": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "owned_morty_id"
+        ],
+        "description": "Client supplies all three fields; server preserves omitted/null donors as empty list. Duplicate strings are deduplicated in order."
+      },
+      "success": {
+        "removed": "unique consumed owned-instance IDs",
+        "modified": {
+          "owned_morty_id": "recipient ID",
+          "evolution_points": "prior nullable counter plus actual donor count"
+        },
+        "decks": "all actual owner decks with integer deck_id and owned_morty_ids arrays"
+      },
+      "success_origin": "Existing replacement-server partial counter path retained; native parser consumes actual removed and modified/decks. Full created/evolution result not implemented by this repair.",
+      "errors": {
+        "200": "legacy error.code INVALID_REQUEST, NOT_AUTHENTICATED, NOT_FOUND, NO_VALID_MORTYS",
+        "409": "ABSORB_INVALID_MORTY for incompatible/malformed species or variants; FAILED for protected/ambiguous records, malformed points/decks/protection flags or unresolved active battle",
+        "500": "SERVER_ERROR with rollback"
+      },
+      "errors_origin": "Existing legacy envelopes retained; new guard failures are explicit replacement policy. Original-server parity unknown.",
+      "protection": [
+        "Resolved donors must have the exact same nonempty species ID as target and satisfy the directional Normal/Shiny/Pulsing blend matrix; incompatible batches reject atomically",
+        "Legacy NULL variant means Normal as in player-details; unknown stored variants fail closed without normalization",
+        "Ordinary locked recipients may receive points; trade-locked recipients reject",
+        "Locked donors reject; donor trade/pit assignments reject under conservative server protection policy",
+        "Globally ambiguous IDs reject before ownerless attack deletion; writes use numeric row IDs and owner predicates",
+        "Missing/foreign/self donors retain legacy filtering; repeated donors consume/grant once",
+        "User lock serializes Lock and Absorb; all donor/deck/counter changes commit or roll back together"
+      ],
+      "remaining_gaps": [
+        "full species/stat transformation and created response",
+        "threshold-dependent active party checks",
+        "original error/status parity"
+      ],
+      "evidence": [
+        "absorb-protection-contract.md",
+        "absorb-protection-implementation.md",
+        "android-absorb-protection.md",
+        "absorb-eligibility-contract.md",
+        "absorb-eligibility-implementation.md",
+        "android-absorb-eligibility.md"
+      ]
+    },
+    "/session/use-shiny-potion": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$UseShinyPotion",
+      "address": "0x17a423c",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id"
+        ],
+        "additionalProperties": false
+      },
+      "success": {
+        "quantity": "absolute remaining integer stock",
+        "shiny_potion_active": true,
+        "end_usage_time": "persisted UTC ISO8601 timestamp",
+        "shiny_potion_item_id": "ItemShinyPotion"
+      },
+      "persistent_effect": "Lock unambiguous session/player and inventory; consume one and persist UTC now+2h atomically. Active retry does not consume/extend. No background expiry writes.",
+      "startup": "player-details.play_shiny_potion is [{end_usage_time:UTC wall-clock ISO datetime WITHOUT zone suffix}] while active; null otherwise. Native raw Parse(None) otherwise converts to local ticks. Typed activation retains UTC Z.",
+      "errors": {
+        "400": "UNKNOWN malformed input",
+        "401": "UNKNOWN invalid/ambiguous identity",
+        "405": "UNKNOWN unsupported method",
+        "409": "NOT_ENOUGH_SHINY_POTIONS, ALREADY_ACTIVE_SHINY_POTION, or UNKNOWN inconsistent/world/battle state",
+        "500": "UNKNOWN unexpected failure with rollback"
+      },
+      "errors_origin": "Native enum spellings; HTTP choices and world/battle guard are replacement policy, original server parity unknown.",
+      "evidence": [
+        "shiny-potion-contract.md",
+        "shiny-potion-implementation.md",
+        "android-shiny-potion.md",
+        "shiny-potion-datetime.md"
+      ]
+    },
+    "/session/friend/list": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$RefreshData",
+      "address": "0x178f68c",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED",
+        "401": "FAILED invalid or ambiguous session/player",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": {
+        "requests_sent": "array of outgoing other-user public dictionaries",
+        "requests_received": "array of incoming other-user public dictionaries",
+        "friends": "array of accepted other-user public dictionaries",
+        "poll_period": 5,
+        "limit_friends": 30,
+        "donation_request": {
+          "morty_id": null,
+          "next_countdown": 0,
+          "donation": null
+        }
+      },
+      "snapshot": "Single repeatable-read snapshot; no friend-request SSE. Native consumes online through Convert.ToBoolean; legacy strings retained."
+    },
+    "/session/friend/search": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$SearchForUser",
+      "address": "0x178fe50",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id",
+          "query"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED or QUERY_INVALID",
+        "401": "FAILED invalid or ambiguous session/player",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": "Exact-name public player_id/username/player_avatar_id and integer level; legacy empty HTTP200 no-result retained.",
+      "limitation": "Nullable DTO callback established; exact empty-string JsonFx behavior remains unproven."
+    },
+    "/session/friend/request": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$SendRequest",
+      "address": "0x1790070",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED, PLAYER_ID_INVALID or FRIEND_DUPLICATE",
+        "401": "FAILED invalid or ambiguous session/player",
+        "409": "FAILED ambiguous pair or inconsistent stored state",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": "Existing pending row object with A sender/B recipient, wins_a/b, pending:true, direction:false, UTC created/modified.",
+      "persistent_effect": "Stable both-user locks then one pair insert; repeat/crossed request cannot create another pair. Success body ignored by native."
+    },
+    "/session/friend/response": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$RespondToRequest",
+      "address": "0x17902f0",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "approve": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id",
+          "approve"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED, PLAYER_ID_INVALID or APPROVE_INVALID",
+        "401": "FAILED invalid or ambiguous session/player",
+        "409": "FAILED ambiguous pair or inconsistent stored state",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": 1,
+      "persistent_effect": "Only recipient of incoming pending pair may respond; approve accepts, decline deletes. Both-user locks, session recheck, transaction and exact row ID write. Native ignores scalar body."
+    },
+    "/session/friend/remove": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$Remove",
+      "address": "0x1790880",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id"
+        ]
+      },
+      "evidence": [
+        "friend-lifecycle-contract.md",
+        "friend-lifecycle-implementation.md",
+        "android-friend-lifecycle.md"
+      ],
+      "errors_origin": "Native error.code enum names; HTTP statuses are replacement policy, original parity unknown.",
+      "errors": {
+        "400": "FAILED or PLAYER_ID_INVALID",
+        "401": "FAILED invalid or ambiguous session/player",
+        "409": "FAILED ambiguous pair or inconsistent stored state",
+        "500": "FAILED unexpected persistence failure; no internals"
+      },
+      "success": {
+        "success": true,
+        "message": "Friend removed successfully",
+        "removed_friend_id": "other player ID"
+      },
+      "persistent_effect": "Participant-only outgoing cancellation or accepted symmetric removal by exact relation row ID under pair locks.",
+      "missing_status": 404
+    },
+    "/session/battle-invite/create": {
+      "method": "POST",
+      "native_constructor": "NetworkBattleInviteAPI$$SendInviteUser",
+      "address": "0x178b110",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "opponent_player_id": {
+            "type": "string"
+          },
+          "battle_type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "opponent_player_id",
+          "battle_type"
+        ]
+      },
+      "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
+      "implementation_status": "implemented",
+      "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
+      "error_enum": "eSendInviteError",
+      "error_enum_values": {
+        "UNKOWN": 0,
+        "NO_RESPONSE": 1,
+        "INVALID_RESPONSE": 2,
+        "SENT_INVITE_PENDING": 3,
+        "SESSION_ID_INVALID": 4,
+        "SESSION_NOT_FOUND": 5,
+        "OPPONENT_SESSION_INVALID": 6,
+        "OPPONENT_STATE_INVALID": 7,
+        "OPPONENT_PLAYER_ID_INVALID": 8,
+        "WILD_MORTY_ID_INVALID": 9,
+        "BOT_ID_INVALID": 10,
+        "FAILED": 11,
+        "NOT_ENOUGH_ENERGY": 12,
+        "NOT_ENOUGH_COUPONS": 13,
+        "ARENA_NOT_ACTIVE": 14,
+        "ARENA_MAINTENANCE": 15,
+        "NONE": 16
+      },
+      "error_envelope": {
+        "error": {
+          "code": "<exact native enum name>"
+        }
+      },
+      "errors_origin": "Native unsuccessful-HTTP error parser vocabulary; original HTTP statuses and validation triggers unknown.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "client_friend_type": "PvF",
+      "success": {
+        "client_type": "SendInviteResponse",
+        "declared_fields": {
+          "battle_invite_id": "string",
+          "battle_type": "string",
+          "battle_invite_ttl": "float seconds",
+          "token": "string"
+        },
+        "requiredness": "Typed nonnull response required; complete per-field missing/null behavior not established."
+      },
+      "success_origin": "Native typed response parsed on eSendInviteError.NONE=16; does not start battle.",
+      "lifetime": "Server TTL copied into local total/countdown; no fixed TTL recovered; initial zero does not trigger local automatic expiry.",
+      "replacement_errors": {
+        "400": "FAILED for malformed body/type; OPPONENT_PLAYER_ID_INVALID for invalid target/missing accepted friendship",
+        "401": "SESSION_ID_INVALID",
+        "409": "FAILED for sender busy/ambiguous state; OPPONENT_STATE_INVALID for target busy; SENT_INVITE_PENDING for another outgoing target",
+        "500": "FAILED with rollback, no internals",
+        "405": "FAILED on non-POST requests"
+      },
+      "replacement_contract": "friend-battle-invitation-implementation.md",
+      "replacement_lifetime": {
+        "default_seconds": 60,
+        "environment": "PM_FRIEND_INVITE_TTL_SECONDS",
+        "range_seconds": [
+          10,
+          300
+        ],
+        "clock": "UTC database timestamp",
+        "origin": "replacement policy; original server TTL unknown"
+      }
+    },
+    "/session/battle-invite/response": {
+      "method": "POST",
+      "native_constructor": "NetworkBattleInviteAPI$$RespondToReceivedInvite",
+      "address": "0x178b440",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "accept": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "token",
+          "accept"
+        ]
+      },
+      "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
+      "implementation_status": "partial",
+      "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
+      "error_enum": "eRespondToReceivedInviteError",
+      "error_enum_values": {
+        "UNKOWN": 0,
+        "NO_RESPONSE": 1,
+        "INVALID_RESPONSE": 2,
+        "TOKEN_INVALID": 3,
+        "TOKEN_EXPIRED": 4,
+        "TOKEN_NOTVALID": 5,
+        "ACCEPT_INVALID": 6,
+        "FAILED": 7,
+        "NONE": 8
+      },
+      "error_envelope": {
+        "error": {
+          "code": "<exact native enum name>"
+        }
+      },
+      "errors_origin": "Native unsuccessful-HTTP error parser vocabulary; original HTTP statuses and validation triggers unknown.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "success": {
+        "body": "ignored by ParseHTTPError; exact original acknowledgement unknown"
+      },
+      "success_origin": "Native error-only callback; acceptance HTTP body does not start battle.",
+      "replacement_errors": {
+        "400": "malformed native request, unknown token or missing accepted friendship",
+        "401": "SESSION_ID_INVALID on create; FAILED on response/revoke",
+        "403": "TOKEN_NOTVALID for known token used by wrong role/actor",
+        "409": "pending/state/ambiguous identity failures using native enum names",
+        "410": "TOKEN_EXPIRED for expired pending/already EXPIRED records",
+        "500": "FAILED with rollback, no internals",
+        "501": "FAILED on valid pending acceptance; no battle/state transition",
+        "405": "FAILED on non-POST requests"
+      },
+      "replacement_contract": "friend-battle-invitation-implementation.md"
+    },
+    "/session/battle-invite/revoke": {
+      "method": "POST",
+      "native_constructor": "NetworkBattleInviteAPI$$CancelPendingSentInvite",
+      "address": "0x178c548",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "token"
+        ]
+      },
+      "authentication": "Active session_id in body; opaque token echoed for response/revoke. Original token validation/role policy unknown.",
+      "implementation_status": "implemented",
+      "evidence_confidence": "statically established producer and callback; original-server behavior unknown",
+      "error_enum": "eRespondToSentInviteError",
+      "error_enum_values": {
+        "UNKOWN": 0,
+        "NO_RESPONSE": 1,
+        "INVALID_RESPONSE": 2,
+        "TOKEN_INVALID": 3,
+        "TOKEN_EXPIRED": 4,
+        "TOKEN_NOTVALID": 5,
+        "FAILED": 6,
+        "NONE": 7
+      },
+      "error_envelope": {
+        "error": {
+          "code": "<exact native enum name>"
+        }
+      },
+      "errors_origin": "Native unsuccessful-HTTP error parser vocabulary; original HTTP statuses and validation triggers unknown.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "success": {
+        "body": "ignored by ParseHTTPError; exact original acknowledgement unknown"
+      },
+      "success_origin": "Native error-only callback; acceptance HTTP body does not start battle.",
+      "replacement_errors": {
+        "400": "malformed native request, unknown token or missing accepted friendship",
+        "401": "SESSION_ID_INVALID on create; FAILED on response/revoke",
+        "403": "TOKEN_NOTVALID for known token used by wrong role/actor",
+        "409": "pending/state/ambiguous identity failures using native enum names",
+        "410": "TOKEN_EXPIRED for expired pending/already EXPIRED records",
+        "500": "FAILED with rollback, no internals",
+        "405": "FAILED on non-POST requests"
+      },
+      "replacement_contract": "friend-battle-invitation-implementation.md"
+    },
+    "/trading/cancel-trade": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$CancelTrade",
+      "address": "0x1791708",
+      "request": {
+        "type": "object",
+        "properties": {
+          "trade_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "trade_id"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "success": "HTTP success; native ignores body; replacement preserves {error:None}",
+        "error": "Non-success JSON error.code enum: FAILED"
+      },
+      "authentication": "Replacement cookie/Bearer policy; not a body field; original provisioning unknown",
+      "evidence": [
+        "trade-cancellation-contract.md",
+        "trade-cancellation-implementation.md"
+      ],
+      "limitations": [
+        "Original HTTP statuses/refunds unknown",
+        "Native cookie transport verified with explicit offline-SDK fixture; cancellation-button capture pending"
+      ]
+    },
+    "/trading/cancel-trade-offer": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$CancelTradeOffer",
+      "address": "0x17918a0",
+      "request": {
+        "type": "object",
+        "properties": {
+          "trade_offer_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "trade_offer_id"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "success": "HTTP success; native ignores body; replacement preserves {error:None}",
+        "error": "Non-success JSON error.code enum: FAILED or TRADE_NO_SUCH_OFFER"
+      },
+      "authentication": "Replacement cookie/Bearer policy; not a body field; original provisioning unknown",
+      "evidence": [
+        "trade-cancellation-contract.md",
+        "trade-cancellation-implementation.md"
+      ],
+      "limitations": [
+        "Original HTTP statuses/refunds unknown",
+        "Native cookie transport verified with explicit offline-SDK fixture; cancellation-button capture pending"
+      ]
+    },
+    "/trading/offer-response": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$TradeOfferResponse",
+      "address": "0x1791548",
+      "request": {
+        "type": "object",
+        "properties": {
+          "trade_request_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Nonblank logical identifier; replacement server limits UTF-8 byte length to 64"
+          },
+          "trade_offer_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Nonblank logical identifier; replacement server limits UTF-8 byte length to 64"
+          },
+          "request_accepted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "trade_request_id",
+          "trade_offer_id",
+          "request_accepted"
+        ]
+      },
+      "response": {
+        "success": "HTTP success; native ignores body; replacement preserves [null,null]",
+        "error": "Non-success JSON error.code; replacement-emitted codes: FAILED, TRADE_NO_TRADE_EXISTS, TRADE_NO_OFFER_EXISTS. Full recovered enum also defines UNKNOWN and NONE."
+      },
+      "authentication": "Replacement login-issued /trading/ session_id cookie or Bearer; both must agree; body identity never authorizes",
+      "server_policy": "Current unambiguous requester only; exact parent/offer binding; acceptance requires declared ownership; existing both-decision shared battle guard retained; acceptance-only current active-deck exclusion for both exchanged instances under sorted participant locks",
+      "side_effects": {
+        "accept": "Atomic selected ownership swap and one completion; delete parent and all attached offers",
+        "reject": "Delete only selected attached offer; preserve parent and siblings"
+      },
+      "errors": {
+        "400": "Malformed body",
+        "401": "Invalid authentication",
+        "403": "Not request owner",
+        "404": "Missing listing",
+        "405": "Not POST",
+        "409": "Ambiguous/inconsistent or reserved state",
+        "500": "Unexpected failure; rollback"
+      },
+      "evidence": [
+        "native-trade-response-contract.md",
+        "trade-response-implementation.md",
+        "trade-party-transition-contract.md",
+        "trade-party-transitions.md",
+        "native-trade-decisions.md",
+        "native-trade-decision-navigation.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Selected native decisions, transfer and paired inventory refreshes verified; broader transfer/party variants remain separate",
+        "Original statuses/economics and stored lock provenance unresolved; field-specific serializer attribute internals not directly dumped",
+        "Current party exclusion does not introduce living-party thresholds or rewrite inactive saved decks",
+        "Legacy direct ACTIVE-battle reconciliation remains separate"
+      ],
+      "native_decision_observation": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record. Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+      "native_decision_proof": {
+        "selected_native_decisions_and_refreshes_proved": true,
+        "continuous_full_cycle_capture": false,
+        "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
+        "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+        "evidence": "native-trade-decisions.md"
+      },
+      "trade_refresh_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication."
+    },
+    "/trading/request-morty": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$RequestMortyTrade",
+      "address": "0x1790f04",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "owned_morty_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "requested_morty_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "request_variant": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "enum": [
+              "Normal",
+              "Shiny",
+              "Pulsing"
+            ]
+          },
+          "is_free_trade": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id",
+          "owned_morty_id",
+          "requested_morty_id",
+          "request_variant",
+          "is_free_trade"
+        ]
+      },
+      "authentication": "Body session_id resolves an exact unambiguous actor; provided player_id must equal authenticated player (request legacy omission derives actor)",
+      "server_policy": "Lock actor, parent if offer, unique owned instance, active deck and global durable references; shared membership, manual/trade lock or active membership blocks creation",
+      "response": {
+        "success": "Existing {error:None,trade:{trade_id,player_id,morty_trade_id,morty_request,_created,is_free_trade,request_variant},coupons} retained; native optional cooldown remains separate",
+        "error": {
+          "envelope": {
+            "error": {
+              "code": "<enum name>"
+            }
+          },
+          "replacement_emitted_codes": [
+            "FAILED",
+            "TRADE_MORTY_LOCKED",
+            "TRADE_REQUEST_MORTY_DOES_NOT_BELONG_TO_PLAYER"
+          ],
+          "full_native_enum": "Also UNKNOWN and NONE; see native contract"
+        }
+      },
+      "criteria": "No new desired-species catalog restriction; provided variant must be a canonical enum name",
+      "side_effects": "Insert request, retain existing paid cost1 or free expiry time()+3600; no raw-lock/deck changes",
+      "evidence": [
+        "trade-listing-protection-contract.md",
+        "trade-listing-protection.md",
+        "native-trade-creation-contract.md"
+      ],
+      "limitations": [
+        "Creation eligibility is complemented by trade-party-transitions.md; full living-party policy and native capture remain separate",
+        "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
+        "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
+      ],
+      "replacement_legacy_omissions": {
+        "player_id": "authenticated actor",
+        "requested_morty_id": "any",
+        "request_variant": "Normal",
+        "is_free_trade": false
+      }
+    },
+    "/trading/offer-morty": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$SubmitMortyTradeOffer",
+      "address": "0x1791170",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "offered_morty_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "trade_request_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id",
+          "offered_morty_id",
+          "trade_request_id"
+        ]
+      },
+      "authentication": "Body session_id resolves an exact unambiguous actor; provided player_id must equal authenticated player (request legacy omission derives actor)",
+      "server_policy": "Lock actor, parent if offer, unique owned instance, active deck and global durable references; shared membership, manual/trade lock or active membership blocks creation",
+      "response": {
+        "success": "Existing {error:None,offer:{trade_offer_id,trade_id,player_id,morty_offer_id,_created,...optional display metadata}} retained",
+        "error": {
+          "envelope": {
+            "error": {
+              "code": "<enum name>"
+            }
+          },
+          "replacement_emitted_codes": [
+            "FAILED",
+            "TRADE_NO_TRADE_EXISTS",
+            "TRADE_NO_SUCH_MORTY",
+            "TRADE_MORTY_NOT_MATCH_CRITERIA",
+            "TRADE_OFFER_MORTY_DOES_NOT_BELONG_TO_OFFERING_PLAYER"
+          ],
+          "full_native_enum": "Also UNKNOWN and NONE; see native contract"
+        }
+      },
+      "criteria": "Specific requested species and variant equality; any bypasses both",
+      "side_effects": "Insert offer only; preserve metadata and resources",
+      "evidence": [
+        "trade-listing-protection-contract.md",
+        "trade-listing-protection.md",
+        "native-trade-creation-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Creation eligibility is complemented by trade-party-transitions.md; full living-party policy and native capture remain separate",
+        "Legacy direct ACTIVE-battle policy, original economics/cooldown/slot and duplicate-offer/friendship rules unresolved",
+        "Prior successful native create/cancel captures retained; new checks tested synthetically, no new Android accept/reject capture"
+      ],
+      "trade_refresh_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication."
+    },
+    "/session/deck/edit": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$EditDeck",
+      "address": "0x17a2ce8",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "deck_id": {
+            "type": "integer"
+          },
+          "owned_morty_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "session_id",
+          "deck_id",
+          "owned_morty_ids"
+        ]
+      },
+      "authentication": "Existing body session lookup, owner lock and exact current session/player/physical-row recheck",
+      "server_policy": "Validate every target member when a nonempty edit activates the deck; empty edit retains legacy deletion/active-index behavior; reject stored trade lock, global durable reference, ambiguous logical identity or nonownership; ordinary manual locks alone remain allowed",
+      "response": {
+        "success": {
+          "decks": "Array of {deck_id,owned_morty_ids}; existing extra profile fields retained",
+          "null_semantics": "Native SetDecks(null) leaves cache; nonnull array clears/repopulates. Missing active_deck_id defaults0 and is assigned.",
+          "consumed_native_fields": [
+            "active_deck_id",
+            "decks"
+          ]
+        },
+        "new_transition_error": {
+          "status": 409,
+          "body": {
+            "success": false,
+            "error": {
+              "code": "FAILED"
+            }
+          }
+        },
+        "legacy_errors": "Existing unrelated flat failure paths remain; native parser compatibility is still incomplete"
+      },
+      "native_error_enum": [
+        "UNKOWN",
+        "DECK_ID_INVALID",
+        "OWNED_MORTY_IDS_INVALID",
+        "OWNED_MORTY_IDS_LENGTH",
+        "FAILED",
+        "NONE"
+      ],
+      "evidence": [
+        "trade-party-transition-contract.md",
+        "trade-party-transitions.md"
+      ],
+      "limitations": [
+        "No native deck-edit/activation capture in this milestone",
+        "Saved-deck activation blockade is replacement integrity policy, not recovered original validation",
+        "Manual-lock UI gating differs from lower-level save/activation; baseline server allowance preserved",
+        "Older method enforcement/coercion and flat error paths remain separate; no new living-party threshold"
+      ]
+    },
+    "/session/deck/set-active": {
+      "method": "POST",
+      "native_constructor": "NetworkPlayerAPI$$SetActiveDeck",
+      "address": "0x17a3b24",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "deck_id": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "session_id",
+          "deck_id"
+        ]
+      },
+      "authentication": "Existing body session lookup, owner lock and exact current session/player/physical-row recheck",
+      "server_policy": "Validate unique nonempty saved target and every current member before activating; reject stored trade lock, global durable reference, ambiguous logical identity or nonownership; ordinary manual locks alone remain allowed",
+      "response": {
+        "success": {
+          "decks": "Array of {deck_id,owned_morty_ids}; existing extra profile fields retained",
+          "null_semantics": "Native SetDecks(null) leaves cache; nonnull array clears/repopulates. Missing active_deck_id defaults0 and is assigned.",
+          "consumed_native_fields": [
+            "active_deck_id",
+            "decks"
+          ]
+        },
+        "new_transition_error": {
+          "status": 409,
+          "body": {
+            "success": false,
+            "error": {
+              "code": "FAILED"
+            }
+          }
+        },
+        "legacy_errors": "Existing unrelated flat failure paths remain; native parser compatibility is still incomplete"
+      },
+      "native_error_enum": [
+        "UNKOWN",
+        "DECK_ID_INVALID",
+        "FAILED",
+        "NONE"
+      ],
+      "evidence": [
+        "trade-party-transition-contract.md",
+        "trade-party-transitions.md"
+      ],
+      "limitations": [
+        "No native deck-edit/activation capture in this milestone",
+        "Saved-deck activation blockade is replacement integrity policy, not recovered original validation",
+        "Manual-lock UI gating differs from lower-level save/activation; baseline server allowance preserved",
+        "Older method enforcement/coercion and flat error paths remain separate; no new living-party threshold"
+      ]
+    },
+    "/trading/get-trades": {
+      "method": "POST",
+      "native_constructor": "NetworkFriendAPI$$GetTradeData",
+      "address": "0x179136c",
+      "request": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "player_id": {
+            "type": "string",
+            "description": "Native constructor includes it; replacement authenticates session_id and derives caller identity instead."
+          }
+        },
+        "required": [
+          "session_id",
+          "player_id"
+        ]
+      },
+      "server_request_policy": "session_id authenticates; server derives player_id. Native POST observed; replacement route does not enforce HTTP method. Existing optional use_friends defaults true.",
+      "response": {
+        "success": {
+          "type": "object",
+          "properties": {
+            "trade_requests": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "trade_offers": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "trade_mortys": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "trade_attacks": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "competed_trades": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Native Android 2.41.0 completed-list key; equals completed_trades for empty and populated results."
+            },
+            "completed_trades": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Retained legacy alias; equals competed_trades."
+            },
+            "player_cooldown_data": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "trade_requests",
+            "trade_offers",
+            "trade_mortys",
+            "trade_attacks",
+            "competed_trades",
+            "completed_trades",
+            "player_cooldown_data"
+          ],
+          "description": "Replacement projection; nested record schemas remain partial. Both completed-list keys project the same existing array without changing records, ordering, visibility or economics."
+        },
+        "error": "Replacement 401 error.code NOT_AUTHENTICATED; other error compatibility remains partial"
+      },
+      "completed_projection": {
+        "native_wire_key": "competed_trades",
+        "legacy_alias": "completed_trades",
+        "relationship": "Identical existing arrays for empty/populated results",
+        "classification": "Disappeared saved offers: null completed cache means completed; nonnull cache with no matching trade_offer_id means rejected."
+      },
+      "evidence": [
+        "native-trade-offer-contract.md",
+        "native-trade-decisions.md",
+        "native-trade-decision-navigation.md"
+      ],
+      "limitations": [
+        "Nested record schema and broader privacy/retry coverage remain partial",
+        "Selected native empty and one-record completed projection verified; broader transfer/party variants remain separate",
+        "Field-specific JsonFx rename-attribute internals not directly dumped; native before/after proves practical wire key"
+      ],
+      "native_decision_proof": {
+        "selected_native_decisions_and_refreshes_proved": true,
+        "continuous_full_cycle_capture": false,
+        "observations": "Native false/true decisions, exact guarded two-spare ownership swap, one completion, no parent/offers, both actors refreshed inventories matching post-accept DB, active parties/resources preserved and boolean locks false. Final GetTrades native/legacy completed arrays equal with one record.",
+        "capture_limits": "Twelve PCAPs and 33 selected exchanges; intermediate observations and a missing-offer capture gap remain disclosed. No continuous uninterrupted cycle claimed.",
+        "evidence": "native-trade-decisions.md"
+      }
     }
   },
   "sse": {
@@ -174,7 +1549,34 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation"
+      "audience": "requesting player in current PvWM server implementation",
+      "friend_battle": {
+        "wire_type": "PvF",
+        "opponent_model": "MPUserData; type overwritten USER=2",
+        "perspective": "Same battle_id; each recipient sees itself as player and the other user as opponent.",
+        "operational_requirements": [
+          "player.move_log directly indexed",
+          "move_log.cooldown, cooldown_next and count must each be objects",
+          "both supplied active_owned_morty IDs must resolve within their supplied parties for intro animation"
+        ],
+        "empty_move_log": {
+          "cooldown": {},
+          "cooldown_next": {},
+          "count": {}
+        },
+        "meta": "PvF base metadata has no fields and does not parse envelope meta; no arena metadata required.",
+        "readiness": "Each client posts ready after initial send-out animations. No original barrier/timeout policy established.",
+        "acceptance": "battle-invite:accepted does not start battle; no proven accepted-before-start requirement.",
+        "evidence": [
+          "friend-battle-start-contract.md",
+          "friend-battle-invite-contract.md"
+        ]
+      },
+      "android_shared_startup_capture": {
+        "reference": "docs/protocol/android-shared-startup.md",
+        "receipt": "docs/protocol/android-shared-startup-results.json",
+        "scope": "Two diagnostic Android clients, native startup/initial ready only; scripted social setup/internal activation; no human move or native approval success"
+      }
     },
     "battle:move-timer-started": {
       "client_type": "BattleMoveTimeResponse",
@@ -194,7 +1596,8 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation"
+      "audience": "requesting player in current PvWM server implementation",
+      "replacement_retry_policy": "one event per armed selection; repeated READY does not restart countdown"
     },
     "battle:turn-result": {
       "client_type": "BattleTurnResultResponse",
@@ -250,7 +1653,346 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation"
+      "audience": "requesting player in current PvWM server implementation",
+      "reviewed_item_contract": "battle-item-contract.md",
+      "item_action_fields": {
+        "type": "ITEM",
+        "attacker_player_id": "owner player ID",
+        "defender_player_id": "opponent player ID",
+        "owned_morty_id": "selected party target ID",
+        "item_id": "supported item ID",
+        "success": "boolean",
+        "effect_value": "integer, shared item convention",
+        "attacker_morty_datas": "array containing target post-item/pre-AI partial snapshot",
+        "defender_morty_datas": "empty array",
+        "inventory_location": "player_datas.player.owned_items: absolute quantities, including zero"
+      },
+      "reviewed_timeout_contract": "battle-timeout-contract.md",
+      "timeout_result": {
+        "outcome": "ABANDONED",
+        "battle_abandoned": false,
+        "turn_datas": [],
+        "player_datas": {
+          "player": {},
+          "opponent": {}
+        }
+      },
+      "timeout_audience": "initiator only; public room state notifications carry no private battle payload",
+      "reviewed_full_recover_contract": "full-recover-contract.md"
+    },
+    "battle-invite:received": {
+      "client_type": "BattleInviteReceivedResponse",
+      "handler_address": "0x178c888",
+      "managed_fields": [
+        {
+          "name": "battle_invite_id",
+          "managed_type": "string",
+          "wire_name": "battle_invite_id",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 5,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        },
+        {
+          "name": "battle_type",
+          "managed_type": "string",
+          "wire_name": "battle_type",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 6,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        },
+        {
+          "name": "battle_invite_ttl",
+          "managed_type": "float",
+          "wire_name": "battle_invite_ttl",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 7,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        },
+        {
+          "name": "from_player",
+          "managed_type": "Dictionary<String, Object>",
+          "wire_name": "from_player",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 8,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        },
+        {
+          "name": "token",
+          "managed_type": "string",
+          "wire_name": "token",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/BattleInviteReceivedResponse.cs",
+            "line": 9,
+            "sha256": "5f1a655411e48ec0f1106f6049e38e318946a6a995e24bc51b5547a279ae09e4"
+          }
+        }
+      ],
+      "requiredness": "DTO declarations alone do not prove full missing/null behavior; from_player and its player_id must support direct indexing.",
+      "behavior": "Recipient queue append; from_player.player_id directly indexed; no visible deduplication.",
+      "audience": "Useful sender/recipient consumer roles, not proof of original-server routing; implementation must explicitly protect recipient and token.",
+      "ordering": "Create response must establish sent ID before matching decline can clear it. Acceptance event alone does not start battle; no accepted-before-start barrier established.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "replacement_delivery": {
+        "store": "friend_battle_invites; migration006",
+        "scope": "authenticated session player, independent of room",
+        "received": "recipient token and public sender profile only, once per stream; pending reconnect rehydration",
+        "terminal": "recipient revoked; sender declined for terminal/effectively expired; repeat <=1/sec until max(expires_at,updated_at)+5sec",
+        "origin": "Explicit replacement policy, not original server delivery rules."
+      }
+    },
+    "battle-invite:declined": {
+      "client_type": "InviteDeclinedResponse",
+      "handler_address": "0x178cb98",
+      "managed_fields": [
+        {
+          "name": "battle_invite_id",
+          "managed_type": "string",
+          "wire_name": "battle_invite_id",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteDeclinedResponse.cs",
+            "line": 5,
+            "sha256": "d00a4899f410c81d9455214f5ba97641aebc069d4767ba2e4f79efdce7806ffe"
+          }
+        }
+      ],
+      "requiredness": "DTO declarations alone do not prove full missing/null behavior; see the reviewed handler contract.",
+      "behavior": "Matching current sent ID clears pending; unmatched/absent sent invite ignored.",
+      "audience": "Useful sender/recipient consumer roles, not proof of original-server routing; implementation must explicitly protect recipient and token.",
+      "ordering": "Create response must establish sent ID before matching decline can clear it. Acceptance event alone does not start battle; no accepted-before-start barrier established.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "replacement_delivery": {
+        "store": "friend_battle_invites; migration006",
+        "scope": "authenticated session player, independent of room",
+        "received": "recipient token and public sender profile only, once per stream; pending reconnect rehydration",
+        "terminal": "recipient revoked; sender declined for terminal/effectively expired; repeat <=1/sec until max(expires_at,updated_at)+5sec",
+        "origin": "Explicit replacement policy, not original server delivery rules."
+      }
+    },
+    "battle-invite:accepted": {
+      "client_type": "InviteAcceptedResponse",
+      "handler_address": "0x178cc6c",
+      "managed_fields": [
+        {
+          "name": "battle_invite_id",
+          "managed_type": "string",
+          "wire_name": "battle_invite_id",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteAcceptedResponse.cs",
+            "line": 5,
+            "sha256": "f07cb74d96c1ca52b69d2a87d13a65a247cb8aa1c16038db5ebd5ef245989615"
+          }
+        },
+        {
+          "name": "battle_type",
+          "managed_type": "string",
+          "wire_name": "battle_type",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteAcceptedResponse.cs",
+            "line": 6,
+            "sha256": "f07cb74d96c1ca52b69d2a87d13a65a247cb8aa1c16038db5ebd5ef245989615"
+          }
+        },
+        {
+          "name": "opponent",
+          "managed_type": "Dictionary<String, Object>",
+          "wire_name": "opponent",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteAcceptedResponse.cs",
+            "line": 7,
+            "sha256": "f07cb74d96c1ca52b69d2a87d13a65a247cb8aa1c16038db5ebd5ef245989615"
+          }
+        }
+      ],
+      "requiredness": "DTO declarations alone do not prove full missing/null behavior; see the reviewed handler contract.",
+      "behavior": "Constructs temporary invite; no pending clear, callback or battle start in bounded body.",
+      "audience": "Useful sender/recipient consumer roles, not proof of original-server routing; implementation must explicitly protect recipient and token.",
+      "ordering": "Create response must establish sent ID before matching decline can clear it. Acceptance event alone does not start battle; no accepted-before-start barrier established.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ]
+    },
+    "battle-invite:revoked": {
+      "client_type": "InviteRevokedResponse",
+      "handler_address": "0x178cd68",
+      "managed_fields": [
+        {
+          "name": "battle_invite_id",
+          "managed_type": "string",
+          "wire_name": "battle_invite_id",
+          "required": "unknown",
+          "nullable": "unknown",
+          "evidence": {
+            "file": ".research/cpp2il/DiffableCs/Assembly-CSharp/InviteRevokedResponse.cs",
+            "line": 5,
+            "sha256": "c13a8691dc98ac8b2d79f998f0989af516dcee9a4aa7548b7d4dc8a36045d079"
+          }
+        }
+      ],
+      "requiredness": "DTO declarations alone do not prove full missing/null behavior; see the reviewed handler contract.",
+      "behavior": "Removes first incoming ID match; unmatched ignored.",
+      "audience": "Useful sender/recipient consumer roles, not proof of original-server routing; implementation must explicitly protect recipient and token.",
+      "ordering": "Create response must establish sent ID before matching decline can clear it. Acceptance event alone does not start battle; no accepted-before-start barrier established.",
+      "evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md",
+        "friend-battle-server-gaps.md",
+        "android-friend-battle-probe.md"
+      ],
+      "replacement_delivery": {
+        "store": "friend_battle_invites; migration006",
+        "scope": "authenticated session player, independent of room",
+        "received": "recipient token and public sender profile only, once per stream; pending reconnect rehydration",
+        "terminal": "recipient revoked; sender declined for terminal/effectively expired; repeat <=1/sec until max(expires_at,updated_at)+5sec",
+        "origin": "Explicit replacement policy, not original server delivery rules."
+      }
+    },
+    "session:end": {
+      "client_type": "NetworkSessionAPI.ESEndedHandler",
+      "handler_address": "0x17b6b48",
+      "managed_fields": [],
+      "implementation_status": "partial",
+      "evidence_confidence": "observed",
+      "reviewed_protocol": {
+        "reference": "docs/protocol/shared-battle-stream-contract.md",
+        "payload": {},
+        "payload_fields": "none consumed; nonempty data required by transport wrapper",
+        "server_sequence": [
+          "session:end with data:{}",
+          "flush",
+          "clean EOF"
+        ],
+        "client_control_flow": "SERVER_ENDED -> disconnect -> server-message/sign-in -> fresh connect -> world after successful room join",
+        "runtime_coverage": "Observed on two dedicated Android 2.41.0 ARM32 diagnostic clients: end/EOF, automatic login, fresh SSE and successful room join; see docs/protocol/android-shared-startup-results.json",
+        "scope": "research gate only; not a human terminal result or transparent battle resume",
+        "android_capture": "docs/protocol/android-shared-startup.md"
+      }
+    },
+    "trade:request-submit": {
+      "native_handler": "NetworkFriendAPI$$TradRequestSummitedHandler",
+      "handler_address": "0x17921cc",
+      "evidence_confidence": "statically established",
+      "client_consumed_payload_fields": [],
+      "client_action": "Reload GetTradeData(local player ID) and GetDetails(0x78); does not await either response.",
+      "replacement_payload": {
+        "type": "object",
+        "maxProperties": 0
+      },
+      "replacement_delivery": "Committed per-account revision; latest invalidation coalesced and replayed per fresh ready stream. Initial replay waits for a changed room-membership generation with nonempty room; ready streams continue outside rooms. No new SSE id or client acknowledgement.",
+      "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+      "evidence": [
+        "trade-refresh-event-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Original audiences, payloads and delivery guarantees unknown",
+        "No self-cancellation cached-lock repair",
+        "Synthetic/backend evidence must not be counted as original-service traffic"
+      ]
+    },
+    "trade:offer-submit": {
+      "native_handler": "NetworkFriendAPI$$TradeOfferdSummitHandler",
+      "handler_address": "0x1792280",
+      "evidence_confidence": "statically established",
+      "client_consumed_payload_fields": [],
+      "client_action": "Reload GetTradeData(local player ID) and GetDetails(0x78); does not await either response.",
+      "replacement_payload": {
+        "type": "object",
+        "maxProperties": 0
+      },
+      "replacement_delivery": "Committed per-account revision; latest invalidation coalesced and replayed per fresh ready stream. Initial replay waits for a changed room-membership generation with nonempty room; ready streams continue outside rooms. No new SSE id or client acknowledgement.",
+      "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+      "evidence": [
+        "trade-refresh-event-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Original audiences, payloads and delivery guarantees unknown",
+        "No self-cancellation cached-lock repair",
+        "Synthetic/backend evidence must not be counted as original-service traffic"
+      ]
+    },
+    "trade:offer-accepted": {
+      "native_handler": "NetworkFriendAPI$$TradOfferAcceptdHandler",
+      "handler_address": "0x1792334",
+      "evidence_confidence": "statically established",
+      "client_consumed_payload_fields": [],
+      "client_action": "Reload GetTradeData(local player ID) and GetDetails(0x78); does not await either response.",
+      "replacement_payload": {
+        "type": "object",
+        "maxProperties": 0
+      },
+      "replacement_delivery": "Committed per-account revision; latest invalidation coalesced and replayed per fresh ready stream. Initial replay waits for a changed room-membership generation with nonempty room; ready streams continue outside rooms. No new SSE id or client acknowledgement.",
+      "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+      "evidence": [
+        "trade-refresh-event-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Original audiences, payloads and delivery guarantees unknown",
+        "No self-cancellation cached-lock repair",
+        "Synthetic/backend evidence must not be counted as original-service traffic"
+      ]
+    },
+    "trade:offer-rejected": {
+      "native_handler": "NetworkFriendAPI$$TradOfferRejectHandler",
+      "handler_address": "0x17923e8",
+      "evidence_confidence": "statically established",
+      "client_consumed_payload_fields": [],
+      "client_action": "Reload GetTradeData(local player ID) and GetDetails(0x78); does not await either response.",
+      "replacement_payload": {
+        "type": "object",
+        "maxProperties": 0
+      },
+      "replacement_delivery": "Committed per-account revision; latest invalidation coalesced and replayed per fresh ready stream. Initial replay waits for a changed room-membership generation with nonempty room; ready streams continue outside rooms. No new SSE id or client acknowledgement.",
+      "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+      "evidence": [
+        "trade-refresh-event-contract.md",
+        "trade-refresh-implementation.md"
+      ],
+      "limitations": [
+        "Original audiences, payloads and delivery guarantees unknown",
+        "No self-cancellation cached-lock repair",
+        "Synthetic/backend evidence must not be counted as original-service traffic"
+      ]
     }
   },
   "transport": {
