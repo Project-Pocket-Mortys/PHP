@@ -1,5 +1,16 @@
 # Pocket Mortys protocol research handoff
 
+[Counterpart cancellation refresh](trade-cancellation-notifications.md) now
+publishes committed own-offer withdrawals to the parent owner and parent
+cancellations to removed offerers. Fifteen additive backend cases and 50 adjacent
+regressions pass. The [three-capture native proof](trade-cancellation-refresh-results.json)
+verifies both cancellation paths and counterpart trade/details refreshes on the
+Android 2.41.0 pair in one world. The peer deliberately cold logs in between two
+capture/session phases; no uninterrupted peer session is claimed. The
+[fresh callback/save audit](trade-cancellation-refresh-contract.md) leaves
+immediate cancelling-actor unlock open because no ordering-safe PHP
+acknowledgement was found in the inspected paths.
+
 [Counterpart trade refresh delivery](trade-refresh-implementation.md) now publishes
 committed offer/decision invalidations using the [native handlers](trade-refresh-event-contract.md).
 It adds startup gating, account-global coalescing and reconnect replay. Immediate

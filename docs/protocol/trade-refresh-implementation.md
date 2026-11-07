@@ -14,12 +14,19 @@ paths and gameplay economics are unchanged.
 | Rejection | Removed offer owner | `trade:offer-rejected` |
 | Acceptance | Accepted offer owner | `trade:offer-accepted` |
 | Acceptance removes sibling offers | Removed sibling owners | `trade:offer-rejected` |
+| Own offer withdrawal | Current parent owner, if any | `trade:offer-submit` |
+| Parent cancellation | Removed offer owners | `trade:offer-rejected` |
 
 The actor is excluded. Each account receives one revision per mutation; acceptance
 wins if the selected offerer also owns removed siblings. The native requester
 callback already refreshes itself. Recipient selection is replacement policy,
-not recovered original-service audiences. No cancellation or friend broadcast
-was added.
+not recovered original-service audiences. The
+[cancellation follow-up](trade-cancellation-notifications.md) adds counterpart
+withdrawal invalidations. Its [three-capture native proof](trade-cancellation-refresh-results.json)
+verifies both cancellation paths and counterpart trade/details refreshes on the
+Android 2.41.0 pair in one world. The peer cold login separates two capture/session
+phases; immediate actor cached unlock remains open. No friend broadcast
+is added.
 
 `lib/trade_refresh.php` publishes at the end of the existing mutation transaction.
 A publisher failure rolls back gameplay and every notification. Failed requests
@@ -152,6 +159,9 @@ iOS were not exercised.
 Immediate self-cancellation unlock remains open: its callback removes saved offer
 history without refreshing details. A self notification can race that removal and
 incorrectly announce rejection. No arbitrary delay or invented event was added.
-Request-creation fanout, cancellation publication, broader serializers, legacy
+The [fresh cancellation callback/save audit](trade-cancellation-refresh-contract.md)
+finds no ordering-safe PHP actor acknowledgement in the inspected paths.
+Counterpart cancellation publication now has the backend follow-up above.
+Request-creation fanout, broader serializers, legacy
 stored locks, iOS and original delivery/economic policy remain separate. Root
 README attribution and playable baseline claims are preserved.

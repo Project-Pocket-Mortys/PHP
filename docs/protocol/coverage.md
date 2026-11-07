@@ -1,5 +1,14 @@
 # Protocol coverage
 
+[Cancellation invalidations](trade-cancellation-notifications.md) now target
+counterparts only, atomically with listing removal. All 15 new backend cases,
+50 adjacent cases and nine pure observer cases pass. Native cancellation
+consumption is now [verified on the Android 2.41.0 pair](trade-cancellation-refresh-results.json)
+for both cancellation paths and counterpart trade/details refreshes. Three
+captures retain the deliberate peer cold-login/session boundary. The [bounded actor callback/save
+audit](trade-cancellation-refresh-contract.md) preserves the immediate
+self-cancellation refresh gap.
+
 [Trade refresh delivery](trade-refresh-implementation.md) now notifies counterparts
 after committed new offers and decisions. Bounded REA establishes the handlers;
 synthetic HTTP/DB/SSE tests cover privacy, rollback, startup and reconnect.
@@ -187,5 +196,7 @@ remains separate, and README-completed feature status is retained.
 Owner-scoped trade and offer cancellation now preserve native one-ID bodies and
 use current cookie/Bearer sessions; see [contracts and limits](trade-cancellation-implementation.md).
 Native outgoing-cookie transmission is verified by the linked recovery receipt;
-cancellation UI acceptance remains unverified. Exact owner withdrawal of orphan
+native Android 2.41.0 cancellation and counterpart refresh are now observed.
+Immediate own-offer cached unlock, iOS and stock online startup remain separate.
+Exact owner withdrawal of orphan
 offers is supported, with no transfer, refund or raw-lock rewrite.

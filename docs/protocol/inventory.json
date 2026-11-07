@@ -5003,7 +5003,7 @@
         "android_capture": "docs/protocol/android-shared-startup.md"
       },
       "trade_refresh_delivery": {
-        "policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+        "policy": "Replacement recipient policy: offer creation and own-offer withdrawal notify the current request owner with trade:offer-submit; rejection and parent cancellation notify removed offer owners with trade:offer-rejected; acceptance notifies winner and removed sibling owners, winner preferred. Exact actor excluded. Orphan/no-child cancellation and undeliverable owners produce no notification. No request-creation publication.",
         "contract": "trade-refresh-event-contract.md",
         "implementation": "trade-refresh-implementation.md",
         "scope": "Account-global committed invalidation; startup gate; original delivery semantics not claimed",
@@ -5143,8 +5143,8 @@
         "sha256": "0eb9f43899b31c6572edbc3bfbafd30e4bd985cf9fab0798bae4d686b7a2f850"
       },
       "implementation_status": "partial",
-      "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native UI acceptance and full trade system remain separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation.",
-      "evidence_confidence": "Native constructor/error callback established; additive HTTP/database tests; native login cookie receipt/transmission observed with explicit offline SDK fixture. Cancellation UI and persistent lock lifecycle remain separate.",
+      "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native Android 2.41.0 cancellation is observed; full trade system remains separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation. Counterpart cancellation invalidations are atomically published with deletion; actor excluded. Native counterpart notification consumption is verified in the linked three-capture proof; the peer cold login separates two sessions.",
+      "evidence_confidence": "Native constructor/error callback established; additive HTTP/database tests; native Android 2.41.0 cookie transport, own-offer/parent cancellation and counterpart refresh observed with explicit offline-SDK fixtures. Immediate own-offer cached unlock and legacy lock provenance remain open.",
       "http_method": "POST",
       "input_field_candidates": [
         "trade_id"
@@ -5158,13 +5158,16 @@
       "table_candidates": [
         "trade_offers",
         "trades",
-        "users"
+        "users",
+        "trade_refresh_notifications"
       ],
-      "events_published": [],
+      "events_published": [
+        "trade:offer-rejected"
+      ],
       "authentication": "Current users.session_id via scoped login session cookie or Bearer; both must agree; actor owns exact listing",
       "unresolved": [
         "Original authentication provisioning and HTTP status parity",
-        "Native cancellation-button runtime acceptance; cookie transport now observed in onetrust-recovery-cookie-handoff.json",
+        "Native cancellation and counterpart refresh observed in trade-cancellation-refresh-results.json; immediate own-offer cached unlock, stock online startup and iOS remain separate",
         "Original refund/cooldown policy",
         "Persistent trading-lock lifecycle and remaining active-reference reconciliation"
       ],
@@ -5172,11 +5175,28 @@
       "implementation_helpers": [
         {
           "file": "lib/trade_cancellation.php",
-          "sha256": "5f3509438f86619f10f03dec377b27c469e60770a28d49a88b65d34d9f653465"
+          "sha256": "ccd5bd604f189c3f458080bb29dce08ab14722968d150aae25a2dd869047e21b"
         }
       ],
       "native_request_cancellation_observation": "docs/protocol/native-trade-cancellation-results.json",
-      "native_request_cancellation_limit": "Observed disposable own-request/free creation and cancellation, Boolean lock true/false refresh, and post-fix stored cooldown projection; offers, transfer and original-service policy remain separate."
+      "native_request_cancellation_limit": "Observed disposable own-request/free creation and cancellation, Boolean lock true/false refresh, and post-fix stored cooldown projection; offers, transfer and original-service policy remain separate.",
+      "cancellation_refresh_validation": {
+        "document": "trade-cancellation-notifications.md",
+        "native_contract": "trade-cancellation-refresh-contract.md",
+        "results": "trade-cancellation-refresh-results.json",
+        "native_validation": "observed Android 2.41.0 replacement-server pair",
+        "backend_tests": 15,
+        "adjacent_backend_tests": 50,
+        "pure_tests": 36,
+        "total_targeted_tests": 101,
+        "capture_count": 3,
+        "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+        "limits": [
+          "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+          "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+          "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
+        ]
+      }
     },
     {
       "path": "/trading/cancel-trade-offer",
@@ -5202,14 +5222,14 @@
         }
       ],
       "implementation_status": "partial",
-      "evidence_confidence": "Native constructor/error callback established; additive HTTP/database tests; native login cookie receipt/transmission observed with explicit offline SDK fixture. Cancellation UI and persistent lock lifecycle remain separate.",
+      "evidence_confidence": "Native constructor/error callback established; additive HTTP/database tests; native Android 2.41.0 cookie transport, own-offer/parent cancellation and counterpart refresh observed with explicit offline-SDK fixtures. Immediate own-offer cached unlock and legacy lock provenance remain open.",
       "unresolved": [
         "Original authentication provisioning and HTTP status parity",
-        "Native cancellation-button runtime acceptance; cookie transport now observed in onetrust-recovery-cookie-handoff.json",
+        "Native cancellation and counterpart refresh observed in trade-cancellation-refresh-results.json; immediate own-offer cached unlock, stock online startup and iOS remain separate",
         "Original refund/cooldown policy",
         "Persistent trading-lock lifecycle and remaining active-reference reconciliation"
       ],
-      "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native UI acceptance and full trade system remain separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation. Authenticated exact-owner orphan-offer withdrawal now works even when parent is absent; no transfer or raw flag changes.",
+      "status_basis": "Owner-scoped atomic listing cancellation; single-ID native body preserved; current cookie/Bearer session mandatory. Login cookie handoff is replacement policy. No ownership/resource/refund writes; native Android 2.41.0 cancellation is observed; full trade system remains separate. Persistent trade-lock reconciliation remains separate from this listing-only cancellation. Authenticated exact-owner orphan-offer withdrawal now works even when parent is absent; no transfer or raw flag changes. Counterpart cancellation invalidations are atomically published with deletion; actor excluded. Native counterpart notification consumption is verified in the linked three-capture proof; the peer cold login separates two sessions.",
       "server_evidence": {
         "file": "trading/cancel-trade-offer/index.php",
         "line": 1,
@@ -5221,12 +5241,35 @@
       "implementation_helpers": [
         {
           "file": "lib/trade_cancellation.php",
-          "sha256": "5f3509438f86619f10f03dec377b27c469e60770a28d49a88b65d34d9f653465"
+          "sha256": "ccd5bd604f189c3f458080bb29dce08ab14722968d150aae25a2dd869047e21b"
         }
       ],
       "orphan_withdrawal_contract": "docs/protocol/trade-reference-implementation.md",
       "native_offer_observation": "docs/protocol/native-trade-offer-results.json",
-      "native_offer_limit": "Observed native offer create/reload/cancel with disposable accepted friends; immediate post-cancel owned refresh, acceptance and transfer remain separate."
+      "native_offer_limit": "Observed native offer create/reload/cancel with disposable accepted friends; immediate post-cancel owned refresh, acceptance and transfer remain separate.",
+      "events_published": [
+        "trade:offer-submit"
+      ],
+      "cancellation_refresh_validation": {
+        "document": "trade-cancellation-notifications.md",
+        "native_contract": "trade-cancellation-refresh-contract.md",
+        "results": "trade-cancellation-refresh-results.json",
+        "native_validation": "observed Android 2.41.0 replacement-server pair",
+        "backend_tests": 15,
+        "adjacent_backend_tests": 50,
+        "pure_tests": 36,
+        "total_targeted_tests": 101,
+        "capture_count": 3,
+        "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+        "limits": [
+          "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+          "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+          "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
+        ]
+      },
+      "table_candidates": [
+        "trade_refresh_notifications"
+      ]
     },
     {
       "path": "/trading/config",
@@ -5519,7 +5562,7 @@
       "reviewed_contract": "docs/protocol/trade-listing-protection-contract.md",
       "listing_protection": "docs/protocol/trade-listing-protection.md",
       "trade_refresh_delivery": {
-        "policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+        "policy": "Replacement recipient policy: offer creation and own-offer withdrawal notify the current request owner with trade:offer-submit; rejection and parent cancellation notify removed offer owners with trade:offer-rejected; acceptance notifies winner and removed sibling owners, winner preferred. Exact actor excluded. Orphan/no-child cancellation and undeliverable owners produce no notification. No request-creation publication.",
         "contract": "trade-refresh-event-contract.md",
         "implementation": "trade-refresh-implementation.md",
         "scope": "Account-global committed invalidation; startup gate; original delivery semantics not claimed",
@@ -5613,7 +5656,7 @@
         },
         {
           "file": "lib/trade_cancellation.php",
-          "sha256": "5f3509438f86619f10f03dec377b27c469e60770a28d49a88b65d34d9f653465"
+          "sha256": "ccd5bd604f189c3f458080bb29dce08ab14722968d150aae25a2dd869047e21b"
         },
         {
           "file": "lib/trade_membership_guard.php",
@@ -5641,7 +5684,7 @@
         "evidence": "native-trade-decisions.md"
       },
       "trade_refresh_delivery": {
-        "policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+        "policy": "Replacement recipient policy: offer creation and own-offer withdrawal notify the current request owner with trade:offer-submit; rejection and parent cancellation notify removed offer owners with trade:offer-rejected; acceptance notifies winner and removed sibling owners, winner preferred. Exact actor excluded. Orphan/no-child cancellation and undeliverable owners produce no notification. No request-creation publication.",
         "contract": "trade-refresh-event-contract.md",
         "implementation": "trade-refresh-implementation.md",
         "scope": "Account-global committed invalidation; startup gate; original delivery semantics not claimed",
@@ -6777,7 +6820,25 @@
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "delivery_semantics": "unknown until handler trace and runtime capture",
+      "replacement_cancellation_policy": "Distinct removed offer owners after parent cancellation",
+      "cancellation_refresh_validation": {
+        "document": "trade-cancellation-notifications.md",
+        "native_contract": "trade-cancellation-refresh-contract.md",
+        "results": "trade-cancellation-refresh-results.json",
+        "native_validation": "observed Android 2.41.0 replacement-server pair",
+        "backend_tests": 15,
+        "adjacent_backend_tests": 50,
+        "pure_tests": 36,
+        "total_targeted_tests": 101,
+        "capture_count": 3,
+        "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+        "limits": [
+          "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+          "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+          "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
+        ]
+      }
     },
     {
       "name": "trade:offer-submit",
@@ -6790,7 +6851,25 @@
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture"
+      "delivery_semantics": "unknown until handler trace and runtime capture",
+      "replacement_cancellation_policy": "Current parent owner after own-offer withdrawal",
+      "cancellation_refresh_validation": {
+        "document": "trade-cancellation-notifications.md",
+        "native_contract": "trade-cancellation-refresh-contract.md",
+        "results": "trade-cancellation-refresh-results.json",
+        "native_validation": "observed Android 2.41.0 replacement-server pair",
+        "backend_tests": 15,
+        "adjacent_backend_tests": 50,
+        "pure_tests": 36,
+        "total_targeted_tests": 101,
+        "capture_count": 3,
+        "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+        "limits": [
+          "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+          "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+          "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
+        ]
+      }
     },
     {
       "name": "trade:request-submit",

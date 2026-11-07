@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/trade_refresh.php';
 
 final class TradeCancellationError extends RuntimeException {
     public function __construct(public int $status, string $code = 'FAILED') {
@@ -57,6 +58,7 @@ function trade_cancellation_apply(PDO $pdo, string $session, string $id, bool $o
         if (!$trades && !$offer) throw new TradeCancellationError(404);
         if ($trades && (count($trades) !== 1 || $trades[0]['trade_id'] !== $tradeId)) throw new TradeCancellationError(409);
         $trade = $trades[0] ?? null;
+        $recipients = [];
         if ($offer) {
             $current = trade_cancellation_rows($pdo, 'SELECT * FROM trade_offers WHERE trade_offer_id=? ORDER BY id FOR UPDATE', [$id]);
             if (!$current) throw new TradeCancellationError(404, 'TRADE_NO_SUCH_OFFER');
@@ -65,14 +67,32 @@ function trade_cancellation_apply(PDO $pdo, string $session, string $id, bool $o
             $query = $pdo->prepare('DELETE FROM trade_offers WHERE id=? AND trade_offer_id=? AND trade_id=? AND player_id=?');
             $query->execute([$current[0]['id'], $id, $tradeId, $user['player_id']]);
             if ($query->rowCount() !== 1) throw new TradeCancellationError(409);
+            if ($trade !== null) $recipients[] = $trade['player_id'];
         } else {
             if ($trade['player_id'] !== $user['player_id']) throw new TradeCancellationError(403);
-            trade_cancellation_rows($pdo, 'SELECT id FROM trade_offers WHERE trade_id=? ORDER BY id FOR UPDATE', [$id]);
-            $pdo->prepare('DELETE FROM trade_offers WHERE trade_id=?')->execute([$id]);
+            $children = trade_cancellation_rows($pdo, 'SELECT * FROM trade_offers WHERE trade_id=? ORDER BY id FOR UPDATE', [$id]);
+            foreach ($children as $child) {
+                if ($child['trade_id'] !== $id) throw new TradeCancellationError(409);
+            }
+            $remove = $pdo->prepare('DELETE FROM trade_offers WHERE id=? AND trade_id=?');
+            foreach ($children as $child) {
+                $remove->execute([$child['id'], $id]);
+                if ($remove->rowCount() !== 1) throw new TradeCancellationError(409);
+                $recipients[] = $child['player_id'];
+            }
             $query = $pdo->prepare('DELETE FROM trades WHERE id=? AND trade_id=? AND player_id=?');
             $query->execute([$trade['id'], $id, $user['player_id']]);
             if ($query->rowCount() !== 1) throw new TradeCancellationError(409);
         }
+        // Notify counterparts after the authoritative removal, atomically.
+        // Never echo to the actor: its local saved-offer cleanup can race SSE.
+        // Malformed legacy owners have no deliverable identity; withdrawal
+        // still succeeds rather than retaining an otherwise removable row.
+        $recipients = array_values(array_filter($recipients, static fn($recipient) =>
+            is_string($recipient) && trim($recipient) !== '' && strlen($recipient) <= 255
+            && $recipient !== $user['player_id']));
+        if ($recipients) trade_refresh_publish($pdo, $recipients,
+            $offer ? 'trade:offer-submit' : 'trade:offer-rejected');
         $pdo->commit();
     } catch (Throwable $error) {
         if ($pdo->inTransaction()) $pdo->rollBack();

@@ -52,7 +52,7 @@ class TradeReferenceTests(unittest.TestCase):
         self.execute([
             f"DELETE FROM owned_attacks WHERE owned_morty_id IN ('{self.morties}')",
             *[f"DELETE FROM {table} WHERE player_id IN ('{self.players}')" for table in
-              ('event_queue', 'battles', 'trade_offers', 'trades', 'decks', 'owned_items', 'owned_morties', 'users')],
+              ('trade_refresh_notifications', 'event_queue', 'battles', 'trade_offers', 'trades', 'decks', 'owned_items', 'owned_morties', 'users')],
         ])
 
     def snapshot(self):

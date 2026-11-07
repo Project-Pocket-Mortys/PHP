@@ -50,7 +50,7 @@ class TradeCancellationTests(unittest.TestCase):
             f"DELETE FROM trade_offers WHERE trade_id IN ('{self.trade}','{self.other_trade}')",
             f"DELETE FROM trades WHERE trade_id IN ('{self.trade}','{self.other_trade}')",
             f"DELETE FROM owned_attacks WHERE owned_morty_id IN ('{self.ids}')",
-            *[f"DELETE FROM {table} WHERE player_id IN ('{self.ids}')" for table in ('owned_items', 'owned_morties', 'decks', 'users')],
+            *[f"DELETE FROM {table} WHERE player_id IN ('{self.ids}')" for table in ('trade_refresh_notifications', 'owned_items', 'owned_morties', 'decks', 'users')],
         ])
 
     def snapshot(self):

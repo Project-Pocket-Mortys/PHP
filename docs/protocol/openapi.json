@@ -908,14 +908,50 @@
       "x-method-unresolved": true
     },
     "/trading/cancel-trade": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
+      "description": "Owner-scoped native single-ID cancellation. Android 2.41.0 cancellation and counterpart refresh observed; see trade-cancellation-notifications.md. Immediate own-offer cached unlock remains open; original-service behavior and broader platform coverage are unresolved.",
       "x-implementation-status": "partial",
-      "x-method-unresolved": true
+      "x-method-unresolved": true,
+      "x-cancellation-refresh-contract": "trade-cancellation-notifications.md",
+      "x-cancellation-refresh-validation": {
+        "document": "trade-cancellation-notifications.md",
+        "native_contract": "trade-cancellation-refresh-contract.md",
+        "results": "trade-cancellation-refresh-results.json",
+        "native_validation": "observed Android 2.41.0 replacement-server pair",
+        "backend_tests": 15,
+        "adjacent_backend_tests": 50,
+        "pure_tests": 36,
+        "total_targeted_tests": 101,
+        "capture_count": 3,
+        "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+        "limits": [
+          "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+          "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+          "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
+        ]
+      }
     },
     "/trading/cancel-trade-offer": {
-      "description": "Unverified contract. See inventory.json for source evidence.",
-      "x-implementation-status": "absent",
-      "x-method-unresolved": true
+      "description": "Owner-scoped native single-ID cancellation. Android 2.41.0 cancellation and counterpart refresh observed; see trade-cancellation-notifications.md. Immediate own-offer cached unlock remains open; original-service behavior and broader platform coverage are unresolved.",
+      "x-implementation-status": "partial",
+      "x-method-unresolved": true,
+      "x-cancellation-refresh-contract": "trade-cancellation-notifications.md",
+      "x-cancellation-refresh-validation": {
+        "document": "trade-cancellation-notifications.md",
+        "native_contract": "trade-cancellation-refresh-contract.md",
+        "results": "trade-cancellation-refresh-results.json",
+        "native_validation": "observed Android 2.41.0 replacement-server pair",
+        "backend_tests": 15,
+        "adjacent_backend_tests": 50,
+        "pure_tests": 36,
+        "total_targeted_tests": 101,
+        "capture_count": 3,
+        "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+        "limits": [
+          "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+          "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+          "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
+        ]
+      }
     },
     "/trading/config": {
       "description": "Unverified contract. See inventory.json for source evidence.",
@@ -1572,7 +1608,7 @@
     ],
     "payload": {},
     "client_consumed_fields": [],
-    "recipient_policy": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
+    "recipient_policy": "Replacement recipient policy: offer creation and own-offer withdrawal notify the current request owner with trade:offer-submit; rejection and parent cancellation notify removed offer owners with trade:offer-rejected; acceptance notifies winner and removed sibling owners, winner preferred. Exact actor excluded. Orphan/no-child cancellation and undeliverable owners produce no notification. No request-creation publication.",
     "startup_gate": "Fresh membership generation and nonempty room before first delivery; ready retained afterward",
     "evidence": "trade-refresh-event-contract.md",
     "native_live_validation": {
@@ -1583,6 +1619,23 @@
         "Self-cancellation refresh remains open",
         "Cross-room and iOS not exercised",
         "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+      ]
+    },
+    "cancellation_refresh_validation": {
+      "document": "trade-cancellation-notifications.md",
+      "native_contract": "trade-cancellation-refresh-contract.md",
+      "results": "trade-cancellation-refresh-results.json",
+      "native_validation": "observed Android 2.41.0 replacement-server pair",
+      "backend_tests": 15,
+      "adjacent_backend_tests": 50,
+      "pure_tests": 36,
+      "total_targeted_tests": 101,
+      "capture_count": 3,
+      "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+      "limits": [
+        "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+        "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+        "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
       ]
     }
   }

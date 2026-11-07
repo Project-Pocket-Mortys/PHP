@@ -1,5 +1,16 @@
 # Missing gameplay features: implementation order
 
+[Counterpart cancellation updates](trade-cancellation-notifications.md) now
+publish committed own-offer withdrawal and parent cancellation invalidations.
+Fifteen new backend cases and 50 adjacent regressions pass. The
+[three-capture native proof](trade-cancellation-refresh-results.json) verifies
+both cancellation paths and counterpart trade/details refreshes on the Android
+2.41.0 pair in one world. The peer deliberately cold logs in between capture
+phases; no uninterrupted peer session is claimed. Immediate self-cancellation
+unlock remains open under the
+[fresh callback/save contract](trade-cancellation-refresh-contract.md); the
+inspected paths supply no ordering-safe PHP acknowledgement.
+
 [Counterpart trade updates](trade-refresh-implementation.md) now publish committed
 offer/decision invalidations through the original refresh handlers. Immediate
 self-cancellation lock visibility remains open; no cancellation actor echo was

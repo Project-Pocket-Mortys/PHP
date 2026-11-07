@@ -6,8 +6,15 @@ and decisions with committed account revisions and a startup join barrier. The
 counterpart refreshes, rejection selector unlock and an exact two-spare transfer;
 see the [receipt](live-trade-refresh-results.json). Resolve the self-cancellation
 inventory race and validate cross-room, iOS and native third-account exclusion.
-Request/cancellation fanout is outside this publication scope; original-service
-semantics remain unknown.
+[Counterpart cancellation publication](trade-cancellation-notifications.md) now
+passes 15 new backend and 50 adjacent cases. The
+[three-capture Android proof](trade-cancellation-refresh-results.json) verifies
+both cancellation paths and counterpart trade/details refreshes in the same
+world, with the peer deliberately cold logging in between capture/session
+phases. Immediate actor cached unlock, cross-room, native third-account and
+iOS coverage remain open. The [fresh callback/save audit](trade-cancellation-refresh-contract.md)
+found no ordering-safe PHP actor acknowledgement in the inspected paths.
+Request-creation fanout and original-service semantics remain separate.
 
 Latest SDK prerequisite: [isolated native offline-path recovery](onetrust-startup-recovery.md)
 now passes retained-client startup, login, world entry and actual trading cookie
