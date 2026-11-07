@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "evidence_kind": "Synthetic replacement-server invalidation consumed by native Android 2.41.0",
+  "native_consumer_smoke_proved": true,
+  "actual_trade_mutation_publication_proved": false,
+  "original_service_behavior_proved": false,
+  "immediate_offer_cancellation_unlock_proved": false,
+  "publication_clock_order_proved": false,
+  "publication_to_sse_latency_proved": false,
+  "timing_scope": "Relative Android PCAP timestamps only; Docker/WSL publication receipt uses an independent clock",
+  "account": "PMTrade01",
+  "event": "trade:offer-submit",
+  "data_is_empty_object": true,
+  "details_include": [
+    "morties",
+    "attacks",
+    "decks",
+    "mortydex"
+  ],
+  "details_mask": "0x78",
+  "identity_bound_through_native_login_cookie_session_start_and_current_snapshot": true,
+  "timestamps": [
+    {
+      "action": "native_login_response",
+      "seconds": 22.839838
+    },
+    {
+      "action": "session_start",
+      "seconds": 22.979388
+    },
+    {
+      "action": "native_join_response",
+      "seconds": 23.405084
+    },
+    {
+      "action": "trade_event_frame_complete",
+      "seconds": 66.236825
+    },
+    {
+      "action": "native_get_trades_request",
+      "seconds": 66.270208
+    },
+    {
+      "action": "native_player_details_request",
+      "seconds": 66.352149
+    },
+    {
+      "action": "native_get_trades_response",
+      "seconds": 66.325347
+    },
+    {
+      "action": "native_player_details_response",
+      "seconds": 66.381426
+    }
+  ],
+  "input_sha256": {
+    "pcap": "87794fddb26bcb591fc64b6a8f8f14b0558a445bca121ae6c1334fdf20cd65ec",
+    "identity_anchor": "00a0c803840cab58db49e81dffc4e37ce95d1ac041f4d5b46083a73d31f918f5",
+    "current_auth_snapshot": "284d9d12cf9ded25f6480490bbe7b108858fed19cbca90dad8474cf66f783b84",
+    "synthetic_publication": "3cb01002859ec6268b515e1f32627c720b0c3a888026c86be37d0c7983666803"
+  }
+}

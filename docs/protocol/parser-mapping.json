@@ -362,7 +362,7 @@
           "battle_type"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed bounded native constructor; see friend-battle-invite-contract.md"
     },
     {
       "path": "/session/battle-invite/response",
@@ -376,7 +376,7 @@
           "accept"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed bounded native constructor; see friend-battle-invite-contract.md"
     },
     {
       "path": "/session/battle-invite/revoke",
@@ -389,7 +389,7 @@
           "token"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed bounded native constructor; see friend-battle-invite-contract.md"
     },
     {
       "path": "/session/battle-wild-morty",
@@ -496,7 +496,8 @@
           "owned_morty_ids"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "Reviewed bounded constructor and ParseHTTPResponse/error decoder; trade-party-transition-contract.md",
+      "reviewed_contract": "docs/protocol/trade-party-transition-contract.md"
     },
     {
       "path": "/session/deck/set-active",
@@ -509,7 +510,8 @@
           "deck_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "Reviewed bounded constructor and ParseHTTPResponse/error decoder; trade-party-transition-contract.md",
+      "reviewed_contract": "docs/protocol/trade-party-transition-contract.md"
     },
     {
       "path": "/session/decks/slots/buy",
@@ -741,7 +743,12 @@
           "session_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "reviewed_response_flags": {
+        "evidence": "item-reservation-projection-contract.md",
+        "implementation": "morty-mutation-flags.md",
+        "scope": "Bounded callback/merge evidence only; existing request constructor confidence retained"
+      }
     },
     {
       "path": "/session/incentive/reject",
@@ -844,7 +851,26 @@
           "morty_labs"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed bounded REA 6.8.0/Ghidra plus metadata-bounded ARM64 instructions; exactly four attack IDs with null holes",
+      "reviewed_response_flags": {
+        "evidence": "item-reservation-projection-contract.md",
+        "implementation": "morty-mutation-flags.md",
+        "scope": "Bounded callback/merge evidence only; existing request constructor confidence retained"
+      },
+      "reviewed_attack_slots": {
+        "native_contract": "learn-attack-slots-contract.md",
+        "implementation": "learn-attack-slots-implementation.md",
+        "request": "Native constructor emits exactly four attack_ids per Morty, with JSON null for missing SortedList positions; body also carries session_id and morty_labs",
+        "storage": "Retain first four entries; strict null slots create no row while advancing position; an all-null retained entry is skipped before deletion",
+        "response": "PlayerEditAttacksResponse contains coupons and owned_morties; NONE=4 merges dictionaries with clearAttacks=true, retaining explicit attack positions; coupons applied only in lab mode",
+        "scope": "Fixes invisible empty-ID rows and their later full AP-rock blocker; preserves existing PP=pp_stat=8 placeholder, eligibility, ignored morty_labs and fee behavior",
+        "limits": [
+          "Original AP initialization/reset/preservation, species/level eligibility and lab fees unresolved",
+          "PP=8 can exceed static maxima for some attacks; this repair does not close every AP-restoration failure",
+          "No historical-row migration or new Android capture"
+        ],
+        "validation": "12 additive learn-slot HTTP/database cases and 23 adjacent cases passed (35 total); PHP lint, research validator and fresh bounded native wrapper passed; no new Android capture"
+      }
     },
     {
       "path": "/session/owned_morties/lock",
@@ -1001,7 +1027,12 @@
           "item_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "reviewed_response_flags": {
+        "evidence": "item-reservation-projection-contract.md",
+        "implementation": "morty-mutation-flags.md",
+        "scope": "Bounded callback/merge evidence only; existing request constructor confidence retained"
+      }
     },
     {
       "path": "/session/use-shiny-potion",
@@ -1033,7 +1064,9 @@
           "trade_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "cancellation_refresh_contract": "trade-cancellation-refresh-contract.md",
+      "replacement_cancellation_publication": "trade-cancellation-notifications.md"
     },
     {
       "path": "/trading/cancel-trade-offer",
@@ -1045,7 +1078,9 @@
           "trade_offer_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "cancellation_refresh_contract": "trade-cancellation-refresh-contract.md",
+      "replacement_cancellation_publication": "trade-cancellation-notifications.md"
     },
     {
       "path": "/trading/config",
@@ -1085,7 +1120,8 @@
           "trade_request_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "Reviewed constructor/creation response evidence; trade-listing-protection-contract.md",
+      "reviewed_contract": "docs/protocol/trade-listing-protection-contract.md"
     },
     {
       "path": "/trading/offer-response",
@@ -1099,7 +1135,8 @@
           "request_accepted"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "reviewed constructor and error-only callback; native-trade-response-contract.md",
+      "reviewed_contract": "docs/protocol/native-trade-response-contract.md"
     },
     {
       "path": "/trading/request-morty",
@@ -1116,7 +1153,8 @@
           "is_free_trade"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "Reviewed constructor/creation response evidence; trade-listing-protection-contract.md",
+      "reviewed_contract": "docs/protocol/trade-listing-protection-contract.md"
     },
     {
       "path": "/user/login",
@@ -1228,7 +1266,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<BattleStartResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle:start",
+      "reviewed_evidence": "docs/protocol/friend-battle-start-contract.md"
     },
     {
       "method": "NetworkBattleAPI$$BattleMoveTimeHandler",
@@ -1263,8 +1302,9 @@
         "pointer": "0x309a710",
         "name": "Method$NetworkDefs.ParseHTTPResponse<eSendInviteError, SendInviteResponse>()"
       },
-      "schema_available": false,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "schema_available": true,
+      "operation_mapping": "/session/battle-invite/create",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI.<>c__DisplayClass41_0$$<SendInviteArenaBot>b__0",
@@ -1288,7 +1328,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<BattleInviteReceivedResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle-invite:received",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI$$InviteDeclinedHandler",
@@ -1300,7 +1341,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<InviteDeclinedResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle-invite:declined",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI$$InviteAcceptedHandler",
@@ -1312,7 +1354,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<InviteAcceptedResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle-invite:accepted",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI$$InviteRevokedHandler",
@@ -1324,7 +1367,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<InviteRevokedResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "battle-invite:revoked",
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md"
     },
     {
       "method": "NetworkFriendAPI.<>c__DisplayClass78_0$$<RefreshData>b__0",
@@ -1396,7 +1440,20 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<TradeDataResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "POST /trading/get-trades; constructor/callback association confirmed by bounded static trace and native reload capture",
+      "completed_projection": {
+        "managed_field": "competed_trades",
+        "native_wire_key": "competed_trades",
+        "legacy_server_alias": "completed_trades",
+        "native_response_offset": "0x30",
+        "api_cache_offset": "0xa8",
+        "evidence": [
+          "native-trade-decisions.md",
+          "native-trade-decision-navigation.md"
+        ],
+        "confidence": "Controlled same-history native before/after establishes practical wire key; field-specific runtime attributes not independently dumped",
+        "native_observation": "Controlled same-history rejection notification corrected; final postaccept native/legacy completed arrays equal with one record. Selected paired inventory refreshes verified; continuous full-cycle capture not claimed."
+      }
     },
     {
       "method": "NetworkFriendAPI$$DonationMortyReceivedHandler",
@@ -1684,7 +1741,21 @@
         "name": "Method$NetworkDefs.ParseHTTPResponse<eEditAttacksError, PlayerEditAttacksResponse>()"
       },
       "schema_available": false,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint",
+      "reviewed_attack_slots": {
+        "native_contract": "learn-attack-slots-contract.md",
+        "implementation": "learn-attack-slots-implementation.md",
+        "request": "Native constructor emits exactly four attack_ids per Morty, with JSON null for missing SortedList positions; body also carries session_id and morty_labs",
+        "storage": "Retain first four entries; strict null slots create no row while advancing position; an all-null retained entry is skipped before deletion",
+        "response": "PlayerEditAttacksResponse contains coupons and owned_morties; NONE=4 merges dictionaries with clearAttacks=true, retaining explicit attack positions; coupons applied only in lab mode",
+        "scope": "Fixes invisible empty-ID rows and their later full AP-rock blocker; preserves existing PP=pp_stat=8 placeholder, eligibility, ignored morty_labs and fee behavior",
+        "limits": [
+          "Original AP initialization/reset/preservation, species/level eligibility and lab fees unresolved",
+          "PP=8 can exceed static maxima for some attacks; this repair does not close every AP-restoration failure",
+          "No historical-row migration or new Android capture"
+        ],
+        "validation": "12 additive learn-slot HTTP/database cases and 23 adjacent cases passed (35 total); PHP lint, research validator and fresh bounded native wrapper passed; no new Android capture"
+      }
     },
     {
       "method": "NetworkPlayerAPI.<>c__DisplayClass43_0$$<LockMorty>b__0",
@@ -2573,6 +2644,26 @@
       },
       "schema_available": false,
       "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+    },
+    {
+      "method": "NetworkBattleInviteAPI.<>c__DisplayClass44_0$$<RespondToReceivedInvite>b__0",
+      "address": "0x178e1c0",
+      "type": "eRespondToReceivedInviteError",
+      "operation_mapping": "/session/battle-invite/response",
+      "schema_available": true,
+      "success_body_ignored": true,
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md",
+      "analysis": "Reviewed ParseHTTPError-only callback; successful body not deserialized."
+    },
+    {
+      "method": "NetworkBattleInviteAPI.<>c__DisplayClass43_0$$<CancelPendingSentInvite>b__0",
+      "address": "0x178e130",
+      "type": "eRespondToSentInviteError",
+      "operation_mapping": "/session/battle-invite/revoke",
+      "schema_available": true,
+      "success_body_ignored": true,
+      "reviewed_evidence": "docs/protocol/friend-battle-invite-contract.md",
+      "analysis": "Reviewed ParseHTTPError-only callback; successful body not deserialized."
     }
   ],
   "event_registrations": [
@@ -2718,7 +2809,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "reviewed native association; see friend-battle-invite-contract.md",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleInviteAPI$$InviteAcceptedHandler",
+          "address": "0x178cc6c"
+        }
+      ]
     },
     {
       "event": "battle-invite:declined",
@@ -2786,7 +2883,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "reviewed native association; see friend-battle-invite-contract.md",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleInviteAPI$$InviteDeclinedHandler",
+          "address": "0x178cb98"
+        }
+      ]
     },
     {
       "event": "battle-invite:received",
@@ -2854,7 +2957,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "reviewed native association; see friend-battle-invite-contract.md",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleInviteAPI$$InviteReceivedHandler",
+          "address": "0x178c888"
+        }
+      ]
     },
     {
       "event": "battle-invite:revoked",
@@ -2922,7 +3031,13 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "reviewed native association; see friend-battle-invite-contract.md",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleInviteAPI$$InviteRevokedHandler",
+          "address": "0x178cd68"
+        }
+      ]
     },
     {
       "event": "battle:abandoned",
@@ -3075,7 +3190,21 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "unresolved association",
+      "reviewed_handlers": [
+        {
+          "method": "NetworkBattleAPI$$BattleStartHandler",
+          "address": "0x1788674"
+        },
+        {
+          "method": "NetworkBattleInviteAPI$$BattleStartHandler",
+          "address": "0x178ced8"
+        }
+      ],
+      "reviewed_evidence": [
+        "friend-battle-invite-contract.md",
+        "friend-battle-start-contract.md"
+      ]
     },
     {
       "event": "battle:turn-result",
@@ -8188,7 +8317,23 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "statically established refresh-only handler; replacement delivery documented separately",
+      "reviewed_handler": {
+        "method": "NetworkFriendAPI$$TradOfferAcceptdHandler",
+        "address": "0x1792334",
+        "consumed_payload_fields": [],
+        "evidence": "trade-refresh-event-contract.md"
+      },
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
+      }
     },
     {
       "event": "trade:offer-rejected",
@@ -8256,7 +8401,40 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "statically established refresh-only handler; replacement delivery documented separately",
+      "reviewed_handler": {
+        "method": "NetworkFriendAPI$$TradOfferRejectHandler",
+        "address": "0x17923e8",
+        "consumed_payload_fields": [],
+        "evidence": "trade-refresh-event-contract.md"
+      },
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
+      },
+      "cancellation_refresh_validation": {
+        "document": "trade-cancellation-notifications.md",
+        "native_contract": "trade-cancellation-refresh-contract.md",
+        "results": "trade-cancellation-refresh-results.json",
+        "native_validation": "observed Android 2.41.0 replacement-server pair",
+        "backend_tests": 15,
+        "adjacent_backend_tests": 50,
+        "pure_tests": 36,
+        "total_targeted_tests": 101,
+        "capture_count": 3,
+        "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+        "limits": [
+          "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+          "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+          "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
+        ]
+      }
     },
     {
       "event": "trade:offer-submit",
@@ -8324,7 +8502,40 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "statically established refresh-only handler; replacement delivery documented separately",
+      "reviewed_handler": {
+        "method": "NetworkFriendAPI$$TradeOfferdSummitHandler",
+        "address": "0x1792280",
+        "consumed_payload_fields": [],
+        "evidence": "trade-refresh-event-contract.md"
+      },
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
+      },
+      "cancellation_refresh_validation": {
+        "document": "trade-cancellation-notifications.md",
+        "native_contract": "trade-cancellation-refresh-contract.md",
+        "results": "trade-cancellation-refresh-results.json",
+        "native_validation": "observed Android 2.41.0 replacement-server pair",
+        "backend_tests": 15,
+        "adjacent_backend_tests": 50,
+        "pure_tests": 36,
+        "total_targeted_tests": 101,
+        "capture_count": 3,
+        "scope": "Native own-offer withdrawal refreshes the current parent owner; native parent cancellation refreshes the removed offerer. Empty SSE frames are followed by successful GetTradeData and exact GetDetails(0x78). Two accounts in the same world; primary capture continuous and bounded at 900 seconds; peer deliberately cold logs in between two separate capture/session phases. Both old completions and physical ownership preserved; final PRIMARY revision 6 and PEER revision 3.",
+        "limits": [
+          "Immediate cancelling-actor cached-memory unlock remains open; no ordering-safe PHP acknowledgement found in inspected paths",
+          "No uninterrupted peer session, selector eligibility, cross-capture clock ordering or mutation-to-SSE latency proof",
+          "Cross-room, native third-account and iOS cancellation delivery not exercised; stock online SDK path and original-service audiences/ordering not claimed"
+        ]
+      }
     },
     {
       "event": "trade:request-submit",
@@ -8392,7 +8603,71 @@
           ]
         }
       ],
-      "status": "unresolved association"
+      "status": "statically established refresh-only handler; replacement delivery documented separately",
+      "reviewed_handler": {
+        "method": "NetworkFriendAPI$$TradRequestSummitedHandler",
+        "address": "0x17921cc",
+        "consumed_payload_fields": [],
+        "evidence": "trade-refresh-event-contract.md"
+      }
     }
-  ]
+  ],
+  "morty_mutation_flags": {
+    "document": "morty-mutation-flags.md",
+    "native_contract": "item-reservation-projection-contract.md",
+    "scope": [
+      "/session/use-item",
+      "/session/heal",
+      "/session/owned_morties/learn-attacks"
+    ],
+    "boolean_conversion": "Trim and lowercase stored values; true exactly for 1,true,yes,y,on; JSON boolean output",
+    "effective_trading_lock": "Canonical stored flag OR global trades/trade_offers reference by owned instance ID under existing database collation, including orphan/stale-owner references",
+    "preserved": "Stored flags, manual locks, eligibility, HP/AP/status/item mutations and existing learn-attacks PP=8 placeholder",
+    "consistency": "Existing item/learn transaction view; heal projection after existing commit; no new reference locks or latest-wall-clock guarantee",
+    "validation": "76 tests passed across eight exact protocol modules using additive isolated backend fixtures; PHP lint and research validator pass; retained account/save guards pass; no new Android capture, migration or production mutation"
+  },
+  "meeseeks_box": {
+    "native_contract": "meeseeks-box-contract.md",
+    "implementation": "meeseeks-box-implementation.md",
+    "request": {
+      "path": "/session/battle/move",
+      "constructor": "NetworkBattleAPI$$SelectMove",
+      "address": "0x17882bc",
+      "actor_selection": "MPBagState.UIUseHandler at 0x1570ff0; non-self battle item sends current player owned ID"
+    },
+    "response": {
+      "event": "battle:turn-result",
+      "handler": "NetworkBattleAPI$$BattleTurnResultHandler",
+      "address": "0x1788dc4",
+      "item_parser": "MPBattleActItemData.SetFromDict at 0x1584ff8",
+      "snapshot_merge": "MPBattleUI.<StartTurnAct>d__87.MoveNext at 0x15969a8 before item animation",
+      "animation": "MPBattleUI.<TurnActItem>d__95.MoveNext at 0x159986c reads defender current HP for DamageHP",
+      "action": {
+        "type": "ITEM",
+        "owned_morty_id": "current active owned actor ID",
+        "item_id": "ItemMrMeeseek",
+        "success": true,
+        "effect_value": "prior enemy HP",
+        "attacker_morty_datas": [],
+        "defender_morty_datas": [
+          {
+            "owned_morty_id": "wild spawn ID",
+            "hp": 0
+          }
+        ]
+      }
+    },
+    "scope": "Reviewed Meeseeks request/action path only; existing unresolved generic event registrations and other parsers remain unresolved",
+    "validation": "106 cases passed serially across five exact isolated protocol modules: 17 new Meeseeks plus 89 adjacent item/switch/lifecycle/timeout cases; both changed PHP files lint and protocol evidence validation pass; Android 2.41.0 native ITEM/animation/WIN now observed with synthetic setup; see android-meeseeks-box-results.json",
+    "native_android_validation": {
+      "document": "android-meeseeks-box.md",
+      "receipt": "android-meeseeks-box-results.json",
+      "evidence_kind": "Observed Android 2.41.0 replacement-server request and animation",
+      "scope": "Synthetic owned clone and private wild start; native ITEM, 1 to 0 stock, Meeseeks animation, WIN and exact original-row cleanup",
+      "original_service_evidence": false,
+      "limitations": [
+        "Natural encounter initiation, other battle modes and original reward/combat rules remain unverified"
+      ]
+    }
+  }
 }
