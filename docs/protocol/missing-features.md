@@ -5,6 +5,13 @@ offer/decision invalidations through the original refresh handlers. Immediate
 self-cancellation lock visibility remains open; no cancellation actor echo was
 added because it can race native saved-offer cleanup.
 
+The [live Android pair](live-trade-refresh.md) now completes a native
+request/offer/reject/offer/accept cycle with counterpart SSE-triggered trade and
+owned-details refreshes, live post-rejection selector eligibility and an exact
+two-spare transfer. The [receipt](live-trade-refresh-results.json) preserves the
+previous completion and records one added completion. Cross-room, iOS and native
+third-account audience checks remain; this does not close the self-cancel gap.
+
 ConspiracyRick's playable backend and README-completed features remain the
 baseline. An unverified feature is not automatically broken. Work now prioritizes
 missing player actions; broad transport research is deferred unless a reproduced

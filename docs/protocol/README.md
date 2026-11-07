@@ -5,6 +5,14 @@ committed offer/decision invalidations using the [native handlers](trade-refresh
 It adds startup gating, account-global coalescing and reconnect replay. Immediate
 self-cancellation unlock remains separate because its callback can race a refresh.
 
+The [live two-client follow-up](live-trade-refresh.md) now verifies native parent
+creation, rejection and acceptance in continuous concurrent Android sessions.
+Counterpart SSE frames trigger successful GetTradeData and GetDetails(`0x78`)
+refreshes; the rejected spare becomes eligible without restart. The
+[sanitized receipt](live-trade-refresh-results.json) binds the two-spare transfer
+and one added completion to the retained prior baseline. Cross-room delivery,
+iOS and native third-account exclusion remain untested.
+
 [Native trade decisions](native-trade-decisions.md) now include captured requester
 rejection, successful requester Accept and both actors' normal owned-inventory
 refreshes. The offerer's same pending rejection history reproduced an incorrect

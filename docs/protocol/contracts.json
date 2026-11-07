@@ -1942,13 +1942,25 @@
       "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
       "evidence": [
         "trade-refresh-event-contract.md",
-        "trade-refresh-implementation.md"
+        "trade-refresh-implementation.md",
+        "live-trade-refresh.md",
+        "live-trade-refresh-results.json"
       ],
       "limitations": [
         "Original audiences, payloads and delivery guarantees unknown",
         "No self-cancellation cached-lock repair",
         "Synthetic/backend evidence must not be counted as original-service traffic"
-      ]
+      ],
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
+      }
     },
     "trade:offer-accepted": {
       "native_handler": "NetworkFriendAPI$$TradOfferAcceptdHandler",
@@ -1964,13 +1976,25 @@
       "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
       "evidence": [
         "trade-refresh-event-contract.md",
-        "trade-refresh-implementation.md"
+        "trade-refresh-implementation.md",
+        "live-trade-refresh.md",
+        "live-trade-refresh-results.json"
       ],
       "limitations": [
         "Original audiences, payloads and delivery guarantees unknown",
         "No self-cancellation cached-lock repair",
         "Synthetic/backend evidence must not be counted as original-service traffic"
-      ]
+      ],
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
+      }
     },
     "trade:offer-rejected": {
       "native_handler": "NetworkFriendAPI$$TradOfferRejectHandler",
@@ -1986,13 +2010,25 @@
       "replacement_publication": "Replacement recipient policy: offer creation notifies request owner; rejection notifies removed offerer; acceptance notifies winner and removed sibling owners, winner preferred. Actor excluded. No request-creation or cancellation publication.",
       "evidence": [
         "trade-refresh-event-contract.md",
-        "trade-refresh-implementation.md"
+        "trade-refresh-implementation.md",
+        "live-trade-refresh.md",
+        "live-trade-refresh-results.json"
       ],
       "limitations": [
         "Original audiences, payloads and delivery guarantees unknown",
         "No self-cancellation cached-lock repair",
         "Synthetic/backend evidence must not be counted as original-service traffic"
-      ]
+      ],
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
+      }
     }
   },
   "transport": {

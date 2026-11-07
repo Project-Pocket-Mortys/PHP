@@ -129,6 +129,26 @@ clean up their own notification rows. No production deployment is included.
 
 ## Remaining boundaries
 
+The subsequent [live two-client cycle](live-trade-refresh.md) and
+[sanitized receipt](live-trade-refresh-results.json) now verify real native
+parent creation, a rejected first offer and an accepted second offer. Each
+counterpart frame (two `trade:offer-submit`, one `trade:offer-rejected`, one
+`trade:offer-accepted`) is followed by successful native GetTradeData and exact
+GetDetails(`0x78`) responses. The rejected spare is eligible in the live selector
+without restart. Both clients remain in the same world sessions throughout
+approximately 679 seconds of continuous capture, bounded at 900 seconds and
+flushed with graceful SIGINT. No scripted gameplay mutation substitutes for
+native input. Independent offline-SDK sidecars preserve concurrent startup.
+
+The final guard verifies exactly two spare instances swapping owners, the old
+completion retained and one added (two total), no parent/offers, and notification
+revisions peer 2 / primary 3. This round changes no backend or migration. Its
+26 targeted pure tests comprise 18 fixture/proof cases and eight preparation
+cases. The earlier synthetic smoke above remains its own historical evidence;
+the live cycle supplies the later real-mutation proof. Two-account delivery and
+actor exclusion are verified; a native third account, cross-room delivery and
+iOS were not exercised.
+
 Immediate self-cancellation unlock remains open: its callback removes saved offer
 history without refreshing details. A self notification can race that removal and
 incorrectly announce rejection. No arbitrary delay or invented event was added.

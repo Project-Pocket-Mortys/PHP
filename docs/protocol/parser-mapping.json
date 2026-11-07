@@ -8276,6 +8276,16 @@
         "address": "0x1792334",
         "consumed_payload_fields": [],
         "evidence": "trade-refresh-event-contract.md"
+      },
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
       }
     },
     {
@@ -8350,6 +8360,16 @@
         "address": "0x17923e8",
         "consumed_payload_fields": [],
         "evidence": "trade-refresh-event-contract.md"
+      },
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
       }
     },
     {
@@ -8424,6 +8444,16 @@
         "address": "0x1792280",
         "consumed_payload_fields": [],
         "evidence": "trade-refresh-event-contract.md"
+      },
+      "native_live_validation": {
+        "document": "live-trade-refresh.md",
+        "results": "live-trade-refresh-results.json",
+        "scope": "Two retained Android clients continuously connected in the same world sessions; native parent/offer/reject/offer/accept inputs; four counterpart frames followed by successful GetTradeData and exact GetDetails(0x78). Live rejected-spare selector eligibility verified without restart.",
+        "limits": [
+          "Self-cancellation refresh remains open",
+          "Cross-room and iOS not exercised",
+          "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
+        ]
       }
     },
     {

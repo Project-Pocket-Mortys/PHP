@@ -1,19 +1,27 @@
 # Evidence gaps and repair backlog
 
 [Counterpart notifications](trade-refresh-implementation.md) now cover new offers
-and decisions with committed account revisions and a startup join barrier. Next
-validate live two-client notifications during trade mutations and resolve the
-self-cancellation inventory race. Request/cancellation fanout is outside this
-publication scope; original-service semantics remain unknown.
+and decisions with committed account revisions and a startup join barrier. The
+[live two-client cycle](live-trade-refresh.md) now verifies native mutations,
+counterpart refreshes, rejection selector unlock and an exact two-spare transfer;
+see the [receipt](live-trade-refresh-results.json). Resolve the self-cancellation
+inventory race and validate cross-room, iOS and native third-account exclusion.
+Request/cancellation fanout is outside this publication scope; original-service
+semantics remain unknown.
 
 Latest SDK prerequisite: [isolated native offline-path recovery](onetrust-startup-recovery.md)
 now passes retained-client startup, login, world entry and actual trading cookie
 transmission, with unchanged SDK files and guarded saves. Exact Android online
-SDK-fetch failure attribution, independent paired-client fixtures, offer-cancel
+SDK-fetch failure attribution, offer-cancel
 inventory refresh and wider trading-lock reconciliation remain. Player details and
 absorption now honor [durable trade references](trade-reference-implementation.md);
 other Morty serializers and legacy true flags remain explicit gaps. This does not grant
 consent or establish universal optional-SDK denial; keep external isolation.
+
+Independent paired-client offline fixtures now pass the live follow-up above:
+separate 8091/8093 sidecars preserve each container's one-shot probe state without
+resetting the active counterpart. Both retained clients stay in their world
+sessions across rejection and acceptance.
 
 Implementation status and evidence confidence are independent. The root README remains authoritative for claimed completed features. Native constants establish interface names, not successful runtime behavior. Every unmapped parser in `parser-mapping.json` is an explicit research obligation; no fallback schema is silently assigned to it.
 

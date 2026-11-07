@@ -5,6 +5,17 @@ after committed new offers and decisions. Bounded REA establishes the handlers;
 synthetic HTTP/DB/SSE tests cover privacy, rollback, startup and reconnect.
 Original audiences and immediate self-cancellation unlock remain separate.
 
+The [live native follow-up](live-trade-refresh.md) and
+[receipt](live-trade-refresh-results.json) now verify a parent, rejected first
+offer and accepted second offer with both clients continuously connected in one
+world session. Two offer-submit frames reach the requester; rejected and accepted
+frames reach the offerer. Every frame is followed by successful native
+GetTradeData and exact GetDetails(`0x78`) requests. The rejection also restores
+live selector eligibility without restart. The guarded final state swaps exactly
+two spares, retains the prior completion and adds one (two total), with no
+remaining parent/offers. Native third-account privacy, cross-room and iOS remain
+separate from this two-account proof.
+
 [Native trade decisions](native-trade-decisions.md) now cover requester Reject
 and successful requester Accept, exact guarded spare transfer and both actors'
 normal owned-inventory refreshes. A controlled reload of the same pending
