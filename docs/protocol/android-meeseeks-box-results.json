@@ -1,0 +1,83 @@
+{
+  "schema": "android-meeseeks-box-acceptance-v1",
+  "evidence_kind": "Observed Android 2.41.0 request to isolated replacement server",
+  "original_service_evidence": false,
+  "native_android_acceptance": true,
+  "setup": {
+    "battle_start": "synthetic-http",
+    "actor": "synthetic-owned-clone",
+    "inventory": "one-temporary-box",
+    "item_selection": "native-ui"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/session/battle/move",
+    "fields": [
+      "session_id",
+      "battle_id",
+      "type",
+      "owned_morty_id",
+      "move_id"
+    ],
+    "type": "ITEM",
+    "owned_morty_id": "fixture-active-actor",
+    "move_id": "ItemMrMeeseek"
+  },
+  "response": {
+    "status": 200,
+    "success": true
+  },
+  "proof": {
+    "exact_tcp_ack_pair": true,
+    "native_headers_present": true,
+    "committed_outcome": "WIN",
+    "item_action_count": 1,
+    "enemy_hp": 0,
+    "attacker_morty_datas": [],
+    "ai_action_count": 0,
+    "boxes_consumed": 1,
+    "quantity_before": 1,
+    "absolute_quantity_after": 0,
+    "owned_hp_ap_status_resources_unchanged": true,
+    "public_wild_cleanup": true,
+    "private_terminal_event": true,
+    "original_rows_restored": true
+  },
+  "screenshots": [
+    {
+      "role": "bag-item-visible",
+      "sha256": "ae737bb7202a5b95a7be5f0c6363c58bf9349d3e62745f5d5bfe7aac9cd5ecfa",
+      "reviewed": true
+    },
+    {
+      "role": "item-animation",
+      "sha256": "d0a2b735fc908ac50580ca080c4b1bf03e4165be537310b4542f3c3c7f41ac5b",
+      "reviewed": true
+    },
+    {
+      "role": "terminal-win",
+      "sha256": "c364870df190eff4b6c2a0d79f4d26246c29ecef85f6d247a213730952b32b67",
+      "reviewed": true
+    }
+  ],
+  "artifacts": {
+    "pcap_sha256": "05620d4ab6a2164dc750a609c54dfd6741b07b1a3abcb80b5b5f6c2c4d396934",
+    "apk_sha256": [
+      "515cf2e13ea677d546533ad09dd19ceb19aa5893aa7a40c252dc8b3bf713542e",
+      "7791db3aa47c5477e9693251941fb91ed71c4f9e6715968709f993ad2ece8bc8"
+    ],
+    "capture_manifest_sha256": "f659f05b48df590a1217317116eeceb825df72172e56e7f7cc2953c387c75ae4",
+    "screenshot_review_sha256": "205ae2cf0fbdfe178fb7a97d86bd8f93017ae5e0531f7f0743fe8497e266aabb",
+    "fixture_sha256": {
+      "fixture": "6bdfd533bba52131a8f6047906a13af140f4cbf7350cabb8509684e2d5dd5528",
+      "prepared": "1218708a9b83ff8541928efc3f379ac333844d5357a681234d671e4d45071aab",
+      "case": "2ef2a4519d85fae326e02ed847b398e225c82091db6445e6723ad9cf088de9f9",
+      "native-item-result": "c415804b854148f685e6cc0cf34f983a65dd8e5bf1a70b4a24173fe7a738ea4e",
+      "native-item-http": "ee7e319270f8542eb9811fc31d38638fa48dc49589d2103db899bf6e6fc41510",
+      "cleanup": "47e1b741559282acec8c15ef6dbcdc6d8abca2bbbe71b5f80dc362d46cdf3318",
+      "restored": "1aa84086030b222376bbd72f6e5744c45a9f0865963245d27d964cdd9247ee88",
+      "cleanup-result": "c415804b854148f685e6cc0cf34f983a65dd8e5bf1a70b4a24173fe7a738ea4e",
+      "cleanup-http": "ee7e319270f8542eb9811fc31d38638fa48dc49589d2103db899bf6e6fc41510"
+    }
+  }
+}

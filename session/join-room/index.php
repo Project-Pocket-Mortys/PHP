@@ -2,12 +2,13 @@
 // join-room
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 header("Content-Type: application/json; charset=utf-8");
 
 require __DIR__ . "/../../pocket_f4894h398r8h9w9er8he98he.php";
 require_once __DIR__ . "/../../lib/events.php";
+require_once __DIR__ . '/../../lib/world_action_guard.php';
 //require_once __DIR__ . "/../../lib/room_entities.php";
 
 function iso8601_z($date = null): string {
@@ -30,17 +31,20 @@ if (!$session_id || !$world_id_in) {
 
 /* ---------------- AUTH ---------------- */
 
+try {
+$pdo->beginTransaction();
 $stmt = $pdo->prepare("
     SELECT player_id, username, player_avatar_id, level, active_deck_id
     FROM users
     WHERE session_id = ?
-    LIMIT 1
+    LIMIT 1 FOR UPDATE
 ");
 $stmt->execute([$session_id]);
 
 $me = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$me) {
+    $pdo->rollBack();
     http_response_code(401);
     echo json_encode([
         "error" => "Not authenticated"
@@ -49,6 +53,10 @@ if (!$me) {
 }
 
 $player_id = $me["player_id"];
+if (world_action_has_active_battle($pdo, (string)$player_id)) {
+    $pdo->rollBack();
+    respond(409, ["error" => "Active battle"]);
+}
 
 /* ---------------- ROOM PICK ---------------- */
 
@@ -63,6 +71,7 @@ $roomStmt->execute([$world_id_in]);
 $room = $roomStmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$room) {
+    $pdo->rollBack();
     http_response_code(400);
     echo json_encode([
         "error" => "NO_ROOM_FOUND"
@@ -85,9 +94,16 @@ $baseline_event_id = (int)$baselineStmt->fetchColumn();
 
 $pdo->prepare("
     UPDATE users
-    SET room_id = ?, state = 'WORLD', last_seen = NOW(), last_event_id = ?
+    SET room_id = ?, state = 'WORLD', last_seen = NOW(), last_event_id = ?,
+        room_membership_generation = room_membership_generation + 1
     WHERE player_id = ? AND session_id = ?
 ")->execute([$room_id, $baseline_event_id, $player_id, $session_id]);
+$pdo->commit();
+} catch (Throwable $error) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    error_log('Room join transaction failed');
+    respond(500, ["error" => "Unable to join room"]);
+}
 
 /* ---------------- USERS ---------------- */
 $usersStmt = $pdo->prepare("
@@ -132,15 +148,18 @@ while ($u = $usersStmt->fetch(PDO::FETCH_ASSOC)) {
         $mortyStmt = $pdo->prepare("
             SELECT *
             FROM owned_morties
-            WHERE owned_morty_id IN ($placeholders)
+            WHERE player_id = ?
+            AND owned_morty_id IN ($placeholders)
         ");
-        $mortyStmt->execute($mortyIds);
+        $mortyStmt->execute([$u["player_id"], ...$mortyIds]);
 
         while ($m = $mortyStmt->fetch(PDO::FETCH_ASSOC)) {
             $owned_morties[] = [
                 "owned_morty_id" => $m["owned_morty_id"],
                 "morty_id" => $m["morty_id"],
                 "hp" => (int)$m["hp"],
+                "is_poisoned" => (bool)$m["is_poisoned"],
+                "is_paralysed" => (bool)$m["is_paralysed"],
                 "variant" => $m["variant"] ?: "Normal",
                 "is_locked" => (bool)$m["is_locked"],
                 "is_trading_locked" => (bool)$m["is_trading_locked"],
@@ -166,7 +185,7 @@ while ($u = $usersStmt->fetch(PDO::FETCH_ASSOC)) {
 /* ---------------- PICKUPS ---------------- */
 
 $pickupStmt = $pdo->prepare("
-    SELECT pickup_id, placement, pick_up_contents
+    SELECT only_show_to_player_id, pickup_id, placement, pick_up_contents
     FROM event_queue
     WHERE room_id = ?
     AND event_name = 'room:pickup-added'
@@ -177,6 +196,7 @@ $pickupStmt->execute([$room_id]);
 $pickups = [];
 
 while ($p = $pickupStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($p, $player_id)) continue;
 
     $pos = explode(",", $p["placement"]);
 
@@ -214,6 +234,7 @@ $wildStmt->execute([$room_id]);
 $wild_morties = [];
 
 while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($w, $player_id)) continue;
 
     $pos = explode(",", $w["placement"]);
 
@@ -236,7 +257,7 @@ while ($w = $wildStmt->fetch(PDO::FETCH_ASSOC)) {
 /* ---------------- BOTS ---------------- */
 
 $botStmt = $pdo->prepare("
-    SELECT bot_id, username, player_avatar_id, placement, state, division, zone_id, shiny_if_potion, owned_morties
+    SELECT only_show_to_player_id, bot_id, username, player_avatar_id, placement, state, division, zone_id, shiny_if_potion, owned_morties
     FROM event_queue
     WHERE room_id = ?
     AND event_name = 'room:bot-added'
@@ -247,6 +268,7 @@ $botStmt->execute([$room_id]);
 $bots = [];
 
 while ($b = $botStmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!event_is_visible_to_player($b, $player_id)) continue;
 
     $placement = isset($b["placement"]) ? explode(",", $b["placement"]) : [0, 0];
 

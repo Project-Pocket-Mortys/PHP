@@ -1,0 +1,326 @@
+{
+  "evidence_kind": "Observed Android 2.41.0 diagnostic client against isolated replacement backend; not original-server evidence",
+  "setup": "Scripted HTTP social setup and internal CLI startup activation; no successful native acceptance established.",
+  "scope": "Observed first native ATTACK from each local initial active Morty queued as one immutable pair, then retired at startup expiry; no combat resolution or turn-result observed; persistent HP and PP unchanged. No original-server combat formulas claimed.",
+  "roles": {
+    "primary": {
+      "capture_sha256": "a608a0c1da6c1feec4be5021163e1b75c754bb52c99c35863ae36fbd3bfb21a3",
+      "capture_duration_seconds": 165,
+      "client_version": "2.41.0",
+      "apk_sha256": {
+        "base-aligned-debugSigned.apk": "515cf2e13ea677d546533ad09dd19ceb19aa5893aa7a40c252dc8b3bf713542e",
+        "split_config.armeabi_v7a-aligned-debugSigned.apk": "7791db3aa47c5477e9693251941fb91ed71c4f9e6715968709f993ad2ece8bc8"
+      },
+      "installed_apk_hashes_match_sources": true,
+      "relative_time_origin": "first matching TCP packet in this role capture",
+      "counts": {
+        "battle:start": 1,
+        "session:end": 1,
+        "session:start": 1,
+        "battle:turn-result": 0,
+        "repeated_battle_start": 0,
+        "native_ready": 1,
+        "native_login": 1,
+        "native_join": 1,
+        "native_invite_response": 0,
+        "native_battle_moves": 1
+      },
+      "timeline": [
+        {
+          "kind": "sse",
+          "event": "battle:start",
+          "seconds": 1.903003,
+          "battle_id": "<shared-battle>",
+          "battle_type": "PvF",
+          "parties": {
+            "player": [
+              {
+                "morty_id": "MortyDefault",
+                "variant": "Normal",
+                "level": 5,
+                "hp": 20,
+                "hp_stat": 20
+              }
+            ],
+            "opponent": [
+              {
+                "morty_id": "MortyDefault",
+                "variant": "Normal",
+                "level": 5,
+                "hp": 20,
+                "hp_stat": 20
+              }
+            ]
+          },
+          "player_is_capture_role": true,
+          "opponent_is_other_role": true,
+          "meta_empty": true
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/session/battle/ready",
+          "seconds": 10.491464,
+          "response_seconds": 10.576497,
+          "status": 200,
+          "request_fields": [
+            "battle_id",
+            "session_id"
+          ],
+          "session_identity": "original",
+          "battle_id": "<shared-battle>",
+          "success": true
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/session/battle/move",
+          "seconds": 12.822533,
+          "response_seconds": 12.867455,
+          "status": 200,
+          "request_fields": [
+            "battle_id",
+            "move_id",
+            "owned_morty_id",
+            "session_id",
+            "type"
+          ],
+          "session_identity": "original",
+          "battle_id": "<shared-battle>",
+          "type": "ATTACK",
+          "move_id": "AttackOutburst",
+          "actor_is_local_active": true,
+          "success": true
+        },
+        {
+          "kind": "sse",
+          "event": "session:end",
+          "seconds": 121.928883,
+          "data_is_empty_object": true,
+          "closure": {
+            "terminal_chunk": true,
+            "server_fin": true,
+            "server_reset": false,
+            "fin_seconds": 123.10525,
+            "client_acked_fin": true,
+            "clean_eof_observed": true
+          }
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/user/login",
+          "seconds": 127.637864,
+          "response_seconds": 127.650089,
+          "status": 200,
+          "request_fields": [
+            "consent_identifier",
+            "secret"
+          ],
+          "secret_matches_capture_role": true,
+          "returned_url_token_matches_recovered_sse_request": true
+        },
+        {
+          "kind": "sse",
+          "event": "session:start",
+          "seconds": 127.6859,
+          "fresh_session_differs_from_before": true
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/session/join-room",
+          "seconds": 127.792533,
+          "response_seconds": 127.812129,
+          "status": 200,
+          "request_fields": [
+            "session_id",
+            "world_id"
+          ],
+          "session_identity": "recovered",
+          "room_response_received": true
+        }
+      ],
+      "login_and_join_after_session_end": true,
+      "clean_eof_observed": true,
+      "capture_session_identity_source": "Complete ACK-paired HTTP 200 player-details response matches immutable fixture player and username",
+      "capture_session_differs_from_fixture_before": true,
+      "recovered_session_differs_from_capture_original": true
+    },
+    "peer": {
+      "capture_sha256": "024f1dad40bcf80afdc8688da768e7b8635ea6b29102cd89318c62b41551a933",
+      "capture_duration_seconds": 165,
+      "client_version": "2.41.0",
+      "apk_sha256": {
+        "base-aligned-debugSigned.apk": "515cf2e13ea677d546533ad09dd19ceb19aa5893aa7a40c252dc8b3bf713542e",
+        "split_config.armeabi_v7a-aligned-debugSigned.apk": "7791db3aa47c5477e9693251941fb91ed71c4f9e6715968709f993ad2ece8bc8"
+      },
+      "installed_apk_hashes_match_sources": true,
+      "relative_time_origin": "first matching TCP packet in this role capture",
+      "counts": {
+        "battle:start": 1,
+        "session:end": 1,
+        "session:start": 1,
+        "battle:turn-result": 0,
+        "repeated_battle_start": 0,
+        "native_ready": 1,
+        "native_login": 1,
+        "native_join": 1,
+        "native_invite_response": 1,
+        "native_battle_moves": 1
+      },
+      "timeline": [
+        {
+          "kind": "sse",
+          "event": "battle:start",
+          "seconds": 1.878759,
+          "battle_id": "<shared-battle>",
+          "battle_type": "PvF",
+          "parties": {
+            "player": [
+              {
+                "morty_id": "MortyDefault",
+                "variant": "Normal",
+                "level": 5,
+                "hp": 20,
+                "hp_stat": 20
+              }
+            ],
+            "opponent": [
+              {
+                "morty_id": "MortyDefault",
+                "variant": "Normal",
+                "level": 5,
+                "hp": 20,
+                "hp_stat": 20
+              }
+            ]
+          },
+          "player_is_capture_role": true,
+          "opponent_is_other_role": true,
+          "meta_empty": true
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/session/battle-invite/response",
+          "seconds": 1.92209,
+          "response_seconds": 1.946874,
+          "status": 409,
+          "request_fields": [
+            "accept",
+            "session_id",
+            "token"
+          ],
+          "session_identity": "original",
+          "accept": false,
+          "error_code": "TOKEN_NOTVALID",
+          "seconds_before_battle_start_frame_complete": -0.043331
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/session/battle/ready",
+          "seconds": 10.512285,
+          "response_seconds": 10.552629,
+          "status": 200,
+          "request_fields": [
+            "battle_id",
+            "session_id"
+          ],
+          "session_identity": "original",
+          "battle_id": "<shared-battle>",
+          "success": true
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/session/battle/move",
+          "seconds": 15.120265,
+          "response_seconds": 15.215932,
+          "status": 200,
+          "request_fields": [
+            "battle_id",
+            "move_id",
+            "owned_morty_id",
+            "session_id",
+            "type"
+          ],
+          "session_identity": "original",
+          "battle_id": "<shared-battle>",
+          "type": "ATTACK",
+          "move_id": "AttackOutburst",
+          "actor_is_local_active": true,
+          "success": true
+        },
+        {
+          "kind": "sse",
+          "event": "session:end",
+          "seconds": 121.929812,
+          "data_is_empty_object": true,
+          "closure": {
+            "terminal_chunk": true,
+            "server_fin": true,
+            "server_reset": false,
+            "fin_seconds": 123.008928,
+            "client_acked_fin": true,
+            "clean_eof_observed": true
+          }
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/user/login",
+          "seconds": 127.624802,
+          "response_seconds": 127.643793,
+          "status": 200,
+          "request_fields": [
+            "consent_identifier",
+            "secret"
+          ],
+          "secret_matches_capture_role": true,
+          "returned_url_token_matches_recovered_sse_request": true
+        },
+        {
+          "kind": "sse",
+          "event": "session:start",
+          "seconds": 127.683563,
+          "fresh_session_differs_from_before": true
+        },
+        {
+          "kind": "http",
+          "method": "POST",
+          "path": "/session/join-room",
+          "seconds": 127.795636,
+          "response_seconds": 127.814239,
+          "status": 200,
+          "request_fields": [
+            "session_id",
+            "world_id"
+          ],
+          "session_identity": "recovered",
+          "room_response_received": true
+        }
+      ],
+      "login_and_join_after_session_end": true,
+      "clean_eof_observed": true,
+      "capture_session_identity_source": "Complete ACK-paired HTTP 200 player-details response matches immutable fixture player and username",
+      "capture_session_differs_from_fixture_before": true,
+      "recovered_session_differs_from_capture_original": true
+    }
+  },
+  "database_verification": {
+    "source": "Post-capture dedicated fixture verification; immutable participant identity and persistent-save guards",
+    "state": "CANCELLED",
+    "cancel_reason": "STARTUP_TIMEOUT",
+    "both_users_world": true,
+    "claims_for_battle": 0,
+    "intent_count": 2,
+    "retired_intent_count": 2,
+    "persistent_data_unchanged": true,
+    "selection_count": 2,
+    "retired_selection_count": 2,
+    "pair_count": 1,
+    "retired_pair_count": 1
+  }
+}
