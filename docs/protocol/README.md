@@ -1,5 +1,13 @@
 # Pocket Mortys protocol research handoff
 
+[Initial shared RUN](shared-run-implementation.md) now supplies one opt-in PvF
+terminal after both initial ready signals and private start attempts. It retains
+first ATTACK history, changes no combat/resources, and makes one private terminal
+publication attempt per original stream. The [bounded native contract](shared-run-contract.md)
+establishes the null move ID and empty result objects. There is no replay or
+new Android RUN capture; public acceptance remains disabled. Apply migration 016.
+All 108 unique cases are validated: 31 new and 77 adjacent regressions.
+
 [Learn-attacks empty slots](learn-attack-slots-implementation.md) now preserve
 native four-slot positions without inserting empty-ID attack rows. This removes
 one later full AP-rock rejection for edits with one to three moves. The
@@ -101,15 +109,17 @@ recovery are verified in the follow-up above.
 
 [Shared startup bookkeeping](shared-battle-startup.md) now atomically records
 both player transitions and private delivery intents, initial readiness and
-bounded two-player cancellation/expiry. Apply migration 011. Nothing dispatches
-these intents; public acceptance remains 501 pending safe native delivery,
-reconnect/abort behavior and the remaining human battle lifecycle.
+bounded two-player cancellation/expiry. Apply migration 011. The later research
+delivery bridge dispatches private starts; initial RUN now supplies its separate
+terminal boundary. Public acceptance remains 501 pending the remaining human
+battle lifecycle and its native acceptance evidence.
 
 [Private start views](private-battle-start-views.md) now freeze owner-only
 inventory/resources and public trainer profiles into separate recipient bodies.
 Apply migration 010. Seven additional resource/profile writers now serialize
-with shared claims. Publication, readiness/reconnect and human terminal cleanup
-still block public acceptance; no playable human battle is claimed.
+with shared claims. Later human turns, broader terminal/reconnect behavior and
+public-flow native acceptance still block approval; no playable human battle is
+claimed.
 
 [Immutable party snapshots](battle-party-snapshots.md) now freeze both reserved
 parties from actual stored Morty/attack rows. Apply migration 009. Party writers

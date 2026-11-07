@@ -73,14 +73,14 @@
           },
           "owned_morty_id": {
             "type": "string",
-            "description": "ATTACK/SWITCH: current/outgoing ID. Healing ITEM: selected active or bench target in initial party. ItemMrMeeseek: current active owned actor; enemy ID is never the request actor."
+            "description": "ATTACK/SWITCH: current/outgoing ID. Healing ITEM: selected active or bench target in initial party. ItemMrMeeseek: current active owned actor; enemy ID is never the request actor. Research initial shared RUN: unchanged initial living active owned actor."
           },
           "move_id": {
             "type": [
               "string",
               "null"
             ],
-            "description": "ATTACK: attack ID. SWITCH: incoming owned ID. ITEM: item ID. RUN: nullable."
+            "description": "ATTACK: attack ID. SWITCH: incoming owned ID. ITEM: item ID. Native RUN sends null; research initial shared RUN requires literal null and all five keys."
           }
         },
         "required": [
@@ -179,12 +179,12 @@
         "Healing ITEM uses an action then existing AI1..3 counterattack against current active; ItemMrMeeseek ends WIN with no counterattack; original retaliation/cooldowns and timeout penalties remain unrecovered; expired selections now cancel safely through ABANDONED."
       ],
       "errors": {
-        "400": "FAILED: malformed input, unsupported move type, or unknown attack",
+        "400": "FAILED: malformed input, unsupported move type, or unknown attack; research initial RUN requires exactly the five native fields and literal null move_id",
         "401": "FAILED: invalid session",
         "403": "FAILED: foreign battle, Morty, or private spawn; ItemMrMeeseek actor differs from current active owned Morty",
         "404": "FAILED: missing battle",
-        "409": "FAILED: inactive battle, ambiguous/missing state, exhausted PP, stale HP, or inconsistent room/start/spawn evidence; ineffective supported item, invalid/insufficient stock/AP or pending replacement",
-        "501": "ITEM_UNUSABLE: capture or unsupported effect; no mutations",
+        "409": "FAILED: inactive battle, ambiguous/missing state, exhausted PP, stale HP, or inconsistent room/start/spawn evidence; ineffective supported item, invalid/insufficient stock/AP or pending replacement; research initial RUN also rejects incomplete readiness/start attempts, prior own ATTACK, expired bindings/lease or corrupt frozen history",
+        "501": "ITEM_UNUSABLE: capture or unsupported effect; no mutations; FAILED for unsupported shared selection types",
         "500": "FAILED: unexpected storage/runtime failure; transaction rolled back"
       },
       "errors_origin": "Replacement server envelope {success:false,error:{code:...}}; original status/error parity unresolved",
@@ -213,7 +213,9 @@
         "android-full-recover.md",
         "shiny-potion-implementation.md",
         "meeseeks-box-contract.md",
-        "meeseeks-box-implementation.md"
+        "meeseeks-box-implementation.md",
+        "shared-run-contract.md",
+        "shared-run-implementation.md"
       ],
       "selection_timeout": "Expired armed selection cancels atomically before resource mutations, returns 409, and emits one private ABANDONED result; accepted moves clear deadline.",
       "full_recover": {
@@ -257,6 +259,111 @@
           "limitations": [
             "Natural encounter initiation, other battle modes and original reward/combat rules remain unverified"
           ]
+        }
+      },
+      "research_initial_run": {
+        "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
+        "default_enabled": false,
+        "contract": "docs/protocol/shared-run-contract.md",
+        "implementation": "docs/protocol/shared-run-implementation.md",
+        "migration": "tools/research/server/migrations/016-shared-battle-forfeit.sql",
+        "test_suite": "tests/protocol/test_friend_battle_forfeit.py",
+        "preconditions": [
+          "Both initial ready timestamps and READY state",
+          "Both original private start publication attempts",
+          "Live fixed startup deadline, exact original claims, frozen parties/views and live bound streams",
+          "Runner has no own ATTACK; peer has zero or one inert initial ATTACK"
+        ],
+        "request": {
+          "type": "RUN",
+          "owned_morty_id": "unchanged initial living active owned Morty",
+          "move_id": null,
+          "shape": "exactly five native fields; session_id, battle_id, type and owned_morty_id nonempty strings"
+        },
+        "success": {
+          "success": true
+        },
+        "terminal_state": "CANCELLED/STARTUP_RUN; both users WORLD; exact original claims released; startup and selection history retired",
+        "recipients": {
+          "runner": {
+            "outcome": "RUN",
+            "battle_abandoned": false
+          },
+          "peer": {
+            "outcome": "WIN",
+            "battle_abandoned": true,
+            "native_presentation": "ABANDONED=9"
+          }
+        },
+        "result_body": {
+          "battle_id": "shared battle ID; native result handler has no ID fence",
+          "turn_datas": [],
+          "player_datas": {
+            "player": {},
+            "opponent": {}
+          }
+        },
+        "omitted_fields": "Null optional item/XP/reward/attacks/player-level/incentive fields are safe; SetItemsFromDicts(null,false) preserves client inventory; no fabricated move_log",
+        "mutations_excluded": [
+          "HP",
+          "AP/PP",
+          "ailments",
+          "party",
+          "items",
+          "currency",
+          "XP",
+          "ranking",
+          "gameplay counters"
+        ],
+        "retry": "Exact authenticated own retry validates immutable terminal history only; no peer current state/lease/claim dependency and no republish or renewal",
+        "publication": "Two durable recipient intents; each original bound stream commits one attempt and mirrored intent attempted_at before SSE write; subsequent polls emit no result and refresh only own heartbeat, without immediate session:end",
+        "delivery_guarantee": "At-most-once publication attempt, not exactly-once delivery or native acknowledgement; a crash between committed marker and write can lose presentation",
+        "reconnect": "No replay on old or fresh streams or rotated sessions; broken socket uses existing fresh-login WORLD recovery",
+        "new_wild_start_fence": "409 before new-start writes on either normal or research service while a live original generation has an unattempted research terminal; NOWAIT lock contention/deadlock returns 409; expired/superseded generations cannot receive old terminal and do not block new wild starts",
+        "public_acceptance_enabled": false,
+        "later_human_turns_enabled": false,
+        "native_android_acceptance": "Not run for shared RUN in this implementation; prior startup/ATTACK receipts remain separate",
+        "validation": {
+          "status": "All 108 unique cases validated: 31 new across the original run/focused reruns and 77 adjacent serial regressions",
+          "backend_cases_validated": 31,
+          "behavior_cases": 30,
+          "schema_copy_cases": 1,
+          "schema_copy_seconds": 0.34,
+          "schema_copy_before_actual_migration": true,
+          "real_private_sse_case_seconds": 79.966,
+          "lock_contention_case_seconds": 8.844,
+          "cross_host_drain_case_seconds": 9.369,
+          "superseded_stream_case_seconds": 8.72,
+          "native_android_capture": false,
+          "adjacent_cases_validated": 77,
+          "total_unique_cases_validated": 108,
+          "adjacent_modules": [
+            {
+              "module": "test_friend_battle_selections.py",
+              "cases": 18,
+              "seconds": 287.689
+            },
+            {
+              "module": "test_friend_battle_transport.py",
+              "cases": 16,
+              "seconds": 129.154
+            },
+            {
+              "module": "test_friend_battle_startup.py",
+              "cases": 19,
+              "seconds": 197.468
+            },
+            {
+              "module": "test_battle_lifecycle.py",
+              "cases": 24,
+              "seconds": 40.866
+            }
+          ],
+          "changed_php_files_lint_passed": 6
+        },
+        "migration_evidence": {
+          "file": "tools/research/server/migrations/016-shared-battle-forfeit.sql",
+          "sha256": "91aa0d20c6c3fa0b9e4e338540e243bad383b7368aacd32f67f120bd10e0d866"
         }
       }
     },
@@ -1821,7 +1928,7 @@
         }
       ],
       "requiredness": "unknown; managed fields alone do not establish missing-field handling",
-      "audience": "requesting player in current PvWM server implementation",
+      "audience": "Initiator-private for legacy PvWM; exactly two distinct recipient-private intents for research initial shared RUN",
       "reviewed_item_contract": "battle-item-contract.md",
       "item_action_fields": {
         "type": "ITEM",
@@ -1861,6 +1968,111 @@
             "hp": 0
           }
         ]
+      },
+      "research_initial_run": {
+        "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
+        "default_enabled": false,
+        "contract": "docs/protocol/shared-run-contract.md",
+        "implementation": "docs/protocol/shared-run-implementation.md",
+        "migration": "tools/research/server/migrations/016-shared-battle-forfeit.sql",
+        "test_suite": "tests/protocol/test_friend_battle_forfeit.py",
+        "preconditions": [
+          "Both initial ready timestamps and READY state",
+          "Both original private start publication attempts",
+          "Live fixed startup deadline, exact original claims, frozen parties/views and live bound streams",
+          "Runner has no own ATTACK; peer has zero or one inert initial ATTACK"
+        ],
+        "request": {
+          "type": "RUN",
+          "owned_morty_id": "unchanged initial living active owned Morty",
+          "move_id": null,
+          "shape": "exactly five native fields; session_id, battle_id, type and owned_morty_id nonempty strings"
+        },
+        "success": {
+          "success": true
+        },
+        "terminal_state": "CANCELLED/STARTUP_RUN; both users WORLD; exact original claims released; startup and selection history retired",
+        "recipients": {
+          "runner": {
+            "outcome": "RUN",
+            "battle_abandoned": false
+          },
+          "peer": {
+            "outcome": "WIN",
+            "battle_abandoned": true,
+            "native_presentation": "ABANDONED=9"
+          }
+        },
+        "result_body": {
+          "battle_id": "shared battle ID; native result handler has no ID fence",
+          "turn_datas": [],
+          "player_datas": {
+            "player": {},
+            "opponent": {}
+          }
+        },
+        "omitted_fields": "Null optional item/XP/reward/attacks/player-level/incentive fields are safe; SetItemsFromDicts(null,false) preserves client inventory; no fabricated move_log",
+        "mutations_excluded": [
+          "HP",
+          "AP/PP",
+          "ailments",
+          "party",
+          "items",
+          "currency",
+          "XP",
+          "ranking",
+          "gameplay counters"
+        ],
+        "retry": "Exact authenticated own retry validates immutable terminal history only; no peer current state/lease/claim dependency and no republish or renewal",
+        "publication": "Two durable recipient intents; each original bound stream commits one attempt and mirrored intent attempted_at before SSE write; subsequent polls emit no result and refresh only own heartbeat, without immediate session:end",
+        "delivery_guarantee": "At-most-once publication attempt, not exactly-once delivery or native acknowledgement; a crash between committed marker and write can lose presentation",
+        "reconnect": "No replay on old or fresh streams or rotated sessions; broken socket uses existing fresh-login WORLD recovery",
+        "new_wild_start_fence": "409 before new-start writes on either normal or research service while a live original generation has an unattempted research terminal; NOWAIT lock contention/deadlock returns 409; expired/superseded generations cannot receive old terminal and do not block new wild starts",
+        "public_acceptance_enabled": false,
+        "later_human_turns_enabled": false,
+        "native_android_acceptance": "Not run for shared RUN in this implementation; prior startup/ATTACK receipts remain separate",
+        "validation": {
+          "status": "All 108 unique cases validated: 31 new across the original run/focused reruns and 77 adjacent serial regressions",
+          "backend_cases_validated": 31,
+          "behavior_cases": 30,
+          "schema_copy_cases": 1,
+          "schema_copy_seconds": 0.34,
+          "schema_copy_before_actual_migration": true,
+          "real_private_sse_case_seconds": 79.966,
+          "lock_contention_case_seconds": 8.844,
+          "cross_host_drain_case_seconds": 9.369,
+          "superseded_stream_case_seconds": 8.72,
+          "native_android_capture": false,
+          "adjacent_cases_validated": 77,
+          "total_unique_cases_validated": 108,
+          "adjacent_modules": [
+            {
+              "module": "test_friend_battle_selections.py",
+              "cases": 18,
+              "seconds": 287.689
+            },
+            {
+              "module": "test_friend_battle_transport.py",
+              "cases": 16,
+              "seconds": 129.154
+            },
+            {
+              "module": "test_friend_battle_startup.py",
+              "cases": 19,
+              "seconds": 197.468
+            },
+            {
+              "module": "test_battle_lifecycle.py",
+              "cases": 24,
+              "seconds": 40.866
+            }
+          ],
+          "changed_php_files_lint_passed": 6
+        },
+        "migration_evidence": {
+          "file": "tools/research/server/migrations/016-shared-battle-forfeit.sql",
+          "sha256": "91aa0d20c6c3fa0b9e4e338540e243bad383b7368aacd32f67f120bd10e0d866"
+        }
       }
     },
     "battle-invite:received": {

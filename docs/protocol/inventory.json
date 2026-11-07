@@ -1609,10 +1609,10 @@
       "server_evidence": {
         "file": "session/battle-wild-morty/index.php",
         "line": 1,
-        "sha256": "b15be0c64ba914f7cd08adc2ca39e8ffecc23a52d8718a12fe311ff3c7e1e423"
+        "sha256": "de486b62286a80f87e6e6860f53fb79f65d7f174309a41e343dfce7ee317cc4b"
       },
       "implementation_status": "partial",
-      "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete.",
+      "status_basis": "Reviewed durable PvWM foundation; see battle-completion-contract.md. Combat formulas and capture remain incomplete. Existing live research terminal history now fences a newer wild start on both normal/research services until the original-stream publication attempt; stale/superseded generations do not block. See shared-run-implementation.md.",
       "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
       "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -1713,7 +1713,14 @@
       "reviewed_contract": "docs/protocol/battle-completion-contract.md",
       "ailment_contract": "docs/protocol/status-cure-implementation.md",
       "switch_contract": "docs/protocol/battle-switch-implementation.md",
-      "shiny_potion_contract": "docs/protocol/shiny-potion-implementation.md"
+      "shiny_potion_contract": "docs/protocol/shiny-potion-implementation.md",
+      "research_terminal_drain": "Existing pending research terminal history is fenced on both normal and research wild-start services; live original generation requires prior terminal publication attempt; NOWAIT contention returns 409; expired/superseded generation does not block",
+      "implementation_helpers": [
+        {
+          "file": "lib/friend_battle_forfeit.php",
+          "sha256": "74c72400fbdf7efe2476e71dc951c93c26ecb1598bc77852ec379814ab694f13"
+        }
+      ]
     },
     {
       "path": "/session/battle/move",
@@ -1745,10 +1752,10 @@
       "server_evidence": {
         "file": "session/battle/move/index.php",
         "line": 1,
-        "sha256": "a5d3768ce71578a62eb2fc929ea3cda01463a723e455cc585e8a1c5908461b62"
+        "sha256": "01a9d04789a3cded2fe963bc96d8ce73f4dddd65ed479351b4a744b55d0a3d7f"
       },
       "implementation_status": "partial",
-      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP. Research-only PvF first ATTACK selection storage and immutable pairing now run under PM_RESEARCH_SHARED_BATTLE_STREAM=1 (migration013), after caller initial ready; no combat resolution, resource spend, timer/result publication, later phase or public acceptance. Battle-only ItemMrMeeseek now consumes one box, emits an enemy HP-zero ITEM action and completes PvWM WIN with no AI action; empty XP/rewards remain. All 17 new and 89 adjacent backend cases pass; Android 2.41.0 native item use, animation and WIN are observed with synthetic setup; see android-meeseeks-box.md.",
+      "status_basis": "Partial PvWM: ATTACK/RUN/SWITCH and thirteen healing/revive/AP/cure ITEM effects with atomic stock/party/cache/events. Native and Android item target/ordering verified; original combat/capture/timing/rewards remain incomplete. Armed selection deadlines now cancel safely without resource mutations; original timeout penalties and full replay remain unknown. Pure Curum now combines full HP and poison/paralysis recovery on living targets, preserving AP. Research-only PvF first ATTACK selection storage and immutable pairing now run under PM_RESEARCH_SHARED_BATTLE_STREAM=1 (migration013), after caller initial ready; stored ATTACKs resolve no combat, spend no resources and publish no turn results or later phase. Separate research initial RUN terminal now requires both ready signals/start attempts (migration016), retires inert selections and stores two private at-most-once terminal publication intents; no replay, combat spend, later phase or public acceptance. Battle-only ItemMrMeeseek now consumes one box, emits an enemy HP-zero ITEM action and completes PvWM WIN with no AI action; empty XP/rewards remain. All 17 new and 89 adjacent backend cases pass; Android 2.41.0 native item use, animation and WIN are observed with synthetic setup; see android-meeseeks-box.md.",
       "evidence_confidence": "native consumer contract plus additive replacement-server HTTP/DB/SSE tests; original-server behavior not observed",
       "http_method": "POST from reviewed client constructor; PHP route does not enforce method",
       "input_field_candidates": [
@@ -1827,7 +1834,10 @@
         "friend_battle_sessions",
         "friend_battle_startups",
         "friend_battle_selections",
-        "friend_battle_selection_pairs"
+        "friend_battle_selection_pairs",
+        "friend_battle_forfeits",
+        "friend_battle_terminal_intents",
+        "friend_battle_terminal_attempts"
       ],
       "events_published": [
         "battle:turn-result",
@@ -1844,7 +1854,7 @@
         "durable capture",
         "interrupted-battle reconnect",
         "later human selection phase/replay identity",
-        "human action ordering, resolution and terminal policy"
+        "human action ordering/combat resolution and broader terminal/disconnect policy"
       ],
       "reviewed_contract": "docs/protocol/battle-completion-contract.md",
       "switch_contract": "docs/protocol/battle-switch-implementation.md",
@@ -1870,15 +1880,19 @@
         },
         {
           "file": "lib/friend_battle_startup.php",
-          "sha256": "3bc0022c4daf7603381e4ae5cbdb9178589a4b743d3c3b20983609ec7de3722e"
+          "sha256": "7c6873b8ea642b2b8936cfe6dd6303cc188d4d32e34d257bb6ba27bd90443500"
         },
         {
           "file": "lib/friend_battle_transport.php",
-          "sha256": "2fe1b6fb387f6527876ad262631db053cf1e91aa8bd2d99350301bc866d6334a"
+          "sha256": "0f14a812f9e79c80960dea7736215a6ec92f7abe99ba3a25ac7cbcb72905b00f"
         },
         {
           "file": "lib/battle_items.php",
           "sha256": "762a47b46a3c7a5c41e1700683ce1719e0396fea6bd3aa7fa5a471111624ad69"
+        },
+        {
+          "file": "lib/friend_battle_forfeit.php",
+          "sha256": "74c72400fbdf7efe2476e71dc951c93c26ecb1598bc77852ec379814ab694f13"
         }
       ],
       "meeseeks_box_contract": "docs/protocol/meeseeks-box-contract.md",
@@ -1916,7 +1930,112 @@
           ]
         }
       },
-      "meeseeks_box_implementation": "docs/protocol/meeseeks-box-implementation.md"
+      "meeseeks_box_implementation": "docs/protocol/meeseeks-box-implementation.md",
+      "research_initial_run": {
+        "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
+        "default_enabled": false,
+        "contract": "docs/protocol/shared-run-contract.md",
+        "implementation": "docs/protocol/shared-run-implementation.md",
+        "migration": "tools/research/server/migrations/016-shared-battle-forfeit.sql",
+        "test_suite": "tests/protocol/test_friend_battle_forfeit.py",
+        "preconditions": [
+          "Both initial ready timestamps and READY state",
+          "Both original private start publication attempts",
+          "Live fixed startup deadline, exact original claims, frozen parties/views and live bound streams",
+          "Runner has no own ATTACK; peer has zero or one inert initial ATTACK"
+        ],
+        "request": {
+          "type": "RUN",
+          "owned_morty_id": "unchanged initial living active owned Morty",
+          "move_id": null,
+          "shape": "exactly five native fields; session_id, battle_id, type and owned_morty_id nonempty strings"
+        },
+        "success": {
+          "success": true
+        },
+        "terminal_state": "CANCELLED/STARTUP_RUN; both users WORLD; exact original claims released; startup and selection history retired",
+        "recipients": {
+          "runner": {
+            "outcome": "RUN",
+            "battle_abandoned": false
+          },
+          "peer": {
+            "outcome": "WIN",
+            "battle_abandoned": true,
+            "native_presentation": "ABANDONED=9"
+          }
+        },
+        "result_body": {
+          "battle_id": "shared battle ID; native result handler has no ID fence",
+          "turn_datas": [],
+          "player_datas": {
+            "player": {},
+            "opponent": {}
+          }
+        },
+        "omitted_fields": "Null optional item/XP/reward/attacks/player-level/incentive fields are safe; SetItemsFromDicts(null,false) preserves client inventory; no fabricated move_log",
+        "mutations_excluded": [
+          "HP",
+          "AP/PP",
+          "ailments",
+          "party",
+          "items",
+          "currency",
+          "XP",
+          "ranking",
+          "gameplay counters"
+        ],
+        "retry": "Exact authenticated own retry validates immutable terminal history only; no peer current state/lease/claim dependency and no republish or renewal",
+        "publication": "Two durable recipient intents; each original bound stream commits one attempt and mirrored intent attempted_at before SSE write; subsequent polls emit no result and refresh only own heartbeat, without immediate session:end",
+        "delivery_guarantee": "At-most-once publication attempt, not exactly-once delivery or native acknowledgement; a crash between committed marker and write can lose presentation",
+        "reconnect": "No replay on old or fresh streams or rotated sessions; broken socket uses existing fresh-login WORLD recovery",
+        "new_wild_start_fence": "409 before new-start writes on either normal or research service while a live original generation has an unattempted research terminal; NOWAIT lock contention/deadlock returns 409; expired/superseded generations cannot receive old terminal and do not block new wild starts",
+        "public_acceptance_enabled": false,
+        "later_human_turns_enabled": false,
+        "native_android_acceptance": "Not run for shared RUN in this implementation; prior startup/ATTACK receipts remain separate",
+        "validation": {
+          "status": "All 108 unique cases validated: 31 new across the original run/focused reruns and 77 adjacent serial regressions",
+          "backend_cases_validated": 31,
+          "behavior_cases": 30,
+          "schema_copy_cases": 1,
+          "schema_copy_seconds": 0.34,
+          "schema_copy_before_actual_migration": true,
+          "real_private_sse_case_seconds": 79.966,
+          "lock_contention_case_seconds": 8.844,
+          "cross_host_drain_case_seconds": 9.369,
+          "superseded_stream_case_seconds": 8.72,
+          "native_android_capture": false,
+          "adjacent_cases_validated": 77,
+          "total_unique_cases_validated": 108,
+          "adjacent_modules": [
+            {
+              "module": "test_friend_battle_selections.py",
+              "cases": 18,
+              "seconds": 287.689
+            },
+            {
+              "module": "test_friend_battle_transport.py",
+              "cases": 16,
+              "seconds": 129.154
+            },
+            {
+              "module": "test_friend_battle_startup.py",
+              "cases": 19,
+              "seconds": 197.468
+            },
+            {
+              "module": "test_battle_lifecycle.py",
+              "cases": 24,
+              "seconds": 40.866
+            }
+          ],
+          "changed_php_files_lint_passed": 6
+        },
+        "migration_evidence": {
+          "file": "tools/research/server/migrations/016-shared-battle-forfeit.sql",
+          "sha256": "91aa0d20c6c3fa0b9e4e338540e243bad383b7368aacd32f67f120bd10e0d866"
+        }
+      }
     },
     {
       "path": "/session/battle/ready",
@@ -2003,11 +2122,11 @@
       "implementation_helpers": [
         {
           "file": "lib/friend_battle_transport.php",
-          "sha256": "2fe1b6fb387f6527876ad262631db053cf1e91aa8bd2d99350301bc866d6334a"
+          "sha256": "0f14a812f9e79c80960dea7736215a6ec92f7abe99ba3a25ac7cbcb72905b00f"
         },
         {
           "file": "lib/friend_battle_startup.php",
-          "sha256": "3bc0022c4daf7603381e4ae5cbdb9178589a4b743d3c3b20983609ec7de3722e"
+          "sha256": "7c6873b8ea642b2b8936cfe6dd6303cc188d4d32e34d257bb6ba27bd90443500"
         }
       ]
     },
@@ -4978,7 +5097,7 @@
       "server_evidence": {
         "file": "sse/index.php",
         "line": 1,
-        "sha256": "172622f7ebfcdb24b3dfe754db1da8e6393d16043c6feee684c68548f187f38a"
+        "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
       },
       "implementation_status": "partial",
       "status_basis": "provisional source triage; small static responses may be legitimate",
@@ -5058,11 +5177,11 @@
         },
         {
           "file": "lib/friend_battle_transport.php",
-          "sha256": "2fe1b6fb387f6527876ad262631db053cf1e91aa8bd2d99350301bc866d6334a"
+          "sha256": "0f14a812f9e79c80960dea7736215a6ec92f7abe99ba3a25ac7cbcb72905b00f"
         },
         {
           "file": "lib/friend_battle_startup.php",
-          "sha256": "3bc0022c4daf7603381e4ae5cbdb9178589a4b743d3c3b20983609ec7de3722e"
+          "sha256": "7c6873b8ea642b2b8936cfe6dd6303cc188d4d32e34d257bb6ba27bd90443500"
         }
       ],
       "research_shared_battle_transport": {
@@ -5087,6 +5206,14 @@
             "Native third-account exclusion not exercised; two-account counterpart delivery and actor exclusion verified"
           ]
         }
+      },
+      "research_initial_run": {
+        "implementation": "docs/protocol/shared-run-implementation.md",
+        "event": "battle:turn-result",
+        "audience": "only original recipient bound stream/session generation",
+        "semantics": "One committed publication-attempt marker before write; no replay; subsequent polls remain open and refresh only own heartbeat",
+        "crash_boundary": "Marker/write gap can lose presentation; connection loss uses existing fresh-login WORLD recovery",
+        "native_android_acceptance": "Not run for shared RUN"
       }
     },
     {
@@ -6145,7 +6272,7 @@
         {
           "file": "sse/index.php",
           "line": 515,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6170,7 +6297,7 @@
         {
           "file": "sse/index.php",
           "line": 505,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6199,13 +6326,123 @@
         },
         {
           "file": "sse/index.php",
-          "line": 510,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "line": 595,
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
+        },
+        {
+          "file": "lib/friend_battle_forfeit.php",
+          "line": 276,
+          "sha256": "74c72400fbdf7efe2476e71dc951c93c26ecb1598bc77852ec379814ab694f13"
         }
       ],
-      "schema_status": "unresolved; see client-types.json and reviewed contracts",
-      "delivery_semantics": "unknown until handler trace and runtime capture",
-      "meeseeks_box_contract": "docs/protocol/meeseeks-box-contract.md"
+      "schema_status": "Partial reviewed PvWM item/timeout and minimal research initial RUN contracts; broader outcomes remain unresolved",
+      "delivery_semantics": "Legacy PvWM private queue; research initial RUN uses two recipient-specific original-stream at-most-once publication attempts, with marker/write crash loss and no replay; original-service semantics remain unknown",
+      "meeseeks_box_contract": "docs/protocol/meeseeks-box-contract.md",
+      "research_initial_run": {
+        "enabled_by": "PM_RESEARCH_SHARED_BATTLE_STREAM=1",
+        "default_enabled": false,
+        "contract": "docs/protocol/shared-run-contract.md",
+        "implementation": "docs/protocol/shared-run-implementation.md",
+        "migration": "tools/research/server/migrations/016-shared-battle-forfeit.sql",
+        "test_suite": "tests/protocol/test_friend_battle_forfeit.py",
+        "preconditions": [
+          "Both initial ready timestamps and READY state",
+          "Both original private start publication attempts",
+          "Live fixed startup deadline, exact original claims, frozen parties/views and live bound streams",
+          "Runner has no own ATTACK; peer has zero or one inert initial ATTACK"
+        ],
+        "request": {
+          "type": "RUN",
+          "owned_morty_id": "unchanged initial living active owned Morty",
+          "move_id": null,
+          "shape": "exactly five native fields; session_id, battle_id, type and owned_morty_id nonempty strings"
+        },
+        "success": {
+          "success": true
+        },
+        "terminal_state": "CANCELLED/STARTUP_RUN; both users WORLD; exact original claims released; startup and selection history retired",
+        "recipients": {
+          "runner": {
+            "outcome": "RUN",
+            "battle_abandoned": false
+          },
+          "peer": {
+            "outcome": "WIN",
+            "battle_abandoned": true,
+            "native_presentation": "ABANDONED=9"
+          }
+        },
+        "result_body": {
+          "battle_id": "shared battle ID; native result handler has no ID fence",
+          "turn_datas": [],
+          "player_datas": {
+            "player": {},
+            "opponent": {}
+          }
+        },
+        "omitted_fields": "Null optional item/XP/reward/attacks/player-level/incentive fields are safe; SetItemsFromDicts(null,false) preserves client inventory; no fabricated move_log",
+        "mutations_excluded": [
+          "HP",
+          "AP/PP",
+          "ailments",
+          "party",
+          "items",
+          "currency",
+          "XP",
+          "ranking",
+          "gameplay counters"
+        ],
+        "retry": "Exact authenticated own retry validates immutable terminal history only; no peer current state/lease/claim dependency and no republish or renewal",
+        "publication": "Two durable recipient intents; each original bound stream commits one attempt and mirrored intent attempted_at before SSE write; subsequent polls emit no result and refresh only own heartbeat, without immediate session:end",
+        "delivery_guarantee": "At-most-once publication attempt, not exactly-once delivery or native acknowledgement; a crash between committed marker and write can lose presentation",
+        "reconnect": "No replay on old or fresh streams or rotated sessions; broken socket uses existing fresh-login WORLD recovery",
+        "new_wild_start_fence": "409 before new-start writes on either normal or research service while a live original generation has an unattempted research terminal; NOWAIT lock contention/deadlock returns 409; expired/superseded generations cannot receive old terminal and do not block new wild starts",
+        "public_acceptance_enabled": false,
+        "later_human_turns_enabled": false,
+        "native_android_acceptance": "Not run for shared RUN in this implementation; prior startup/ATTACK receipts remain separate",
+        "validation": {
+          "status": "All 108 unique cases validated: 31 new across the original run/focused reruns and 77 adjacent serial regressions",
+          "backend_cases_validated": 31,
+          "behavior_cases": 30,
+          "schema_copy_cases": 1,
+          "schema_copy_seconds": 0.34,
+          "schema_copy_before_actual_migration": true,
+          "real_private_sse_case_seconds": 79.966,
+          "lock_contention_case_seconds": 8.844,
+          "cross_host_drain_case_seconds": 9.369,
+          "superseded_stream_case_seconds": 8.72,
+          "native_android_capture": false,
+          "adjacent_cases_validated": 77,
+          "total_unique_cases_validated": 108,
+          "adjacent_modules": [
+            {
+              "module": "test_friend_battle_selections.py",
+              "cases": 18,
+              "seconds": 287.689
+            },
+            {
+              "module": "test_friend_battle_transport.py",
+              "cases": 16,
+              "seconds": 129.154
+            },
+            {
+              "module": "test_friend_battle_startup.py",
+              "cases": 19,
+              "seconds": 197.468
+            },
+            {
+              "module": "test_battle_lifecycle.py",
+              "cases": 24,
+              "seconds": 40.866
+            }
+          ],
+          "changed_php_files_lint_passed": 6
+        },
+        "migration_evidence": {
+          "file": "tools/research/server/migrations/016-shared-battle-forfeit.sql",
+          "sha256": "91aa0d20c6c3fa0b9e4e338540e243bad383b7368aacd32f67f120bd10e0d866"
+        }
+      }
     },
     {
       "name": "challenge:complete",
@@ -6252,7 +6489,7 @@
         {
           "file": "sse/index.php",
           "line": 532,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6472,17 +6709,17 @@
         {
           "file": "sse/index.php",
           "line": 259,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         },
         {
           "file": "sse/index.php",
           "line": 285,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         },
         {
           "file": "sse/index.php",
           "line": 443,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6533,17 +6770,17 @@
         {
           "file": "sse/index.php",
           "line": 188,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         },
         {
           "file": "sse/index.php",
           "line": 210,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         },
         {
           "file": "sse/index.php",
           "line": 394,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6568,7 +6805,7 @@
         {
           "file": "sse/index.php",
           "line": 520,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6593,7 +6830,7 @@
         {
           "file": "sse/index.php",
           "line": 545,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6631,7 +6868,7 @@
         {
           "file": "sse/index.php",
           "line": 569,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6656,7 +6893,7 @@
         {
           "file": "sse/index.php",
           "line": 492,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6681,17 +6918,17 @@
         {
           "file": "sse/index.php",
           "line": 221,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         },
         {
           "file": "sse/index.php",
           "line": 248,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         },
         {
           "file": "sse/index.php",
           "line": 417,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6718,7 +6955,7 @@
         {
           "file": "sse/index.php",
           "line": 476,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ]
     },
@@ -6741,7 +6978,7 @@
         {
           "file": "sse/index.php",
           "line": 479,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6767,17 +7004,17 @@
         {
           "file": "sse/index.php",
           "line": 156,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         },
         {
           "file": "sse/index.php",
           "line": 327,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         },
         {
           "file": "sse/index.php",
           "line": 593,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6797,7 +7034,7 @@
         {
           "file": "sse/index.php",
           "line": 138,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",
@@ -6848,7 +7085,7 @@
         {
           "file": "sse/index.php",
           "line": 471,
-          "sha256": "ce84478121b98bb9a314c7734ba39168c0123a90afe08613ba6639f575551495"
+          "sha256": "d974379a8c0f8e8f80f2035734f1e8f9b510ad10dfcb5872f789b5c5b3ce5eee"
         }
       ],
       "schema_status": "unresolved; see client-types.json and reviewed contracts",

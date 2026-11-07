@@ -418,7 +418,8 @@
           "move_id"
         ]
       ],
-      "confidence": "derived by linear disassembly; review before treating as wire contract"
+      "confidence": "derived by linear disassembly; review before treating as wire contract",
+      "reviewed_shared_run_contract": "docs/protocol/shared-run-contract.md"
     },
     {
       "path": "/session/battle/ready",
@@ -1291,7 +1292,8 @@
         "name": "Method$JsonFx.Json.JsonReader.Deserialize<BattleTurnResultResponse>()"
       },
       "schema_available": true,
-      "operation_mapping": "unresolved; correlate caller/event registration before assigning endpoint"
+      "operation_mapping": "SSE battle:turn-result registered by SetActiveInBattleHandlers; reviewed minimal research initial RUN in shared-run-contract.md; complete outcome variants remain separate",
+      "reviewed_shared_run_contract": "docs/protocol/shared-run-contract.md"
     },
     {
       "method": "NetworkBattleInviteAPI.<>c__DisplayClass36_0$$<SendInviteUser>b__0",
@@ -8669,5 +8671,32 @@
         "Natural encounter initiation, other battle modes and original reward/combat rules remain unverified"
       ]
     }
+  },
+  "shared_run": {
+    "native_contract": "docs/protocol/shared-run-contract.md",
+    "implementation": "docs/protocol/shared-run-implementation.md",
+    "bounded_wrapper": "tools/research/ghidra-shared-run.sh",
+    "bounded_methods": 33,
+    "request_confirmation": {
+      "method": "MPBattleState$$GenericPopupRunConfirmationHandlerBody",
+      "address": "0x15787e0",
+      "move_type": 4,
+      "owned_morty_id": "current active owned net ID",
+      "move_id": null
+    },
+    "result_handler": {
+      "method": "NetworkBattleAPI$$BattleTurnResultHandler",
+      "address": "0x1788dc4",
+      "battle_id_guard": false,
+      "WIN_with_battle_abandoned": "ABANDONED=9"
+    },
+    "minimal_player_datas": {
+      "player": {},
+      "opponent": {}
+    },
+    "omitted_fields": "Null optional item/XP/reward/attacks/player-level/incentive fields are safe; SetItemsFromDicts(null,false) preserves client inventory; no fabricated move_log",
+    "delivery_boundary": "At-most-once publication attempt, not exactly-once delivery or native acknowledgement; a crash between committed marker and write can lose presentation",
+    "replay": "Never replay; terminal removes result subscription, but a later battle can register it again and the result handler has no ID fence",
+    "native_android_acceptance": "Not run for shared RUN in this implementation; prior startup/ATTACK receipts remain separate"
   }
 }

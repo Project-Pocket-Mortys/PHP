@@ -197,5 +197,5 @@ for the manifest, and
 `5ded061b6c51789b4608a1024c9f0045558c3aecd3dee9db94dc0d60bee93469`
 for ARM64 text. Ghidra presentation hashes may vary on reproduction. Bash syntax
 and whitespace checks passed. This research pass changed only this contract and
-its reproduction wrapper; backend implementation and device acceptance remain
-separate work.
+its reproduction wrapper. The [backend implementation](shared-run-implementation.md)
+is documented separately; device acceptance remains outstanding.

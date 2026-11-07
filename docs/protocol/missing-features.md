@@ -1,5 +1,14 @@
 # Missing gameplay features: implementation order
 
+[Initial friend-battle RUN](shared-run-implementation.md) now ends a research
+startup after both initial ready signals and original start attempts. The
+[native review](shared-run-contract.md) supports actor RUN and peer abandonment
+presentation, with no combat or resource spending. Delivery is one private
+publication attempt per original stream, with no replay and a disclosed crash
+window. Paired Android RUN acceptance, public approval and later human turns
+remain open; the completed playable baseline below is preserved.
+All 108 unique cases are validated: 31 new and 77 adjacent regressions.
+
 [Learn-attacks empty slots](learn-attack-slots-implementation.md) now store
 actual attacks at their submitted native positions, removing the empty-ID
 rows that caused one full AP-rock rejection. The
@@ -88,7 +97,7 @@ establish original economic policy.
 | 3 | Release Morties | World preview/confirmation implemented; Android Stats cancel/release verified. Batch contracts, locks, trade and party guards pass tests (`morty-release-implementation.md`). |
 | 4 | Crafting | 22 multiplayer recipes implemented atomically; Android Serum Quick Craft and inventory verified (`crafting-implementation.md`). |
 | 5 | Wild battles and catching | Durable attack/run/victory/defeat, party switching/forced replacement and safe selection expiry implemented (`battle-timeout-implementation.md`). Recover trustworthy stats/attacks, capture consumption/owned records and rewards; original combat rules and reconnect remain. |
-| 6 | Bot/friend battles | Invitations, membership, frozen parties/views and shared startup now work (migrations009–011). Research SSE/ready delivery (migration012) now passes two native Android startup/automatic-recovery captures (`android-shared-startup.md`). Research-gated first ATTACK storage and immutable pairing now pass 18 backend cases (migration013, `paired-selection-contract.md`); [two native inputs, waiting and expiry recovery](android-paired-selection-results.json) are verified on the dedicated registration parties. Public acceptance remains unavailable pending later-phase readiness, replay identity and combat/terminal behavior. Full native send/approval and broader interruption cases remain; bot modes are separate. |
+| 6 | Bot/friend battles | Invitations, membership, frozen parties/views and shared startup now work (migrations009–011). Research SSE/ready delivery (migration012) now passes two native Android startup/automatic-recovery captures (`android-shared-startup.md`). Research-gated first ATTACK storage and immutable pairing now pass 18 backend cases (migration013, `paired-selection-contract.md`); [two native inputs, waiting and expiry recovery](android-paired-selection-results.json) are verified on the dedicated registration parties. Research initial RUN now supplies one voluntary terminal after both ready signals/start attempts (migration016, `shared-run-implementation.md`); it spends no combat resources and attempts each private result once with no replay. Shared RUN Android acceptance remains open. Public acceptance stays unavailable pending later-phase readiness, turn identity and combat/broader terminal behavior. Full native send/approval and broader interruption cases remain; bot modes are separate. |
 | 7 | Challenges, raids and events | Implement claims and event battles after their underlying battle/reward flows work; no invented success responses. |
 
 This order favors independently usable additions and their dependencies; it is

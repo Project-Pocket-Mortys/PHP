@@ -1,5 +1,14 @@
 # Protocol coverage
 
+[Research initial RUN](shared-run-implementation.md) adds a voluntary PvF terminal
+after both initial ready signals and original start attempts (migration 016).
+The [bounded native review](shared-run-contract.md) establishes the request,
+recipient presentation and safe omitted optional fields. One private publication
+attempt per original stream is committed before SSE writing, with an explicit
+crash/loss window and no replay. No new Android RUN capture or public approval
+is claimed; later combat/phase identity remains open.
+All 108 unique cases are validated: 31 new and 77 adjacent regressions.
+
 [Learn-attacks empty slots](learn-attack-slots-implementation.md) now preserve
 native four-slot positions without persisting nulls as empty attack IDs. The
 [bounded contract](learn-attack-slots-contract.md) establishes the request and
@@ -100,8 +109,10 @@ The partial `/session/battle/move` status includes research-gated first human
 ATTACK storage and immutable pairing (migration 013), in addition to the existing
 private-wild behavior. The submitting participant must be initially ready; the
 pair requires both ready signals. The native HTTP acknowledgement remains
-`{"success":true}`. No combat resolution, resource spend, timer/result publication,
-later selection phase or public approval is enabled. Eighteen scoped backend
+`{"success":true}`. Stored ATTACKs enable no combat resolution, resource spend,
+timer/result publication, later selection phase or public approval. The separate
+[initial RUN terminal](shared-run-implementation.md) now supplies its bounded
+terminal publication path. Eighteen scoped ATTACK backend
 cases are validated; [two native inputs, waiting and automatic expiry recovery](android-paired-selection-results.json)
 are verified on the dedicated registration parties. See
 [the selection contract and implementation](paired-selection-contract.md).
